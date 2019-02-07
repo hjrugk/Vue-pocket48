@@ -1,36 +1,47 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <div>
-      <p>
-        If Element is successfully added to this project, you'll see an
-        <code v-text="'<el-button>'"></code>
-        below
-      </p>
-      <el-button>el-button</el-button>
-    </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            router>
+      <el-menu-item index="/index">首页</el-menu-item>
+      <el-submenu index="/music">
+        <template slot="title">音乐榜</template>
+        <el-menu-item index="/qq">QQ音乐</el-menu-item>
+        <el-menu-item index="/netease">网易云</el-menu-item>
+        <el-menu-item index="/kugou">酷狗</el-menu-item>
+      </el-submenu>
+      <el-menu-item index="/roomlist" v-show="$store.state.logFlag">关注房间</el-menu-item>
+      <el-menu-item index="/login" v-if="!$store.state.logFlag">登录</el-menu-item>
+      <el-menu-item index="/login" v-else>账户</el-menu-item>
+    </el-menu>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      activeIndex: '/index'
+    };
+  },
+  methods: {
+
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>
