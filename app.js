@@ -58,7 +58,7 @@ app.post('/api/getRoomList', (req, res) => {
   })
 })
 
-// 获取所有成员
+// 获取所有成员信息
 app.get('/api/allmemberinfo', (req, res) => {
   const members_postData = api.members_postData()
 
@@ -69,7 +69,7 @@ app.get('/api/allmemberinfo', (req, res) => {
   })
 })
 
-// 获取所有直播
+// 获取所有直播信息
 app.get('/api/getAllLive', (req, res) => {
   const allLive_postData = api.allLive_postData()
 

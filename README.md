@@ -1,4 +1,4 @@
-# vue-shop
+# vue-pocket48
 
 ## Project setup
 ```
