@@ -71,7 +71,7 @@ app.get('/api/allmemberinfo', (req, res) => {
 
 // 获取所有直播信息
 app.get('/api/getAllLive', (req, res) => {
-  const allLive_postData = api.allLive_postData()
+  const allLive_postData = api.allLive_postData(req)
 
   const allLive_options = api.allLive_options(allLive_postData)
 

@@ -103,14 +103,14 @@ const api = {
       }
     }
   },
-  allLive_postData: () => {
+  allLive_postData: (req) => {
     return JSON.stringify({
       "lastTime": 0, //截止时间,毫秒时间戳,0为当前
       "groupId": 0, //团体id,详见syncsystemOverview
       "type": 0,
       "memberId": 0, //成员id,详见syncsystemOverview
       "giftUpdTime": Date.now(), //礼物更新时间，用于更新礼物
-      "limit": 20 //录播获取数量上限
+      "limit": req.query.limit || 8 //录播获取数量上限
     })
   },
   allLive_options: (postData) => {
