@@ -16,7 +16,7 @@ Vue.use(Form)
 Vue.use(FormItem)
 
 Vue.filter('picPathFormat',function (item) {
-  return "https://source.48.cn" + item.split(',')[0]
+  return item.includes("http")?item.split(',')[0]:("https://source.48.cn" + item.split(',')[0])
 })
 
 Vue.config.productionTip = false

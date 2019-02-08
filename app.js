@@ -2,6 +2,7 @@ const express = require('express')
 const api = require('./api.js')
 const bodyParser = require('body-parser')
 const getData = require('./request')
+const groupHandler = require('./groupHandler')
 
 const app = express()
 
@@ -65,7 +66,8 @@ app.get('/api/allmemberinfo', (req, res) => {
   const members_options = api.members_options(members_postData)
 
   getData(members_postData,members_options,html => {
-    res.send(html)
+    const group = groupHandler(JSON.parse(html).content.memberInfo)
+    res.send(group[req.query.group])
   })
 })
 

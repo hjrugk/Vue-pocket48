@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      直播
+      <h2 class="title">直播</h2>
       <p v-if="!liveList[0]">当前没有直播</p>
       <div v-for="item in liveList" :key="item.liveId">
         <img :src="item.picPath | picPathFormat" alt="" class="livePic">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div>
-      录播
+      <h2 class="title">录播</h2>
       <p v-if="!reviewList[0]">加载中</p>
       <div v-for="item in reviewList" :key="item.liveId">
         <img :src="item.picPath | picPathFormat" alt="" class="livePic">

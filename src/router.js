@@ -52,6 +52,11 @@ export default new Router({
       path: '/home/allmemberlive',
       name: 'allmemberlive',
       component: () => import('./components/allmemberlive.vue')
+    },
+    {
+      path: '/home/allmemberinfo/:group',
+      name: 'groupmemberinfo',
+      component: () => import('./components/groupmemberinfo.vue')
     }
   ]
 })
