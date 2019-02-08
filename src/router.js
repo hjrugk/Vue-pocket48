@@ -8,6 +8,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -38,6 +42,16 @@ export default new Router({
       path: '/roommsg/:id',
       name: 'roommsg',
       component: () => import('./components/roommsg.vue')
+    },
+    {
+      path: '/home/allmemberinfo',
+      name: 'allmemberinfo',
+      component: () => import('./components/allmemberinfo.vue')
+    },
+    {
+      path: '/home/allmemberlive',
+      name: 'allmemberlive',
+      component: () => import('./components/allmemberlive.vue')
     }
   ]
 })

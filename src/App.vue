@@ -8,7 +8,7 @@
             text-color="#fff"
             active-text-color="#ffd04b"
             router>
-      <el-menu-item index="/index">首页</el-menu-item>
+      <el-menu-item index="/">首页</el-menu-item>
       <el-submenu index="/music">
         <template slot="title">音乐榜</template>
         <el-menu-item index="/qq">QQ音乐</el-menu-item>
@@ -30,7 +30,7 @@ export default {
   name: 'app',
   data() {
     return {
-      activeIndex: '/index'
+      activeIndex: '/'
     };
   },
   methods: {

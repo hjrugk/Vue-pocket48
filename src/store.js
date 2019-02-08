@@ -5,11 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    friends: [],
-    token: '',
-    logFlag: false,
-    roomFlag: false,
-    userInfo: {}
+    friends: localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).friends:[],
+    token: localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).token:'',
+    logFlag: localStorage.getItem('isLogin')?true:false,
+    roomFlag: localStorage.getItem('isLogin')?true:false,
+    userInfo: localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).userInfo:{}
   },
   mutations: {
     setToken(state,info) {
@@ -19,6 +19,7 @@ export default new Vuex.Store({
     changeFlag(state){
       state.logFlag = true
       state.roomFlag = true
+      localStorage.setItem('isLogin',JSON.stringify({logFlag: state.logFlag,roomFlag: state.roomFlag}))
     },
     saveUserInfo(state, userInfo){
       state.userInfo = userInfo

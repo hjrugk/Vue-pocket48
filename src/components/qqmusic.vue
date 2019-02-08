@@ -36,14 +36,14 @@ export default {
   },
   methods: {
     getMusicList() {
-      if (localStorage.getItem("musicList")) {
-        this.list = JSON.parse(localStorage.getItem("musicList"));
-      } else {
+      // if (localStorage.getItem("musicList")) {
+      //   this.list = JSON.parse(localStorage.getItem("musicList"));
+      // } else {
         this.axios.get("/api/getMusicList").then(res => {
           this.list = res.data.songlist;
-          localStorage.setItem("musicList", JSON.stringify(res.data.songlist));
+          // localStorage.setItem("musicList", JSON.stringify(res.data.songlist));
         });
-      }
+      // }
     },
     getPlayUrl(songmid) {
       this.axios.get("/api/getPlayUrl?songmid=" + songmid).then(res => {

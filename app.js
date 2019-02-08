@@ -1,7 +1,7 @@
-const https= require('https');
 const express = require('express')
 const api = require('./api.js')
 const bodyParser = require('body-parser')
+const getData = require('./request')
 
 const app = express()
 
@@ -11,153 +11,73 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+// 获取qq音乐top100
 app.get('/api/getMusicList', (req,res) => {
-  https.get(api.top, response => {
-    let html = ''
-    response.on('data',chunk=>{
-      html += chunk
-    })
-    response.on('end',()=>{
-      res.send(html)
-    })
-  });
+  getData(null,api.top, (html) => {
+    res.send(html)
+  })
 })
 
+// 获取qq音乐播放链接
 app.get('/api/getPlayUrl', (req,res) => {
-  https.get(api.vkey + req.query.songmid + '&filename=C400' + req.query.songmid + '.m4a&guid=126548448', response => {
-    let html = ''
-    response.on('data',chunk=>{
-      html += chunk
-    })
-    response.on('end',()=>{
+  getData(null,api.vkey(req), html => {
       res.send(html)
-    })
   });
 })
 
+// 获取成员房间留言
 app.post('/api/getRoomBoard', (request,res) => {
-  const room_postData = JSON.stringify({
-    "roomId":request.body.roomID, //房间id, 详见roomList
-    "chatType":0,
-    "lastTime":Date.now(), //截止时间
-    "limit":request.body.limit || 10 //数量上限
+  const board_postData = api.board_postData(request)
+
+  const board_options = api.board_options(request,board_postData);
+
+  getData(board_postData,board_options,(html) => {
+    res.send(html)
   })
-
-  const room_options = {
-    host: 'pjuju.48.cn',
-    port: '',
-    path: '/imsystem/api/im/v1/member/room/message/mainpage',
-    method: 'POST',
-    headers: {
-      "imei": "355757010989529",
-      token: request.body.token.replace(/\s/g,'+'),
-      build: 167,
-      os: "android",
-      'Content-Type': 'application/json;charset=utf-8',
-      'Content-Length': Buffer.byteLength(room_postData)
-    }
-  };
-
-  const req = https.request(room_options, response => {
-    response.setEncoding('utf8');
-    let html = ''
-    response.on('data', (chunk) => {
-      html += chunk
-    });
-    response.on('end', () => {
-      res.send(html)
-    });
-  })
-
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-
-// write data to request body
-  req.write(room_postData);
-  req.end();
 })
 
+// 登录口袋48，获取token
+app.post('/api/login', (req,res) => {
+  const login_postData = api.login_postData(req)
 
-app.post('/api/login', (request, res) => {
-  const login_postData = JSON.stringify({
-    "password":request.body.password, //密码
-    "account":request.body.account, //用户名
-    "longitude":0,
-    "latitude":0
+  const login_options = api.login_options(login_postData)
+
+  getData(login_postData,login_options,(html) => {
+    res.send(html)
   })
-
-  const login_options = {
-    host: 'puser.48.cn',
-    port: '',
-    path: '/usersystem/api/user/v1/login/phone',
-    method: 'POST',
-    headers: {
-      "imei": "355757010989529",
-      token: "0",
-      build: 167,
-      os: "android",
-      'Content-Type': 'application/json;charset=utf-8',
-      'Content-Length': Buffer.byteLength(login_postData)
-    }
-  }
-
-  const req = https.request(login_options, response => {
-    response.setEncoding('utf8');
-    let html = ''
-    response.on('data', (chunk) => {
-      html += chunk
-    });
-    response.on('end', () => {
-      res.send(html)
-    });
-  })
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-
-// write data to request body
-  req.write(login_postData);
-  req.end();
 })
 
-app.post('/api/getRoomList', (request, res) => {
-  const room_postData = JSON.stringify({
-    "friends": request.body.friends
+// 获取关注成员列表
+app.post('/api/getRoomList', (req, res) => {
+  const room_postData = api.room_postData(req)
+
+  const room_options = api.room_options(req,room_postData)
+
+  getData(room_postData,room_options,(html) => {
+    res.send(html)
   })
+})
 
-  const room_options = {
-    host: 'pjuju.48.cn',
-    port: '',
-    path: '/imsystem/api/im/room/v1/login/user/list',
-    method: 'POST',
-    headers: {
-      "imei": "355757010989529",
-      token: request.body.token,
-      build: 167,
-      os: "android",
-      'Content-Type': 'application/json;charset=utf-8',
-      'Content-Length': Buffer.byteLength(room_postData)
-    }
-  }
+// 获取所有成员
+app.get('/api/allmemberinfo', (req, res) => {
+  const members_postData = api.members_postData()
 
-  const req = https.request(room_options, response => {
-    response.setEncoding('utf8');
-    let html = ''
-    response.on('data', (chunk) => {
-      html += chunk
-    });
-    response.on('end', () => {
-      res.send(html)
-    });
+  const members_options = api.members_options(members_postData)
+
+  getData(members_postData,members_options,html => {
+    res.send(html)
   })
-  req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
+})
 
-// write data to request body
-  req.write(room_postData);
-  req.end();
+// 获取所有直播
+app.get('/api/getAllLive', (req, res) => {
+  const allLive_postData = api.allLive_postData()
+
+  const allLive_options = api.allLive_options(allLive_postData)
+
+  getData(allLive_postData,allLive_options,html => {
+    res.send(html)
+  })
 })
 
 app.listen(3000, ()=>{

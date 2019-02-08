@@ -4,7 +4,7 @@
       <p class="msg-time" v-html="item.msgTimeStr"></p>
       <p class="msg-content" v-html="item.extInfo.text || item.extInfo.messageText || item.extInfo.idolFlipTitle || '其他类型留言，请打开口袋48查看'"></p>
     </div>
-    <el-button @click="getMore" type="info">加载更多</el-button>
+    <el-button @click="getMore" type="info" v-show="$store.state.logFlag">加载更多</el-button>
   </div>
 </template>
 
