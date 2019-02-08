@@ -1,17 +1,22 @@
 <template>
   <div>
-    <p>直播</p>
-    <p v-for="item in liveList" :key="item.liveId">
-      <span v-html="item.title"></span>
-       ---
-      <a v-html="item.subTitle" :href="item.streamPath"></a>
-    </p>
-    <p>录播</p>
+    <div>
+      直播
+      <p v-if="liveList">当前没有直播</p>
+      <p v-for="item in liveList" :key="item.liveId">
+        <span v-html="item.title"></span>
+        ---
+        <a v-html="item.subTitle" :href="item.streamPath"></a>
+      </p>
+    </div>
+    <div>
+      录播
     <p v-for="item in reviewList" :key="item.liveId">
       <span v-html="item.title"></span>
       ---
       <a v-html="item.subTitle" :href="item.streamPath"></a>
     </p>
+    </div>
   </div>
 </template>
 

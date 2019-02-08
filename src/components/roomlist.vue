@@ -1,13 +1,12 @@
 <template>
   <div>
     <div class="room">
-      <div class="room-info"></div>
       <div class="room-list">
         <div class="room-item" v-for="item in member" :key="item.roomId">
-          <p class="room-owner" v-html="item.creatorName"></p>
-          <p class="room-name" v-html="item.roomName"></p>
+          <span class="room-owner" v-html="item.creatorName"></span>
+          <span class="room-name" v-html="item.roomName"></span>
           <p class="room-preview" v-html="item.roomTopic"></p>
-          <el-button @click="getInfo(item.roomId)" type="primary">房间留言</el-button>
+          <el-button @click="getInfo(item.roomId)" size="medium">房间留言</el-button>
         </div>
       </div>
     </div>
@@ -47,8 +46,17 @@
 
 <style lang="less" scoped>
 .room-item{
-  display: flex;
-  justify-content: space-between;
   padding: 5px 10px;
+  .room-owner{
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .room-name{
+    font-size: 14px;
+    color: #333;
+  }
+  .room-preview{
+    font-size: 14px;
+  }
 }
 </style>
