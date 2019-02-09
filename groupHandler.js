@@ -8,5 +8,5 @@ module.exports = function (membersList) {
   const oversea = membersList.filter(item => (item.team>1600))
   const other = membersList.filter(item => (item.team===0))
   const legend = membersList.filter(item => (item.team===999))
-  return {'1000':snh,'1100':bej,'1200':gnz,'1300':shy,'1400':ckg,'1500':idft,'1600':oversea,'0':other,'998':legend}
+  return {'1000':snh,'1100':bej,'1200':gnz,'1300':shy,'1400':ckg,'1500':idft,'1600':oversea,'-1':other,'998':legend,'1':membersList}
 }

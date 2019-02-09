@@ -2,6 +2,7 @@
   <div>
     <div v-for="(item, i) in team" :key="i">
       <p v-html="'Team ' + item"></p>
+      <p v-if="!memberList[0]">成员列表加载中</p>
       <div class="member-list">
         <div class="member-item" v-for="item in memberList" :key="item.member_id" v-show="item.team - group === (i+1)">
           <img :src="item.avatar | picPathFormat" alt="" class="member-avatar">

@@ -36,9 +36,10 @@
     methods: {
       getAllMembers(){
         if(!localStorage.getItem('memberInfo')){
-          this.axios.get('/api/allmemberinfo')
+          this.axios.get('/api/allmemberinfo?group=1')
             .then(res => {
-              this.membersList = res.data.content.memberInfo
+              console.log(res);
+              this.membersList = res.data
             })
         }
       },

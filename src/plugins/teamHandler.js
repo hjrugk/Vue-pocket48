@@ -25,9 +25,11 @@ export function splitTeam(team) {
     case '998':
       subTeam = ['明星殿堂']
       break
-    case '0':
+    case '-1':
       subTeam = ['官方账号']
       break
+    default:
+      subTeam = ['全部成员']
   }
   return subTeam
 }
@@ -55,11 +57,13 @@ export function transformGroupId(group) {
       group = 1600
       break
     case 'other':
-      group = 0
+      group = -1
       break
     case 'legend':
       group = 998
       break
+    default:
+      group = 1
   }
   return group
 }
