@@ -39,16 +39,24 @@
         this.$router.push({name: 'memberDetail',params: {id: item.member_id,item,t}})
       }
     },
-    created() {
+    mounted() {
       this.getMemberList()
       this.team = splitTeam(this.group)
+    },
+    watch: {
+      '$route': function () {
+        this.memberList = []
+        this.group = this.$route.params.group
+        this.getMemberList()
+        this.team = splitTeam(this.group)
+      }
     }
   }
 </script>
 
 <style lang="less" scoped>
 .member-container{
-  margin: 10px;
+  margin: 7px;
   .team-container{
     .team-name{
       font-weight: bold;
@@ -59,15 +67,22 @@
       justify-content: flex-start;
       flex-wrap: wrap;
       .member-item{
-        width: 100px;
+        width: 98px;
         border: 1px solid #ddd;
         border-radius: 3px;
         padding: 5px;
-        margin: 0 5px 10px 5px;
+        /*margin: 0 5px 10px 5px;*/
+        margin-right: 10px;
+        margin-bottom: 5px;
         text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        cursor: pointer;
         .avatar-container{
           .member-avatar{
-            width: 80px;
+            width: 100%;
             border-radius: 50%;
           }
         }

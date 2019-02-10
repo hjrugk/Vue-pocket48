@@ -1,29 +1,16 @@
 # vue-pocket48
 
-## Project setup
-```
-npm install
-```
+使用 vue + node + element-ui 做的 web 版口袋48，使用的API参照[xsaiting/pocket48-grab](https://github.com/xsaiting/pocket48-grab/wiki)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+现在主要功能有
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* 成员房间消息
+* 成员直播/录播
+* 公演直播/录播（播放地址暂无）
+* 各队成员列表
+* 各成员详细信息
 
-### Run your tests
-```
-npm run test
-```
+待加入功能
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+* 直播/录播地址
+* 成员房间聚聚留言/翻牌

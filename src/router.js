@@ -24,9 +24,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/qq',
-      name: 'qqmusic',
-      component: () => import('./components/qqmusic.vue')
+      path: '/music',
+      name: 'music',
+      component: () => import('./components/music.vue')
     },
     {
       path: '/roomlist',
@@ -44,24 +44,36 @@ export default new Router({
       component: () => import('./components/roommsg.vue')
     },
     {
-      path: '/home/allmemberinfo',
-      name: 'allmemberinfo',
-      component: () => import('./components/allmemberinfo.vue')
+      path: '/home/allgroupinfo',
+      name: 'allgroupinfo',
+      component: () => import('./components/allgroupinfo.vue'),
+      children: [
+        {
+          path: 'groupmemberinfo/:group',
+          name: 'groupmemberinfo',
+          component: () => import('./components/groupmemberinfo.vue')
+        },
+      ]
     },
     {
-      path: '/home/allmemberlive',
+      path: '/home/allmemberlive/:id',
       name: 'allmemberlive',
       component: () => import('./components/allmemberlive.vue')
-    },
-    {
-      path: '/home/allmemberinfo/:group',
-      name: 'groupmemberinfo',
-      component: () => import('./components/groupmemberinfo.vue')
     },
     {
       path: '/home/memberDetail/:id',
       name: 'memberDetail',
       component: () => import('./components/memberDetail.vue')
+    },
+    {
+      path: '/home/openlive/:id',
+      name: 'openlive',
+      component: () => import('./components/openlive.vue')
+    },
+    {
+      path: '/home/livepage/:id',
+      name: 'livepage',
+      component: () => import('./components/livepage.vue')
     }
   ]
 })

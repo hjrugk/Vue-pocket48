@@ -18,7 +18,11 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 
 Vue.filter('picPathFormat',function (item) {
-  return item.includes("http")?item.split(',')[0]:("https://source.48.cn" + item.split(',')[0])
+  return item.includes("http")?item.split(',')[0]:"https://source.48.cn" + item.split(',')[0]
+})
+
+Vue.filter('liveUrlFormat', function (item) {
+  return 'https://h5.48.cn/2017appshare/memberLiveShare/index.html?id=' + item
 })
 
 Vue.config.productionTip = false

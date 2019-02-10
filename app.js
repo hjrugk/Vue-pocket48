@@ -72,6 +72,16 @@ app.get('/api/allmemberinfo', (req, res) => {
   })
 })
 
+app.get('/api/allgroupinfo', (req, res) => {
+  const members_postData = api.members_postData()
+
+  const members_options = api.members_options(members_postData)
+
+  getData(members_postData,members_options,html => {
+    res.send(JSON.parse(html).content.group)
+  })
+})
+
 // 获取所有直播信息
 app.get('/api/getAllLive', (req, res) => {
   const allLive_postData = api.allLive_postData(req)
@@ -79,6 +89,26 @@ app.get('/api/getAllLive', (req, res) => {
   const allLive_options = api.allLive_options(allLive_postData)
 
   getData(allLive_postData,allLive_options,html => {
+    res.send(html)
+  })
+})
+
+app.get('/api/getOpenLive', (req,res) => {
+  const openLive_postData = api.openLive_postData(req)
+
+  const openLive_options = api.openLive_options(openLive_postData)
+
+  getData(openLive_postData,openLive_options,html => {
+    res.send(html)
+  })
+})
+
+app.get('/api/getLivePage', (req,res) => {
+  const livePage_postData = api.livePage_postData(req)
+
+  const livePage_options = api.livePage_options(livePage_postData)
+
+  getData(livePage_postData,livePage_options,html => {
     res.send(html)
   })
 })

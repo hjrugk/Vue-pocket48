@@ -10,10 +10,11 @@
             router>
       <el-menu-item index="/">首页</el-menu-item>
       <el-submenu index="/music">
-        <template slot="title">音乐榜</template>
-        <el-menu-item index="/qq">QQ音乐</el-menu-item>
-        <el-menu-item index="/netease">网易云</el-menu-item>
-        <el-menu-item index="/kugou">酷狗</el-menu-item>
+        <template slot="title">影视音乐</template>
+        <el-menu-item index="/music">音乐</el-menu-item>
+        <el-menu-item index="/video">视频</el-menu-item>
+        <el-menu-item index="/film">影视</el-menu-item>
+        <el-menu-item index="/variety">综艺</el-menu-item>
       </el-submenu>
       <el-menu-item index="/roomlist" v-show="$store.state.logFlag">聚聚</el-menu-item>
       <el-menu-item index="/login" v-if="!$store.state.logFlag">登录</el-menu-item>

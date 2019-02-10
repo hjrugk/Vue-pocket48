@@ -13,9 +13,13 @@
         </div>
       </div>
       <div class="room-entry">
-        <el-button type="primary" @click="goToMemberRoom(detail.member_id)">房间</el-button>
-        <p> </p>
-        <el-button type="danger" @click="goToWeibo(detail.wb_uid)">微博</el-button>
+        <el-button type="primary" @click="goToMemberRoom(detail.member_id)" size="mini">房间</el-button>
+        <p class="gap"></p>
+        <el-button type="success" @click="goToMemberLive(detail.member_id)" size="mini">直播</el-button>
+        <p class="gap"></p>
+        <a :href="'https://www.weibo.com/u/' + detail.wb_uid" target="_blank">
+          <el-button type="danger" size="mini">微博</el-button>
+        </a>
       </div>
     </div>
     <div class="carousel-container">
@@ -58,8 +62,8 @@
             this.$router.push("/roommsg/" + res.data.content[0].roomId)
           })
       },
-      goToWeibo(uid){
-        window.location.href = 'https://www.weibo.cn/u/' + uid
+      goToMemberLive(id){
+        this.$router.push('/home/allmemberlive/' + id)
       }
     },
     created(){
@@ -86,6 +90,11 @@
     .room-entry{
       position: absolute;
       right: 15px;
+      .gap{
+        height: 10px;
+        margin: 0;
+        padding: 0;
+      }
     }
     .base-name{
       margin-left: 20px;

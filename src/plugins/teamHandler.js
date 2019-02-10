@@ -34,36 +34,36 @@ export function splitTeam(team) {
   return subTeam
 }
 export function transformGroupId(group) {
-  switch (group) {
-    case 'snh':
+  switch (group.toLowerCase()) {
+    case 'snh48':
       group = 1000
       break
-    case 'bej':
-      group = 1100
+    case 'bej48':
+      group = '1100'
       break
-    case 'gnz':
-      group = 1200
+    case 'gnz48':
+      group = '1200'
       break
-    case 'shy':
-      group = 1300
+    case 'shy48':
+      group = '1300'
       break
-    case 'ckg':
-      group = 1400
+    case 'ckg48':
+      group = '1400'
       break
     case 'idft':
-      group = 1500
+      group = '1500'
       break
-    case 'oversea':
-      group = 1600
+    case '海外练习生':
+      group = '1600'
       break
     case 'other':
-      group = -1
+      group = '-1'
       break
     case 'legend':
-      group = 998
+      group = '998'
       break
     default:
-      group = 1
+      group = '1'
   }
   return group
 }

@@ -62,6 +62,7 @@
     display: flex;
     justify-content: flex-start;
     width: 400px;
+    align-items: center;
     .room-avatar{
       width: 80px;
       height: 80px;
@@ -82,7 +83,7 @@
       }
       .room-preview{
         border-top: 1px solid #ccc;
-        padding-top: 5px;
+        padding-top: 10px;
         font-size: 14px;
         min-height: 15px;
       }

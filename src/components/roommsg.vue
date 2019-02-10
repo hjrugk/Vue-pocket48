@@ -18,7 +18,9 @@
          || '其他类型留言，请打开口袋48查看'"
       ></p>
     </div>
-    <el-button @click="getMore" type="info" v-show="$store.state.logFlag">加载更多</el-button>
+    <div class="button-container">
+      <el-button @click="getMore" type="info" v-show="$store.state.logFlag">加载更多</el-button>
+    </div>
   </div>
 </template>
 
@@ -66,11 +68,11 @@
   padding: 10px;
   margin-bottom: 10px;
   .msg-item{
-    width: 400px;
     border: 1px solid #ccc;
     border-radius: 3px;
     padding: 10px;
     margin-bottom: 5px;
+    max-width: 400px;
     .msg-time{
       font-size: 12px;
     }
@@ -90,6 +92,11 @@
         margin-left: 5px;
       }
     }
+  }
+  .button-container{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

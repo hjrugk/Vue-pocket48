@@ -3,8 +3,11 @@
     <h2 class="title">直播</h2>
     <p v-if="!liveList[0]" class="instead-info">当前没有直播</p>
     <div class="live-list">
-      <a :href="item.streamPath" v-for="item in liveList" :key="item.liveId" class="live-item">
-        <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+      <a @click.prevent="getOneLive(item.liveId)" v-for="item in liveList" :key="item.liveId" class="live-item">
+        <div class="pic-container">
+          <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+        </div>
+        <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
         <p class="live-title" v-html="item.title"></p>
         <p class="live-url" v-html="item.subTitle"></p>
       </a>
@@ -12,15 +15,18 @@
     <h2 class="title">录播</h2>
     <p v-if="!reviewList[0]" class="instead-info">加载中</p>
     <div class="live-list">
-      <a :href="item.streamPath" v-for="item in reviewList" :key="item.liveId" class="live-item">
-        <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+      <a @click.prevent="getOneLive(item.liveId)" v-for="item in reviewList" :key="item.liveId" class="live-item">
+        <div class="pic-container">
+          <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+        </div>
+        <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
         <p class="live-title" v-html="item.title"></p>
-        <a class="live-url">
-          <p v-html="item.subTitle"></p>
-        </a>
+        <p v-html="item.subTitle" class="live-url"></p>
       </a>
     </div>
-    <el-button type="primary" @click="getMoreLive" v-if="$route.path==='/home/allmemberlive'">加载更多</el-button>
+    <div class="button-container">
+      <el-button type="primary" @click="getMoreLive" v-if="$route.path !=='/home'">加载更多</el-button>
+    </div>
   </div>
 </template>
 
@@ -31,12 +37,13 @@
       return {
         liveList: [],
         reviewList: [],
-        limit: 8
+        limit: 8,
+        id: this.$route.params.id || 0
       }
     },
     methods: {
       getAllLive(){
-        this.axios.get('/api/getAllLive?limit=8')
+        this.axios.get('/api/getAllLive?limit=8&id=' + this.id)
           .then(res => {
             this.liveList = res.data.content.liveList
             this.reviewList = res.data.content.reviewList
@@ -44,10 +51,13 @@
       },
       getMoreLive(){
         this.limit += 8
-        this.axios.get('/api/getAllLive?limit=' + this.limit)
+        this.axios.get('/api/getAllLive?limit=' + this.limit + '&id=' + this.id)
           .then(res => {
             this.reviewList = res.data.content.reviewList
           })
+      },
+      getOneLive(id){
+        this.$router.push({name: 'livepage',params: {id,type:1}})
       }
     },
     mounted() {
@@ -69,25 +79,36 @@
     margin-bottom: 10px;
     .live-item{
       display: block;
-      width: 150px;
+      width: 148px;
       margin: 0 5px 10px 5px;
       padding: 5px;
-      background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 3px;
       text-decoration: none;
       color: #000;
-      .live-pic{
-        width: 150px;
-        height: 150px;
+      .pic-container{
+        display: flex;
+        align-items: center;
+        height: 160px;
+        .live-pic{
+          width: 100%;
+        }
+      }
+      .live-time{
+        font-size: 14px;
       }
       .live-title{
-        font-size: 12px;
+        font-size: 14px;
       }
       .live-url{
         font-size: 14px;
       }
     }
+  }
+  .button-container{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

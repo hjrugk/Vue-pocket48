@@ -108,7 +108,7 @@ const api = {
       "lastTime": 0, //截止时间,毫秒时间戳,0为当前
       "groupId": 0, //团体id,详见syncsystemOverview
       "type": 0,
-      "memberId": 0, //成员id,详见syncsystemOverview
+      "memberId": req.query.id || 0, //成员id,详见syncsystemOverview
       "giftUpdTime": Date.now(), //礼物更新时间，用于更新礼物
       "limit": req.query.limit || 8 //录播获取数量上限
     })
@@ -122,6 +122,52 @@ const api = {
       headers: {
         os: "android",
         version: "5.0.1",
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }
+  },
+  openLive_postData: (req) => {
+    return JSON.stringify({
+      "isReview": req.query.isReview || 0, //是否为录播,1获取录播,0获取直播
+      "groupId": req.query.id || 0, //团体id,详见syncsystemOverview
+      "userId": 0,
+      "lastGroupId": 0,
+      "lastTime": 0,
+      "type": 0,
+      "giftUpdTime": Date.now(), //礼物更新时间
+      "limit": req.query.limit || 8 //获取数量上限
+    })
+  },
+  openLive_options: (postData) => {
+    return {
+      host: 'plive.48.cn',
+      port: '',
+      path: '/livesystem/api/live/v1/openLivePage',
+      method: 'POST',
+      headers: {
+        os: "android",
+        version: "5.3.1",
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }
+  },
+  livePage_postData: (req) => {
+    return JSON.stringify({
+      "type": req.query.type, //公演type为0或不需要,成员type为1
+      "liveId": req.query.id //成员直播或公演直播的liveId
+    })
+  },
+  livePage_options: (postData) => {
+    return {
+      host: 'plive.48.cn',
+      port: '',
+      path: '/livesystem/api/live/v1/getLiveOne',
+      method: 'POST',
+      headers: {
+        os: "android",
+        version: "5.3.1",
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
