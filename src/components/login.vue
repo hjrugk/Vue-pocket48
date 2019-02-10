@@ -13,9 +13,13 @@
       </el-form-item>
     </el-form>
     <div v-else class="user-info">
+      <img :src="userInfo.avatar | picPathFormat" alt="" width="80px">
       <p v-html="userInfo.nickName"></p>
-      <p v-html="userInfo.level"></p>
       <p v-html="userInfo.userId"></p>
+      <p v-html="userInfo.gender?'女':'男'"></p>
+      <p v-html="userInfo.birthday"></p>
+      <p v-html="'Level ' + userInfo.level"></p>
+      <p v-html="'经验值: ' + userInfo.experience"></p>
     </div>
   </div>
 </template>

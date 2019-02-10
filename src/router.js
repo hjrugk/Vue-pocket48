@@ -57,6 +57,11 @@ export default new Router({
       path: '/home/allmemberinfo/:group',
       name: 'groupmemberinfo',
       component: () => import('./components/groupmemberinfo.vue')
+    },
+    {
+      path: '/home/memberDetail/:id',
+      name: 'memberDetail',
+      component: () => import('./components/memberDetail.vue')
     }
   ]
 })

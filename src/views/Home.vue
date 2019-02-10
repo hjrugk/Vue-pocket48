@@ -2,9 +2,9 @@
   <div class="home">
     <el-menu
       class="el-menu-demo"
-      mode="vertical"
+      mode="horizontal"
       background-color="#545c64"
-      text-color="#fff"
+      text-color="#ffffff"
       active-text-color="#ffd04b"
       router>
       <el-menu-item index="/home/allmemberinfo">所有成员</el-menu-item>

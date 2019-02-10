@@ -15,7 +15,7 @@
         <el-menu-item index="/netease">网易云</el-menu-item>
         <el-menu-item index="/kugou">酷狗</el-menu-item>
       </el-submenu>
-      <el-menu-item index="/roomlist" v-show="$store.state.logFlag">关注房间</el-menu-item>
+      <el-menu-item index="/roomlist" v-show="$store.state.logFlag">聚聚</el-menu-item>
       <el-menu-item index="/login" v-if="!$store.state.logFlag">登录</el-menu-item>
       <el-menu-item index="/login" v-else>账户</el-menu-item>
     </el-menu>

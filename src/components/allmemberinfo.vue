@@ -1,16 +1,13 @@
 <template>
   <div>
     <div class="member-list">
-      <el-menu class="el-menu-vertical-demo">
+      <el-menu class="el-menu-demo" mode="horizontal">
         <el-menu-item
           v-for="(value,key, i) in $store.state.memberInfo"
           :key="i" :index=key @click="getList(key)"
         >{{key.toUpperCase()}}</el-menu-item>
       </el-menu>
-      <!--<div class="member-item" v-for="item in oversea" :key="item.member_id" v-show="item.status!==2">-->
-        <!--<img :src="item.avatar | picPathFormat" alt="" class="member-avatar">-->
-        <!--<p class="member-name" v-html="item.real_name"></p>-->
-      <!--</div>-->
+      <router-view></router-view>
     </div>
   </div>
 </template>
