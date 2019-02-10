@@ -80,6 +80,11 @@
         justify-content: center;
         flex-wrap: wrap;
         cursor: pointer;
+        box-shadow: 0 0 1px #ccc;
+        background-color: #fff;
+        &:hover{
+          background-color: #efefef;
+        }
         .avatar-container{
           .member-avatar{
             width: 100%;

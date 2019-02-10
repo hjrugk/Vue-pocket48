@@ -25,7 +25,7 @@
       </a>
     </div>
     <div class="button-container">
-      <el-button type="primary" @click="getMoreLive" v-if="$route.path !=='/home'">加载更多</el-button>
+      <el-button type="primary" @click="getMoreLive" v-if="$route.path !=='/home' && reviewList[0]">加载更多</el-button>
     </div>
   </div>
 </template>
@@ -86,6 +86,12 @@
       border-radius: 3px;
       text-decoration: none;
       color: #000;
+      cursor: pointer;
+      background-color: #fff;
+      box-shadow: 0 0 1px #ccc;
+      &:hover{
+        background-color: #efefef;
+      }
       .pic-container{
         display: flex;
         align-items: center;

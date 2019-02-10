@@ -68,5 +68,10 @@
 <style lang="less" scoped>
 .login-container{
   padding: 10px;
+  .user-info{
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
 }
 </style>

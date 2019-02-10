@@ -2,7 +2,7 @@
   <div>
     <div class="room">
       <div class="room-list">
-        <div class="room-item" v-for="item in member" :key="item.roomId" @click="getInfo(item.roomId)">
+        <div class="room-item" v-for="item in member" :key="item.roomId" @click="getInfo(item.roomId,item.bgPath)">
           <img class="room-avatar" :src="item.roomAvatar | picPathFormat" alt="">
           <div class="room-info">
             <p>
@@ -30,8 +30,8 @@
       }
     },
     methods: {
-      getInfo(roomId){
-        this.$router.push("/roommsg/" + roomId)
+      getInfo(roomId,bgPath){
+        this.$router.push({name: 'roommsg',params:{id:roomId,bgPath}})
       },
       getRoomList(){
         this.axios.post('/api/getRoomList',{token: this.token,friends: this.friends})
@@ -63,6 +63,11 @@
     justify-content: flex-start;
     width: 400px;
     align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 1px #ccc;
+    &:hover{
+      background-color: #efefef;
+    }
     .room-avatar{
       width: 80px;
       height: 80px;

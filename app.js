@@ -113,6 +113,16 @@ app.get('/api/getLivePage', (req,res) => {
   })
 })
 
+app.post('/api/getComments', (req,res) => {
+  const comment_postData = api.comment_postData(req)
+
+  const comment_options = api.comment_options(req,comment_postData)
+
+  getData(comment_postData,comment_options,html => {
+    res.send(html)
+  })
+})
+
 app.listen(3000, ()=>{
   console.log('Server is running')
 })

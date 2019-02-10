@@ -6,13 +6,13 @@ const api = {
   },
   board_postData: (request) => {
     return JSON.stringify({
-      "roomId":request.body.roomID, //房间id, 详见roomList
-      "chatType":0,
-      "lastTime":Date.now(), //截止时间
-      "limit":request.body.limit || 10 //数量上限
+      "roomId": request.body.roomID, //房间id, 详见roomList
+      "chatType": 0,
+      "lastTime": Date.now(), //截止时间
+      "limit": request.body.limit || 10 //数量上限
     })
   },
-  board_options: (request,postData) => {
+  board_options: (request, postData) => {
     return {
       host: 'pjuju.48.cn',
       port: '',
@@ -20,7 +20,7 @@ const api = {
       method: 'POST',
       headers: {
         "imei": "355757010989529",
-        token: request.body.token.replace(/\s/g,'+'),
+        token: request.body.token.replace(/\s/g, '+'),
         build: 167,
         os: "android",
         'Content-Type': 'application/json;charset=utf-8',
@@ -30,10 +30,10 @@ const api = {
   },
   login_postData: (request) => {
     return JSON.stringify({
-      "password":request.body.password, //密码
-      "account":request.body.account, //用户名
-      "longitude":0,
-      "latitude":0
+      "password": request.body.password, //密码
+      "account": request.body.account, //用户名
+      "longitude": 0,
+      "latitude": 0
     })
   },
   login_options: (postData) => {
@@ -57,7 +57,7 @@ const api = {
       "friends": req.body.friends
     })
   },
-  room_options: (req,postData) => {
+  room_options: (req, postData) => {
     return {
       host: 'pjuju.48.cn',
       port: '',
@@ -170,6 +170,29 @@ const api = {
         version: "5.3.1",
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
+      }
+    }
+  },
+  comment_postData: (req) => {
+    return JSON.stringify({
+      "roomId": req.body.id, //房间id, 详见roomList
+      "lastTime": 0, //截止时间
+      "limit": 10, //数量上限
+      "isFirst": true //是否为第一次进入房间, true可获取到贡献榜第1的信息
+    })
+  },
+  comment_options: (req, postData) => {
+    return {
+      host: 'pjuju.48.cn',
+      port: '',
+      path: '/imsystem/api/im/v1/member/room/message/boardpage',
+      method: 'POST',
+      headers: {
+        os: "android",
+        token: req.body.token,
+        "imei": "355757010989529",
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData),
       }
     }
   }

@@ -46,6 +46,9 @@
 <style lang="less" scoped>
 .live-page-container{
   padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  border-radius: 3px;
   .pic-container{
     text-align: center;
     display: block;
@@ -55,6 +58,8 @@
     }
   }
   .live-info{
+    border-top: 1px solid #ccc;
+    margin-top: 5px;
     .main-title{
       font-size: 18px;
       margin-right: 10px;

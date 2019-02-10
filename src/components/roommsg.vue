@@ -1,11 +1,9 @@
 <template>
-  <div class="msg-container">
+  <div class="msg-container" ref="bgPic">
     <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
-      <p class="msg-time" v-html="item.msgTimeStr"></p>
+      <span class="msg-time" v-html="item.msgTimeStr"></span>
       <p class="msg-sender">
-        <span>
-          <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
-        </span>
+        <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
         <span v-html="item.extInfo.senderName" class="sender-name"></span>
       </p>
       <p class="msg-content" v-if="item.bodys">
@@ -18,8 +16,13 @@
          || '其他类型留言，请打开口袋48查看'"
       ></p>
     </div>
+    <div class="board-list">
+      <div class="board-item">
+        <p class="board-msg"></p>
+      </div>
+    </div>
     <div class="button-container">
-      <el-button @click="getMore" type="info" v-show="$store.state.logFlag">加载更多</el-button>
+      <el-button @click="getMore" type="info" v-show="msgList[0]">加载更多</el-button>
     </div>
   </div>
 </template>
@@ -32,7 +35,8 @@
         msgList: [],
         id: this.$route.params.id,
         limit: 10,
-        bodys: {}
+        bodys: {},
+        bgPath: this.$route.params.bgPath
       }
     },
     methods: {
@@ -49,9 +53,18 @@
             this.msgList = res.data.content.data
           })
       }
+      // getComments(){
+      //   this.axios.post('/api/getComments',{token: this.$store.state.token,roomID: this.id})
+      //     .then(res => {
+      //       console.log(res.data);
+      //     })
+      // }
     },
     mounted() {
       this.getMsgList()
+      this.bgPath = 'http://source.48.cn' + this.bgPath
+      this.$refs.bgPic.style.background = 'url(' + this.bgPath + ')'
+      this.$refs.bgPic.style.backgroundRepeat = 'repeat-y'
     },
     watch: {
       'msgList': function () {
@@ -73,6 +86,11 @@
     padding: 10px;
     margin-bottom: 5px;
     max-width: 400px;
+    box-shadow: 0 0 1px #ccc;
+    background-color: #fff;
+    &:hover{
+      background-color: #efefef;
+    }
     .msg-time{
       font-size: 12px;
     }
@@ -82,6 +100,10 @@
       }
     }
     .msg-sender{
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
       .sender-avatar{
         width: 20px;
       }
