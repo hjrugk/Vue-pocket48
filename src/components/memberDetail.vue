@@ -28,7 +28,7 @@
     <div class="carousel-container">
       <el-carousel trigger="click" height="500px">
         <el-carousel-item v-for="item in fullPhoto" :key="item">
-          <img :src="item" alt="">
+          <img :src="item" alt="" @error="altImg(item)">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -67,6 +67,9 @@
       },
       goToMemberLive(id){
         this.$router.push('/home/allmemberlive/' + id)
+      },
+      altImg(item){
+        item = '../assets/alt_fullphoto.png'
       }
     },
     created(){

@@ -13,7 +13,7 @@
       </a>
     </div>
     <h2 class="title">录播</h2>
-    <p v-if="!reviewList[0]" class="instead-info">加载中</p>
+    <p v-if="!reviewList[0]" class="instead-info"><i class="el-icon-loading"></i></p>
     <div class="live-list">
       <a @click.prevent="getOneLive(item.liveId)" v-for="item in reviewList" :key="item.liveId" class="live-item">
         <div class="pic-container">

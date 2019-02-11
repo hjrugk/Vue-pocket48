@@ -30,13 +30,19 @@
       getGroupInfo(){
         this.axios.get('/api/allgroupinfo')
           .then(res => {
-            this.groupList = res.data
+            this.groupList = res.data.content.group
+            localStorage.setItem('groupList',JSON.stringify(res.data.content.group))
             this.groupList.shift()
           })
       }
     },
     mounted() {
-      this.getGroupInfo()
+      if(localStorage.getItem('groupList')){
+        this.groupList = JSON.parse(localStorage.getItem('groupList'))
+        this.groupList.shift()
+      }else{
+        this.getGroupInfo()
+      }
     }
   }
 </script>

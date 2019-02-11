@@ -68,7 +68,7 @@ app.get('/api/allmemberinfo', (req, res) => {
 
   getData(members_postData,members_options,html => {
     const group = groupHandler(JSON.parse(html).content.memberInfo)
-    res.send(group[req.query.group])
+    res.send(group)
   })
 })
 
@@ -78,7 +78,7 @@ app.get('/api/allgroupinfo', (req, res) => {
   const members_options = api.members_options(members_postData)
 
   getData(members_postData,members_options,html => {
-    res.send(JSON.parse(html).content.group)
+    res.send(JSON.parse(html))
   })
 })
 

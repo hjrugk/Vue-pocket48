@@ -36,7 +36,7 @@ export function splitTeam(team) {
 export function transformGroupId(group) {
   switch (group.toLowerCase()) {
     case 'snh48':
-      group = 1000
+      group = '1000'
       break
     case 'bej48':
       group = '1100'
@@ -66,4 +66,39 @@ export function transformGroupId(group) {
       group = '1'
   }
   return group
+}
+export function transformGroupName(id) {
+  let name = ''
+  switch (id) {
+    case '1000':
+      name = 'snh'
+      break
+    case '1100':
+      name = 'bej'
+      break
+    case '1200':
+      name = 'gnz'
+      break
+    case '1300':
+      name = 'shy'
+      break
+    case '1400':
+      name = 'ckg'
+      break
+    case '1500':
+      name = 'idft'
+      break
+    case '1600':
+      name = 'oversea'
+      break
+    case '998':
+      name = 'legend'
+      break
+    case '-1':
+      name = 'other'
+      break
+    default:
+      name = 'all'
+  }
+  return name
 }

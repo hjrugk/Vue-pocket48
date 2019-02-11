@@ -1,10 +1,10 @@
 <template>
   <div class="live-page-container">
     <a class="pic-container" :href="id | liveUrlFormat" target="_blank" v-if="type===1">
-      <img :src="liveInfo.picPath | picPathFormat" alt="" class="live-cover">
+      <img :src="picPath | picPathFormat" @error="altImg" alt="" class="live-cover" v-show="picPath">
     </a>
     <a class="pic-container" href="javascript:;" target="_blank" v-if="type===0">
-      <img :src="liveInfo.picPath | picPathFormat" alt="" class="live-cover">
+      <img :src="picPath | picPathFormat" alt="" class="live-cover">
     </a>
     <div class="live-info">
       <p v-html="liveInfo.title" class="main-title"></p>
@@ -12,8 +12,11 @@
     </div>
     <p v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></p>
     <div class="comment-info" v-if="type===0">
+      <i class="el-icon-view"></i>
       <span class="praise-count" v-html="liveInfo.count.praiseCount"></span>
+      <i class="el-icon-edit-outline"></i>
       <span class="comment-count" v-html="liveInfo.count.commentCount"></span>
+      <i class="el-icon-share"></i>
       <span class="share-count" v-html="liveInfo.count.shareCount"></span>
     </div>
   </div>
@@ -26,7 +29,8 @@
       return {
         id: this.$route.params.id,
         type: this.$route.params.type,
-        liveInfo: {}
+        liveInfo: {},
+        picPath: ''
       }
     },
     methods: {
@@ -34,7 +38,11 @@
         this.axios.get('/api/getLivePage?type=' + this.type + '&id=' + this.id)
           .then(res => {
             this.liveInfo = res.data.content
+            this.picPath = res.data.content.picPath
           })
+      },
+      altImg(){
+        this.liveInfo.picPath = ''
       }
     },
     created() {
@@ -71,9 +79,14 @@
   .comment-info{
     .praise-count{
       margin-right: 10px;
+      margin-left: 2px;
     }
     .comment-count{
+      margin-left: 2px;
       margin-right: 10px;
+    }
+    .share-count{
+      margin-left: 2px;
     }
   }
 }

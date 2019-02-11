@@ -1,5 +1,8 @@
 <template>
   <div class="msg-container" ref="bgPic">
+    <div class="backToTop" @click="toTop" v-show="msgList.length>=20">
+      <i class="el-icon-arrow-up"></i>
+    </div>
     <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
       <p class="msg-time" v-html="item.msgTimeStr"></p>
       <router-link class="msg-sender" to="">
@@ -41,7 +44,8 @@
         id: this.$route.params.id,
         limit: 10,
         bodys: {},
-        bgPath: this.$route.params.bgPath
+        bgPath: this.$route.params.bgPath,
+        top: document.body.scrollTop
       }
     },
     methods: {
@@ -55,29 +59,36 @@
         this.limit += 10
         this.axios.post('/api/getRoomBoard',{token: this.$store.state.token,roomID: this.id,limit: this.limit})
           .then(res => {
-            console.log(res.data)
             this.msgList = res.data.content.data
           })
+      },
+      toTop(){
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
+      },
+      logTop(){
+        console.log(document.body.scrollTop)
       }
-      // getComments(){
-      //   this.axios.post('/api/getComments',{token: this.$store.state.token,roomID: this.id})
-      //     .then(res => {
-      //       console.log(res.data);
-      //     })
-      // }
     },
     mounted() {
       this.getMsgList()
-      this.bgPath = 'http://source.48.cn' + this.bgPath
-      this.$refs.bgPic.style.background = 'url(' + this.bgPath + ')'
-      this.$refs.bgPic.style.backgroundPosition = 'center center'
-      this.$refs.bgPic.style.backgroundAttachment = 'fixed'
+      if(this.bgPath){
+        this.bgPath = 'http://source.48.cn' + this.bgPath
+        this.$refs.bgPic.style.background = 'url(' + this.bgPath + ')'
+        this.$refs.bgPic.style.backgroundPosition = 'center center'
+        this.$refs.bgPic.style.backgroundAttachment = 'fixed'
+      }else{
+        this.$refs.bgPic.style.background = "url('../assets/room_bg.png')"
+      }
     },
     watch: {
       'msgList': function () {
         this.msgList.forEach(item => {
           item.extInfo = JSON.parse(item.extInfo)
         })
+      },
+      'top': function () {
+        this.top = document.body.scrollTop
       }
     }
   }
@@ -87,6 +98,19 @@
 .msg-container{
   padding: 10px;
   margin-bottom: 10px;
+  .backToTop{
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    bottom: 30px;
+    right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .msg-item{
     border: 1px solid #efefef;
     border-radius: 3px;

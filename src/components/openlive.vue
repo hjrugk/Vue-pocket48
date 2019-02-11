@@ -2,6 +2,9 @@
   <div class="open-live-container">
     <h2>公演直播</h2>
     <div class="open-live-list">
+      <p v-if="!liveList[0]" class="alt_icon">
+        <i class="el-icon-loading"></i>
+      </p>
       <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in liveList" :key="item.liveId">
         <div class="pic-container">
           <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
@@ -13,6 +16,9 @@
     </div>
     <h2>公演录播</h2>
     <div class="open-live-list">
+      <p v-if="!reviewList[0]" class="alt_icon">
+        <i class="el-icon-loading"></i>
+      </p>
       <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in reviewList" :key="item.liveId">
         <div class="pic-container">
           <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
