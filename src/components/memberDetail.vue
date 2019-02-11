@@ -13,7 +13,10 @@
         </div>
       </div>
       <div class="room-entry">
-        <el-button type="primary" @click="goToMemberRoom(detail.member_id)" size="mini">房间</el-button>
+        <el-button type="primary"
+                   @click="goToMemberRoom(detail.member_id)" size="mini"
+                   v-if="$store.state.logFlag"
+        >房间</el-button>
         <p class="gap"></p>
         <el-button type="success" @click="goToMemberLive(detail.member_id)" size="mini">直播</el-button>
         <p class="gap"></p>

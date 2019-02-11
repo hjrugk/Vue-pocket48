@@ -55,7 +55,7 @@
   flex-wrap: wrap;
   .room-item{
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #efefef;
     border-radius: 3px;
     margin: 5px;
     cursor: pointer;

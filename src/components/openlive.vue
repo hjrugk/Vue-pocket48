@@ -80,7 +80,7 @@
       display: block;
       margin: 0 5px 10px 5px;
       padding: 7px;
-      border: 1px solid #ccc;
+      border: 1px solid #efefef;
       border-radius: 3px;
       text-decoration: none;
       color: #000;

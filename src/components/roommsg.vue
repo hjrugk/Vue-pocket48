@@ -1,11 +1,16 @@
 <template>
   <div class="msg-container" ref="bgPic">
     <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
-      <span class="msg-time" v-html="item.msgTimeStr"></span>
-      <p class="msg-sender">
+      <p class="msg-time" v-html="item.msgTimeStr"></p>
+      <router-link class="msg-sender" to="">
         <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
         <span v-html="item.extInfo.senderName" class="sender-name"></span>
-      </p>
+      </router-link>
+      <p
+        v-show="item.extInfo.faipaiContent"
+        v-html="item.extInfo.faipaiContent"
+        class="fanpai"
+      ></p>
       <p class="msg-content" v-if="item.bodys">
         <img :src="JSON.parse(item.bodys).url" alt="" class="msg-img">
       </p>
@@ -64,7 +69,8 @@
       this.getMsgList()
       this.bgPath = 'http://source.48.cn' + this.bgPath
       this.$refs.bgPic.style.background = 'url(' + this.bgPath + ')'
-      this.$refs.bgPic.style.backgroundRepeat = 'repeat-y'
+      this.$refs.bgPic.style.backgroundPosition = 'center center'
+      this.$refs.bgPic.style.backgroundAttachment = 'fixed'
     },
     watch: {
       'msgList': function () {
@@ -81,7 +87,7 @@
   padding: 10px;
   margin-bottom: 10px;
   .msg-item{
-    border: 1px solid #ccc;
+    border: 1px solid #efefef;
     border-radius: 3px;
     padding: 10px;
     margin-bottom: 5px;
@@ -104,6 +110,9 @@
       padding-bottom: 10px;
       display: flex;
       align-items: center;
+      text-decoration: none;
+      color: #000;
+      line-height: 1.5;
       .sender-avatar{
         width: 20px;
       }
@@ -113,6 +122,10 @@
         display: inline-block;
         margin-left: 5px;
       }
+    }
+    .fanpai{
+      font-size: 14px;
+      color: #999;
     }
   }
   .button-container{

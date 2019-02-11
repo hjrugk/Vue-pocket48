@@ -1,15 +1,18 @@
 <template>
   <div class="member-container">
+    <el-input v-model="keywords">
+      <template slot="prepend">搜索成员</template>
+    </el-input>
     <div v-for="(t, i) in team" :key="i" class="team-container">
       <p v-html="'Team ' + t" class="team-name"></p>
       <p v-if="!memberList[0]">成员列表加载中</p>
       <div class="member-list">
         <div class="member-item"
-             v-for="item in memberList" :key="item.member_id"
+             v-for="item in newList" :key="item.member_id"
              v-show="item.team - group === (i+1)"
              @click="getMemberDetail(item,t)"
         >
-          <p class="avatar-container"><img :src="item.avatar | picPathFormat" alt="" class="member-avatar"></p>
+          <p class="avatar-container"><img :src="item.avatar" alt="" class="member-avatar"></p>
           <p class="member-name" v-html="item.real_name"></p>
         </div>
       </div>
@@ -25,7 +28,8 @@
       return {
         memberList: [],
         group: this.$route.params.group,
-        team: []
+        team: [],
+        keywords: ''
       }
     },
     methods: {
@@ -49,6 +53,17 @@
         this.group = this.$route.params.group
         this.getMemberList()
         this.team = splitTeam(this.group)
+      }
+    },
+    computed: {
+      'newList': function () {
+        let list = []
+        this.memberList.forEach(item => {
+          if(item.real_name.includes(this.keywords)){
+            list.push(item)
+          }
+        })
+        return list
       }
     }
   }

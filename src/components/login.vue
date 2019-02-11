@@ -1,17 +1,26 @@
 <template>
-  <div class="login-container">
-    <el-form status-icon ref="ruleForm2" label-width="100px" class="demo-ruleForm" inline v-if="!$store.state.logFlag">
-      <el-form-item label="用户名">
-        <el-input autocomplete="off" v-model="account"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input type="password" v-model="password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click.prevent="login">登录</el-button>
-        <el-button>重置</el-button>
-      </el-form-item>
-    </el-form>
+  <div>
+    <div class="logo" v-show="!$store.state.logFlag">
+      <img src="../assets/login_logo.jpg" alt="">
+      <p class="brand">口袋48</p>
+    </div>
+      <div class="login-container" v-if="!$store.state.logFlag">
+        <el-form status-icon ref="ruleForm2"
+                 label-position="top"
+                 label-width="100px" class="demo-ruleForm"
+                 >
+          <el-form-item label="手机：">
+            <el-input autocomplete="off" v-model="account"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input type="password" v-model="password"></el-input>
+          </el-form-item>
+          <el-form-item class="last">
+            <el-button type="primary" @click.prevent="login">登录</el-button>
+            <el-button>重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     <div v-else class="user-info">
       <img :src="userInfo.avatar | picPathFormat" alt="" width="80px">
       <p v-html="userInfo.nickName"></p>
@@ -66,12 +75,48 @@
 </script>
 
 <style lang="less" scoped>
+  .logo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    img{
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
+    .brand{
+      font-size: 30px;
+      font-family: 方正喵呜体;
+    }
+  }
 .login-container{
   padding: 10px;
-  .user-info{
-    text-align: center;
-    border: 1px solid #ccc;
-    padding: 5px;
+  display: flex;
+  justify-content: center;
+  .el-form{
+    .el-form-item{
+      width: 300px;
+      .el-form-item__content{
+        .el-input{
+          .el-input__inner{
+            width: 200px!important;
+          }
+        }
+      }
+    }
+    .last{
+      display: flex;
+      justify-content: center;
+    }
   }
+}
+.user-info{
+  text-align: center;
+  border: 1px solid #efefef;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 3px;
 }
 </style>

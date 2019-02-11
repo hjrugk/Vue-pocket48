@@ -37,7 +37,7 @@
           })
       }
     },
-    created() {
+    mounted() {
       this.getLive()
     }
   }
@@ -46,7 +46,7 @@
 <style lang="less" scoped>
 .live-page-container{
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #efefef;
   margin: 5px;
   border-radius: 3px;
   .pic-container{
