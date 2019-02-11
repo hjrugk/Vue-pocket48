@@ -11,7 +11,7 @@
         v-html="item.extInfo.faipaiContent"
         class="fanpai"
       ></p>
-      <p class="msg-content" v-if="item.bodys">
+      <p class="msg-content" v-if="item.bodys.includes('url')">
         <img :src="JSON.parse(item.bodys).url" alt="" class="msg-img">
       </p>
       <p class="msg-content"
@@ -55,6 +55,7 @@
         this.limit += 10
         this.axios.post('/api/getRoomBoard',{token: this.$store.state.token,roomID: this.id,limit: this.limit})
           .then(res => {
+            console.log(res.data)
             this.msgList = res.data.content.data
           })
       }

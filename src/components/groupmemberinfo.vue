@@ -9,7 +9,7 @@
       <div class="member-list">
         <div class="member-item"
              v-for="item in newList" :key="item.member_id"
-             v-show="item.team - group === (i+1)"
+             v-show="item.team - group === (i+1) && item.status===1"
              @click="getMemberDetail(item,t)"
         >
           <p class="avatar-container"><img :src="item.avatar" alt="" class="member-avatar"></p>
