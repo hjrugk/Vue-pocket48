@@ -25,11 +25,13 @@
       getList(group){
         group = group.toLowerCase()
         group = transformGroupId(group)
-        this.$router.push({path:'/home/allgroupinfo/groupmemberinfo/' + group})
+        this.$router.push({name:'groupmemberinfo',params:{group}})
       },
       getGroupInfo(){
         this.axios.get('/api/allgroupinfo')
           .then(res => {
+            localStorage.setItem('teamList',JSON.stringify(res.data.content.team))
+            localStorage.setItem('urlList',JSON.stringify(res.data.content.url))
             this.groupList = res.data.content.group
             localStorage.setItem('groupList',JSON.stringify(res.data.content.group))
             this.groupList.shift()

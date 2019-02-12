@@ -18,7 +18,11 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 
 Vue.filter('picPathFormat',function (item) {
-  return ((item.lastIndexOf(',')===-1)?("https://source.48.cn" + item):("https://source.48.cn" + item.split(',')[0]))
+  if (item.lastIndexOf('http') === -1){
+    return ((item.lastIndexOf(',')===-1)?("https://source.48.cn" + item):("https://source.48.cn" + item.split(',')[0]))
+  } else {
+    return item
+  }
 })
 
 Vue.filter('liveUrlFormat', function (item) {

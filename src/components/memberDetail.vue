@@ -1,14 +1,14 @@
 <template>
   <div class="detail-container">
     <div class="base-info">
-      <img :src="detail.avatar" alt="" class="base-avatar">
+      <img :src="detail.avatar | picPathFormat" alt="" class="base-avatar" :style="'border: 1px solid #'+color">
       <div class="base-name">
         <div class="real-name">
           <span v-html="detail.real_name" class="real"></span>
           <p v-html="detail.nick_name" class="nick"></p>
         </div>
         <div class="team-name">
-          <el-tag v-html="team" class="team"></el-tag>
+          <el-tag v-html="team" class="team" :color="color"></el-tag>
           <el-tag type="success" v-html="period[0] + ' ' + '第' + period[1] + '期'" class="period"></el-tag>
         </div>
       </div>
@@ -28,7 +28,7 @@
     <div class="carousel-container">
       <el-carousel trigger="click" height="500px">
         <el-carousel-item v-for="item in fullPhoto" :key="item">
-          <img :src="item" alt="" @error="altImg(item)">
+          <img :src="item | picPathFormat" alt="" @error="altImg(item)">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -55,7 +55,8 @@
         detail: this.$route.params.item,
         fullPhoto: [],
         team: this.$route.params.t,
-        period: []
+        period: [],
+        color: '#' + this.$route.params.color
       }
     },
     methods: {
@@ -70,6 +71,7 @@
       },
       altImg(item){
         item = '../assets/alt_fullphoto.png'
+        return item
       }
     },
     created(){
@@ -91,7 +93,6 @@
     justify-content: flex-start;
     .base-avatar{
       height: 100%;
-      border: 1px solid #ccc;
     }
     .room-entry{
       position: absolute;
@@ -106,6 +107,10 @@
       margin-left: 20px;
       .team-name{
         font-size: 15px;
+        .team{
+          color: #fff;
+          border: 0px;
+        }
         .period{
           margin-left: 5px;
         }

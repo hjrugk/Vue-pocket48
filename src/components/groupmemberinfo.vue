@@ -4,17 +4,18 @@
       <template slot="prepend">搜索成员</template>
     </el-input>
     <div v-for="(t, i) in team" :key="i" class="team-container">
-      <p v-html="'Team ' + t" class="team-name"></p>
+      <p v-html="'Team ' + t" :style="'color: #'+colorList[i].color" class="team-name"></p>
       <p v-if="!memberList[0]" class="alt_icon">
         <i class="el-icon-loading"></i>
       </p>
       <div class="member-list">
         <div class="member-item"
+             :style="'border: 1px solid #'+colorList[i].color"
              v-for="item in newList" :key="item.member_id"
              v-show="item.team - group === (i+1) && item.status===1"
-             @click="getMemberDetail(item,t)"
+             @click="getMemberDetail(item,t,colorList[i].color)"
         >
-          <p class="avatar-container"><img :src="item.avatar" alt="" @error="altImg(item)" class="member-avatar"></p>
+          <p class="avatar-container"><img :src="item.avatar | picPathFormat" alt="" @error="altImg(item)" class="member-avatar"></p>
           <p class="member-name" v-html="item.real_name"></p>
         </div>
       </div>
@@ -31,7 +32,8 @@
         memberList: [],
         group: this.$route.params.group,
         team: [],
-        keywords: ''
+        keywords: '',
+        colorList: []
       }
     },
     methods: {
@@ -43,11 +45,17 @@
           })
 
       },
-      getMemberDetail(item,t){
-        this.$router.push({name: 'memberDetail',params: {id: item.member_id,item,t}})
+      getMemberDetail(item,t,color){
+        this.$router.push({name: 'memberDetail',params: {id: item.member_id,item,t,color}})
       },
       altImg(item){
         item.avatar = './assets/alt_avatar.png'
+      },
+      setColor(){
+        let team = JSON.parse(localStorage.getItem('teamList'))
+        this.colorList = team.filter(item => {
+          return ((item.team_id-parseInt(this.group))>0 && (item.team_id-parseInt(this.group))<8)
+        })
       }
     },
     mounted() {
@@ -57,6 +65,9 @@
         this.memberList = JSON.parse(localStorage.getItem('memberInfo'))[this.group]
       }
       this.team = splitTeam(this.group)
+      if(this.group){
+        this.setColor()
+      }
     },
     watch: {
       '$route': function () {
@@ -64,6 +75,9 @@
         this.group = this.$route.params.group
         this.getMemberList()
         this.team = splitTeam(this.group)
+      },
+      'group': function () {
+        this.setColor()
       }
     },
     computed: {

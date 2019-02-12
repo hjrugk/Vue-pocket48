@@ -3,7 +3,11 @@
     <h2 class="title">直播</h2>
     <p v-if="!liveList[0]" class="instead-info">当前没有直播</p>
     <div class="live-list">
-      <a @click.prevent="getOneLive(item.liveId)" v-for="item in liveList" :key="item.liveId" class="live-item">
+      <a
+        :href="'https://h5.48.cn/2017appshare/memberLiveShare/index.html?id='+item.liveId"
+        v-for="item in liveList" :key="item.liveId"
+        class="live-item" target="_blank"
+      >
         <div class="pic-container">
           <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
         </div>
@@ -15,7 +19,11 @@
     <h2 class="title">录播</h2>
     <p v-if="!reviewList[0]" class="instead-info"><i class="el-icon-loading"></i></p>
     <div class="live-list">
-      <a @click.prevent="getOneLive(item.liveId)" v-for="item in reviewList" :key="item.liveId" class="live-item">
+      <a
+        :href="'http://48live.jarvay.cn/#/flvjs/'+item.liveId"
+        v-for="item in reviewList" :key="item.liveId"
+        class="live-item" target="_blank"
+      >
         <div class="pic-container">
           <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
         </div>
@@ -55,10 +63,10 @@
           .then(res => {
             this.reviewList = res.data.content.reviewList
           })
-      },
-      getOneLive(id){
-        this.$router.push({name: 'livepage',params: {id,type:1}})
       }
+      // getOneLive(id){
+        // this.$router.push({name: 'livepage',params: {id,type:1}})
+      // }
     },
     mounted() {
       this.getAllLive()

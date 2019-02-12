@@ -5,21 +5,21 @@
     </div>
     <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
       <p class="msg-time" v-html="item.msgTimeStr"></p>
-      <router-link class="msg-sender" to="">
+      <p class="msg-sender">
         <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
         <span v-html="item.extInfo.senderName" class="sender-name"></span>
-      </router-link>
+      </p>
       <p
         v-show="item.extInfo.faipaiContent"
         v-html="item.extInfo.faipaiContent"
         class="fanpai"
       ></p>
-      <p class="msg-content" v-if="item.bodys.includes('url')">
+      <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
         <img :src="JSON.parse(item.bodys).url" alt="" class="msg-img">
       </p>
       <p class="msg-content"
          v-else
-         v-html="item.extInfo.text
+         v-html="item.extInfo.text || item.extInfo.referenceTitle
          || item.extInfo.messageText || item.extInfo.idolFlipTitle
          || '其他类型留言，请打开口袋48查看'"
       ></p>
