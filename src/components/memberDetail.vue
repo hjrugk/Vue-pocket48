@@ -1,7 +1,7 @@
 <template>
   <div class="detail-container">
     <div class="base-info">
-      <img :src="detail.avatar | picPathFormat" alt="" class="base-avatar" :style="'border: 1px solid #'+color">
+      <img :src="detail.avatar | picPathFormat" alt="" class="base-avatar" :style="'border: 1px solid '+color">
       <div class="base-name">
         <div class="real-name">
           <span v-html="detail.real_name" class="real"></span>
@@ -25,7 +25,8 @@
         </a>
       </div>
     </div>
-    <div class="carousel-container">
+    <div class="carousel-container"
+    :style="'border-bottom: 1px solid '+color+';border-top: 1px solid '+color">
       <el-carousel trigger="click" height="500px">
         <el-carousel-item v-for="item in fullPhoto" :key="item">
           <img :src="item | picPathFormat" alt="" @error="altImg(item)">
@@ -33,7 +34,7 @@
       </el-carousel>
     </div>
     <div class="extra-info">
-      <p v-html="'加入时间：' + detail.ctime"></p>
+      <p v-html="'加入时间：' + detail.ctime.split(' ')[0]"></p>
       <p v-html="'生日：' + detail.birthday"></p>
       <p v-html="'出生地：' + detail.birthplace"></p>
       <p v-html="'血型：' + detail.blood_type"></p>
@@ -126,8 +127,6 @@
   .carousel-container{
     margin-top: 10px;
     text-align: center;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #ccc;
   }
 }
 </style>

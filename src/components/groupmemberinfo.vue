@@ -15,7 +15,11 @@
              v-show="item.team - group === (i+1) && item.status===1"
              @click="getMemberDetail(item,t,colorList[i].color)"
         >
-          <p class="avatar-container"><img :src="item.avatar | picPathFormat" alt="" @error="altImg(item)" class="member-avatar"></p>
+          <p class="avatar-container">
+            <img :src="item.avatar | picPathFormat" alt=""
+                 @error="altImg(item)" class="member-avatar"
+            >
+          </p>
           <p class="member-name" v-html="item.real_name"></p>
         </div>
       </div>
