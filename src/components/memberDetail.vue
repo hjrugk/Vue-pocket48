@@ -56,8 +56,7 @@
         detail: this.$route.params.item,
         fullPhoto: [],
         team: this.$route.params.t,
-        period: [],
-        color: '#' + this.$route.params.color
+        period: []
       }
     },
     methods: {
@@ -80,6 +79,11 @@
         this.fullPhoto.push(this.detail['full_photo_'+i])
       }
       this.period = periodHandler(this.detail.period)
+    },
+    computed: {
+      color: function () {
+        return '#' + this.$route.params.color
+      } 
     }
   }
 </script>

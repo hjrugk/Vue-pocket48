@@ -114,14 +114,14 @@
       justify-content: flex-start;
       flex-wrap: wrap;
       .member-item{
-        width: 98px;
-        height: 213px;
+        width: 95px;
+        height: 200px;
         border: 1px solid #ddd;
         border-radius: 3px;
         padding: 5px;
         /*margin: 0 5px 10px 5px;*/
-        margin-right: 10px;
-        margin-bottom: 5px;
+        margin-right: 8px;
+        margin-bottom: 8px;
         text-align: center;
         display: flex;
         align-items: center;

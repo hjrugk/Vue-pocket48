@@ -46,8 +46,7 @@
         token: '',
         friends: [],
         userInfo: this.$store.state.userInfo,
-        type: 'danger',
-        checkFlag: JSON.parse(localStorage.getItem('isLogin')).checkFlag
+        type: 'danger'
       }
     },
     methods: {
@@ -93,6 +92,11 @@
             })
         }
       }
+    },
+    computed: {
+      checkFlag: function () {
+        return JSON.parse(localStorage.getItem('isLogin')).checkFlag
+      } 
     }
   }
 </script>

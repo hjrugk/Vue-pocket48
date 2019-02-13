@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="board-list" ref="board">
-      <div class="board-item" v-for="item in commentList" :key="item.msgTimeStr">
+      <div class="board-item" v-for="item in commentList" :key="item.msgidClient">
         <div class="sender-info">
           <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-img">
           <p class="board-name" v-html="item.extInfo.senderName"></p>
