@@ -6,7 +6,7 @@ const api = {
   },
   board_postData: (request) => {
     return JSON.stringify({
-      "roomId": request.body.roomID, //房间id, 详见roomList
+      "roomId": request.body.id, //房间id, 详见roomList
       "chatType": 0,
       "lastTime": Date.now(), //截止时间
       "limit": request.body.limit || 10 //数量上限
@@ -177,7 +177,7 @@ const api = {
     return JSON.stringify({
       "roomId": req.body.id, //房间id, 详见roomList
       "lastTime": 0, //截止时间
-      "limit": 10, //数量上限
+      "limit": req.body.limit || 10, //数量上限
       "isFirst": true //是否为第一次进入房间, true可获取到贡献榜第1的信息
     })
   },
@@ -193,6 +193,31 @@ const api = {
         "imei": "355757010989529",
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData),
+      }
+    }
+  },
+  check_postData: () => {
+    return JSON.stringify({})
+  },
+  check_options: (req,postData) => {
+    return {
+      host: 'puser.48.cn',
+      port: '',
+      path: '/usersystem/api/user/v1/check/in',
+      method: 'POST',
+      headers: {
+        os: "android",
+        version: "5.3.1",
+        token: req.body.token,
+        'IMEI': '355757010989529',
+        'app-type': 'fans',
+        longitude: 0,
+        latitude: 0,
+        build: 167,
+        Connection: 'Keep-Alive',
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData)
       }
     }
   }

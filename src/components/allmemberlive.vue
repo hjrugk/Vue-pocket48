@@ -32,8 +32,9 @@
         <p v-html="item.subTitle" class="live-url"></p>
       </a>
     </div>
-    <div class="button-container">
-      <el-button type="primary" @click="getMoreLive" v-if="$route.path !=='/home' && reviewList[0]">加载更多</el-button>
+    <div class="button-container" @click="getMoreLive">
+      <i class="el-icon-arrow-down" v-if="$route.path !=='/home' && reviewList[0]"></i>
+      <!--<el-button type="primary" v-if="$route.path !=='/home' && reviewList[0]">加载更多</el-button>-->
     </div>
   </div>
 </template>
@@ -123,6 +124,15 @@
     margin-top: 10px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 40px;
+    .el-icon-arrow-down{
+      font-size: 25px;
+    }
+    &:hover{
+      cursor: pointer;
+      background-color: #ccc;
+    }
   }
 }
 </style>

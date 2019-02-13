@@ -23,6 +23,9 @@
       </div>
     <div v-else class="user-info">
       <img :src="userInfo.avatar | picPathFormat" alt="" width="80px">
+      <div class="check">
+        <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag">打卡</el-button>
+      </div>
       <p v-html="userInfo.nickName"></p>
       <p v-html="userInfo.userId"></p>
       <p v-html="userInfo.gender?'女':'男'"></p>
@@ -42,7 +45,9 @@
         password: '',
         token: '',
         friends: [],
-        userInfo: this.$store.state.userInfo
+        userInfo: this.$store.state.userInfo,
+        type: 'danger',
+        checkFlag: JSON.parse(localStorage.getItem('isLogin')).checkFlag
       }
     },
     methods: {
@@ -67,6 +72,24 @@
               this.$store.commit('changeFlag')
               localStorage.setItem('userinfo', JSON.stringify(res.data.content))
               this.$router.push('/roomlist')
+            })
+        }
+      },
+      getCheck(e){
+        let date = new Date().toDateString()
+        let flag = JSON.parse(localStorage.getItem('isLogin'))
+        if (flag.checkFlag && flag.date === date){
+          this.checkFlag = true
+        }else{
+          this.checkFlag = false
+          this.axios.post('/api/getCheck',{token:this.$store.state.token})
+            .then(res => {
+              if (res.data.status===200 || res.data.status===1001006){
+                flag.checkFlag = true
+                flag.date = new Date().toDateString()
+                localStorage.setItem('isLogin',JSON.stringify(flag))
+                e.target.innerHTML = '已打卡'
+              }
             })
         }
       }
@@ -115,8 +138,12 @@
 .user-info{
   text-align: center;
   border: 1px solid #efefef;
+  background-color: #fff;
   padding: 5px;
   margin: 5px;
   border-radius: 3px;
+  .check{
+    margin-top: 5px;
+  }
 }
 </style>
