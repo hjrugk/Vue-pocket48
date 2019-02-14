@@ -1,9 +1,8 @@
 const express = require('express')
-const api = require('./api.js')
+const api = require('./app/api.js')
 const bodyParser = require('body-parser')
-const getData = require('./request')
-const groupHandler = require('./groupHandler')
-const http = require('http')
+const getData = require('./app/request')
+const groupHandler = require('./app/groupHandler')
 
 const app = express()
 
