@@ -175,6 +175,7 @@
       padding: 10px;
       margin-bottom: 5px;
       max-width: 400px;
+      width: 400px;
       box-shadow: 0 0 1px #ccc;
       background-color: #fff;
       &:hover{

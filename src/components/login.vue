@@ -46,7 +46,8 @@
         token: '',
         friends: [],
         userInfo: this.$store.state.userInfo,
-        type: 'danger'
+        type: 'danger',
+        checkFlag: false
       }
     },
     methods: {
@@ -77,8 +78,12 @@
       getCheck(e){
         let date = new Date().toDateString()
         let flag = JSON.parse(localStorage.getItem('isLogin'))
-        if (flag.checkFlag && flag.date === date){
+        if (flag.date === date){
           this.checkFlag = true
+          this.$message({
+            message: '已打卡',
+            type: 'warning'
+          });
         }else{
           this.checkFlag = false
           this.axios.post('/api/getCheck',{token:this.$store.state.token})
@@ -88,15 +93,19 @@
                 flag.date = new Date().toDateString()
                 localStorage.setItem('isLogin',JSON.stringify(flag))
                 e.target.innerHTML = '已打卡'
+                this.$message({
+                  message: '打卡成功',
+                  type: 'success'
+                });
               }
             })
         }
       }
     },
     computed: {
-      checkFlag: function () {
-        return JSON.parse(localStorage.getItem('isLogin')).checkFlag
-      } 
+    },
+    mounted() {
+      this.getCheck()
     }
   }
 </script>
