@@ -3,6 +3,11 @@
     <el-input v-model="keywords">
       <template slot="prepend">搜索成员</template>
     </el-input>
+    <div class="radio-list">
+      <el-radio v-model="statusCode" label=1>正式成员</el-radio>
+      <el-radio v-model="statusCode" label=0>暂休成员</el-radio>
+      <el-radio v-model="statusCode" label=2>其他成员</el-radio>
+    </div>
     <div v-for="(t, i) in team" :key="i" class="team-container">
       <p v-html="'Team ' + t" :style="'color: #'+colorList[i].color" class="team-name"></p>
       <p v-if="!memberList[0]" class="alt_icon">
@@ -12,7 +17,7 @@
         <div class="member-item"
              :style="'border: 1px solid #'+colorList[i].color"
              v-for="item in newList" :key="item.member_id"
-             v-show="item.team - group === (i+1) && item.status===1"
+             v-show="item.team - group === (i+1) && item.status==statusCode"
              @click="getMemberDetail(item,t,colorList[i].color)"
         >
           <p class="avatar-container">
@@ -37,7 +42,9 @@
         group: this.$route.params.group,
         team: [],
         keywords: '',
-        colorList: []
+        colorList: [],
+        statusCode: 1,
+        statusVal: ['正式成员', '暂休成员','其他成员']
       }
     },
     methods: {
@@ -101,6 +108,9 @@
 <style lang="less" scoped>
 .member-container{
   margin: 7px;
+  .radio-list{
+    padding: 15px 10px 10px 10px;
+  }
   .team-container{
     .team-name{
       font-weight: bold;

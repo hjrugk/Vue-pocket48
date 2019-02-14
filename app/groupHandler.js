@@ -1,12 +1,42 @@
 module.exports = function (membersList) {
-  const snh = membersList.filter(item => (item.team<1010 && item.team>1000))
-  const bej = membersList.filter(item => (item.team<1110 && item.team>1100))
-  const gnz = membersList.filter(item => (item.team<1210 && item.team>1200))
-  const shy = membersList.filter(item => (item.team<1310 && item.team>1300))
-  const ckg = membersList.filter(item => (item.team<1410 && item.team>1400))
-  const idft = membersList.filter(item => (item.team<1510 && item.team>1500))
-  const oversea = membersList.filter(item => (item.team>1600))
-  const other = membersList.filter(item => (item.team===0))
-  const legend = membersList.filter(item => (item.team===999))
+  const snh = []
+  const bej = []
+  const gnz = []
+  const shy = []
+  const ckg = []
+  const idft = []
+  const oversea = []
+  const other = []
+  const legend = []
+  membersList.forEach(item => {
+    switch (parseInt(item.team/100)) {
+      case 10:
+        snh.push(item)
+        break
+      case 11:
+        bej.push(item)
+        break
+      case 12:
+        gnz.push(item)
+        break
+      case 13:
+        shy.push(item)
+        break
+      case 14:
+        ckg.push(item)
+        break
+      case 15:
+        idft.push(item)
+        break
+      case 16:
+        oversea.push(item)
+        break
+      case 0:
+        other.push(item)
+        break
+      default:
+        legend.push(item)
+    }
+  })
   return {'1000':snh,'1100':bej,'1200':gnz,'1300':shy,'1400':ckg,'1500':idft,'1600':oversea,'-1':other,'998':legend,'1':membersList}
 }
