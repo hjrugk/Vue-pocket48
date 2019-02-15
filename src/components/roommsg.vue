@@ -4,40 +4,44 @@
       <i class="el-icon-arrow-up"></i>
     </div>
     <div class="msg-list">
-      <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
-        <p class="msg-time" v-html="item.msgTimeStr"></p>
-        <p class="msg-sender">
-          <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
-          <span v-html="item.extInfo.senderName" class="sender-name"></span>
-        </p>
-        <p
-          v-show="item.extInfo.faipaiContent"
-          v-html="item.extInfo.faipaiContent"
-          class="fanpai"
-        ></p>
-        <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
-          <img :src="JSON.parse(item.bodys).url" alt="" class="msg-img">
-        </p>
-        <p class="msg-content"
-           v-else
-           v-html="item.extInfo.text || item.extInfo.referenceTitle
+      <transition-group>
+        <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
+          <p class="msg-time" v-html="item.msgTimeStr"></p>
+          <p class="msg-sender">
+            <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
+            <span v-html="item.extInfo.senderName" class="sender-name"></span>
+          </p>
+          <p
+            v-show="item.extInfo.faipaiContent"
+            v-html="item.extInfo.faipaiContent"
+            class="fanpai"
+          ></p>
+          <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
+            <img :src="JSON.parse(item.bodys).url" alt="" class="msg-img">
+          </p>
+          <p class="msg-content"
+             v-else
+             v-html="item.extInfo.text || item.extInfo.referenceTitle
          || item.extInfo.messageText || item.extInfo.idolFlipTitle
          || '其他类型留言，请打开口袋48查看'"
-        ></p>
-      </div>
+          ></p>
+        </div>
+      </transition-group>
       <div class="button-container" @click="getMore(1)">
         <i class="el-icon-arrow-down" v-show="msgList[0]"></i>
         <!--<el-button @click="getMore(1)" type="info" v-show="msgList[0]">加载更多</el-button>-->
       </div>
     </div>
     <div class="board-list" ref="board">
-      <div class="board-item" v-for="item in commentList" :key="item.msgidClient">
-        <div class="sender-info">
-          <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-img">
-          <p class="board-name" v-html="item.extInfo.senderName"></p>
+      <transition-group>
+        <div class="board-item" v-for="item in commentList" :key="item.msgidClient">
+          <div class="sender-info">
+            <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-img">
+            <p class="board-name" v-html="item.extInfo.senderName"></p>
+          </div>
+          <p class="board-content" v-html="item.extInfo.text"></p>
         </div>
-        <p class="board-content" v-html="item.extInfo.text"></p>
-      </div>
+      </transition-group>
       <div class="button-container" @click="getMore(0)">
         <i class="el-icon-arrow-down" v-show="commentList[0]"></i>
         <!--<el-button @click="getMore(0)" type="info" v-show="commentList[0]">加载更多</el-button>-->
@@ -124,6 +128,14 @@
 </script>
 
 <style lang="less" scoped>
+  .v-enter,
+  .v-leave-to{
+    opacity: 0;
+  }
+  .v-enter-active,
+  .v-leave-active{
+    transition: all 0.5s ease;
+  }
 .msg-container{
   padding: 10px 10px 10px 10px;
   margin-bottom: 10px;
@@ -175,7 +187,7 @@
       padding: 10px;
       margin-bottom: 5px;
       max-width: 400px;
-      width: 400px;
+      min-width: 320px;
       box-shadow: 0 0 1px #ccc;
       background-color: #fff;
       &:hover{
@@ -236,6 +248,7 @@
       background-color: #666;
       padding: 10px;
       max-width: 300px;
+      min-width: 250px;
       box-shadow: 0 0 1px #ccc;
       margin-bottom: 5px;
       &:hover{

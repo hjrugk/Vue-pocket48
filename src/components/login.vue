@@ -24,14 +24,14 @@
     <div v-else class="user-info">
       <img :src="userInfo.avatar | picPathFormat" alt="" width="80px">
       <div class="check">
-        <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag">打卡</el-button>
+        <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
       </div>
       <p v-html="userInfo.nickName"></p>
       <p v-html="userInfo.userId"></p>
-      <p v-html="userInfo.gender?'女':'男'"></p>
-      <p v-html="userInfo.birthday"></p>
-      <p v-html="'Level ' + userInfo.level"></p>
-      <p v-html="'经验值: ' + userInfo.experience"></p>
+      <!--<p v-html="userInfo.gender?'女':'男'"></p>-->
+      <!--<p v-html="userInfo.birthday"></p>-->
+      <!--<p v-html="'Level ' + userInfo.level"></p>-->
+      <!--<p v-html="'经验值: ' + userInfo.experience"></p>-->
     </div>
   </div>
 </template>
@@ -47,7 +47,8 @@
         friends: [],
         userInfo: this.$store.state.userInfo,
         type: 'danger',
-        checkFlag: false
+        checkFlag: false,
+        txt: '打卡'
       }
     },
     methods: {
@@ -80,10 +81,7 @@
         let flag = JSON.parse(localStorage.getItem('isLogin'))
         if (flag.date === date){
           this.checkFlag = true
-          this.$message({
-            message: '已打卡',
-            type: 'warning'
-          });
+          this.txt= '已打卡'
         }else{
           this.checkFlag = false
           this.axios.post('/api/getCheck',{token:this.$store.state.token})

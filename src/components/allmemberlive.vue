@@ -3,34 +3,38 @@
     <h2 class="title">直播</h2>
     <p v-if="!liveList[0]" class="instead-info">当前没有直播</p>
     <div class="live-list">
-      <a
-        :href="'https://h5.48.cn/2017appshare/memberLiveShare/index.html?id='+item.liveId"
-        v-for="item in liveList" :key="item.liveId"
-        class="live-item" target="_blank"
-      >
-        <div class="pic-container">
-          <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
-        </div>
-        <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
-        <p class="live-title" v-html="item.title"></p>
-        <p class="live-url" v-html="item.subTitle"></p>
-      </a>
+      <transition-group>
+        <a
+          :href="'https://h5.48.cn/2017appshare/memberLiveShare/index.html?id='+item.liveId"
+          v-for="item in liveList" :key="item.liveId"
+          class="live-item" target="_blank"
+        >
+          <div class="pic-container">
+            <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+          </div>
+          <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
+          <p class="live-title" v-html="item.title"></p>
+          <p class="live-url" v-html="item.subTitle"></p>
+        </a>
+      </transition-group>
     </div>
     <h2 class="title">录播</h2>
     <p v-if="!reviewList[0]" class="instead-info"><i class="el-icon-loading"></i></p>
     <div class="live-list">
-      <a
-        :href="'http://48live.jarvay.cn/#/flvjs/'+item.liveId"
-        v-for="item in reviewList" :key="item.liveId"
-        class="live-item" target="_blank"
-      >
-        <div class="pic-container">
-          <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
-        </div>
-        <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
-        <p class="live-title" v-html="item.title"></p>
-        <p v-html="item.subTitle" class="live-url"></p>
-      </a>
+      <transition-group>
+        <a
+          :href="'http://48live.jarvay.cn/#/flvjs/'+item.liveId"
+          v-for="item in reviewList" :key="item.liveId"
+          class="live-item" target="_blank"
+        >
+          <div class="pic-container">
+            <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+          </div>
+          <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
+          <p class="live-title" v-html="item.title"></p>
+          <p v-html="item.subTitle" class="live-url"></p>
+        </a>
+      </transition-group>
     </div>
     <div class="button-container" @click="getMoreLive">
       <i class="el-icon-arrow-down" v-if="$route.path !=='/home' && reviewList[0]"></i>
@@ -76,12 +80,20 @@
 </script>
 
 <style lang="less" scoped>
+  .v-enter,
+  .v-leave-to{
+    opacity: 0;
+  }
+  .v-enter-active,
+  .v-leave-active{
+    transition: all 0.5s ease;
+  }
 .live-container{
   margin: 10px;
   .title,.instead-info{
     margin-left: 5px;
   }
-  .live-list{
+  .live-list>span{
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -105,6 +117,7 @@
         display: flex;
         align-items: center;
         height: 160px;
+        overflow: hidden;
         .live-pic{
           width: 100%;
         }

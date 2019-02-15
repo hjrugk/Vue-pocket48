@@ -5,28 +5,32 @@
       <p v-if="!liveList[0]" class="alt_icon">
         <i class="el-icon-loading"></i>
       </p>
-      <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in liveList" :key="item.liveId">
-        <div class="pic-container">
-          <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
-        </div>
-        <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
-        <p class="live-title" v-html="item.title"></p>
-        <p v-html="item.subTitle" class="live-url"></p>
-      </a>
+      <transition-group>
+        <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in liveList" :key="item.liveId">
+          <div class="pic-container">
+            <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
+          </div>
+          <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
+          <p class="live-title" v-html="item.title"></p>
+          <p v-html="item.subTitle" class="live-url"></p>
+        </a>
+      </transition-group>
     </div>
     <h2>公演录播</h2>
     <div class="open-live-list">
       <p v-if="!reviewList[0]" class="alt_icon">
         <i class="el-icon-loading"></i>
       </p>
-      <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in reviewList" :key="item.liveId">
-        <div class="pic-container">
-          <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
-        </div>
-        <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
-        <p class="live-title" v-html="item.title"></p>
-        <p v-html="item.subTitle" class="live-url"></p>
-      </a>
+      <transition-group>
+        <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in reviewList" :key="item.liveId">
+          <div class="pic-container">
+            <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
+          </div>
+          <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
+          <p class="live-title" v-html="item.title"></p>
+          <p v-html="item.subTitle" class="live-url"></p>
+        </a>
+      </transition-group>
     </div>
     <div class="button-container" @click="getMoreLive">
       <i class="el-icon-arrow-down" v-if="reviewList[0]"></i>
@@ -77,9 +81,17 @@
 </script>
 
 <style lang="less" scoped>
+  .v-enter,
+  .v-leave-to{
+    opacity: 0;
+  }
+  .v-enter-active,
+  .v-leave-active{
+    transition: all 0.5s ease;
+  }
 .open-live-container{
   padding: 10px;
-  .open-live-list{
+  .open-live-list>span{
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;

@@ -14,19 +14,21 @@
         <i class="el-icon-loading"></i>
       </p>
       <div class="member-list">
-        <div class="member-item"
-             :style="'border: 1px solid #'+colorList[i].color"
-             v-for="item in newList" :key="item.member_id"
-             v-show="item.team - group === (i+1) && item.status==statusCode"
-             @click="getMemberDetail(item,t,colorList[i].color)"
-        >
-          <p class="avatar-container">
-            <img :src="item.avatar | picPathFormat" alt=""
-                 @error="altImg(item)" class="member-avatar"
-            >
-          </p>
-          <p class="member-name" v-html="item.real_name"></p>
-        </div>
+        <transition-group mode="out-in">
+          <div class="member-item"
+               :style="'border: 1px solid #'+colorList[i].color"
+               v-for="item in newList" :key="item.member_id"
+               v-show="item.team - group === (i+1) && item.status==statusCode"
+               @click="getMemberDetail(item,t,colorList[i].color)"
+          >
+            <p class="avatar-container">
+              <img :src="item.avatar | picPathFormat" alt=""
+                   @error="altImg(item)" class="member-avatar"
+              >
+            </p>
+            <p class="member-name" v-html="item.real_name"></p>
+          </div>
+        </transition-group>
       </div>
     </div>
   </div>
@@ -106,6 +108,14 @@
 </script>
 
 <style lang="less" scoped>
+  .v-enter,
+  .v-leave-to{
+    opacity: 0;
+  }
+  .v-enter-active,
+  .v-leave-active{
+    transition: all 0.5s ease;
+  }
 .member-container{
   margin: 7px;
   .radio-list{
@@ -119,7 +129,7 @@
     .alt_icon{
       padding-left: 2px;
     }
-    .member-list{
+    .member-list>span{
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
