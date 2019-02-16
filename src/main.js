@@ -6,6 +6,7 @@ import { Menu,MenuItem,Submenu,Form,FormItem,Input,Carousel,CarouselItem,Tag,Mes
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import axios from 'axios'
+import './assets/less/my-card.less'
 
 Vue.use(Menu)
 Vue.use(Tag)

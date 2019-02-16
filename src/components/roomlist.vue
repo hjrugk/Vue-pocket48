@@ -2,7 +2,7 @@
   <div>
     <div class="room">
       <div class="room-list">
-        <div class="room-item" v-for="item in member" :key="item.roomId" @click="getInfo(item.roomId,item.bgPath)">
+        <div class="room-item my-card flex-align-center" v-for="item in member" :key="item.roomId" @click="getInfo(item.roomId,item.bgPath)">
           <img class="room-avatar" :src="item.roomAvatar | picPathFormat" alt="">
           <div class="room-info">
             <p>
@@ -55,16 +55,10 @@
   flex-wrap: wrap;
   .room-item{
     padding: 5px;
-    border: 1px solid #efefef;
-    border-radius: 3px;
     margin: 5px;
     cursor: pointer;
-    display: flex;
     justify-content: flex-start;
     width: 400px;
-    align-items: center;
-    background-color: #fff;
-    box-shadow: 0 0 1px #ccc;
     &:hover{
       background-color: #efefef;
     }

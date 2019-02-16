@@ -25,9 +25,9 @@
         <a
           :href="'http://48live.jarvay.cn/#/flvjs/'+item.liveId"
           v-for="item in reviewList" :key="item.liveId"
-          class="live-item" target="_blank"
+          class="live-item my-card" target="_blank"
         >
-          <div class="pic-container">
+          <div class="pic-container flex-align-center">
             <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
           </div>
           <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
@@ -36,7 +36,7 @@
         </a>
       </transition-group>
     </div>
-    <div class="button-container" @click="getMoreLive">
+    <div class="button-container flex-all-center" @click="getMoreLive">
       <i class="el-icon-arrow-down" v-if="$route.path !=='/home' && reviewList[0]"></i>
       <!--<el-button type="primary" v-if="$route.path !=='/home' && reviewList[0]">加载更多</el-button>-->
     </div>
@@ -103,19 +103,13 @@
       width: 148px;
       margin: 0 5px 10px 5px;
       padding: 5px;
-      border: 1px solid #efefef;
-      border-radius: 3px;
       text-decoration: none;
       color: #000;
       cursor: pointer;
-      background-color: #fff;
-      box-shadow: 0 0 1px #ccc;
       &:hover{
         background-color: #efefef;
       }
       .pic-container{
-        display: flex;
-        align-items: center;
         height: 160px;
         overflow: hidden;
         .live-pic{
@@ -135,9 +129,6 @@
   }
   .button-container{
     margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 40px;
     .el-icon-arrow-down{
       font-size: 25px;

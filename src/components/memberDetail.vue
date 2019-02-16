@@ -53,9 +53,8 @@
     name: "memberDetail",
     data() {
       return {
-        detail: this.$route.params.item,
         fullPhoto: [],
-        team: this.$route.params.t,
+        team: this.$store.state.detail.t,
         period: []
       }
     },
@@ -82,8 +81,11 @@
     },
     computed: {
       color: function () {
-        return '#' + this.$route.params.color
-      } 
+        return '#' + this.$store.state.detail.color
+      },
+      detail: function () {
+        return this.$store.state.detail.item
+      }
     }
   }
 </script>

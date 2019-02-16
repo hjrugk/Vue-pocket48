@@ -6,8 +6,8 @@
         <i class="el-icon-loading"></i>
       </p>
       <transition-group>
-        <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in liveList" :key="item.liveId">
-          <div class="pic-container">
+        <a @click.prevent="getOneLive(item.liveId)" class="open-live-item my-card" v-for="item in liveList" :key="item.liveId">
+          <div class="pic-container flex-all-center">
             <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
           </div>
           <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
@@ -22,8 +22,8 @@
         <i class="el-icon-loading"></i>
       </p>
       <transition-group>
-        <a @click.prevent="getOneLive(item.liveId)" class="open-live-item" v-for="item in reviewList" :key="item.liveId">
-          <div class="pic-container">
+        <a @click.prevent="getOneLive(item.liveId)" class="open-live-item my-card" v-for="item in reviewList" :key="item.liveId">
+          <div class="pic-container flex-all-center">
             <img :src="item.picPath | picPathFormat" alt="" class="live-cover">
           </div>
           <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
@@ -32,7 +32,7 @@
         </a>
       </transition-group>
     </div>
-    <div class="button-container" @click="getMoreLive">
+    <div class="button-container flex-all-center" @click="getMoreLive">
       <i class="el-icon-arrow-down" v-if="reviewList[0]"></i>
       <!--<el-button type="primary" v-if="reviewList[0]">加载更多</el-button>-->
     </div>
@@ -99,20 +99,14 @@
       display: block;
       margin: 0 5px 10px 5px;
       padding: 7px;
-      border: 1px solid #efefef;
-      border-radius: 3px;
       text-decoration: none;
       color: #000;
       max-width: 400px;
       cursor: pointer;
-      background-color: #fff;
-      box-shadow: 0 0 1px #ccc;
       &:hover{
         background-color: #efefef;
       }
       .pic-container{
-        display: flex;
-        align-items: center;
         height: 230px;
         .live-cover{
           width: 100%;
@@ -132,9 +126,6 @@
   }
   .button-container{
     margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 40px;
     .el-icon-arrow-down{
       font-size: 25px;

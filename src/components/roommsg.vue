@@ -1,13 +1,13 @@
 <template>
   <div class="msg-container" ref="bgPic">
-    <div class="backToTop" @click="toTop" v-show="msgList.length>=20 || commentList.length>=20">
+    <div class="backToTop flex-all-center" @click="toTop" v-show="msgList.length>=20 || commentList.length>=20">
       <i class="el-icon-arrow-up"></i>
     </div>
     <div class="msg-list">
       <transition-group>
-        <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
+        <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
           <p class="msg-time" v-html="item.msgTimeStr"></p>
-          <p class="msg-sender">
+          <p class="msg-sender flex-align-center">
             <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-avatar">
             <span v-html="item.extInfo.senderName" class="sender-name"></span>
           </p>
@@ -27,22 +27,22 @@
           ></p>
         </div>
       </transition-group>
-      <div class="button-container" @click="getMore(1)">
+      <div class="button-container flex-all-center" @click="getMore(1)">
         <i class="el-icon-arrow-down" v-show="msgList[0]"></i>
         <!--<el-button @click="getMore(1)" type="info" v-show="msgList[0]">加载更多</el-button>-->
       </div>
     </div>
     <div class="board-list" ref="board">
       <transition-group>
-        <div class="board-item" v-for="item in commentList" :key="item.msgidClient">
-          <div class="sender-info">
+        <div class="board-item my-card" v-for="item in commentList" :key="item.msgidClient">
+          <div class="sender-info flex-align-center">
             <img :src="item.extInfo.senderAvatar | picPathFormat" alt="" class="sender-img">
             <p class="board-name" v-html="item.extInfo.senderName"></p>
           </div>
           <p class="board-content" v-html="item.extInfo.text"></p>
         </div>
       </transition-group>
-      <div class="button-container" @click="getMore(0)">
+      <div class="button-container flex-all-center" @click="getMore(0)">
         <i class="el-icon-arrow-down" v-show="commentList[0]"></i>
         <!--<el-button @click="getMore(0)" type="info" v-show="commentList[0]">加载更多</el-button>-->
       </div>
@@ -160,18 +160,12 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     z-index: 999;
   }
   .msg-list{
     .button-container{
       margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 40px;
       .el-icon-arrow-down{
         font-size: 25px;
@@ -182,14 +176,8 @@
       }
     }
     .msg-item{
-      border: 1px solid #efefef;
-      border-radius: 3px;
-      padding: 10px;
-      margin-bottom: 5px;
       max-width: 400px;
       min-width: 320px;
-      box-shadow: 0 0 1px #ccc;
-      background-color: #fff;
       &:hover{
         background-color: #efefef;
       }
@@ -204,8 +192,6 @@
       .msg-sender{
         border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
-        display: flex;
-        align-items: center;
         text-decoration: none;
         color: #000;
         line-height: 1.5;
@@ -228,9 +214,6 @@
   .board-list{
     .button-container{
       margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 40px;
       .el-icon-arrow-down{
         font-size: 25px;
@@ -244,20 +227,14 @@
       display: flex;
       flex-direction: column;
       border: 1px solid #777;
-      border-radius: 3px;
       background-color: #666;
-      padding: 10px;
       max-width: 300px;
       min-width: 250px;
-      box-shadow: 0 0 1px #ccc;
-      margin-bottom: 5px;
       &:hover{
       background-color: #555;
       }
       .sender-info{
-        display: flex;
         justify-content: flex-start;
-        align-items: center;
         border-bottom: 1px solid #ccc;
         .sender-img{
           width: 30px;

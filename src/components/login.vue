@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="logo" v-show="!$store.state.logFlag">
+    <div class="logo flex-all-center" v-show="!$store.state.logFlag">
       <img src="../assets/login_logo.jpg" alt="">
       <p class="brand">口袋48</p>
     </div>
-      <div class="login-container" v-if="!$store.state.logFlag">
+      <div class="login-container flex-justify-center" v-if="!$store.state.logFlag">
         <el-form status-icon ref="ruleForm2"
                  label-position="top"
                  label-width="100px" class="demo-ruleForm"
@@ -15,13 +15,13 @@
           <el-form-item label="密码">
             <el-input type="password" v-model="password"></el-input>
           </el-form-item>
-          <el-form-item class="last">
+          <el-form-item class="flex-justify-center">
             <el-button type="primary" @click.prevent="login">登录</el-button>
             <el-button>重置</el-button>
           </el-form-item>
         </el-form>
       </div>
-    <div v-else class="user-info">
+    <div v-else class="user-info my-card">
       <img :src="userInfo.avatar | picPathFormat" alt="" width="80px">
       <div class="check">
         <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
@@ -111,9 +111,6 @@
 <style lang="less" scoped>
   .logo{
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding-top: 10px;
     img{
       width: 50px;
@@ -127,8 +124,6 @@
   }
 .login-container{
   padding: 10px;
-  display: flex;
-  justify-content: center;
   .el-form{
     .el-form-item{
       width: 300px;
@@ -140,19 +135,12 @@
         }
       }
     }
-    .last{
-      display: flex;
-      justify-content: center;
-    }
   }
 }
 .user-info{
   text-align: center;
-  border: 1px solid #efefef;
-  background-color: #fff;
   padding: 5px;
   margin: 5px;
-  border-radius: 3px;
   .check{
     margin-top: 5px;
   }

@@ -15,7 +15,7 @@
       </p>
       <div class="member-list">
         <transition-group mode="out-in">
-          <div class="member-item"
+          <div class="member-item my-card flex-all-center"
                :style="'border: 1px solid #'+colorList[i].color"
                v-for="item in newList" :key="item.member_id"
                v-show="item.team - group === (i+1) && item.status==statusCode"
@@ -59,7 +59,8 @@
 
       },
       getMemberDetail(item,t,color){
-        this.$router.push({name: 'memberDetail',params: {id: item.member_id,item,t,color}})
+        this.$store.commit('saveTeam',{item,t,color})
+        this.$router.push({name: 'memberDetail',params: {id: item.member_id}})
       },
       altImg(item){
         item.avatar = './assets/alt_avatar.png'
@@ -137,19 +138,12 @@
         width: 95px;
         height: 200px;
         border: 1px solid #ddd;
-        border-radius: 3px;
         padding: 5px;
-        /*margin: 0 5px 10px 5px;*/
         margin-right: 8px;
         margin-bottom: 8px;
         text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         flex-wrap: wrap;
         cursor: pointer;
-        box-shadow: 0 0 1px #ccc;
-        background-color: #fff;
         &:hover{
           background-color: #efefef;
         }

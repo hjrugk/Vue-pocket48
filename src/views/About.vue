@@ -1,9 +1,19 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <div class="title">ABOUT</div>
   </div>
 </template>
 <script>
   export default {
 
   }
+</script>
+<style lang="less" scoped>
+.about{
+  padding-top: 10px;
+  .title{
+    font-size: 25px;
+    text-align: center;
+  }
+}
+</style>
