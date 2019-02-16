@@ -22,7 +22,7 @@
         </el-form>
       </div>
     <div v-else class="user-info my-card">
-      <img :src="userInfo.avatar | picPathFormat" alt="" width="80px">
+      <img :src="userInfo.avatar | picPathFormat" alt="">
       <div class="check">
         <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
       </div>
@@ -141,6 +141,12 @@
   text-align: center;
   padding: 5px;
   margin: 5px;
+  img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
   .check{
     margin-top: 5px;
   }

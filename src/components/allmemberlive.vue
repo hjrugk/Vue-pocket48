@@ -7,7 +7,7 @@
         <a
           :href="'https://h5.48.cn/2017appshare/memberLiveShare/index.html?id='+item.liveId"
           v-for="item in liveList" :key="item.liveId"
-          class="live-item" target="_blank"
+          class="live-item my-card" target="_blank"
         >
           <div class="pic-container">
             <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
@@ -80,14 +80,6 @@
 </script>
 
 <style lang="less" scoped>
-  .v-enter,
-  .v-leave-to{
-    opacity: 0;
-  }
-  .v-enter-active,
-  .v-leave-active{
-    transition: all 0.5s ease;
-  }
 .live-container{
   margin: 10px;
   .title,.instead-info{
