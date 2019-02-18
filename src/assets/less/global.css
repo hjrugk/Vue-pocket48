@@ -1,0 +1,124 @@
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+.flex-menu {
+  display: flex;
+}
+.flex-menu .el-menu-item,
+.flex-menu .el-submenu {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+.flex-all-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+.button-container {
+  margin-top: 10px;
+  height: 40px;
+}
+.button-container .el-icon-arrow-down {
+  font-size: 25px;
+}
+.button-container:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+.backToTop {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  z-index: 999;
+}
+.my-card {
+  border: 1px solid #efefef;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 5px;
+  box-shadow: 0 0 1px #ccc;
+  background-color: #fff;
+}
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+.flex-menu {
+  display: flex;
+}
+.flex-menu .el-menu-item,
+.flex-menu .el-submenu {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+.flex-all-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+.button-container {
+  margin-top: 10px;
+  height: 40px;
+}
+.button-container .el-icon-arrow-down {
+  font-size: 25px;
+}
+.button-container:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+.backToTop {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  z-index: 999;
+}

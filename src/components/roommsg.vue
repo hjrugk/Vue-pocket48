@@ -19,22 +19,21 @@
           <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
             <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
           </p>
-          <p class="msg-content" v-else-if="item.bodys.includes('amr')">
-            其他类型留言，请打开口袋48查看
-          </p>
+          <p class="msg-content" v-else-if="item.bodys.includes('amr')">其他类型留言，请打开口袋48查看</p>
           <p class="msg-content" v-else-if="item.bodys.includes('mp4')">
             <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
           </p>
           <div class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
-            <p v-html="item.extInfo.idolFlipTitle" class="msg-flip"
-               @click="getAnswer(item.extInfo.idolFlipQuestionId,item.extInfo.idolFlipAnswerId,item.extInfo.idolFlipTitle)"
+            <p
+              v-html="item.extInfo.idolFlipTitle"
+              class="msg-flip"
+              @click="getAnswer(item.extInfo.idolFlipQuestionId,item.extInfo.idolFlipAnswerId,item.extInfo.idolFlipTitle)"
             ></p>
           </div>
           <p
             class="msg-content"
             v-else
-            v-html="item.extInfo.text || item.extInfo.referenceTitle
-         || item.extInfo.messageText"
+            v-html="item.extInfo.text || item.extInfo.referenceTitle || item.extInfo.messageText"
           ></p>
         </div>
       </transition-group>
@@ -126,20 +125,25 @@ export default {
           this.commentList = res.data.content.data;
         });
     },
-    getAnswer(questionId,answerId,title){
+    getAnswer(questionId, answerId, title) {
       const h = this.$createElement;
-      this.axios.post('/api/getAnswer',{questionId,answerId,token:this.$store.state.token})
+      this.axios
+        .post("/api/getAnswer", {
+          questionId,
+          answerId,
+          token: this.$store.state.token
+        })
         .then(res => {
-          this.answerContent = res.data.content
+          this.answerContent = res.data.content;
           this.$msgbox({
             title,
-            message: h('div', null, [
-              h('p', null, this.answerContent.answer),
-              h('p', {style: 'color: #ccc'}, this.answerContent.question)
+            message: h("div", null, [
+              h("p", null, this.answerContent.answer),
+              h("p", { style: "color: #ccc" }, this.answerContent.question)
             ]),
-            confirmButtonText: '确定'
-          })
-        })
+            confirmButtonText: "确定"
+          });
+        });
     }
   },
   mounted() {
@@ -158,8 +162,8 @@ export default {
     msgList: function() {
       this.msgList.forEach(item => {
         item.extInfo = JSON.parse(item.extInfo);
-        if(item.bodys.includes('amr')){
-          this.amr = JSON.parse(item.bodys)
+        if (item.bodys.includes("amr")) {
+          this.amr = JSON.parse(item.bodys);
         }
       });
     },
@@ -191,30 +195,7 @@ export default {
     align-items: center;
     display: none;
   }
-  .backToTop {
-    width: 30px;
-    height: 30px;
-    position: fixed;
-    bottom: 30px;
-    right: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-    cursor: pointer;
-    z-index: 999;
-  }
   .msg-list {
-    .button-container {
-      margin-top: 10px;
-      height: 40px;
-      .el-icon-arrow-down {
-        font-size: 25px;
-      }
-      &:hover {
-        cursor: pointer;
-        background-color: #eee;
-      }
-    }
     .msg-item {
       max-width: 400px;
       min-width: 320px;
@@ -225,7 +206,7 @@ export default {
         font-size: 12px;
       }
       .msg-content {
-        .msg-flip{
+        .msg-flip {
           cursor: pointer;
         }
         .msg-img {
@@ -255,17 +236,6 @@ export default {
     }
   }
   .board-list {
-    .button-container {
-      margin-top: 10px;
-      height: 40px;
-      .el-icon-arrow-down {
-        font-size: 25px;
-      }
-      &:hover {
-        cursor: pointer;
-        background-color: #ccc;
-      }
-    }
     .board-item {
       display: flex;
       flex-direction: column;

@@ -115,26 +115,9 @@ export default {
           width: 100%;
         }
       }
-      .live-time {
+      .live-time,.live-title,.live-url {
         font-size: 14px;
       }
-      .live-title {
-        font-size: 14px;
-      }
-      .live-url {
-        font-size: 14px;
-      }
-    }
-  }
-  .button-container {
-    margin-top: 10px;
-    height: 40px;
-    .el-icon-arrow-down {
-      font-size: 25px;
-    }
-    &:hover {
-      cursor: pointer;
-      background-color: #ccc;
     }
   }
 }

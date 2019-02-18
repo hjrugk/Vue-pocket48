@@ -78,15 +78,8 @@ export default {
     }
   }
   .comment-info {
-    .praise-count {
+    .praise-count,.comment-count,.share-count {
       margin-right: 10px;
-      margin-left: 2px;
-    }
-    .comment-count {
-      margin-left: 2px;
-      margin-right: 10px;
-    }
-    .share-count {
       margin-left: 2px;
     }
   }

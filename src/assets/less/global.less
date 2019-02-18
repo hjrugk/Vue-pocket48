@@ -33,3 +33,26 @@ body {
 .v-leave-active{
   transition: all 0.5s ease;
 }
+.button-container {
+  margin-top: 10px;
+  height: 40px;
+  .el-icon-arrow-down {
+    font-size: 25px;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #ccc;
+  }
+}
+.backToTop {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  z-index: 999;
+}
