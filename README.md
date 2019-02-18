@@ -4,18 +4,21 @@
 
 ## 如何使用？
 
-1.安装依赖
-```shell
-npm install
-```
-2.启动服务端
-```shell
-node app.js
-```
-3.编译运行
-```shell
-npm run serve
-```
+1. 安装依赖
+
+    ```shell
+    npm install
+    ```
+2. 启动服务端
+
+    ```shell
+    node app.js
+    ```
+3. 编译运行
+
+    ```shell
+    npm run serve
+    ```
 
 ## 主要功能
 
