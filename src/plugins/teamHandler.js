@@ -2,19 +2,19 @@ export function splitTeam(team) {
   let subTeam = []
   switch (team) {
     case '1000':
-      subTeam = ['SII','NII','HII','X','XII','FT','预备生']
+      subTeam = ['SII', 'NII', 'HII', 'X', 'XII', 'FT', '预备生']
       break
     case '1100':
-      subTeam = ['B','E','J','预备生']
+      subTeam = ['B', 'E', 'J', '预备生']
       break
     case '1200':
-      subTeam = ['G','NIII','Z','预备生']
+      subTeam = ['G', 'NIII', 'Z', '预备生']
       break
     case '1300':
-      subTeam = ['S','H','预备生']
+      subTeam = ['S', 'H', '预备生']
       break
     case '1400':
-      subTeam = ['C','K','预备生']
+      subTeam = ['C', 'K', '预备生']
       break
     case '1500':
       subTeam = ['IDFT']

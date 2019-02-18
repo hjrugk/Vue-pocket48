@@ -1,7 +1,7 @@
 export function periodHandler(period) {
   let backup = period.toString()
   let length = backup.split('').length
-  if(length === 4){
+  if (length === 4) {
     let team = ''
     switch (backup[1]) {
       case '0':
@@ -20,10 +20,10 @@ export function periodHandler(period) {
         team = 'CKG'
         break
     }
-    let number = backup[2]+ backup[3]
-    number = number.replace('0','')
-    return [team,number]
-  }else{
-    return ['staff','官方']
+    let number = backup[2] + backup[3]
+    number = number.replace('0', '')
+    return [team, number]
+  } else {
+    return ['staff', '官方']
   }
 }

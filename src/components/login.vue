@@ -5,10 +5,11 @@
       <p class="brand">口袋48</p>
     </div>
       <div class="login-container flex-justify-center" v-if="!$store.state.logFlag">
-        <el-form status-icon ref="ruleForm2"
-                 label-position="top"
-                 label-width="100px" class="demo-ruleForm"
-                 >
+        <el-form 
+          status-icon ref="ruleForm2"
+          label-position="top"
+          label-width="100px" class="demo-ruleForm"
+        >
           <el-form-item label="手机：">
             <el-input autocomplete="off" v-model="account"></el-input>
           </el-form-item>

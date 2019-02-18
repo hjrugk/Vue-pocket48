@@ -1,10 +1,10 @@
 <template>
   <div class="live-page-container">
     <a class="pic-container" :href="id | liveUrlFormat" target="_blank" v-if="type===1">
-      <img :src="picPath | picPathFormat" @error="altImg" alt="" class="live-cover" v-show="picPath">
+      <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
     </a>
     <a class="pic-container" href="javascript:;" target="_blank" v-if="type===0">
-      <img :src="picPath | picPathFormat" alt="" class="live-cover">
+      <img :src="picPath | picPathFormat" alt class="live-cover">
     </a>
     <div class="live-info">
       <p v-html="liveInfo.title" class="main-title"></p>
@@ -23,69 +23,70 @@
 </template>
 
 <script>
-  export default {
-    name: "livepage",
-    data() {
-      return {
-        id: this.$route.params.id,
-        type: this.$route.params.type,
-        liveInfo: {},
-        picPath: ''
-      }
+export default {
+  name: "livepage",
+  data() {
+    return {
+      id: this.$route.params.id,
+      type: this.$route.params.type,
+      liveInfo: {},
+      picPath: ""
+    };
+  },
+  methods: {
+    getLive() {
+      this.axios
+        .get("/api/getLivePage?type=" + this.type + "&id=" + this.id)
+        .then(res => {
+          this.liveInfo = res.data.content;
+          this.picPath = res.data.content.picPath;
+        });
     },
-    methods: {
-      getLive(){
-        this.axios.get('/api/getLivePage?type=' + this.type + '&id=' + this.id)
-          .then(res => {
-            this.liveInfo = res.data.content
-            this.picPath = res.data.content.picPath
-          })
-      },
-      altImg(){
-        this.liveInfo.picPath = ''
-      }
-    },
-    created() {
-      this.getLive()
+    altImg() {
+      this.liveInfo.picPath = "";
     }
+  },
+  created() {
+    this.getLive();
   }
+};
 </script>
 
 <style lang="less" scoped>
-.live-page-container{
+.live-page-container {
   padding: 10px;
   border: 1px solid #efefef;
   margin: 5px;
   border-radius: 3px;
-  .pic-container{
+  .pic-container {
     text-align: center;
     display: block;
-    .live-cover{
+    .live-cover {
       max-width: 800px;
       width: 100%;
     }
   }
-  .live-info{
+  .live-info {
     border-top: 1px solid #ccc;
     margin-top: 5px;
-    .main-title{
+    .main-title {
       font-size: 18px;
       margin-right: 10px;
     }
-    .sub-title{
+    .sub-title {
       font-size: 15px;
     }
   }
-  .comment-info{
-    .praise-count{
+  .comment-info {
+    .praise-count {
       margin-right: 10px;
       margin-left: 2px;
     }
-    .comment-count{
+    .comment-count {
       margin-left: 2px;
       margin-right: 10px;
     }
-    .share-count{
+    .share-count {
       margin-left: 2px;
     }
   }

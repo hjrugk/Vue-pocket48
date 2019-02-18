@@ -9,7 +9,7 @@ module.exports = function (membersList) {
   const other = []
   const legend = []
   membersList.forEach(item => {
-    switch (parseInt(item.team/100)) {
+    switch (parseInt(item.team / 100)) {
       case 10:
         snh.push(item)
         break
@@ -38,5 +38,16 @@ module.exports = function (membersList) {
         legend.push(item)
     }
   })
-  return {'1000':snh,'1100':bej,'1200':gnz,'1300':shy,'1400':ckg,'1500':idft,'1600':oversea,'-1':other,'998':legend,'1':membersList}
+  return {
+    '1000': snh,
+    '1100': bej,
+    '1200': gnz,
+    '1300': shy,
+    '1400': ckg,
+    '1500': idft,
+    '1600': oversea,
+    '-1': other,
+    '998': legend,
+    '1': membersList
+  }
 }

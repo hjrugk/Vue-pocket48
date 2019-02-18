@@ -1,7 +1,12 @@
 <template>
   <div class="detail-container">
     <div class="base-info">
-      <img :src="detail.avatar | picPathFormat" alt="" class="base-avatar" :style="'border: 1px solid '+color">
+      <img
+        :src="detail.avatar | picPathFormat"
+        alt
+        class="base-avatar"
+        :style="'border: 1px solid '+color"
+      >
       <div class="base-name">
         <div class="real-name">
           <span v-html="detail.real_name" class="real"></span>
@@ -13,9 +18,11 @@
         </div>
       </div>
       <div class="room-entry">
-        <el-button type="primary"
-                   @click="goToMemberRoom(detail.member_id)" size="mini"
-                   v-if="$store.state.logFlag"
+        <el-button
+          type="primary"
+          @click="goToMemberRoom(detail.member_id)"
+          size="mini"
+          v-if="$store.state.logFlag"
         >房间</el-button>
         <p class="gap"></p>
         <el-button type="success" @click="goToMemberLive(detail.member_id)" size="mini">直播</el-button>
@@ -25,11 +32,13 @@
         </a>
       </div>
     </div>
-    <div class="carousel-container"
-    :style="'border-bottom: 1px solid '+color+';border-top: 1px solid '+color">
+    <div
+      class="carousel-container"
+      :style="'border-bottom: 1px solid '+color+';border-top: 1px solid '+color"
+    >
       <el-carousel trigger="click" height="500px">
         <el-carousel-item v-for="item in fullPhoto" :key="item">
-          <img :src="item | picPathFormat" alt="" @error="altImg(item)">
+          <img :src="item | picPathFormat" alt @error="altImg(item)">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -48,89 +57,93 @@
 </template>
 
 <script>
-  import {periodHandler} from '../plugins/periodHandler'
-  export default {
-    name: "memberDetail",
-    data() {
-      return {
-        fullPhoto: [],
-        team: this.$store.state.detail.t,
-        period: []
-      }
+import { periodHandler } from "../plugins/periodHandler";
+export default {
+  name: "memberDetail",
+  data() {
+    return {
+      fullPhoto: [],
+      team: this.$store.state.detail.t,
+      period: []
+    };
+  },
+  methods: {
+    goToMemberRoom(id) {
+      this.axios
+        .post("/api/getRoomList", {
+          token: this.$store.state.token,
+          friends: [id]
+        })
+        .then(res => {
+          this.$router.push("/roommsg/" + res.data.content[0].roomId);
+        });
     },
-    methods: {
-      goToMemberRoom(id){
-        this.axios.post('/api/getRoomList',{token: this.$store.state.token,friends: [id]})
-          .then(res => {
-            this.$router.push("/roommsg/" + res.data.content[0].roomId)
-          })
-      },
-      goToMemberLive(id){
-        this.$router.push('/home/allmemberlive/' + id)
-      },
-      altImg(item){
-        item = '../assets/alt_fullphoto.png'
-        return item
-      }
+    goToMemberLive(id) {
+      this.$router.push("/home/allmemberlive/" + id);
     },
-    created(){
-      for (let i = 1;i<5;i++){
-        this.fullPhoto.push(this.detail['full_photo_'+i])
-      }
-      this.period = periodHandler(this.detail.period)
+    altImg(item) {
+      item = "../assets/alt_fullphoto.png";
+      return item;
+    }
+  },
+  created() {
+    for (let i = 1; i < 5; i++) {
+      this.fullPhoto.push(this.detail["full_photo_" + i]);
+    }
+    this.period = periodHandler(this.detail.period);
+  },
+  computed: {
+    color: function() {
+      return "#" + this.$store.state.detail.color;
     },
-    computed: {
-      color: function () {
-        return '#' + this.$store.state.detail.color
-      },
-      detail: function () {
-        return this.$store.state.detail.item
-      }
+    detail: function() {
+      return this.$store.state.detail.item;
     }
   }
+};
 </script>
 
 <style lang="less" scoped>
-.detail-container{
+.detail-container {
   padding: 10px;
-  .base-info{
+  .base-info {
     height: 100px;
     padding-bottom: 20px;
     display: flex;
     justify-content: flex-start;
-    .base-avatar{
+    .base-avatar {
       height: 100%;
     }
-    .room-entry{
+    .room-entry {
       position: absolute;
       right: 15px;
-      .gap{
+      .gap {
         height: 10px;
         margin: 0;
         padding: 0;
       }
     }
-    .base-name{
+    .base-name {
       margin-left: 20px;
-      .team-name{
+      .team-name {
         font-size: 15px;
-        .team{
+        .team {
           color: #fff;
           border: 0px;
         }
-        .period{
+        .period {
           margin-left: 5px;
         }
       }
-      .real-name{
+      .real-name {
         font-size: 18px;
-        .nick{
+        .nick {
           font-size: 15px;
         }
       }
     }
   }
-  .carousel-container{
+  .carousel-container {
     margin-top: 10px;
     text-align: center;
   }

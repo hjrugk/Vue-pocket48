@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <el-menu
-            :default-active="activeIndex"
-            class="el-menu-demo flex-menu"
-            mode="horizontal"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            router>
+      :default-active="activeIndex"
+      class="el-menu-demo flex-menu"
+      mode="horizontal"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      router
+    >
       <el-menu-item index="/">首页</el-menu-item>
       <el-submenu index="/music">
         <template slot="title">娱乐</template>
@@ -26,21 +27,16 @@
 </template>
 
 <script>
-
-
 export default {
-  name: 'app',
+  name: "app",
   data() {
     return {
-      activeIndex: '/'
+      activeIndex: "/"
     };
   },
-  methods: {
-
-  }
-}
+  methods: {}
+};
 </script>
 
 <style>
-
 </style>

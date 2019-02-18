@@ -6,11 +6,13 @@
       <transition-group>
         <a
           :href="'https://h5.48.cn/2017appshare/memberLiveShare/index.html?id='+item.liveId"
-          v-for="item in liveList" :key="item.liveId"
-          class="live-item my-card" target="_blank"
+          v-for="item in liveList"
+          :key="item.liveId"
+          class="live-item my-card"
+          target="_blank"
         >
           <div class="pic-container">
-            <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+            <img :src="item.picPath | picPathFormat" alt class="live-pic">
           </div>
           <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
           <p class="live-title" v-html="item.title"></p>
@@ -19,16 +21,20 @@
       </transition-group>
     </div>
     <h2 class="title">录播</h2>
-    <p v-if="!reviewList[0]" class="instead-info"><i class="el-icon-loading"></i></p>
+    <p v-if="!reviewList[0]" class="instead-info">
+      <i class="el-icon-loading"></i>
+    </p>
     <div class="live-list">
       <transition-group>
         <a
           :href="'http://48live.jarvay.cn/#/flvjs/'+item.liveId"
-          v-for="item in reviewList" :key="item.liveId"
-          class="live-item my-card" target="_blank"
+          v-for="item in reviewList"
+          :key="item.liveId"
+          class="live-item my-card"
+          target="_blank"
         >
           <div class="pic-container flex-align-center">
-            <img :src="item.picPath | picPathFormat" alt="" class="live-pic">
+            <img :src="item.picPath | picPathFormat" alt class="live-pic">
           </div>
           <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
           <p class="live-title" v-html="item.title"></p>
@@ -44,53 +50,54 @@
 </template>
 
 <script>
-  export default {
-    name: "allmemberlive",
-    data() {
-      return {
-        liveList: [],
-        reviewList: [],
-        limit: 8,
-        id: this.$route.params.id || 0
-      }
+export default {
+  name: "allmemberlive",
+  data() {
+    return {
+      liveList: [],
+      reviewList: [],
+      limit: 8,
+      id: this.$route.params.id || 0
+    };
+  },
+  methods: {
+    getAllLive() {
+      this.axios.get("/api/getAllLive?limit=8&id=" + this.id).then(res => {
+        this.liveList = res.data.content.liveList;
+        this.reviewList = res.data.content.reviewList;
+      });
     },
-    methods: {
-      getAllLive(){
-        this.axios.get('/api/getAllLive?limit=8&id=' + this.id)
-          .then(res => {
-            this.liveList = res.data.content.liveList
-            this.reviewList = res.data.content.reviewList
-          })
-      },
-      getMoreLive(){
-        this.limit += 8
-        this.axios.get('/api/getAllLive?limit=' + this.limit + '&id=' + this.id)
-          .then(res => {
-            this.reviewList = res.data.content.reviewList
-          })
-      }
-      // getOneLive(id){
-        // this.$router.push({name: 'livepage',params: {id,type:1}})
-      // }
-    },
-    mounted() {
-      this.getAllLive()
+    getMoreLive() {
+      this.limit += 8;
+      this.axios
+        .get("/api/getAllLive?limit=" + this.limit + "&id=" + this.id)
+        .then(res => {
+          this.reviewList = res.data.content.reviewList;
+        });
     }
+    // getOneLive(id){
+    // this.$router.push({name: 'livepage',params: {id,type:1}})
+    // }
+  },
+  mounted() {
+    this.getAllLive();
   }
+};
 </script>
 
 <style lang="less" scoped>
-.live-container{
+.live-container {
   margin: 10px;
-  .title,.instead-info{
+  .title,
+  .instead-info {
     margin-left: 5px;
   }
-  .live-list>span{
+  .live-list > span {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: 10px;
-    .live-item{
+    .live-item {
       display: block;
       width: 148px;
       margin: 0 5px 10px 5px;
@@ -98,34 +105,34 @@
       text-decoration: none;
       color: #000;
       cursor: pointer;
-      &:hover{
+      &:hover {
         background-color: #efefef;
       }
-      .pic-container{
+      .pic-container {
         height: 160px;
         overflow: hidden;
-        .live-pic{
+        .live-pic {
           width: 100%;
         }
       }
-      .live-time{
+      .live-time {
         font-size: 14px;
       }
-      .live-title{
+      .live-title {
         font-size: 14px;
       }
-      .live-url{
+      .live-url {
         font-size: 14px;
       }
     }
   }
-  .button-container{
+  .button-container {
     margin-top: 10px;
     height: 40px;
-    .el-icon-arrow-down{
+    .el-icon-arrow-down {
       font-size: 25px;
     }
-    &:hover{
+    &:hover {
       cursor: pointer;
       background-color: #ccc;
     }

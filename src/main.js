@@ -2,7 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Menu,MenuItem,Submenu,Form,FormItem,Input,Carousel,CarouselItem,Tag,Message,Radio } from 'element-ui'
+import {
+  Menu,
+  MenuItem,
+  Submenu,
+  Form,
+  FormItem,
+  Input,
+  Carousel,
+  CarouselItem,
+  Tag,
+  Message,
+  Radio
+} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import axios from 'axios'
@@ -20,9 +32,9 @@ Vue.use(CarouselItem)
 Vue.use(Radio)
 Vue.prototype.$message = Message;
 
-Vue.filter('picPathFormat',function (item) {
-  if (item.lastIndexOf('http') === -1){
-    return ((item.lastIndexOf(',')===-1)?("https://source.48.cn" + item):("https://source.48.cn" + item.split(',')[0]))
+Vue.filter('picPathFormat', function (item) {
+  if (item.lastIndexOf('http') === -1) {
+    return ((item.lastIndexOf(',') === -1) ? ("https://source.48.cn" + item) : ("https://source.48.cn" + item.split(',')[0]))
   } else {
     return item
   }

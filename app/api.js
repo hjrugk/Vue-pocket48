@@ -199,7 +199,7 @@ const api = {
   check_postData: () => {
     return JSON.stringify({})
   },
-  check_options: (req,postData) => {
+  check_options: (req, postData) => {
     return {
       host: 'puser.48.cn',
       port: '',

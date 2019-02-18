@@ -4,14 +4,12 @@
   </div>
 </template>
 <script>
-  export default {
-
-  }
+export default {};
 </script>
 <style lang="less" scoped>
-.about{
+.about {
   padding-top: 10px;
-  .title{
+  .title {
     font-size: 25px;
     text-align: center;
   }

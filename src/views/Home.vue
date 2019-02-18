@@ -1,9 +1,6 @@
 <template>
   <div class="home">
-    <el-menu
-      class="el-menu-demo"
-      mode="horizontal"
-      router>
+    <el-menu class="el-menu-demo" mode="horizontal" router>
       <el-menu-item index="/home/allgroupinfo">所有成员</el-menu-item>
       <el-menu-item index="/home/allmemberlive/0">成员直播</el-menu-item>
       <el-menu-item index="/home/openlive/0">公演直播</el-menu-item>
@@ -13,18 +10,14 @@
 </template>
 
 <script>
-  import allmemberlive from "../components/allmemberlive";
-  export default {
+import allmemberlive from "../components/allmemberlive";
+export default {
   data() {
-    return {
-
-    };
+    return {};
   },
-  methods: {
-
-  },
-    components: {
-    'allmemberlive': allmemberlive
-    }
-}
+  methods: {},
+  components: {
+    allmemberlive: allmemberlive
+  }
+};
 </script>

@@ -1,7 +1,7 @@
 const https = require('https')
 
-module.exports = function (postData,options,callback) {
-  if(postData){
+module.exports = function (postData, options, callback) {
+  if (postData) {
     const req = https.request(options, response => {
       response.setEncoding('utf8');
       let html = ''
@@ -19,13 +19,13 @@ module.exports = function (postData,options,callback) {
 
     req.write(postData);
     req.end();
-  }else{
+  } else {
     https.get(options, response => {
       let html = ''
-      response.on('data',chunk=>{
+      response.on('data', chunk => {
         html += chunk
       })
-      response.on('end',()=>{
+      response.on('end', () => {
         callback(html)
       })
     });

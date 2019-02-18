@@ -10,17 +10,13 @@
             item.data.albumid +
             '_0.jpg'
         "
-        alt=""
-      />
+        alt
+      >
       <div class="songinfo">
         <p class="songname" v-html="item.data.songname"></p>
         <p class="singername" v-html="item.data.singer[0].name"></p>
       </div>
-      <el-button
-        type="text"
-        @click="getPlayUrl(item.data.songmid)"
-        >播放</el-button
-      >
+      <el-button type="text" @click="getPlayUrl(item.data.songmid)">播放</el-button>
     </div>
     <audio src ref="audio"></audio>
   </div>
@@ -39,10 +35,10 @@ export default {
       // if (localStorage.getItem("musicList")) {
       //   this.list = JSON.parse(localStorage.getItem("musicList"));
       // } else {
-        this.axios.get("/api/getMusicList").then(res => {
-          this.list = res.data.songlist;
-          // localStorage.setItem("musicList", JSON.stringify(res.data.songlist));
-        });
+      this.axios.get("/api/getMusicList").then(res => {
+        this.list = res.data.songlist;
+        // localStorage.setItem("musicList", JSON.stringify(res.data.songlist));
+      });
       // }
     },
     getPlayUrl(songmid) {
@@ -71,9 +67,9 @@ export default {
     width: 80px;
     height: 80px;
   }
-  .songinfo{
+  .songinfo {
     text-align: center;
-    .singername{
+    .singername {
       font-size: 14px;
       color: #999;
     }
