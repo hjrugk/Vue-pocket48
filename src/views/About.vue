@@ -1,6 +1,8 @@
 <template>
   <div class="about">
-    <div class="title">ABOUT</div>
+    <div class="title">
+      ABOUT
+    </div>
   </div>
 </template>
 <script>

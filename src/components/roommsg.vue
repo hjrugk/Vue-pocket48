@@ -19,12 +19,20 @@
           <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
             <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
           </p>
+          <p class="msg-content" v-else-if="item.bodys.includes('amr')">
+            其他类型留言，请打开口袋48查看
+          </p>
+          <p class="msg-content" v-else-if="item.bodys.includes('mp4')">
+            <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
+          </p>
+          <div class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
+            <p v-html="item.extInfo.idolFlipTitle"></p>
+          </div>
           <p
             class="msg-content"
             v-else
             v-html="item.extInfo.text || item.extInfo.referenceTitle
-         || item.extInfo.messageText || item.extInfo.idolFlipTitle
-         || '其他类型留言，请打开口袋48查看'"
+         || item.extInfo.messageText"
           ></p>
         </div>
       </transition-group>
