@@ -13,7 +13,8 @@ import {
   CarouselItem,
   Tag,
   Message,
-  Radio
+  Radio,
+  MessageBox
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
@@ -31,6 +32,7 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Radio)
 Vue.prototype.$message = Message;
+Vue.prototype.$msgbox = MessageBox;
 
 Vue.filter('picPathFormat', function (item) {
   if (item.lastIndexOf('http') === -1) {

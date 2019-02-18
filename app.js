@@ -138,6 +138,17 @@ app.post('/api/getCheck', (req, res) => {
   })
 })
 
+// 翻牌内容
+app.post('/api/getAnswer',(req,res) => {
+  const flip_postData = api.flip_postData(req)
+
+  const flip_options = api.flip_options(req, flip_postData)
+
+  getData(flip_postData, flip_options, html => {
+    res.send(html)
+  })
+})
+
 app.listen(3000, () => {
   console.log('Server is running')
 })

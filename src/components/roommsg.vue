@@ -26,7 +26,9 @@
             <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
           </p>
           <div class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
-            <p v-html="item.extInfo.idolFlipTitle"></p>
+            <p v-html="item.extInfo.idolFlipTitle" class="msg-flip"
+               @click="getAnswer(item.extInfo.idolFlipQuestionId,item.extInfo.idolFlipAnswerId,item.extInfo.idolFlipTitle)"
+            ></p>
           </div>
           <p
             class="msg-content"
@@ -70,7 +72,9 @@ export default {
       bodys: {},
       bgPath: this.$route.params.bgPath,
       top: document.body.scrollTop,
-      commentList: []
+      commentList: [],
+      amr: {},
+      answerContent: {}
     };
   },
   methods: {
@@ -121,6 +125,21 @@ export default {
         .then(res => {
           this.commentList = res.data.content.data;
         });
+    },
+    getAnswer(questionId,answerId,title){
+      const h = this.$createElement;
+      this.axios.post('/api/getAnswer',{questionId,answerId,token:this.$store.state.token})
+        .then(res => {
+          this.answerContent = res.data.content
+          this.$msgbox({
+            title,
+            message: h('div', null, [
+              h('p', null, this.answerContent.answer),
+              h('p', {style: 'color: #ccc'}, this.answerContent.question)
+            ]),
+            confirmButtonText: '确定'
+          })
+        })
     }
   },
   mounted() {
@@ -139,6 +158,9 @@ export default {
     msgList: function() {
       this.msgList.forEach(item => {
         item.extInfo = JSON.parse(item.extInfo);
+        if(item.bodys.includes('amr')){
+          this.amr = JSON.parse(item.bodys)
+        }
       });
     },
     top: function() {
@@ -203,6 +225,9 @@ export default {
         font-size: 12px;
       }
       .msg-content {
+        .msg-flip{
+          cursor: pointer;
+        }
         .msg-img {
           width: 100%;
         }

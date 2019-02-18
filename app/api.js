@@ -220,6 +220,31 @@ const api = {
         'Content-Length': Buffer.byteLength(postData)
       }
     }
+  },
+  flip_postData: (req) => {
+    return JSON.stringify({
+      "idolFlipSource": 2,
+      "questionId": req.body.questionId,
+      "answerId": req.body.answerId
+    })
+  },
+  flip_options: (req,postData) => {
+    return {
+      host: 'ppayqa.48.cn',
+      port: '',
+      path: '/idolanswersystem/api/idolanswer/v1/question_answer/detail',
+      method: 'POST',
+      headers: {
+        os: "android",
+        version: "5.3.1",
+        token: req.body.token,
+        'IMEI': '355757010989529',
+        build: 0,
+        Connection: 'Keep-Alive',
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }
   }
 }
 
