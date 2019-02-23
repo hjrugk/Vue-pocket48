@@ -14,7 +14,9 @@ import {
   Tag,
   Message,
   Radio,
-  MessageBox
+  MessageBox,
+  Select,
+  Option
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
@@ -31,6 +33,8 @@ Vue.use(FormItem)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Radio)
+Vue.use(Select)
+Vue.use(Option)
 Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
 

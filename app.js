@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 
 // 获取qq音乐top100
 app.get('/api/getMusicList', (req, res) => {
-  getData(null, api.top, (html) => {
+  getData(null, api.keySearch(req), (html) => {
     res.send(html)
   })
 })

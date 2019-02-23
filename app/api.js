@@ -4,6 +4,15 @@ const api = {
   vkey: (req) => {
     return "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?format=json205361747&platform=yqq&cid=205361747&songmid=" + req.query.songmid + '&filename=C400' + req.query.songmid + '.m4a&guid=126548448'
   },
+  keySearch: function (req) {
+    const searchObj = {
+      page: req.query.page || 1,
+      num: req.query.num || 30,
+      group: req.query.group || 'SNH48',
+    }
+    let url ='https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p='+searchObj.page+'&n='+searchObj.num+'&w=' + searchObj.group
+    return url
+  },
   board_postData: (request) => {
     return JSON.stringify({
       "roomId": request.body.id, //房间id, 详见roomList

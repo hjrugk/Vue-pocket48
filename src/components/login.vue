@@ -80,7 +80,7 @@
       getCheck(e){
         let date = new Date().toDateString()
         let flag = JSON.parse(localStorage.getItem('isLogin'))
-        if (flag.date === date){
+        if (flag.date && flag.date === date){
           this.checkFlag = true
           this.txt= '已打卡'
         }else{

@@ -122,9 +122,6 @@ export default {
 <style lang="less" scoped>
 .member-container {
   margin: 7px;
-  .radio-list {
-    padding: 15px 10px 10px 10px;
-  }
   .team-container {
     .team-name {
       font-weight: bold;
