@@ -11,7 +11,7 @@
     >
       <el-menu-item index="/">首页</el-menu-item>
       <el-submenu index="/music">
-        <template slot="title">娱乐</template>
+        <template slot="title">发现</template>
         <el-menu-item index="/music">音乐</el-menu-item>
         <el-menu-item index="/video">视频</el-menu-item>
         <el-menu-item index="/film">影视</el-menu-item>
