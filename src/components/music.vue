@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-form inline  class="radio-list">
+    <el-form inline class="radio-list">
       <el-form-item>
         <el-select v-model="group">
           <el-option value="SNH48">SNH48</el-option>
           <el-option value="BEJ48">BEJ48</el-option>
           <el-option value="GNZ48">GNZ48</el-option>
-          <el-option value="7SENSES">7SENSES</el-option>
+          <el-option value="SNH48_7SENSES">7SENSES</el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -16,23 +16,24 @@
         <el-button type="success" @click="getMusicList">确定</el-button>
       </el-form-item>
     </el-form>
-    <div class="my-card" v-for="(item, i) in list" :key="i">
-      <img
-        class="image"
-        :src="
+    <div class="music-list">
+      <div class="music-item my-card" v-for="(item, i) in list" :key="i" @click="getPlayUrl(item.songmid)">
+        <img
+          class="image"
+          :src="
           'http://imgcache.qq.com/music/photo/album_300/' +
             (item.albumid % 100) +
             '/300_albumpic_' +
             item.albumid +
             '_0.jpg'
         "
-        alt
-      >
-      <div class="songinfo">
-        <p class="songname" v-html="item.songname"></p>
-        <p class="singername" v-html="item.singer[0].name"></p>
+          alt
+        >
+        <div class="songinfo">
+          <p class="songname" :title="item.songname" v-html="item.songname"></p>
+          <p class="singername" v-html="item.singer[0].name"></p>
+        </div>
       </div>
-      <el-button type="text" @click="getPlayUrl(item.songmid)">播放</el-button>
     </div>
     <audio src ref="audio"></audio>
   </div>
@@ -79,19 +80,42 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.my-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .image {
-    width: 80px;
-    height: 80px;
+  .radio-list{
+    padding-bottom: 0px;
   }
-  .songinfo {
-    text-align: center;
-    .singername {
-      font-size: 14px;
-      color: #999;
+.music-list{
+  padding: 0 5px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+  margin-top: -5px;
+  .music-item {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    justify-content: space-between;
+    align-items: center;
+    &:hover{
+      background-color: #eee;
+      box-shadow: 0 0 5px #ccc;
+      cursor: pointer;
+    }
+    .image {
+      width: 100%;
+    }
+    .songinfo {
+      text-align: center;
+      .songname{
+        font-size: 14px;
+        max-height: 20px;
+        overflow: hidden;
+      }
+      .singername {
+        font-size: 12px;
+        height: 25px;
+        color: #999;
+      }
     }
   }
 }
