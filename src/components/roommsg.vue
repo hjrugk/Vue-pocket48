@@ -44,7 +44,7 @@
     </div>
     <div class="board-list" ref="board">
       <transition-group>
-        <div class="board-item my-card" v-for="item in commentList" :key="item.msgidClient">
+        <div class="board-item my-card" :class="{isSpec:item.extInfo.senderId===655632}" v-for="item in commentList" :key="item.msgidClient">
           <div class="sender-info flex-align-center">
             <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-img">
             <p class="board-name" v-html="item.extInfo.senderName"></p>
@@ -245,6 +245,10 @@ export default {
       min-width: 250px;
       &:hover {
         background-color: #555;
+      }
+      &.isSpec{
+        background-color: #999;
+        border: 1px solid #999;
       }
       .sender-info {
         justify-content: flex-start;
