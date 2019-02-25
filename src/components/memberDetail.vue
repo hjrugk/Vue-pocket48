@@ -10,6 +10,8 @@
       <div class="base-name">
         <div class="real-name">
           <span v-html="detail.real_name" class="real"></span>
+          <el-tag class="follow-tag" v-if="isFollowed" @click="unfollow" size="mini">取消关注</el-tag>
+          <el-tag class="follow-tag" v-else @click="follow" type="danger" size="mini">关注</el-tag>
           <p v-html="detail.nick_name" class="nick"></p>
         </div>
         <div class="team-name">
@@ -64,7 +66,9 @@ export default {
     return {
       fullPhoto: [],
       team: this.$store.state.detail.t,
-      period: []
+      period: [],
+      id: this.$route.params.id,
+      isFollowed: true
     };
   },
   methods: {
@@ -84,6 +88,31 @@ export default {
     altImg(item) {
       item = "../assets/alt_fullphoto.png";
       return item;
+    },
+    follow(){
+      let info = JSON.parse(localStorage.getItem('userinfo'))
+      info.friends.push(this.id)
+      localStorage.setItem('userinfo',JSON.stringify(info))
+      this.checkisFollowed()
+    },
+    unfollow(){
+      let info = JSON.parse(localStorage.getItem('userinfo'))
+      let index = info.friends.findIndex(item => {
+        return item===this.id
+      })
+      info.friends.splice(index,1)
+      localStorage.setItem('userinfo',JSON.stringify(info))
+      this.checkisFollowed()
+    },
+    checkisFollowed(){
+      let info = JSON.parse(localStorage.getItem('userinfo'))
+      info.friends.find(item => {
+        if(item===this.id){
+          this.isFollowed = true
+        }else{
+          this.isFollowed = false
+        }
+      })
     }
   },
   created() {
@@ -99,6 +128,9 @@ export default {
     detail: function() {
       return this.$store.state.detail.item;
     }
+  },
+  mounted() {
+    this.checkisFollowed()
   }
 };
 </script>
@@ -137,6 +169,12 @@ export default {
       }
       .real-name {
         font-size: 18px;
+        .follow-tag{
+          cursor: pointer;
+        }
+        .real{
+          padding-right: 5px;
+        }
         .nick {
           font-size: 15px;
         }

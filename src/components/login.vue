@@ -78,6 +78,9 @@
         }
       },
       getCheck(e){
+        if(!localStorage.getItem('isLogin')){
+          return
+        }
         let date = new Date().toDateString()
         let flag = JSON.parse(localStorage.getItem('isLogin'))
         if (flag.date && flag.date === date){
