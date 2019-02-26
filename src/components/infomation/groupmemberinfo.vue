@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { splitTeam } from "../plugins/teamHandler";
 export default {
   name: "groupmemberinfo",
   data() {
@@ -89,7 +88,7 @@ export default {
         this.group
       ];
     }
-    this.team = splitTeam(this.group);
+    this.team = this.splitTeam(this.group);
     if (this.group) {
       this.setColor();
     }
@@ -99,7 +98,7 @@ export default {
       this.memberList = [];
       this.group = this.$route.params.group;
       this.getMemberList();
-      this.team = splitTeam(this.group);
+      this.team = this.splitTeam(this.group);
     },
     group: function() {
       this.setColor();

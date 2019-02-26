@@ -59,13 +59,11 @@
 </template>
 
 <script>
-import { periodHandler } from "../plugins/periodHandler";
 export default {
   name: "memberDetail",
   data() {
     return {
       fullPhoto: [],
-      team: this.$store.state.detail.t,
       period: [],
       id: this.$route.params.id,
       isFollowed: true
@@ -119,14 +117,20 @@ export default {
     for (let i = 1; i < 5; i++) {
       this.fullPhoto.push(this.detail["full_photo_" + i]);
     }
-    this.period = periodHandler(this.detail.period);
+    this.period = this.periodHandler(this.detail.period);
   },
   computed: {
     color: function() {
-      return "#" + this.$store.state.detail.color;
+      return "#" + this.info.color;
     },
     detail: function() {
-      return this.$store.state.detail.item;
+      return this.info.item;
+    },
+    info: function () {
+      return JSON.parse(localStorage.getItem('detail'))
+    },
+    team: function () {
+      return this.info.t
     }
   },
   mounted() {

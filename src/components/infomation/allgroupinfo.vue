@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { transformGroupId } from "../plugins/teamHandler";
 export default {
   name: "allgroupinfo",
   data() {
@@ -27,7 +26,7 @@ export default {
   methods: {
     getList(group) {
       group = group.toLowerCase();
-      group = transformGroupId(group);
+      group = this.transformGroupId(group);
       this.$router.push({ name: "groupmemberinfo", params: { group } });
     },
     getGroupInfo() {

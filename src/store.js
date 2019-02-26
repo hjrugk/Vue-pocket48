@@ -36,6 +36,7 @@ export default new Vuex.Store({
     },
     saveTeam(state, info) {
       state.detail = info
+      localStorage.setItem('detail',JSON.stringify(info))
     }
   },
   actions: {

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import allmemberlive from "../components/allmemberlive";
+import allmemberlive from "../components/live/allmemberlive";
 export default {
   data() {
     return {};

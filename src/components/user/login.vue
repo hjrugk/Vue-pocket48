@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="logo flex-all-center" v-show="!$store.state.logFlag">
-      <img src="../assets/login_logo.jpg" alt="">
+      <img src="../../assets/images/login_logo.jpg" alt="">
       <p class="brand">口袋48</p>
     </div>
       <div class="login-container flex-justify-center" v-if="!$store.state.logFlag">
