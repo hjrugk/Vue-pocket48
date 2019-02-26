@@ -5,10 +5,10 @@
         <el-menu-item
           v-for="item in groupList"
           router
-          :key="item.group_id"
-          :index="item.group_name"
-          @click="getList(item.group_name)"
-        >{{item.group_name.toUpperCase()}}</el-menu-item>
+          :key="item.id"
+          :index="item.name"
+          @click="getList(item.name)"
+        >{{item.name.toUpperCase()}}</el-menu-item>
       </el-menu>
       <router-view></router-view>
     </div>
@@ -20,7 +20,15 @@ export default {
   name: "allgroupinfo",
   data() {
     return {
-      groupList: []
+      groupList: [
+        {id:10,name:'snh48'},
+        {id:11,name:'bej48'},
+        {id:12,name:'gnz48'},
+        {id:13,name:'shy48'},
+        {id:14,name:'ckg48'},
+        {id:15,name:'idft'},
+        {id:16,name:'海外练习生'}
+        ]
     };
   },
   methods: {
@@ -28,26 +36,6 @@ export default {
       group = group.toLowerCase();
       group = this.transformGroupId(group);
       this.$router.push({ name: "groupmemberinfo", params: { group } });
-    },
-    getGroupInfo() {
-      this.axios.get("/api/allgroupinfo").then(res => {
-        localStorage.setItem("teamList", JSON.stringify(res.data.content.team));
-        localStorage.setItem("urlList", JSON.stringify(res.data.content.url));
-        this.groupList = res.data.content.group;
-        localStorage.setItem(
-          "groupList",
-          JSON.stringify(res.data.content.group)
-        );
-        this.groupList.shift();
-      });
-    }
-  },
-  mounted() {
-    if (localStorage.getItem("groupList")) {
-      this.groupList = JSON.parse(localStorage.getItem("groupList"));
-      this.groupList.shift();
-    } else {
-      this.getGroupInfo();
     }
   }
 };

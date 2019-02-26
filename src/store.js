@@ -9,7 +9,6 @@ export default new Vuex.Store({
     logFlag: localStorage.getItem('isLogin') ? true : false,
     roomFlag: localStorage.getItem('isLogin') ? true : false,
     userInfo: localStorage.getItem('userinfo') ? JSON.parse(localStorage.getItem('userinfo')).userInfo : {},
-    memberInfo: localStorage.getItem('memberInfo') ? JSON.parse(localStorage.getItem('memberInfo')) : {},
     detail: {}
   },
   mutations: {
@@ -27,14 +26,10 @@ export default new Vuex.Store({
     saveUserInfo(state, userInfo) {
       state.userInfo = userInfo
     },
-    saveMemberInfo(state, info) {
-      state.memberInfo = info
-      localStorage.setItem('memberInfo', JSON.stringify(info))
-    },
     postGroupInfo(state, group) {
       return state.memberInfo[group]
     },
-    saveTeam(state, info) {
+    saveDetail(state, info) {
       state.detail = info
       localStorage.setItem('detail',JSON.stringify(info))
     }

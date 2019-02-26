@@ -8,8 +8,8 @@
       <el-radio v-model="statusCode" label="0">暂休成员</el-radio>
       <el-radio v-model="statusCode" label="2">其他成员</el-radio>
     </div>
-    <div v-for="(t, i) in team" :key="i" class="team-container">
-      <p v-html="'Team ' + t" :style="'color: #'+colorList[i].color" class="team-name"></p>
+    <div v-for="(info, i) in team" :key="i" class="team-container">
+      <p v-html="'Team ' + info.name" :style="'color: #'+info.color" class="team-name"></p>
       <p v-if="!memberList[0]" class="alt_icon">
         <i class="el-icon-loading"></i>
       </p>
@@ -17,11 +17,11 @@
         <transition-group mode="out-in">
           <div
             class="member-item my-card flex-all-center"
-            :style="'border: 1px solid #'+colorList[i].color"
+            :style="'border: 1px solid #'+info.color"
             v-for="item in newList"
             :key="item.member_id"
             v-show="item.team - group === (i+1) && item.status==statusCode"
-            @click="getMemberDetail(item,t,colorList[i].color)"
+            @click="getMemberDetail(item,info)"
           >
             <p class="avatar-container">
               <img
@@ -48,20 +48,18 @@ export default {
       group: this.$route.params.group,
       team: [],
       keywords: "",
-      colorList: [],
       statusCode: 1,
       statusVal: ["正式成员", "暂休成员", "其他成员"]
     };
   },
   methods: {
     getMemberList() {
-      this.axios.get("/api/allmemberinfo").then(res => {
-        this.memberList = res.data[this.group];
-        this.$store.commit("saveMemberInfo", res.data);
+      this.axios.get("/api/allmemberinfo?group="+this.group).then(res => {
+        this.memberList = res.data;
       });
     },
-    getMemberDetail(item, t, color) {
-      this.$store.commit("saveTeam", { item, t, color });
+    getMemberDetail(item, info) {
+      this.$store.commit("saveDetail", { item, info });
       this.$router.push({
         name: "memberDetail",
         params: { id: item.member_id }
@@ -69,29 +67,11 @@ export default {
     },
     altImg(item) {
       item.avatar = "./assets/alt_avatar.png";
-    },
-    setColor() {
-      let team = JSON.parse(localStorage.getItem("teamList"));
-      this.colorList = team.filter(item => {
-        return (
-          item.team_id - parseInt(this.group) > 0 &&
-          item.team_id - parseInt(this.group) < 8
-        );
-      });
     }
   },
   mounted() {
-    if (!localStorage.getItem("memberInfo")) {
-      this.getMemberList();
-    } else {
-      this.memberList = JSON.parse(localStorage.getItem("memberInfo"))[
-        this.group
-      ];
-    }
+    this.getMemberList();
     this.team = this.splitTeam(this.group);
-    if (this.group) {
-      this.setColor();
-    }
   },
   watch: {
     $route: function() {
@@ -99,9 +79,6 @@ export default {
       this.group = this.$route.params.group;
       this.getMemberList();
       this.team = this.splitTeam(this.group);
-    },
-    group: function() {
-      this.setColor();
     }
   },
   computed: {

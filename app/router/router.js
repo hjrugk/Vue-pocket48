@@ -2,27 +2,9 @@ const express = require('express');
 const api = require('../api/api')
 const getData = require('../plugins/request')
 const groupHandler = require('../plugins/groupHandler')
-const Member = require('../schema/memberSchema')
+const Group = require('../schema/groupSchema')
 
 let router = express.Router();
-
-const members_postData = api.members_postData()
-
-const members_options = api.members_options(members_postData)
-
-// 初始化数据库
-Member.deleteMany({delete: 0}).then(()=>{
-  getData(members_postData, members_options, html => {
-    const info = JSON.parse(html).content.memberInfo
-    for (let i = 0;i<info.length;i++){
-      new Member({info: info[i]}).save()
-    }
-    console.log('数据库连接成功')
-  })
-})
-
-
-
 
 // 获取qq音乐top100
 router.get('/api/getMusicList', (req, res) => {
@@ -76,21 +58,15 @@ router.get('/api/allmemberinfo', (req, res) => {
   const members_postData = api.members_postData()
 
   const members_options = api.members_options(members_postData)
-
-  getData(members_postData, members_options, html => {
-    const group = groupHandler(JSON.parse(html).content.memberInfo)
-    res.send(group)
-  })
-})
-
-// 获取所有分团列表
-router.get('/api/allgroupinfo', (req, res) => {
-  const members_postData = api.members_postData()
-
-  const members_options = api.members_options(members_postData)
-
-  getData(members_postData, members_options, html => {
-    res.send(JSON.parse(html))
+  Group.findOne({name: req.query.group},(err,group) => {
+    if(!group){
+      getData(members_postData, members_options, html => {
+        const list = groupHandler(JSON.parse(html).content.memberInfo)
+        res.send(list[req.query.group])
+      })
+    }else{
+      return res.send(group.list)
+    }
   })
 })
 

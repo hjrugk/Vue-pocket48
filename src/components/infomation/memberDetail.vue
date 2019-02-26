@@ -121,7 +121,7 @@ export default {
   },
   computed: {
     color: function() {
-      return "#" + this.info.color;
+      return "#" + this.info.info.color;
     },
     detail: function() {
       return this.info.item;
@@ -130,7 +130,7 @@ export default {
       return JSON.parse(localStorage.getItem('detail'))
     },
     team: function () {
-      return this.info.t
+      return this.info.info.name
     }
   },
   mounted() {

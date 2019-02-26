@@ -1,3 +1,5 @@
+const Group = require('../schema/groupSchema')
+
 module.exports = function (membersList) {
   const snh = []
   const bej = []
@@ -38,6 +40,17 @@ module.exports = function (membersList) {
         legend.push(item)
     }
   })
+
+  new Group({name: '1000',list:snh}).save()
+  new Group({name: '1100',list:bej}).save()
+  new Group({name: '1200',list:gnz}).save()
+  new Group({name: '1300',list:shy}).save()
+  new Group({name: '1400',list:ckg}).save()
+  new Group({name: '1500',list:idft}).save()
+  new Group({name: '1600',list:oversea}).save()
+  new Group({name: '-1',list:other}).save()
+  new Group({name: '998',list:legend}).save()
+
   return {
     '1000': snh,
     '1100': bej,
