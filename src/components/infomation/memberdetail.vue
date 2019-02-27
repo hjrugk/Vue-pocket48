@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  name: "memberDetail",
+  name: "memberdetail",
   data() {
     return {
       fullPhoto: [],
@@ -81,7 +81,7 @@ export default {
         });
     },
     goToMemberLive(id) {
-      this.$router.push("/home/allmemberlive/" + id);
+      this.$router.push("/home/memberlive/" + id);
     },
     altImg(item) {
       item = "../assets/alt_fullphoto.png";
@@ -130,7 +130,7 @@ export default {
       return JSON.parse(localStorage.getItem('detail'))
     },
     team: function () {
-      return this.info.info.name
+      return this.info.info.team_name
     }
   },
   mounted() {

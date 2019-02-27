@@ -23,7 +23,6 @@ import './plugins/element.js'
 import axios from 'axios'
 import './assets/less/global.less'
 import {periodHandler} from "./plugins/periodHandler";
-import {transformGroupId,splitTeam} from "./plugins/teamHandler";
 
 Vue.use(Menu)
 Vue.use(Tag)
@@ -40,8 +39,6 @@ Vue.use(Option)
 Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.periodHandler = periodHandler
-Vue.prototype.transformGroupId = transformGroupId
-Vue.prototype.splitTeam = splitTeam
 
 Vue.filter('picPathFormat', function (item) {
   if (item.lastIndexOf('http') === -1) {

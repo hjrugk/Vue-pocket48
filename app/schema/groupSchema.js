@@ -6,7 +6,11 @@ mongoose.connect('mongodb://localhost/group', {
 let GroupSchema = mongoose.Schema;
 
 let groupSchema = new GroupSchema({
-  list: {
+  member: {
+    type: Array,
+    require: true
+  },
+  team:{
     type: Array,
     require: true
   },

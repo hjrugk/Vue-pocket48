@@ -9,7 +9,7 @@
       <el-radio v-model="statusCode" label="2">其他成员</el-radio>
     </div>
     <div v-for="(info, i) in team" :key="i" class="team-container">
-      <p v-html="'Team ' + info.name" :style="'color: #'+info.color" class="team-name"></p>
+      <p v-html="info.team_name" :style="'color: #'+info.color" class="team-name"></p>
       <p v-if="!memberList[0]" class="alt_icon">
         <i class="el-icon-loading"></i>
       </p>
@@ -20,7 +20,7 @@
             :style="'border: 1px solid #'+info.color"
             v-for="item in newList"
             :key="item.member_id"
-            v-show="item.team - group === (i+1) && item.status==statusCode"
+            v-show="item.team === info.team_id && item.status==statusCode"
             @click="getMemberDetail(item,info)"
           >
             <p class="avatar-container">
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "groupmemberinfo",
+  name: "memberlist",
   data() {
     return {
       memberList: [],
@@ -54,14 +54,15 @@ export default {
   },
   methods: {
     getMemberList() {
-      this.axios.get("/api/allmemberinfo?group="+this.group).then(res => {
-        this.memberList = res.data;
+      this.axios.get("/api/getMemberList?group="+this.group).then(res => {
+        this.memberList = res.data.member;
+        this.team = res.data.team
       });
     },
     getMemberDetail(item, info) {
       this.$store.commit("saveDetail", { item, info });
       this.$router.push({
-        name: "memberDetail",
+        name: "memberdetail",
         params: { id: item.member_id }
       });
     },
@@ -71,14 +72,13 @@ export default {
   },
   mounted() {
     this.getMemberList();
-    this.team = this.splitTeam(this.group);
   },
   watch: {
     $route: function() {
-      this.memberList = [];
+      this.memberList = []
+      this.team = []
       this.group = this.$route.params.group;
       this.getMemberList();
-      this.team = this.splitTeam(this.group);
     }
   },
   computed: {

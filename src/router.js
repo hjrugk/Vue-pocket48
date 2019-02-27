@@ -43,24 +43,24 @@ export default new Router({
       component: () => import('./components/room/roommsg.vue')
     },
     {
-      path: '/home/allgroupinfo',
-      name: 'allgroupinfo',
-      component: () => import('./components/infomation/allgroupinfo.vue'),
+      path: '/home/groupinfo',
+      name: 'groupinfo',
+      component: () => import('./components/infomation/groupinfo.vue'),
       children: [{
-        path: 'groupmemberinfo/:group',
-        name: 'groupmemberinfo',
-        component: () => import('./components/infomation/groupmemberinfo.vue')
+        path: 'memberlist/:group',
+        name: 'memberlist',
+        component: () => import('./components/infomation/memberlist.vue')
       }, ]
     },
     {
-      path: '/home/allmemberlive/:id',
-      name: 'allmemberlive',
-      component: () => import('./components/live/allmemberlive.vue')
+      path: '/home/memberlive/:id',
+      name: 'memberlive',
+      component: () => import('./components/live/memberlive.vue')
     },
     {
-      path: '/home/memberDetail/:id',
-      name: 'memberDetail',
-      component: () => import('./components/infomation/memberDetail.vue')
+      path: '/home/memberdetail/:id',
+      name: 'memberdetail',
+      component: () => import('./components/infomation/memberdetail.vue')
     },
     {
       path: '/home/openlive/:id',

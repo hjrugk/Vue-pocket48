@@ -34,7 +34,12 @@ export default {
       activeIndex: "/"
     };
   },
-  methods: {}
+  methods: {},
+  watch: {
+    $route: function () {
+      this.activeIndex = '/'+this.$router.history.current.fullPath.split('/')[1]
+    }
+  }
 };
 </script>
 

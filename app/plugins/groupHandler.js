@@ -1,6 +1,6 @@
 const Group = require('../schema/groupSchema')
 
-module.exports = function (membersList) {
+module.exports = function (membersList,teamList) {
   const snh = []
   const bej = []
   const gnz = []
@@ -41,26 +41,66 @@ module.exports = function (membersList) {
     }
   })
 
-  new Group({name: '1000',list:snh}).save()
-  new Group({name: '1100',list:bej}).save()
-  new Group({name: '1200',list:gnz}).save()
-  new Group({name: '1300',list:shy}).save()
-  new Group({name: '1400',list:ckg}).save()
-  new Group({name: '1500',list:idft}).save()
-  new Group({name: '1600',list:oversea}).save()
-  new Group({name: '-1',list:other}).save()
-  new Group({name: '998',list:legend}).save()
+  const jxl = []
+  const ut = []
+  const zt = []
+  const ylc = []
+  const gr = []
+  const zb = []
+  const hw = []
+  const qt = []
+  const mx = []
+  teamList.forEach(item => {
+    switch (parseInt(item.team_id / 100)) {
+      case 10:
+        jxl.push(item)
+        break
+      case 11:
+        ut.push(item)
+        break
+      case 12:
+        zt.push(item)
+        break
+      case 13:
+        ylc.push(item)
+        break
+      case 14:
+        gr.push(item)
+        break
+      case 15:
+        zb.push(item)
+        break
+      case 16:
+        hw.push(item)
+        break
+      case 0:
+        qt.push(item)
+        break
+      default:
+        mx.push(item)
+    }
+  })
+
+  new Group({name: '1000',member:snh,team: jxl}).save()
+  new Group({name: '1100',member:bej,team: ut}).save()
+  new Group({name: '1200',member:gnz,team: zt}).save()
+  new Group({name: '1300',member:shy,team: ylc}).save()
+  new Group({name: '1400',member:ckg,team: gr}).save()
+  new Group({name: '1500',member:idft,team: zb}).save()
+  new Group({name: '1600',member:oversea,team: hw}).save()
+  new Group({name: '-1',member:other,team: qt}).save()
+  new Group({name: '998',member:legend,team: mx}).save()
 
   return {
-    '1000': snh,
-    '1100': bej,
-    '1200': gnz,
-    '1300': shy,
-    '1400': ckg,
-    '1500': idft,
-    '1600': oversea,
-    '-1': other,
-    '998': legend,
-    '1': membersList
+    '1000': {member:snh,team:jxl},
+    '1100': {member:bej,team: ut},
+    '1200': {member:gnz,team: zt},
+    '1300': {member:shy,team: ylc},
+    '1400': {member:ckg,team: gr},
+    '1500': {member:idft,team: zb},
+    '1600': {member:oversea,team: hw},
+    '-1': {member:other,team: qt},
+    '998': {member:legend,team: mx},
+    '1': {member:membersList,team:teamList}
   }
 }

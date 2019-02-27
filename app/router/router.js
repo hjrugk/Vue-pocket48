@@ -54,18 +54,18 @@ router.post('/api/getRoomList', (req, res) => {
 })
 
 // 获取所有成员信息
-router.get('/api/allmemberinfo', (req, res) => {
+router.get('/api/getMemberList', (req, res) => {
   const members_postData = api.members_postData()
 
   const members_options = api.members_options(members_postData)
   Group.findOne({name: req.query.group},(err,group) => {
-    if(!group){
+    if(group){
+      return res.send({member:group.member,team:group.team})
+    }else{
       getData(members_postData, members_options, html => {
-        const list = groupHandler(JSON.parse(html).content.memberInfo)
+        const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
         res.send(list[req.query.group])
       })
-    }else{
-      return res.send(group.list)
     }
   })
 })

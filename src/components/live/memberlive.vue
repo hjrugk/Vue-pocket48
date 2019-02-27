@@ -24,7 +24,7 @@
     <p v-if="!reviewList[0]" class="instead-info">
       <i class="el-icon-loading"></i>
     </p>
-    <div class="live-list">
+    <div class="live-list" v-else>
       <transition-group>
         <a
           :href="'http://48live.jarvay.cn/#/flvjs/'+item.liveId"
@@ -51,7 +51,7 @@
 
 <script>
 export default {
-  name: "allmemberlive",
+  name: "memberlive",
   data() {
     return {
       liveList: [],

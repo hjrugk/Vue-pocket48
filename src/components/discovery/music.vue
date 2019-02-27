@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "qqmusic",
+  name: "music",
   data() {
     return {
       list: [],
