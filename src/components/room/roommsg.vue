@@ -19,8 +19,10 @@
           <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
             <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
           </p>
-          <p class="msg-content" v-else-if="item.bodys.includes('amr')">
-            <el-button @click="getAudio(JSON.parse(item.bodys).url)">语音消息</el-button>
+          <p class="msg-content" v-else-if="item.bodys.includes('amr')" @click="stop">
+            <el-button @click="getAudio(JSON.parse(item.bodys).url)">
+              语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s
+            </el-button>
           </p>
           <p class="msg-content" v-else-if="item.bodys.includes('mp4')">
             <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
@@ -77,7 +79,7 @@ export default {
       bgPath: this.$route.params.bgPath,
       top: document.body.scrollTop,
       commentList: [],
-      amr: {},
+      base64Str: '',
       answerContent: {}
     };
   },
@@ -153,8 +155,22 @@ export default {
     getAudio(url){
       this.axios.post('/api/getAudio',{url})
         .then(res => {
-          console.log(res)
+          if(res.data.status === 200){
+            // eslint-disable-next-line
+            RongIMLib.RongIMVoice.init()
+            this.base64Str = res.data.message
+            // eslint-disable-next-line
+            RongIMLib.RongIMVoice.stop()
+            // eslint-disable-next-line
+            RongIMLib.RongIMVoice.play(this.base64Str)
+          }
         })
+    },
+    stop(){
+      // eslint-disable-next-line
+      RongIMLib.RongIMVoice.init()
+      // eslint-disable-next-line
+      RongIMLib.RongIMVoice.stop()
     }
   },
   mounted() {

@@ -38,6 +38,10 @@ export default {
   watch: {
     $route: function () {
       this.activeIndex = '/'+this.$router.history.current.fullPath.split('/')[1]
+      // eslint-disable-next-line
+      RongIMLib.RongIMVoice.init()
+      // eslint-disable-next-line
+      RongIMLib.RongIMVoice.stop()
     }
   }
 };

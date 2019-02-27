@@ -4,6 +4,7 @@ const getData = require('../plugins/request')
 const groupHandler = require('../plugins/groupHandler')
 const Group = require('../schema/groupSchema')
 const downloadFile = require('../plugins/downloadFile')
+const fs = require('fs')
 
 let router = express.Router();
 
@@ -140,7 +141,8 @@ router.post('/api/getAnswer',(req,res) => {
 // 成员房间语音留言
 router.post('/api/getAudio',(req,res) => {
   downloadFile(req.body.url,'./Cache/test.amr',() => {
-    res.send('ok')
+    let str = fs.readFileSync('./Cache/test.amr')
+    res.send({status: 200,message:str.toString('base64')})
   })
 })
 
