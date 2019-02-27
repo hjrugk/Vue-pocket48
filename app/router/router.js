@@ -3,6 +3,7 @@ const api = require('../api/api')
 const getData = require('../plugins/request')
 const groupHandler = require('../plugins/groupHandler')
 const Group = require('../schema/groupSchema')
+const downloadFile = require('../plugins/downloadFile')
 
 let router = express.Router();
 
@@ -133,6 +134,13 @@ router.post('/api/getAnswer',(req,res) => {
 
   getData(flip_postData, flip_options, html => {
     res.send(html)
+  })
+})
+
+// 成员房间语音留言
+router.post('/api/getAudio',(req,res) => {
+  downloadFile(req.body.url,'./Cache/test.amr',() => {
+    res.send('ok')
   })
 })
 
