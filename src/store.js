@@ -5,23 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('userinfo') ? JSON.parse(localStorage.getItem('userinfo')).token : '',
-    logFlag: localStorage.getItem('isLogin') ? true : false,
-    roomFlag: localStorage.getItem('isLogin') ? true : false,
-    userInfo: localStorage.getItem('userinfo') ? JSON.parse(localStorage.getItem('userinfo')).userInfo : {},
+    token: '',
+    logFlag: false,
+    userInfo: {},
     detail: {}
   },
   mutations: {
     setToken(state, info) {
       state.token = info.token
-    },
-    changeFlag(state) {
-      state.logFlag = true
-      state.roomFlag = true
-      localStorage.setItem('isLogin', JSON.stringify({
-        logFlag: state.logFlag,
-        roomFlag: state.roomFlag
-      }))
     },
     saveUserInfo(state, userInfo) {
       state.userInfo = userInfo
@@ -38,6 +29,23 @@ export default new Vuex.Store({
 
   },
   getters: {
-
+    getToken: state => {
+      if(localStorage.getItem('userinfo')){
+        state.token = JSON.parse(localStorage.getItem('userinfo')).token
+        return state.token
+      }
+    },
+    getUserInfo: state => {
+      if(localStorage.getItem('userinfo')){
+        state.userInfo = JSON.parse(localStorage.getItem('userinfo')).userInfo
+        return state.userInfo
+      }
+    },
+    checkLogin: state => {
+      if (localStorage.getItem('isLogin')){
+        state.logFlag = JSON.parse(localStorage.getItem('isLogin')).logFlag
+        return state.logFlag
+      }
+    }
   }
 })

@@ -20,7 +20,7 @@
             :style="'border: 1px solid #'+info.color"
             v-for="item in newList"
             :key="item.member_id"
-            v-show="item.team === info.team_id && item.status==statusCode"
+            v-show="item.team === info.team_id && item.status.toString()===statusCode"
             @click="getMemberDetail(item,info)"
           >
             <p class="avatar-container">
@@ -48,7 +48,7 @@ export default {
       group: this.$route.params.group,
       team: [],
       keywords: "",
-      statusCode: 1,
+      statusCode: '1',
       statusVal: ["正式成员", "暂休成员", "其他成员"]
     };
   },

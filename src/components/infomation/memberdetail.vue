@@ -73,7 +73,7 @@ export default {
     goToMemberRoom(id) {
       this.axios
         .post("/api/getRoomList", {
-          token: this.$store.state.token,
+          token: this.$store.getters.getToken,
           friends: [id]
         })
         .then(res => {

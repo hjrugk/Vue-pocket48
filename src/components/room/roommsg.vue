@@ -87,7 +87,7 @@ export default {
     getMsgList() {
       this.axios
         .post("/api/getRoomBoard", {
-          token: this.$store.state.token,
+          token: this.$store.getters.getToken,
           id: this.id
         })
         .then(res => {
@@ -99,7 +99,7 @@ export default {
       if (type === 1) {
         this.axios
           .post("/api/getRoomBoard", {
-            token: this.$store.state.token,
+            token: this.$store.getters.getToken,
             id: this.id,
             limit: this.limit
           })
@@ -110,7 +110,7 @@ export default {
         this.axios
           .post("/api/getComments", {
             id: this.id,
-            token: this.$store.state.token,
+            token: this.$store.getters.getToken,
             limit: this.limit
           })
           .then(res => {
@@ -126,7 +126,7 @@ export default {
       this.axios
         .post("/api/getComments", {
           id: this.id,
-          token: this.$store.state.token
+          token: this.$store.getters.getToken
         })
         .then(res => {
           this.commentList = res.data.content.data;
@@ -138,7 +138,7 @@ export default {
         .post("/api/getAnswer", {
           questionId,
           answerId,
-          token: this.$store.state.token
+          token: this.$store.getters.getToken
         })
         .then(res => {
           this.answerContent = res.data.content;

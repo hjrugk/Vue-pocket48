@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="logo flex-all-center" v-show="!$store.state.logFlag">
+    <div class="logo flex-all-center" v-show="!$store.getters.checkLogin">
       <img src="../../assets/images/login_logo.jpg" alt="">
       <p class="brand">口袋48</p>
     </div>
-      <div class="login-container flex-justify-center" v-if="!$store.state.logFlag">
+      <div class="login-container flex-justify-center" v-if="!$store.getters.checkLogin">
         <el-form 
           status-icon ref="ruleForm2"
           label-position="top"
@@ -46,10 +46,10 @@
         password: '',
         token: '',
         friends: [],
-        userInfo: this.$store.state.userInfo,
+        userInfo: this.$store.getters.getUserInfo,
         type: 'danger',
         checkFlag: false,
-        txt: '打卡'
+        txt: '打卡',
       }
     },
     methods: {
@@ -60,7 +60,6 @@
           this.token = userInfo.token
           this.$store.commit('setToken', userInfo)
           this.friends = userInfo.friends
-          this.$store.commit('changeFlag')
           this.$router.push('/roomlist')
         }else{
           this.axios.post('/api/login', {account: this.account,password: this.password})
@@ -71,7 +70,6 @@
               this.token = res.data.content.token
               this.$store.commit('setToken', res.data.content)
               this.friends = res.data.content.friends
-              this.$store.commit('changeFlag')
               localStorage.setItem('userinfo', JSON.stringify(res.data.content))
               this.$router.push('/roomlist')
             })
@@ -83,6 +81,7 @@
         }
         let date = new Date().toDateString()
         let flag = JSON.parse(localStorage.getItem('isLogin'))
+        this.isLogin = flag.logFlag
         if (flag.date && flag.date === date){
           this.checkFlag = true
           this.txt= '已打卡'

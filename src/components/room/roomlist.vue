@@ -48,7 +48,7 @@ export default {
   },
   mounted() {
     this.friends = JSON.parse(localStorage.getItem('userinfo')).friends;
-    this.token = this.$store.state.token;
+    this.token = this.$store.getters.getToken;
     this.getRoomList();
   }
 };
