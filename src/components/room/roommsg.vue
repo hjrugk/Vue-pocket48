@@ -209,7 +209,6 @@ export default {
 <style lang="less" scoped>
 .msg-container {
   padding: 10px 10px 10px 10px;
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
