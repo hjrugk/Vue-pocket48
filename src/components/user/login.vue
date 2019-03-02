@@ -75,7 +75,7 @@
             })
         }
       },
-      getCheck(e){
+      getCheck(){
         if(!localStorage.getItem('isLogin')){
           return
         }
@@ -93,11 +93,8 @@
                 flag.checkFlag = true
                 flag.date = new Date().toDateString()
                 localStorage.setItem('isLogin',JSON.stringify(flag))
-                e.target.innerHTML = '已打卡'
-                this.$message({
-                  message: '打卡成功',
-                  type: 'success'
-                });
+                this.checkFlag = true
+                this.txt= '已打卡'
               }
             })
         }

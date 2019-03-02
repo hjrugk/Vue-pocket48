@@ -77,7 +77,11 @@ export default {
           friends: [id]
         })
         .then(res => {
-          this.$router.push("/roommsg/" + res.data.content[0].roomId);
+          if(res.data.content.length){
+            this.$router.push("/roommsg/" + res.data.content[0].roomId);
+          }else{
+            this.$message('该房间未创建')
+          }
         });
     },
     goToMemberLive(id) {

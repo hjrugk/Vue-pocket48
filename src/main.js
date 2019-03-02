@@ -16,7 +16,7 @@ import {
   Radio,
   MessageBox,
   Select,
-  Option
+  Option,
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
@@ -36,8 +36,8 @@ Vue.use(CarouselItem)
 Vue.use(Radio)
 Vue.use(Select)
 Vue.use(Option)
-Vue.prototype.$message = Message;
 Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$message = Message;
 Vue.prototype.periodHandler = periodHandler
 
 Vue.filter('picPathFormat', function (item) {
