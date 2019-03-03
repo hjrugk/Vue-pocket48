@@ -95,6 +95,7 @@
                 localStorage.setItem('isLogin',JSON.stringify(flag))
                 this.checkFlag = true
                 this.txt= '已打卡'
+                this.$message('打卡成功')
               }
             })
         }

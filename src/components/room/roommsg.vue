@@ -61,7 +61,6 @@
       </transition-group>
       <div class="button-container flex-all-center" @click="getMore(0)">
         <i class="el-icon-arrow-down" v-show="commentList[0]"></i>
-        <!--<el-button @click="getMore(0)" type="info" v-show="commentList[0]">加载更多</el-button>-->
       </div>
     </div>
   </div>

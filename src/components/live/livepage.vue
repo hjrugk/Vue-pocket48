@@ -1,9 +1,9 @@
 <template>
-  <div class="live-page-container">
-    <a class="pic-container" :href="id | liveUrlFormat" target="_blank" v-if="type===1">
+  <div class="live-page-container my-card">
+    <a class="pic-container" href="javascript:;" v-if="type===1">
       <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
     </a>
-    <a class="pic-container" href="javascript:;" target="_blank" v-if="type===0">
+    <a class="pic-container" href="javascript:;" v-if="type===0">
       <img :src="picPath | picPathFormat" alt class="live-cover">
     </a>
     <div class="live-info">
@@ -13,16 +13,20 @@
     <p v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></p>
     <div class="comment-info" v-if="type===0">
       <i class="el-icon-view"></i>
-      <span class="praise-count" v-html="liveInfo.count.praiseCount"></span>
+      <span class="praise-count" v-html="count.praise"></span>
       <i class="el-icon-edit-outline"></i>
-      <span class="comment-count" v-html="liveInfo.count.commentCount"></span>
+      <span class="comment-count" v-html="count.comment"></span>
       <i class="el-icon-share"></i>
-      <span class="share-count" v-html="liveInfo.count.shareCount"></span>
+      <span class="share-count" v-html="count.share"></span>
     </div>
+    <!-- <video id="my-player" class="video-js"></video> -->
   </div>
 </template>
 
 <script>
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css'
+import 'videojs-flash'
 export default {
   name: "livepage",
   data() {
@@ -30,7 +34,26 @@ export default {
       id: this.$route.params.id,
       type: this.$route.params.type,
       liveInfo: {},
-      picPath: ""
+      picPath: "",
+      count: {
+        praise: 0,
+        comment: 0,
+        share: 0
+      },
+      playerOptions: {
+        controls: true,
+        autoplay: true,
+        techOrder:['flash', 'html5'],
+        sourceOrder:true,
+        flash:{hls:{withCredentials:false}},
+        html5:{hls:{withCredentials:false}},
+        sources:[{
+            withCredentials:false,
+            type:'',
+            src:''
+        }]
+      },
+      player: null
     };
   },
   methods: {
@@ -39,11 +62,24 @@ export default {
         .get("/api/getLivePage?type=" + this.type + "&id=" + this.id)
         .then(res => {
           this.liveInfo = res.data.content;
+          if(this.type===0){
+            this.count.praise = res.data.content.count.praiseCount
+            this.count.comment = res.data.content.count.commentCount
+            this.count.share = res.data.content.count.shareCount
+          }
           this.picPath = res.data.content.picPath;
         });
     },
     altImg() {
       this.liveInfo.picPath = "";
+    },
+    playOnLive(){
+      this.player = videojs('my-player', this.playerOptions);
+      this.player.volume(100)
+      this.player.src({
+        type:"video/mp4",
+        src:this.liveInfo.streamPath
+      });
     }
   },
   created() {
