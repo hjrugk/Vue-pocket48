@@ -5,6 +5,7 @@ const groupHandler = require('../plugins/groupHandler')
 const Group = require('../schema/groupSchema')
 const downloadFile = require('../plugins/downloadFile')
 const fs = require('fs')
+const barrage = require('../plugins/barrage')
 
 let router = express.Router();
 
@@ -143,6 +144,13 @@ router.post('/api/getAudio',(req,res) => {
   downloadFile(req.body.url,'./Cache/test.amr',() => {
     let str = fs.readFileSync('./Cache/test.amr')
     res.send({status: 200,message:str.toString('base64')})
+  })
+})
+
+// 获取弹幕
+router.post('/api/getBarrages', (req,res) => {
+  barrage.loadLrc("https://source.48.cn" + req.body.url,function(data) {
+    res.send(data)
   })
 })
 

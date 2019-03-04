@@ -11,7 +11,13 @@
       </div>
     </a>
     <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview">
-      <video src="" controls ref="video"></video>
+      <div class="barrage-container flex-justify-center">
+        <div>
+          <p :class="{'sender-name': barrage.name}" v-html="barrage.name"></p>
+          <p :class="{'sender-content': barrage.name}" v-html="barrage.content"></p>
+        </div>
+      </div>
+      <video src="" controls ref="video" id="review-video"></video>
     </div>
     <div class="live-info">
       <p v-html="liveInfo.title" class="main-title"></p>
@@ -30,6 +36,8 @@
 </template>
 
 <script>
+import flvjs from 'flv.js'
+import typeCheck from '../../plugins/typeCheck'
 export default {
   name: "livepage",
   data() {
@@ -43,7 +51,9 @@ export default {
         comment: 0,
         share: 0
       },
-      isReview: false
+      isReview: false,
+      barrageList: {},
+      barrage: {}
     };
   },
   methods: {
@@ -61,16 +71,42 @@ export default {
         });
     },
     altImg() {
-      this.liveInfo.picPath = "";
+      this.picPath = "";
     },
     playReview(){
-      this.$refs.video.src = this.liveInfo.streamPath
-      this.$refs.video.onloadeddata = () => {
-        this.isReview = true
+      let type = typeCheck(this.liveInfo.streamPath)
+      if (flvjs.isSupported()) {
+        const videoElement = document.getElementById('review-video');
+        const player = flvjs.createPlayer({
+            type,
+            url: this.liveInfo.streamPath
+        });
+        player.attachMediaElement(videoElement);
+        player.load();
+        this.$refs.video.onloadeddata = () => {
+          this.isReview = true
+          player.play()
+          this.loadBarrages()
+        }
+        this.$refs.video.onerror = () => {
+          this.$message.error('无法播放')
+        }
+        this.$refs.video.ontimeupdate = () => {
+          if(this.isReview){
+            if(player.currentTime >= this.barrageList.times[0]){
+              this.barrage = this.barrageList.barrages[0]
+              this.barrageList.times.shift()
+              this.barrageList.barrages.shift()
+            }
+          }
+        }
       }
-      this.$refs.video.onerror = () => {
-        this.$message.error('无法播放')
-      }
+    },
+    loadBarrages(){
+      this.axios.post('/api/getBarrages',{url:this.liveInfo.lrcPath})
+        .then(res => {
+          this.barrageList = res.data
+        })
     }
   },
   created() {
@@ -104,6 +140,27 @@ export default {
     left: 0;
     width: 100%;
     height: 800px;
+    .barrage-container{
+      width: 100%;
+      height: 100px;
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      div{
+        width: 450px;
+        .sender-name,.sender-content{
+          width: 150px;
+          background-color: rgba(255,255,255,0.7);
+          padding: 5px;
+          margin: 2px 0 0 0;
+          border-radius: 3px;
+        }
+        .sender-name{ 
+          font-size: 14px;
+          color: blue
+        }
+      }
+    }
     video{ 
       height: 100%;
     }
