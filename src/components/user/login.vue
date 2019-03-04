@@ -58,7 +58,7 @@
           let userInfo = JSON.parse(localStorage.getItem('userinfo'))
           this.$store.commit('saveUserInfo',userInfo.userInfo)
           this.token = userInfo.token
-          this.$store.commit('setToken', userInfo)
+          this.$store.commit('setToken', userInfo.token)
           this.friends = userInfo.friends
           this.$router.push('/roomlist')
         }else{
@@ -68,7 +68,7 @@
               this.account = ''
               this.$store.commit('saveUserInfo',res.data.content.userInfo)
               this.token = res.data.content.token
-              this.$store.commit('setToken', res.data.content)
+              this.$store.commit('setToken', res.data.content.token)
               this.friends = res.data.content.friends
               localStorage.setItem('userinfo', JSON.stringify(res.data.content))
               this.$router.push('/roomlist')

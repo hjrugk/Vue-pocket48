@@ -27,17 +27,22 @@
           <p class="msg-content" v-else-if="item.bodys.includes('mp4')">
             <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
           </p>
-          <div class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
-            <p
+          <p class="msg-content" v-else-if="item.extInfo.referenceTitle">
+            <span class="live-push" v-html="item.extInfo.referenceTitle"
+             @click="getLivePage(item.extInfo.referenceObjectId)"
+            ></span>
+          </p>
+          <p class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
+            <span
               v-html="item.extInfo.idolFlipTitle"
               class="msg-flip"
               @click="getAnswer(item.extInfo.idolFlipQuestionId,item.extInfo.idolFlipAnswerId,item.extInfo.idolFlipTitle)"
-            ></p>
-          </div>
+            ></span>
+          </p>
           <p
             class="msg-content"
             v-else
-            v-html="item.extInfo.text || item.extInfo.referenceTitle || item.extInfo.messageText"
+            v-html="item.extInfo.text || item.extInfo.messageText"
           ></p>
         </div>
       </transition-group>
@@ -170,6 +175,9 @@ export default {
       RongIMLib.RongIMVoice.init()
       // eslint-disable-next-line
       RongIMLib.RongIMVoice.stop()
+    },
+    getLivePage(id) {
+      this.$router.push({name:'livepage',params:{id,type: 1}})
     }
   },
   mounted() {
@@ -236,6 +244,9 @@ export default {
         }
         .msg-img {
           width: 100%;
+        }
+        .live-push{
+          cursor: pointer;
         }
       }
       .msg-sender {

@@ -11,8 +11,8 @@ export default new Vuex.Store({
     detail: {}
   },
   mutations: {
-    setToken(state, info) {
-      state.token = info.token
+    setToken(state, token) {
+      state.token = token
     },
     saveUserInfo(state, userInfo) {
       state.userInfo = userInfo
@@ -26,7 +26,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    saveDetail(context,info){
+      context.commit('saveDetail',info)
+    }
   },
   getters: {
     getToken: state => {

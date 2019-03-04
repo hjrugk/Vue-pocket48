@@ -60,7 +60,7 @@ export default {
       });
     },
     getMemberDetail(item, info) {
-      this.$store.commit("saveDetail", { item, info });
+      this.$store.dispatch("saveDetail", { item, info });
       this.$router.push({
         name: "memberdetail",
         params: { id: item.member_id }

@@ -1,11 +1,18 @@
 <template>
   <div class="live-page-container my-card">
-    <a class="pic-container" href="javascript:;" v-if="type===1">
-      <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
+    <a class="flex-all-center" href="javascript:;" v-if="type===1">
+      <div class="pic-container flex-all-center" @click="playReview" ismember>
+        <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
+      </div>
     </a>
-    <a class="pic-container" href="javascript:;" v-if="type===0">
-      <img :src="picPath | picPathFormat" alt class="live-cover">
+    <a class="flex-all-center" href="javascript:;" v-if="type===0">
+      <div class="pic-container flex-all-center">
+        <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
+      </div>
     </a>
+    <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview">
+      <video src="" controls ref="video"></video>
+    </div>
     <div class="live-info">
       <p v-html="liveInfo.title" class="main-title"></p>
       <p v-html="liveInfo.subTitle" class="sub-title"></p>
@@ -19,14 +26,10 @@
       <i class="el-icon-share"></i>
       <span class="share-count" v-html="count.share"></span>
     </div>
-    <!-- <video id="my-player" class="video-js"></video> -->
   </div>
 </template>
 
 <script>
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css'
-import 'videojs-flash'
 export default {
   name: "livepage",
   data() {
@@ -40,20 +43,7 @@ export default {
         comment: 0,
         share: 0
       },
-      playerOptions: {
-        controls: true,
-        autoplay: true,
-        techOrder:['flash', 'html5'],
-        sourceOrder:true,
-        flash:{hls:{withCredentials:false}},
-        html5:{hls:{withCredentials:false}},
-        sources:[{
-            withCredentials:false,
-            type:'',
-            src:''
-        }]
-      },
-      player: null
+      isReview: false
     };
   },
   methods: {
@@ -73,13 +63,14 @@ export default {
     altImg() {
       this.liveInfo.picPath = "";
     },
-    playOnLive(){
-      this.player = videojs('my-player', this.playerOptions);
-      this.player.volume(100)
-      this.player.src({
-        type:"video/mp4",
-        src:this.liveInfo.streamPath
-      });
+    playReview(){
+      this.$refs.video.src = this.liveInfo.streamPath
+      this.$refs.video.onloadeddata = () => {
+        this.isReview = true
+      }
+      this.$refs.video.onerror = () => {
+        this.$message.error('无法播放')
+      }
     }
   },
   created() {
@@ -94,12 +85,27 @@ export default {
   border: 1px solid #efefef;
   margin: 5px;
   border-radius: 3px;
-  .pic-container {
+  position: relative;
+  text-align: center;
+  .pic-container[ismember] {
     text-align: center;
-    display: block;
+    background-color: #000;
+    width: 450px;
+    height: 800px;
+    cursor: pointer;
     .live-cover {
-      max-width: 800px;
       width: 100%;
+    }
+  }
+  .video-container{
+    padding: 10px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 800px;
+    video{ 
+      height: 100%;
     }
   }
   .live-info {
