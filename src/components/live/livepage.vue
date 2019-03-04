@@ -10,11 +10,17 @@
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
-    <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview">
+    <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview" :class="{hidden:liveInfo.liveType===2}">
       <div class="barrage-container flex-justify-center">
         <div>
-          <p :class="{'sender-name': barrage.name}" v-html="barrage.name"></p>
-          <p :class="{'sender-content': barrage.name}" v-html="barrage.content"></p>
+          <div class="old">
+            <p :class="{'sender-name': oldBarrage.name}" v-html="oldBarrage.name"></p>
+            <p :class="{'sender-content': oldBarrage.name}" v-html="oldBarrage.content"></p>
+          </div>
+          <div class="new">
+            <p :class="{'sender-name': newBarrage.name}" v-html="newBarrage.name"></p>
+            <p :class="{'sender-content': newBarrage.name}" v-html="newBarrage.content"></p>
+          </div>
         </div>
       </div>
       <video src="" controls ref="video" id="review-video"></video>
@@ -53,7 +59,8 @@ export default {
       },
       isReview: false,
       barrageList: {},
-      barrage: {}
+      newBarrage: {},
+      oldBarrage: {}
     };
   },
   methods: {
@@ -88,13 +95,16 @@ export default {
           player.play()
           this.loadBarrages()
         }
+        player.on('ERROR',() => {
+          this.$message.error('无法播放')
+        })
         this.$refs.video.onerror = () => {
           this.$message.error('无法播放')
         }
         this.$refs.video.ontimeupdate = () => {
           if(this.isReview){
             if(player.currentTime >= this.barrageList.times[0]){
-              this.barrage = this.barrageList.barrages[0]
+              this.newBarrage = this.barrageList.barrages[0]
               this.barrageList.times.shift()
               this.barrageList.barrages.shift()
             }
@@ -111,6 +121,11 @@ export default {
   },
   created() {
     this.getLive();
+  },
+  watch: {
+    newBarrage: function (newVal,oldVal) {
+      this.oldBarrage = oldVal
+    } 
   }
 };
 </script>
@@ -144,7 +159,7 @@ export default {
       width: 100%;
       height: 100px;
       position: absolute;
-      bottom: 30px;
+      bottom: 80px;
       left: 0;
       div{
         width: 450px;
@@ -152,11 +167,11 @@ export default {
           width: 150px;
           background-color: rgba(255,255,255,0.7);
           padding: 5px;
+          font-size: 12px;
           margin: 2px 0 0 0;
           border-radius: 3px;
         }
         .sender-name{ 
-          font-size: 14px;
           color: blue
         }
       }
@@ -181,6 +196,9 @@ export default {
       margin-right: 10px;
       margin-left: 2px;
     }
+  }
+  .hidden{
+    visibility: hidden;
   }
 }
 </style>
