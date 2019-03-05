@@ -10,11 +10,11 @@
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
-    <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview" :class="{hidden:liveInfo.liveType===2}">
+    <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview">
       <div class="info-header flex-justify-center" v-show="!visibility">
         <div :style="{width: topWidth}">
           <div>
-            <p @click="toggleTopList">贡献榜</p>
+            <p @click="toggleTopList">贡献榜 <i class="el-icon-arrow-right"></i></p>
           </div>
           <span></span>
         </div>
@@ -26,13 +26,13 @@
             <h3>贡献榜</h3>
             <span class="close" @click="toggleTopList">&times;</span>
           </div>
-          <div class="top-item flex-all-center" v-for="(item, index) in topList" :key="index">
-            <span class="flex-align-center">
+          <div class="top-item" :class="{' flex-all-center':index!==0}" v-for="(item, index) in topList" :key="index">
+            <span :class="{'flex-align-center':index!==0,isTheTop:index===0}">
               <span class="top-avatar">
                 <img :src="item.userAvatar | picPathFormat" alt="" width="40" height="40">
-              </span>
-              <span class="top-name" v-html="item.userName"></span><br>
-            </span>
+              </span><br>
+              <span class="top-name" v-html="item.userName"></span>
+            </span><br>
             <span class="top-money" v-html="'贡献度：'+item.money"></span>
           </div>
         </div>
@@ -43,6 +43,15 @@
             <p :class="{'sender-name': item.name}" v-html="item.name"></p>
             <p :class="{'sender-content': item.name}" v-html="item.content"></p>
           </div>
+        </div>
+      </div>
+      <div class="live-pic flex-all-center" v-show="liveInfo.liveType === 2">
+        <div :style="{width: topWidth}">
+          <el-carousel indicator-position="none" arrow="never" height="600px">
+            <el-carousel-item v-for="item in radioCover" class="flex-all-center" :key="item">
+              <img :src="item | picPathFormat" alt @error="altImg(item)">
+            </el-carousel-item>
+          </el-carousel>
         </div>
       </div>
       <video src="" controls ref="video" id="review-video" width="450" height="800"></video>
@@ -84,7 +93,8 @@ export default {
       barrages: [],
       topList: [],
       visibility: false,
-      topWidth: '450px'
+      topWidth: '450px',
+      radioCover: []
     };
   },
   methods: {
@@ -98,7 +108,15 @@ export default {
             this.count.comment = res.data.content.count.commentCount
             this.count.share = res.data.content.count.shareCount
           }
-          this.picPath = res.data.content.picPath;
+          if(res.data.content.liveType === 2){
+            let path = res.data.content.picPath
+            if(path.includes(',')){
+              this.radioCover = path.split(',')
+            }
+            this.picPath = res.data.content.picPath;
+          }else{
+            this.picPath = res.data.content.picPath;
+          }
         });
     },
     altImg() {
@@ -183,10 +201,21 @@ export default {
     width: 100%;
     height: 800px;
     color: white;
-    .info-header{
+    .live-pic{
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 800px;
+      z-index: 90;
+      div>img{
+        width: 100%;
+      }
+    }
+    .info-header{
+      position: absolute;
+      top: 5px;
+      left: 5px;
       width: 100%;
       z-index: 99;
       div{
@@ -195,8 +224,9 @@ export default {
         align-items: center;
         p{
           background-color: rgba(0,0,0,0.3);
-          padding: 5px;
-          border-radius: 5px;
+          padding: 5px 20px;
+          font-size: 13px;
+          border-radius: 15px;
           margin-left: 5px;
           cursor: pointer;
         }
@@ -234,13 +264,26 @@ export default {
           margin-bottom: 20px;
           justify-content: space-between;
           padding: 15px;
-          .top-avatar>img{
+          .isTheTop{
+            img{
+              width: 50px;
+              height: 50px;
+            }
+            span{
+              line-height: 1.5;
+            }
+          }
+          .top-avatar img{
             border-radius: 50%;
             padding-right: 10px;
           }
           .top-name{
             max-width: 150px;
             padding-right: 10px;
+          }
+          .top-money{
+            font-size: 13px;
+            color: #ddd;
           }
         }
       }
@@ -253,6 +296,7 @@ export default {
       left: 0;
       .barrage-list{
         padding-left: 10px;
+        z-index: 95;
         .sender-name,.sender-content{
           width: 150px;
           background-color: rgba(255,255,255,0.7);
