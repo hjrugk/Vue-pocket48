@@ -61,7 +61,7 @@
             <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-img">
             <p class="board-name" v-html="item.extInfo.senderName"></p>
           </div>
-          <p class="board-content" v-html="item.extInfo.text"></p>
+          <p class="board-content" v-html="item.extInfo.text || item.extInfo.content + ' ' + item.extInfo.giftName"></p>
         </div>
       </transition-group>
       <div class="button-container flex-all-center" @click="getMore(0)">

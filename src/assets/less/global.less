@@ -6,11 +6,18 @@ body {
 }
 .flex-menu{
   display: flex;
-  .el-menu-item,.el-submenu{
+  li{
     display: flex;
     justify-content: center;
-    flex: 1;
+    width: calc(20vw);
+    .el-submenu__title{
+      width: 100%;
+      text-align: center;
+    }
   }
+}
+.el-menu--popup{
+  width: calc(20vw);
 }
 .flex-justify-center{
   display: flex;

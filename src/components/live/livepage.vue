@@ -1,7 +1,7 @@
 <template>
   <div class="live-page-container my-card">
     <a class="flex-all-center" href="javascript:;" v-if="type===1">
-      <div class="pic-container flex-all-center" @click="playReview" ismember>
+      <div class="pic-container flex-all-center" @click="playReview" ismember :style="{width: topWidth}">
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
@@ -11,19 +11,41 @@
       </div>
     </a>
     <div class="video-container flex-justify-center" v-if="type===1" v-show="isReview" :class="{hidden:liveInfo.liveType===2}">
-      <div class="barrage-container flex-justify-center">
-        <div>
-          <div class="old">
-            <p :class="{'sender-name': oldBarrage.name}" v-html="oldBarrage.name"></p>
-            <p :class="{'sender-content': oldBarrage.name}" v-html="oldBarrage.content"></p>
+      <div class="info-header flex-justify-center" v-show="!visibility">
+        <div :style="{width: topWidth}">
+          <div>
+            <p @click="toggleTopList">贡献榜</p>
           </div>
-          <div class="new">
-            <p :class="{'sender-name': newBarrage.name}" v-html="newBarrage.name"></p>
-            <p :class="{'sender-content': newBarrage.name}" v-html="newBarrage.content"></p>
+          <span></span>
+        </div>
+      </div>
+      <div class="top-container flex-justify-center" v-show="visibility">
+        <div class="top-list" :style="{width: topWidth}">
+          <div class="header">
+            <span></span>
+            <h3>贡献榜</h3>
+            <span class="close" @click="toggleTopList">&times;</span>
+          </div>
+          <div class="top-item flex-all-center" v-for="(item, index) in topList" :key="index">
+            <span class="flex-align-center">
+              <span class="top-avatar">
+                <img :src="item.userAvatar | picPathFormat" alt="" width="40" height="40">
+              </span>
+              <span class="top-name" v-html="item.userName"></span><br>
+            </span>
+            <span class="top-money" v-html="'贡献度：'+item.money"></span>
           </div>
         </div>
       </div>
-      <video src="" controls ref="video" id="review-video"></video>
+      <div class="barrage-container flex-justify-center">
+        <div class="barrage-list" :style="{width: topWidth}">
+          <div class="barrage-item" v-for="(item, index) in barrages" :key="index">
+            <p :class="{'sender-name': item.name}" v-html="item.name"></p>
+            <p :class="{'sender-content': item.name}" v-html="item.content"></p>
+          </div>
+        </div>
+      </div>
+      <video src="" controls ref="video" id="review-video" width="450" height="800"></video>
     </div>
     <div class="live-info">
       <p v-html="liveInfo.title" class="main-title"></p>
@@ -59,8 +81,10 @@ export default {
       },
       isReview: false,
       barrageList: {},
-      newBarrage: {},
-      oldBarrage: {}
+      barrages: [],
+      topList: [],
+      visibility: false,
+      topWidth: '450px'
     };
   },
   methods: {
@@ -92,6 +116,7 @@ export default {
         player.load();
         this.$refs.video.onloadeddata = () => {
           this.isReview = true
+          this.topList = this.liveInfo.topList
           player.play()
           this.loadBarrages()
         }
@@ -104,7 +129,12 @@ export default {
         this.$refs.video.ontimeupdate = () => {
           if(this.isReview){
             if(player.currentTime >= this.barrageList.times[0]){
-              this.newBarrage = this.barrageList.barrages[0]
+              if(this.barrages.length===3){
+                this.barrages.shift()
+                this.barrages.push(this.barrageList.barrages[0])
+              }else{
+                this.barrages.push(this.barrageList.barrages[0])
+              }
               this.barrageList.times.shift()
               this.barrageList.barrages.shift()
             }
@@ -117,15 +147,13 @@ export default {
         .then(res => {
           this.barrageList = res.data
         })
+    },
+    toggleTopList(){
+      this.visibility = !this.visibility
     }
   },
   created() {
     this.getLive();
-  },
-  watch: {
-    newBarrage: function (newVal,oldVal) {
-      this.oldBarrage = oldVal
-    } 
   }
 };
 </script>
@@ -141,7 +169,6 @@ export default {
   .pic-container[ismember] {
     text-align: center;
     background-color: #000;
-    width: 450px;
     height: 800px;
     cursor: pointer;
     .live-cover {
@@ -155,14 +182,77 @@ export default {
     left: 0;
     width: 100%;
     height: 800px;
+    color: white;
+    .info-header{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 99;
+      div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p{
+          background-color: rgba(0,0,0,0.3);
+          padding: 5px;
+          border-radius: 5px;
+          margin-left: 5px;
+          cursor: pointer;
+        }
+      }
+    }
+    .top-container{
+      padding: 10px 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      .top-list{
+        height: 800px;
+        background-color: rgba(0,0,0,0.6);
+        overflow: scroll;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+        .header{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          h3{
+            display: inline-block;
+            margin-right: -40px;
+          }
+          .close{
+            font-size: 25px;
+            margin-right: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+          }
+        }
+        .top-item{
+          margin-bottom: 20px;
+          justify-content: space-between;
+          padding: 15px;
+          .top-avatar>img{
+            border-radius: 50%;
+            padding-right: 10px;
+          }
+          .top-name{
+            max-width: 150px;
+            padding-right: 10px;
+          }
+        }
+      }
+    }
     .barrage-container{
       width: 100%;
       height: 100px;
       position: absolute;
-      bottom: 80px;
+      bottom: 120px;
       left: 0;
-      div{
-        width: 450px;
+      .barrage-list{
+        padding-left: 10px;
         .sender-name,.sender-content{
           width: 150px;
           background-color: rgba(255,255,255,0.7);
@@ -173,6 +263,9 @@ export default {
         }
         .sender-name{ 
           color: blue
+        }
+        .sender-content{
+          color: #000;
         }
       }
     }

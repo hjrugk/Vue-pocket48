@@ -6,11 +6,17 @@ body {
 .flex-menu {
   display: flex;
 }
-.flex-menu .el-menu-item,
-.flex-menu .el-submenu {
+.flex-menu li {
   display: flex;
   justify-content: center;
-  flex: 1;
+  width: calc(20vw);
+}
+.flex-menu li .el-submenu__title {
+  width: 100%;
+  text-align: center;
+}
+.el-menu--popup {
+  width: calc(20vw);
 }
 .flex-justify-center {
   display: flex;
@@ -55,6 +61,9 @@ body {
   background-color: #fff;
   cursor: pointer;
   z-index: 999;
+}
+.radio-list {
+  padding: 15px 10px 10px 10px;
 }
 .my-card {
   border: 1px solid #efefef;
@@ -72,11 +81,17 @@ body {
 .flex-menu {
   display: flex;
 }
-.flex-menu .el-menu-item,
-.flex-menu .el-submenu {
+.flex-menu li {
   display: flex;
   justify-content: center;
-  flex: 1;
+  width: calc(20vw);
+}
+.flex-menu li .el-submenu__title {
+  width: 100%;
+  text-align: center;
+}
+.el-menu--popup {
+  width: calc(20vw);
 }
 .flex-justify-center {
   display: flex;
@@ -121,4 +136,7 @@ body {
   background-color: #fff;
   cursor: pointer;
   z-index: 999;
+}
+.radio-list {
+  padding: 15px 10px 10px 10px;
 }
