@@ -36,6 +36,7 @@ export default new Vuex.Store({
         state.token = JSON.parse(localStorage.getItem('userinfo')).token
         return state.token
       }
+      return state.token
     },
     getUserInfo: state => {
       if(localStorage.getItem('userinfo')){

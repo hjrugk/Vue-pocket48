@@ -74,7 +74,7 @@ const api = {
       method: 'POST',
       headers: {
         "imei": "355757010989529",
-        token: req.body.token,
+        token: req.body.token.replace(/\s/g, '+'),
         build: 167,
         os: "android",
         'Content-Type': 'application/json;charset=utf-8',
@@ -198,7 +198,7 @@ const api = {
       method: 'POST',
       headers: {
         os: "android",
-        token: req.body.token,
+        token: req.body.token.replace(/\s/g, '+'),
         "imei": "355757010989529",
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData),
@@ -246,7 +246,7 @@ const api = {
       headers: {
         os: "android",
         version: "5.3.1",
-        token: req.body.token,
+        token: req.body.token.replace(/\s/g, '+'),
         'IMEI': '355757010989529',
         build: 0,
         Connection: 'Keep-Alive',

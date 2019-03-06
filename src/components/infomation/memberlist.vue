@@ -9,7 +9,7 @@
       <el-radio v-model="statusCode" label="2">其他成员</el-radio>
     </div>
     <div v-for="(info, i) in team" :key="i" class="team-container">
-      <p v-html="info.team_name" :style="'color: #'+info.color" class="team-name"></p>
+      <p v-html="info.team_name" :style="'color: #'+info.color" class="team-name" v-show="!keywords"></p>
       <p v-if="!memberList[0]" class="alt_icon">
         <i class="el-icon-loading"></i>
       </p>
@@ -47,7 +47,7 @@ export default {
       memberList: [],
       group: this.$route.params.group,
       team: [],
-      keywords: "",
+      keywords: this.$route.params.memberName || "",
       statusCode: '1',
       statusVal: ["正式成员", "暂休成员", "其他成员"]
     };

@@ -29,7 +29,7 @@ export default {
     return {
       msgList: [],
       msgPage: 0,
-      token: "",
+      token: this.$store.getters.getToken,
       friends: [],
       member: []
     };

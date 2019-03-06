@@ -3,186 +3,33 @@
     <div
       class="backToTop flex-all-center"
       @click="toTop"
-      v-show="msgList.length>=20 || commentList.length>=20"
     >
       <i class="el-icon-arrow-up"></i>
     </div>
-    <div class="msg-list">
-      <transition-group>
-        <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
-          <p class="msg-time" v-html="item.msgTimeStr"></p>
-          <p class="msg-sender flex-align-center">
-            <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-avatar">
-            <span v-html="item.extInfo.senderName" class="sender-name"></span>
-          </p>
-          <p v-show="item.extInfo.faipaiContent" v-html="item.extInfo.faipaiContent" class="fanpai"></p>
-          <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
-            <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
-          </p>
-          <p class="msg-content" v-else-if="item.bodys.includes('amr')" @click="stop">
-            <el-button @click="getAudio(JSON.parse(item.bodys).url)">
-              语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s
-            </el-button>
-          </p>
-          <p class="msg-content" v-else-if="item.bodys.includes('mp4')">
-            <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
-          </p>
-          <p class="msg-content" v-else-if="item.extInfo.referenceTitle">
-            <span class="live-push" v-html="item.extInfo.referenceTitle"
-             @click="getLivePage(item.extInfo.referenceObjectId)"
-            ></span>
-          </p>
-          <p class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
-            <span
-              v-html="item.extInfo.idolFlipTitle"
-              class="msg-flip"
-              @click="getAnswer(item.extInfo.idolFlipQuestionId,item.extInfo.idolFlipAnswerId,item.extInfo.idolFlipTitle)"
-            ></span>
-          </p>
-          <p
-            class="msg-content"
-            v-else
-            v-html="item.extInfo.text || item.extInfo.messageText"
-          ></p>
-        </div>
-      </transition-group>
-      <div class="button-container flex-all-center" @click="getMore(1)">
-        <i class="el-icon-arrow-down" v-show="msgList[0]"></i>
-        <!--<el-button @click="getMore(1)" type="info" v-show="msgList[0]">加载更多</el-button>-->
-      </div>
-    </div>
-    <div class="board-list" ref="board">
-      <transition-group>
-        <div class="board-item my-card"
-             :class="{isSpec:item.extInfo.senderId===655632}"
-             v-for="item in commentList" :key="item.msgidClient"
-        >
-          <div class="sender-info flex-align-center">
-            <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-img">
-            <p class="board-name" v-html="item.extInfo.senderName"></p>
-          </div>
-          <p class="board-content" v-html="item.extInfo.text || item.extInfo.content + ' ' + item.extInfo.giftName"></p>
-        </div>
-      </transition-group>
-      <div class="button-container flex-all-center" @click="getMore(0)">
-        <i class="el-icon-arrow-down" v-show="commentList[0]"></i>
-      </div>
-    </div>
+    <msg-list :id="id"></msg-list>
+    <comment-list :id="id"></comment-list>
   </div>
 </template>
 
 <script>
+import msgList from '../subComponents/msgList'
+import commentList from '../subComponents/commentList'
 export default {
   name: "roommsg",
   data() {
     return {
-      msgList: [],
       id: this.$route.params.id,
-      limit: 10,
-      bodys: {},
       bgPath: this.$route.params.bgPath,
-      top: document.body.scrollTop,
-      commentList: [],
-      base64Str: '',
-      answerContent: {}
+      top: document.body.scrollTop
     };
   },
   methods: {
-    getMsgList() {
-      this.axios
-        .post("/api/getRoomBoard", {
-          token: this.$store.getters.getToken,
-          id: this.id
-        })
-        .then(res => {
-          this.msgList = res.data.content.data;
-        });
-    },
-    getMore(type) {
-      this.limit += 10;
-      if (type === 1) {
-        this.axios
-          .post("/api/getRoomBoard", {
-            token: this.$store.getters.getToken,
-            id: this.id,
-            limit: this.limit
-          })
-          .then(res => {
-            this.msgList = res.data.content.data;
-          });
-      } else {
-        this.axios
-          .post("/api/getComments", {
-            id: this.id,
-            token: this.$store.getters.getToken,
-            limit: this.limit
-          })
-          .then(res => {
-            this.commentList = res.data.content.data;
-          });
-      }
-    },
     toTop() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-    },
-    getComments() {
-      this.axios
-        .post("/api/getComments", {
-          id: this.id,
-          token: this.$store.getters.getToken
-        })
-        .then(res => {
-          this.commentList = res.data.content.data;
-        });
-    },
-    getAnswer(questionId, answerId, title) {
-      const h = this.$createElement;
-      this.axios
-        .post("/api/getAnswer", {
-          questionId,
-          answerId,
-          token: this.$store.getters.getToken
-        })
-        .then(res => {
-          this.answerContent = res.data.content;
-          this.$msgbox({
-            title,
-            message: h("div", null, [
-              h("p", null, this.answerContent.answer),
-              h("p", { style: "color: #ccc" }, this.answerContent.question)
-            ]),
-            confirmButtonText: "确定"
-          });
-        });
-    },
-    getAudio(url){
-      this.axios.post('/api/getAudio',{url})
-        .then(res => {
-          if(res.data.status === 200){
-            // eslint-disable-next-line
-            RongIMLib.RongIMVoice.init()
-            this.base64Str = res.data.message
-            // eslint-disable-next-line
-            RongIMLib.RongIMVoice.stop()
-            // eslint-disable-next-line
-            RongIMLib.RongIMVoice.play(this.base64Str)
-          }
-        })
-    },
-    stop(){
-      // eslint-disable-next-line
-      RongIMLib.RongIMVoice.init()
-      // eslint-disable-next-line
-      RongIMLib.RongIMVoice.stop()
-    },
-    getLivePage(id) {
-      this.$router.push({name:'livepage',params:{id,type: 1}})
     }
   },
   mounted() {
-    this.getMsgList();
-    this.getComments();
     if (this.bgPath) {
       this.bgPath = "http://source.48.cn" + this.bgPath;
       this.$refs.bgPic.style.background = "url(" + this.bgPath + ")";
@@ -193,22 +40,13 @@ export default {
     }
   },
   watch: {
-    msgList: function() {
-      this.msgList.forEach(item => {
-        item.extInfo = JSON.parse(item.extInfo);
-        if (item.bodys.includes("amr")) {
-          this.amr = JSON.parse(item.bodys);
-        }
-      });
-    },
     top: function() {
       this.top = document.body.scrollTop;
-    },
-    commentList: function() {
-      this.commentList.forEach(item => {
-        item.extInfo = JSON.parse(item.extInfo);
-      });
     }
+  },
+  components: {
+    msgList,
+    commentList
   }
 };
 </script>
@@ -227,82 +65,6 @@ export default {
     justify-content: flex-end;
     align-items: center;
     display: none;
-  }
-  .msg-list {
-    .msg-item {
-      max-width: 400px;
-      min-width: 320px;
-      &:hover {
-        background-color: #efefef;
-      }
-      .msg-time {
-        font-size: 12px;
-      }
-      .msg-content {
-        .msg-flip {
-          cursor: pointer;
-        }
-        .msg-img {
-          width: 100%;
-        }
-        .live-push{
-          cursor: pointer;
-        }
-      }
-      .msg-sender {
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 10px;
-        text-decoration: none;
-        color: #000;
-        line-height: 1.5;
-        .sender-avatar {
-          width: 20px;
-        }
-        .sender-name {
-          line-height: 20px;
-          font-size: 15px;
-          display: inline-block;
-          margin-left: 5px;
-        }
-      }
-      .fanpai {
-        font-size: 14px;
-        color: #999;
-      }
-    }
-  }
-  .board-list {
-    .board-item {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #777;
-      background-color: #666;
-      max-width: 300px;
-      min-width: 250px;
-      &:hover {
-        background-color: #555;
-      }
-      &.isSpec{
-        background-color: #999;
-        border: 1px solid #999;
-      }
-      .sender-info {
-        justify-content: flex-start;
-        border-bottom: 1px solid #ccc;
-        .sender-img {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
-        .board-name {
-          color: #eee;
-        }
-      }
-      .board-content {
-        color: #fff;
-      }
-    }
   }
   @media screen and (max-width: 768px) {
     .board-list {

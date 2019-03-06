@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="logo flex-all-center" v-show="!$store.getters.checkLogin">
+    <div class="logo flex-all-center" v-show="!this.$store.getters.checkLogin">
       <img src="../../assets/images/login_logo.jpg" alt="">
       <p class="brand">口袋48</p>
     </div>
-      <div class="login-container flex-justify-center" v-if="!$store.getters.checkLogin">
+      <div class="login-container flex-justify-center" v-if="!this.$store.getters.checkLogin">
         <el-form 
           status-icon ref="ruleForm2"
           label-position="top"
@@ -50,6 +50,7 @@
         type: 'danger',
         checkFlag: false,
         txt: '打卡',
+        logFlag: this.$store.getters.checkLogin
       }
     },
     methods: {
@@ -66,45 +67,53 @@
             .then(res => {
               this.password = ''
               this.account = ''
+              this.userInfo = res.data.content.userInfo
               this.$store.commit('saveUserInfo',res.data.content.userInfo)
               this.token = res.data.content.token
               this.$store.commit('setToken', res.data.content.token)
+              this.logFlag = true
+              localStorage.setItem('isLogin',JSON.stringify({logFlag: this.logFlag}))
               this.friends = res.data.content.friends
               localStorage.setItem('userinfo', JSON.stringify(res.data.content))
-              this.$router.push('/roomlist')
+              this.$message('登陆成功，3秒后刷新')
+              setTimeout(() => {
+                window.location.reload()
+              },3000)
             })
         }
       },
-      getCheck(){
+      check(){
         if(!localStorage.getItem('isLogin')){
           return
         }
         let date = new Date().toDateString()
         let flag = JSON.parse(localStorage.getItem('isLogin'))
-        this.isLogin = flag.logFlag
         if (flag.date && flag.date === date){
           this.checkFlag = true
           this.txt= '已打卡'
         }else{
           this.checkFlag = false
-          this.axios.post('/api/getCheck',{token:this.$store.state.token})
-            .then(res => {
-              if (res.data.status===200 || res.data.status===1001006){
-                flag.checkFlag = true
-                flag.date = new Date().toDateString()
-                localStorage.setItem('isLogin',JSON.stringify(flag))
-                this.checkFlag = true
-                this.txt= '已打卡'
-                this.$message('打卡成功')
-              }
-            })
         }
+      },
+      getCheck(){
+        this.axios.post('/api/getCheck',{token:this.$store.state.token})
+          .then(res => {
+            if (res.data.status===200 || res.data.status===1001006){
+              let flag = JSON.parse(localStorage.getItem('isLogin'))
+              flag.checkFlag = true
+              flag.date = new Date().toDateString()
+              localStorage.setItem('isLogin',JSON.stringify(flag))
+              this.checkFlag = true
+              this.txt= '已打卡'
+              this.$message('打卡成功')
+            }
+          })
       }
     },
     computed: {
     },
     mounted() {
-      this.getCheck()
+      this.check()
     }
   }
 </script>

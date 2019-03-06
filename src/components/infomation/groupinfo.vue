@@ -8,6 +8,7 @@
           :key="item.id"
           :index="item.id"
           @click="getList(item.id)"
+          :disabled="item.id==='1'"
         >{{item.name.toUpperCase()}}</el-menu-item>
       </el-menu>
       <router-view></router-view>
@@ -21,6 +22,7 @@ export default {
   data() {
     return {
       groupList: [
+        {id:'1',name:'全团'},
         {id:'1000',name:'snh48'},
         {id:'1100',name:'bej48'},
         {id:'1200',name:'gnz48'},

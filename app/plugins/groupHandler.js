@@ -1,4 +1,5 @@
 const Group = require('../schema/groupSchema')
+const Member = require('../schema/memberSchema')
 
 module.exports = function (membersList,teamList) {
   const snh = []
@@ -11,6 +12,7 @@ module.exports = function (membersList,teamList) {
   const other = []
   const legend = []
   membersList.forEach(item => {
+    new Member({mid: item.member_id,info:item}).save()
     switch (parseInt(item.team / 100)) {
       case 10:
         snh.push(item)

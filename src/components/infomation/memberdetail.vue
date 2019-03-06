@@ -108,11 +108,9 @@ export default {
     },
     checkisFollowed(){
       let info = JSON.parse(localStorage.getItem('userinfo'))
-      info.friends.find(item => {
-        if(item===this.id){
+      info.friends.map(item => {
+        if(item===parseInt(this.id)){
           this.isFollowed = true
-        }else{
-          this.isFollowed = false
         }
       })
     }
