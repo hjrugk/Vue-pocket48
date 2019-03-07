@@ -9,6 +9,7 @@
           :index="item.id"
           @click="getList(item.id)"
           :disabled="item.id==='1'"
+          v-show="item.id !== '1'"
         >{{item.name.toUpperCase()}}</el-menu-item>
       </el-menu>
       <router-view></router-view>

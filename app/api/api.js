@@ -254,6 +254,30 @@ const api = {
         'Content-Length': Buffer.byteLength(postData)
       }
     }
+  },
+  userInfo_postData: () => {
+    return JSON.stringify({
+      "needRecommend":true,
+      "needChatInfo":true,
+      "needFriendsNum":true
+    })
+  },
+  userInfo_options: (req,postData) => {
+    return {
+      host: 'puser.48.cn',
+      port: '',
+      path: '/usersystem/api/user/v1/show/info/' + req.query.id,
+      method: 'POST',
+      headers: {
+        os: "android",
+        version: "5.3.1",
+        'IMEI': '355757010989529',
+        build: 0,
+        Connection: 'Keep-Alive',
+        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }
   }
 }
 

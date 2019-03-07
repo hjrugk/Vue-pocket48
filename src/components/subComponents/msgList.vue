@@ -77,6 +77,7 @@ export default {
         .then(res => {
           this.msgList = res.data.content.data;
         });
+      this.$store.commit('saveScrollTop')
     },
     getAnswer(questionId, answerId, title) {
       const h = this.$createElement;

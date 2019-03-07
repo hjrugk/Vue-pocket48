@@ -3,6 +3,7 @@
     <div
       class="backToTop flex-all-center"
       @click="toTop"
+      v-show="$store.state.scrollTop"
     >
       <i class="el-icon-arrow-up"></i>
     </div>

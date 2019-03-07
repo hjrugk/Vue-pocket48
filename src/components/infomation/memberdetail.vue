@@ -66,7 +66,7 @@ export default {
       fullPhoto: [],
       period: [],
       id: this.$route.params.id,
-      isFollowed: true
+      isFollowed: false
     };
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
     },
     checkisFollowed(){
       let info = JSON.parse(localStorage.getItem('userinfo'))
-      info.friends.map(item => {
+      info.friends.forEach(item => {
         if(item===parseInt(this.id)){
           this.isFollowed = true
         }

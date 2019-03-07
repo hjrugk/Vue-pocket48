@@ -18,7 +18,7 @@
         <div class="top-item" :class="{' flex-all-center':index!==0}" v-for="(item, index) in toplist" :key="index">
           <span :class="{'flex-align-center':index!==0,isTheTop:index===0}">
             <span class="top-avatar">
-              <img :src="item.userAvatar | picPathFormat" alt="" width="40" height="40">
+              <img @click="getUserInfo(item.userId)" :src="item.userAvatar | picPathFormat" alt="" width="40" height="40">
             </span><br>
             <span class="top-name" v-html="item.userName"></span>
           </span><br>
@@ -43,12 +43,16 @@
         </el-carousel>
       </div>
     </div>
+    <div v-if="showInfo" @click="showInfo = !showInfo">
+      <popup-info :id="userId"></popup-info>
+    </div>
     <video src="" controls ref="video" id="review-video" width="450" height="800"></video>
   </div>
 </template>
 <script>
 import flvjs from 'flv.js'
 import typeCheck from '../../plugins/typeCheck'
+import popupInfo from './popupInfo'
 export default {
   name: 'videoControl',
   data(){
@@ -58,6 +62,8 @@ export default {
       barrages: [],
       topList: [],
       visibility: false,
+      showInfo: false,
+      userId: 0
     }
   },
   props: ['path','type','topwidth',"radiocover","toplist","lrcpath"],
@@ -108,7 +114,14 @@ export default {
     },
     toggleTopList(){
       this.visibility = !this.visibility
+    },
+    getUserInfo(id){
+      this.userId = id
+      this.showInfo = true
     }
+  },
+  components: {
+    popupInfo
   }
 }
 </script>
@@ -200,6 +213,7 @@ export default {
         .top-avatar img{
           border-radius: 50%;
           padding-right: 10px;
+          cursor: pointer;
         }
         .top-name{
           max-width: 150px;

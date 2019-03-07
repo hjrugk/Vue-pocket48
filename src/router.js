@@ -71,6 +71,11 @@ export default new Router({
       path: '/home/livepage/:id',
       name: 'livepage',
       component: () => import('./components/live/livepage.vue')
+    },
+    {
+      path: '/userinfo/:id',
+      name: 'userinfo',
+      component: () => import('./components/user/userInfo.vue')
     }
   ]
 })

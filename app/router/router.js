@@ -3,6 +3,7 @@ const api = require('../api/api')
 const getData = require('../plugins/request')
 const groupHandler = require('../plugins/groupHandler')
 const Group = require('../schema/groupSchema')
+const Member = require('../schema/memberSchema')
 const downloadFile = require('../plugins/downloadFile')
 const fs = require('fs')
 const barrage = require('../plugins/barrage')
@@ -151,6 +152,24 @@ router.post('/api/getAudio',(req,res) => {
 router.post('/api/getBarrages', (req,res) => {
   barrage.loadLrc("https://source.48.cn" + req.body.url,function(data) {
     res.send(data)
+  })
+})
+
+// 获取聚聚信息
+router.get('/api/getUserInfo', (req,res) => {
+  const userInfo_postData = api.userInfo_postData()
+  const userInfo_options = api.userInfo_options(req,userInfo_postData)
+  getData(userInfo_postData,userInfo_options,html => {
+    res.send(html)
+  })
+})
+
+// 获取成员信息
+router.get('/api/getMemberName', (req,res) => {
+  Member.findOne({mid:parseInt(req.query.id)},(err,member) => {
+    if(member){
+      res.send(member)
+    }
   })
 })
 

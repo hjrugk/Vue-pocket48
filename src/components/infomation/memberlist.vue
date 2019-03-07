@@ -1,6 +1,6 @@
 <template>
   <div class="member-container">
-    <el-input v-model="keywords">
+    <el-input v-model="keywords" :disabled="group==='1'">
       <template slot="prepend">搜索成员</template>
     </el-input>
     <div class="radio-list">

@@ -8,7 +8,8 @@ export default new Vuex.Store({
     token: '',
     logFlag: false,
     userInfo: {},
-    detail: {}
+    detail: {},
+    scrollTop: false
   },
   mutations: {
     setToken(state, token) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     saveDetail(state, info) {
       state.detail = info
       localStorage.setItem('detail',JSON.stringify(info))
+    },
+    saveScrollTop(state){
+      state.scrollTop = true
     }
   },
   actions: {
