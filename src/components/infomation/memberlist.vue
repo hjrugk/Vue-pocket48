@@ -14,7 +14,7 @@
         <i class="el-icon-loading"></i>
       </p>
       <div class="member-list">
-        <transition-group mode="out-in">
+        <transition-group mode="out-in" tag="div">
           <div
             class="member-item my-card flex-all-center"
             :style="'border: 1px solid #'+info.color"
@@ -106,12 +106,14 @@ export default {
     .alt_icon {
       padding-left: 2px;
     }
-    .member-list > span {
+    .member-list > div {
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
       .member-item {
-        width: 95px;
+        flex: 1;
+        min-width: 95px;
+        max-width: 131px;
         height: 200px;
         border: 1px solid #ddd;
         padding: 5px;
@@ -124,11 +126,11 @@ export default {
           background-color: #efefef;
         }
         .avatar-container {
-          width: 98px;
+          width: 100px;
           height: 130px;
           .member-avatar {
-            width: 100%;
             border-radius: 50%;
+            width: 100%;
           }
         }
         .member-name {

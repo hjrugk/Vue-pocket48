@@ -114,7 +114,7 @@ export default {
     border: 2px solid #ccc;
     overflow: hidden;
     img{
-      height: 100px;
+      height: 80px;
     }
   }
   .base-info{

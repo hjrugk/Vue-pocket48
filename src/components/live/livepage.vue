@@ -7,7 +7,7 @@
     </a>
     <a class="flex-all-center" href="javascript:;" v-if="type===0">
       <div class="pic-container flex-all-center">
-        <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
+        <img width="100%" :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
     <video-control 

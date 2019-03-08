@@ -149,7 +149,7 @@
 }
 .user-info{
   text-align: center;
-  padding: 5px;
+  padding: 10px;
   margin: 5px;
   img{
     width: 80px;

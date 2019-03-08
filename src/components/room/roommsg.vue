@@ -21,7 +21,7 @@ export default {
     return {
       id: this.$route.params.id,
       bgPath: this.$route.params.bgPath,
-      top: document.body.scrollTop
+      top: document.body.scrollTop,
     };
   },
   methods: {
@@ -58,6 +58,22 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  .show-comment{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(20vw);
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    background-color: #545c64;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    &:hover{
+      background-color: rgb(84, 92, 100);
+    }
+  }
   .comment-layer {
     width: 100%;
     height: 20px;

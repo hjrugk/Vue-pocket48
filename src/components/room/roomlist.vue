@@ -1,24 +1,23 @@
 <template>
-  <div>
-    <div class="room">
-      <div class="room-list">
-        <div
-          class="room-item my-card flex-align-center"
-          v-for="item in member"
-          :key="item.roomId"
-          @click="getInfo(item.roomId,item.bgPath)"
-        >
-          <img class="room-avatar" :src="item.roomAvatar | picPathFormat" alt>
-          <div class="room-info">
-            <p>
-              <span class="room-owner" v-html="item.creatorName"></span>
-              <span class="room-name" v-html="item.roomName"></span>
-            </p>
-            <p class="room-preview" v-html="item.roomTopic"></p>
-          </div>
+  <div class="room">
+    <div class="room-list"  v-if="token">
+      <div
+        class="room-item my-card flex-align-center"
+        v-for="item in member"
+        :key="item.roomId"
+        @click="getInfo(item.roomId,item.bgPath)"
+      >
+        <img class="room-avatar" :src="item.roomAvatar | picPathFormat" alt>
+        <div class="room-info">
+          <p>
+            <span class="room-owner" v-html="item.creatorName"></span>
+            <span class="room-name" v-html="item.roomName"></span>
+          </p>
+          <p class="room-preview" v-html="item.roomTopic"></p>
         </div>
       </div>
     </div>
+    <div class="my-card" v-else>您还没有登录</div>
   </div>
 </template>
 
@@ -60,11 +59,12 @@ export default {
   justify-content: flex-start;
   flex-wrap: wrap;
   .room-item {
+    flex: 1;
     padding: 5px;
     margin: 5px;
     cursor: pointer;
     justify-content: flex-start;
-    width: 400px;
+    min-width: 400px;
     &:hover {
       background-color: #efefef;
     }

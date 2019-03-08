@@ -4,12 +4,12 @@
     <p v-if="!liveList[0]" class="alt_icon">
       <i class="el-icon-loading"></i>
     </p>
-    <live-list :type="0" :list="liveList" :rect="{width:'400px',height:'230px'}" v-else></live-list>
+    <live-list :type="0" :list="liveList" :rect="{width:'400px',height:'230px',maxWidth: '600px'}" v-else></live-list>
     <h2>公演录播</h2>
     <p v-if="!reviewList[0]" class="alt_icon">
       <i class="el-icon-loading"></i>
     </p>
-    <live-list :type="0" :list="reviewList" :rect="{width:'400px',height:'230px'}" v-else></live-list>
+    <live-list :type="0" :list="reviewList" :rect="{width:'400px',height:'230px',maxWidth: '600px'}" v-else></live-list>
     <div class="button-container flex-all-center" @click="getMoreLive">
       <i class="el-icon-arrow-down" v-if="reviewList[0]"></i>
     </div>

@@ -16,7 +16,7 @@
     <div class="board-item my-card" v-else>
       <p class="board-content">加载中</p>
     </div>
-    <transition-group>
+    <transition-group tag="div">
       <div class="board-item my-card"
         :class="{isSpec:item.extInfo.senderId===655632}"
         v-for="item in commentList" :key="item.msgidClient"

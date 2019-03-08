@@ -1,13 +1,13 @@
 <template>
   <div class="live-list">
-    <transition-group>
+    <transition-group appear tag="div">
       <a
         href="javascript:;"
         @click.prevent="getLivePage(item.liveId)"
         v-for="item in list"
         :key="item.liveId"
         class="live-item my-card"
-        :style="{width: rect.width}"
+        :style="{minWidth: rect.width,maxWidth: rect.maxWidth}"
         target="_blank"
       >
         <div class="pic-container flex-align-center" :style="{height:rect.height}">
@@ -37,31 +37,38 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.live-list > span {
+.live-list{
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-  .live-item {
-    display: block;
-    margin: 0 5px 10px 0px;
-    padding: 5px;
-    text-decoration: none;
-    color: #000;
-    cursor: pointer;
-    &:hover {
-      background-color: #efefef;
-    }
-    .pic-container {
-      overflow: hidden;
-      .live-pic {
-        width: 100%;
+  justify-content: center;
+  div{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+    .live-item {
+      flex: 1;
+      display: block;
+      margin: 0 5px 10px 0px;
+      padding: 5px;
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+      &:hover {
+        background-color: #efefef;
       }
-    }
-    .live-time,
-    .live-title,
-    .live-url {
-      font-size: 14px;
+      .pic-container {
+        overflow: hidden;
+        .live-pic {
+          width: 100%;
+        }
+      }
+      .live-time,
+      .live-title,
+      .live-url {
+        font-size: 14px;
+      }
     }
   }
 }

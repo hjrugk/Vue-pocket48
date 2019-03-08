@@ -90,10 +90,12 @@ export default {
   margin-bottom: 5px;
   margin-top: -5px;
   .music-item {
+    flex: 1;
     margin: 5px;
     display: flex;
     flex-direction: column;
-    width: 120px;
+    min-width: 120px;
+    max-width: 206px;
     justify-content: space-between;
     align-items: center;
     &:hover{

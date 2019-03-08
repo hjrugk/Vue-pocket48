@@ -9,7 +9,7 @@ export default new Vuex.Store({
     logFlag: false,
     userInfo: {},
     detail: {},
-    scrollTop: false
+    scrollTop: false,
   },
   mutations: {
     setToken(state, token) {

@@ -1,6 +1,6 @@
 <template>
   <div class="msg-list">
-    <transition-group>
+    <transition-group tag="div">
       <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
         <p class="msg-time" v-html="item.msgTimeStr"></p>
         <p class="msg-sender flex-align-center">
@@ -150,8 +150,9 @@ export default {
 <style lang="less" scoped>
 .msg-list {
   .msg-item {
-    max-width: 400px;
-    min-width: 320px;
+    max-width: 768px;
+    min-width: 420px;
+    flex: 1;
     &:hover {
       background-color: #efefef;
     }

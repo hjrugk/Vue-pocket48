@@ -2,12 +2,12 @@
   <div class="live-container">
     <h2 class="title">直播</h2>
     <p v-if="!liveList[0]" class="instead-info">当前没有直播</p>
-    <live-list :type="1" :list="liveList" :rect="{width:'160px',height:'160px'}" v-else></live-list>
+    <live-list :type="1" :list="liveList" :rect="{width:'160px',height:'160px',maxWidth: '368px'}" v-else></live-list>
     <h2 class="title">录播</h2>
     <p v-if="!isSuccess" class="instead-info">
       <i class="el-icon-loading"></i>
     </p>
-    <live-list :type="1" :list="reviewList" :rect="{width:'160px',height:'160px'}" v-else></live-list>
+    <live-list :type="1" :list="reviewList" :rect="{width:'160px',height:'160px',maxWidth: '368px'}" v-else></live-list>
     <div
       class="button-container flex-all-center"
       @click="getMoreLive"
