@@ -1,5 +1,5 @@
 <template>
-  <div class="video-container flex-justify-center" v-show="isReview">
+  <div class="video-container flex-justify-center" id="container" v-show="isReview">
     <div class="info-header flex-justify-center" v-show="!visibility">
       <div :style="{width: topwidth}">
         <div>
@@ -43,14 +43,27 @@
         </el-carousel>
       </div>
     </div>
+    <div class="player-control flex-justify-center" v-show="showControls">
+      <div class="control-content flex-align-center">
+        <span v-html="currentTime_"></span>
+        <div class="progress" @click="seekToProgress">
+          <div id="progress-bar" ref="bar" @click="seekToProgress">
+            <div id="progress-dot" ref="dot"></div>
+          </div>
+        </div>
+        <span v-html="duration_"></span>
+      </div>
+    </div>
     <div v-if="showInfo" @click="showInfo = !showInfo">
       <popup-info :id="userId"></popup-info>
     </div>
-    <video src="" controls ref="video" id="review-video" width="450" height="800"></video>
   </div>
 </template>
 <script>
 import flvjs from 'flv.js'
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
+import 'videojs-flash'
 import typeCheck from '../../plugins/typeCheck'
 import popupInfo from './popupInfo'
 export default {
@@ -63,48 +76,69 @@ export default {
       topList: [],
       visibility: false,
       showInfo: false,
-      userId: 0
+      userId: 0,
+      player: null,
+      video: null,
+      playerOptions: {
+        techOrder:['flash', 'html5'],
+        sourceOrder:true,
+        flash:{hls:{withCredentials:false}},
+        html5:{hls:{withCredentials:false}},
+        sources: [
+          {
+            withCredentials:false,
+            type: '',
+            src: ''
+            }
+        ],
+        controls: false
+      },
+      currentTime_: 0,
+      duration_: 0,
+      currentTime: 0,
+      duration: 0,
+      showControls: true
     }
   },
   props: ['path','type','topwidth',"radiocover","toplist","lrcpath"],
   methods: {
     playReview(){
       let type = typeCheck(this.path)
-      if (flvjs.isSupported()) {
-        const videoElement = document.getElementById('review-video');
-        const player = flvjs.createPlayer({
-            type,
-            url: this.path
-        });
-        player.attachMediaElement(videoElement);
-        player.load();
-        this.$refs.video.onloadeddata = () => {
-          this.isReview = true
-          this.topList = this.toplist
-          player.play()
-          this.loadBarrages()
-        }
-        player.on('ERROR',() => {
-          this.$message.error('无法播放')
-        })
-        this.$refs.video.onerror = () => {
-          this.$message.error('无法播放')
-        }
-        this.$refs.video.ontimeupdate = () => {
-          if(this.isReview){
-            if(player.currentTime >= this.barrageList.times[0]){
-              if(this.barrages.length===10){
-                this.barrages.shift()
-                this.barrages.push(this.barrageList.barrages[0])
-              }else{
-                this.barrages.push(this.barrageList.barrages[0])
-              }
-              this.barrageList.times.shift()
-              this.barrageList.barrages.shift()
+      if(type === 'video/flv'){
+        return this.playFlv()
+      }
+      this.playerOptions.sources[0].type = type
+      this.playerOptions.sources[0].src = this.path
+      this.player = videojs(this.id,this.playerOptions)
+      this.player.on('loadeddata', () => {
+        document.querySelector('video').width = '450'
+        document.querySelector('video').height = '800'
+        this.isReview = true
+        this.player.play()
+        this.topList = this.toplist
+        this.loadBarrages()
+      })
+      this.player.on('error', () => {
+        this.$message.error('无法播放')
+      })
+      this.player.on('timeupdate', (e) => {
+        this.currentTime = e.target.player.currentTime().toFixed(2)
+        this.duration = e.target.player.duration().toFixed(2)
+        this.currentTime_ = this.timeFormat(e.target.player.currentTime().toFixed(2))
+        this.duration_ = this.timeFormat(e.target.player.duration().toFixed(2))
+        if(this.isReview){
+          if(e.target.player.currentTime() >= this.barrageList.times[0]){
+            if(this.barrages.length===10 && this.barrageList.length){
+              this.barrages.shift()
+              this.barrages.push(this.barrageList.barrages[0])
+            }else{
+              this.barrages.push(this.barrageList.barrages[0])
             }
+            this.barrageList.times.shift()
+            this.barrageList.barrages.shift()
           }
         }
-      }
+      })
     },
     loadBarrages(){
       this.axios.post('/api/getBarrages',{url:this.lrcpath})
@@ -118,10 +152,84 @@ export default {
     getUserInfo(id){
       this.userId = id
       this.showInfo = true
+    },
+    seekToProgress(e){
+      let bar = document.getElementById('progress-bar')
+      let dot = document.getElementById('progress-dot')
+      bar.style.width = e.offsetX + 'px'
+      dot.style.left = e.offsetX + 'px'
+      this.player.currentTime(e.offsetX/e.target.clientWidth * this.duration)
+    },
+    timeFormat(time){
+      time = parseInt(time)
+      let h = parseInt(time/3600)
+      if(h<10){
+        h = '0'+h
+      }
+      let m = parseInt(time%3600/60)
+      if(m<10){
+        m = '0'+m
+      }
+      let s = time-m*60
+      if(s<10){
+        s = '0'+s
+      }
+      return h+':'+m+':'+s
+    },
+    playFlv(){
+      if (flvjs.isSupported()) {
+        var videoElement = document.getElementById(this.id);
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: this.path
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        videoElement.onloadeddata = () => {
+          videoElement.controls = true
+          this.isReview = true
+          this.showControls = false
+          this.topList = this.toplist
+          flvPlayer.play()
+          this.loadBarrages()
+        }
+        flvPlayer.on('ERROR',() => {
+          this.$message.error('无法播放')
+        })
+        videoElement.onerror = () => {
+          this.$message.error('无法播放')
+        }
+        videoElement.ontimeupdate = () => {
+          if(this.isReview){
+            if(flvPlayer.currentTime >= this.barrageList.times[0]){
+              if(this.barrages.length===10){
+                this.barrages.shift()
+                this.barrages.push(this.barrageList.barrages[0])
+              }else{
+                this.barrages.push(this.barrageList.barrages[0])
+              }
+              this.barrageList.times.shift()
+              this.barrageList.barrages.shift()
+            }
+          }
+        }
+      }
     }
   },
   components: {
     popupInfo
+  },
+  mounted() {
+    let video = document.createElement('video')
+    video.id = this.id
+    document.getElementById('container').append(video)
+  },
+  computed: {
+    id: function(){
+      let id = Math.random().toString(36).substr(2)
+      id = id.replace(/[0-9]/g,'')
+      return id
+    }
   }
 }
 </script>
@@ -134,6 +242,42 @@ export default {
   width: 100%;
   height: 800px;
   color: white;
+  .player-control{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    .control-content{
+      background-color: #000;
+      color: #fff;
+      width: 450px;
+      display: flex;
+      justify-content: space-between;
+      span{
+        width: 100px;
+      }
+      .progress{
+        background-color: #666;
+        width: 100%;
+        height: 10px;
+        #progress-bar{
+          background-color: #fff;
+          width: 0px;
+          height: 10px;
+          position: relative;
+          #progress-dot{
+            background-color: #fff;
+            box-shadow: 0px 0px 2px #000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+          }
+        }
+      }
+    }
+  }
   .live-pic{
     position: absolute;
     top: 0;

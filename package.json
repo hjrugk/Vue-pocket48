@@ -31,6 +31,7 @@
     "express": "^4.16.4",
     "flv.js": "^1.5.0",
     "mongoose": "^5.4.15",
+    "video.js": "^7.4.1",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"
   },
