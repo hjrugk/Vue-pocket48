@@ -1,6 +1,6 @@
 <template>
-  <div class="video-container flex-justify-center" id="container" v-show="isReview">
-    <div class="info-header flex-justify-center" v-show="!visibility">
+  <div class="video-container flex-justify-center" :style="{height:topHeight}" id="container" v-show="isReview">
+    <div class="info-header flex-justify-center" v-show="!visibility" v-if="topHeight==='800px'">
       <div :style="{width: topwidth}">
         <div>
           <p @click="toggleTopList">贡献榜 <i class="el-icon-arrow-right"></i></p>
@@ -8,7 +8,7 @@
         <span></span>
       </div>
     </div>
-    <div class="top-container flex-justify-center" v-show="visibility">
+    <div class="top-container flex-justify-center" v-show="visibility" v-if="topHeight==='800px'">
       <div class="top-list" :style="{width: topwidth}">
         <div class="header">
           <span></span>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="barrage-container flex-justify-center">
+    <div class="barrage-container flex-justify-center" v-if="topHeight==='800px'">
       <div class="barrage-list" :style="{width: topwidth}">
         <div class="barrage-item" v-for="(item, index) in barrages" :key="index">
           <p :class="{'sender-name': item.name}" v-html="item.name"></p>
@@ -35,8 +35,8 @@
       </div>
     </div>
     <div class="live-pic flex-all-center" v-show="type === 2">
-      <div :style="{width: topwidth}">
-        <el-carousel indicator-position="none" arrow="never" height="800px">
+      <div :style="{width: topwidth,height:topHeight}">
+        <el-carousel indicator-position="none" arrow="never" :height="topHeight">
           <el-carousel-item v-for="item in radiocover" class="flex-all-center" :key="item">
             <img :src="item | picPathFormat" alt @error="altImg(item)">
           </el-carousel-item>
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="player-control flex-justify-center" v-show="showControls">
-      <div class="control-content flex-align-center">
+      <div class="control-content flex-align-center" :style="{width:topwidth}">
         <span v-html="currentTime_"></span>
         <div class="progress" @click="seekToProgress">
           <div id="progress-bar" ref="bar" @click="seekToProgress">
@@ -56,6 +56,9 @@
     </div>
     <div v-if="showInfo" @click="showInfo = !showInfo">
       <popup-info :id="userId"></popup-info>
+    </div>
+    <div id="player" @click="pauseOrPlay">
+
     </div>
   </div>
 </template>
@@ -100,21 +103,22 @@ export default {
       showControls: true
     }
   },
-  props: ['path','type','topwidth',"radiocover","toplist","lrcpath"],
+  props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight'],
   methods: {
     playReview(){
       let type = typeCheck(this.path)
-      if(type === 'video/flv'){
+      if(type === 'flv'){
         return this.playFlv()
       }
       this.playerOptions.sources[0].type = type
       this.playerOptions.sources[0].src = this.path
       this.player = videojs(this.id,this.playerOptions)
       this.player.on('loadeddata', () => {
-        document.querySelector('video').width = '450'
-        document.querySelector('video').height = '800'
+        document.querySelector('video').width = parseInt(this.topwidth)
+        document.querySelector('video').height = parseInt(this.topHeight)
         this.isReview = true
         this.player.play()
+        this.player.dimensions(parseInt(this.topwidth),parseInt(this.topHeight))
         this.topList = this.toplist
         this.loadBarrages()
       })
@@ -170,7 +174,7 @@ export default {
       if(m<10){
         m = '0'+m
       }
-      let s = time-m*60
+      let s = time-m*60-h*3600
       if(s<10){
         s = '0'+s
       }
@@ -179,21 +183,21 @@ export default {
     playFlv(){
       if (flvjs.isSupported()) {
         var videoElement = document.getElementById(this.id);
-        var flvPlayer = flvjs.createPlayer({
+        this.player = flvjs.createPlayer({
             type: 'flv',
             url: this.path
         });
-        flvPlayer.attachMediaElement(videoElement);
-        flvPlayer.load();
+        this.player.attachMediaElement(videoElement);
+        this.player.load();
         videoElement.onloadeddata = () => {
           videoElement.controls = true
           this.isReview = true
           this.showControls = false
           this.topList = this.toplist
-          flvPlayer.play()
+          this.player.play()
           this.loadBarrages()
         }
-        flvPlayer.on('ERROR',() => {
+        this.player.on('ERROR',() => {
           this.$message.error('无法播放')
         })
         videoElement.onerror = () => {
@@ -201,7 +205,7 @@ export default {
         }
         videoElement.ontimeupdate = () => {
           if(this.isReview){
-            if(flvPlayer.currentTime >= this.barrageList.times[0]){
+            if(this.barrageList.times[0] && this.player.currentTime >= this.barrageList.times[0]){
               if(this.barrages.length===10){
                 this.barrages.shift()
                 this.barrages.push(this.barrageList.barrages[0])
@@ -214,6 +218,13 @@ export default {
           }
         }
       }
+    },
+    pauseOrPlay(){
+      if(this.player.paused()){
+        this.player.play()
+      }else{
+        this.player.pause()
+      }
     }
   },
   components: {
@@ -222,7 +233,8 @@ export default {
   mounted() {
     let video = document.createElement('video')
     video.id = this.id
-    document.getElementById('container').append(video)
+    video.style.backgroundColor = '#000'
+    document.getElementById('player').append(video)
   },
   computed: {
     id: function(){
@@ -240,21 +252,27 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 800px;
   color: white;
+  &:hover{
+    .player-control{
+      visibility: visible;
+    }
+  }
   .player-control{
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
+    visibility: hidden;
+    z-index: 105;
+    transition: all 0.3s ease;
     .control-content{
       background-color: #000;
       color: #fff;
-      width: 450px;
       display: flex;
       justify-content: space-between;
       span{
-        width: 100px;
+        width: 120px;
       }
       .progress{
         background-color: #666;

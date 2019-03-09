@@ -1,12 +1,12 @@
 <template>
   <div class="live-page-container my-card">
     <a class="flex-all-center" href="javascript:;" v-if="type===1 && picPath">
-      <div class="pic-container flex-all-center" @click="triggerMethod" ismember :style="{width: topWidth}">
+      <div class="pic-container flex-all-center" @click="triggerMethod('450px','800px')" :style="{width: '450px',height:'800px'}">
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
     <a class="flex-all-center" href="javascript:;" v-if="type===0 && picPath">
-      <div class="pic-container flex-all-center">
+      <div class="pic-container flex-all-center" @click="triggerMethod('900px','540px')" :style="{width: '900px',height:'540px'}">
         <img width="100%" :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
@@ -14,16 +14,17 @@
       :path="liveInfo.streamPath" 
       :type="liveInfo.liveType" 
       :topwidth="topWidth"
+      :topHeight="topHeight"
       :radiocover="radioCover"
       ref="vod"
       :toplist="liveInfo.topList"
       :lrcpath="liveInfo.lrcPath"
-      v-if="type===1 && liveInfo.picPath"></video-control>
+      v-if="liveInfo.picPath"></video-control>
     <div class="live-info" v-if="liveInfo.picPath">
       <p v-html="liveInfo.title" class="main-title"></p>
       <p v-html="liveInfo.subTitle" class="sub-title"></p>
     </div>
-    <div v-else>请返回上一级</div>
+    <!-- <div v-else>请返回上一级</div> -->
     <p v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></p>
     <div class="comment-info" v-if="type===0">
       <i class="el-icon-view"></i>
@@ -52,7 +53,8 @@ export default {
         share: 0
       },
       radioCover: [],
-      topWidth: '450px'
+      topWidth: '',
+      topHeight: ''
     };
   },
   methods: {
@@ -82,7 +84,9 @@ export default {
     altImg() {
       this.picPath = "";
     },
-    triggerMethod(){
+    triggerMethod(w,h){
+      this.topWidth = w
+      this.topHeight = h
       this.$refs.vod.playReview()
     }
   },
@@ -103,10 +107,9 @@ export default {
   border-radius: 3px;
   position: relative;
   text-align: center;
-  .pic-container[ismember] {
+  .pic-container{
     text-align: center;
     background-color: #000;
-    height: 800px;
     cursor: pointer;
     .live-cover {
       width: 100%;

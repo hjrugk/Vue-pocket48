@@ -3,7 +3,7 @@ export default function(url){
   if(url.includes('mp4')){
     type = 'video/mp4'
   }else if(url.includes('flv')){
-    type = 'video/flv'
+    type = 'flv'
   }else{
     type = 'application/x-mpegURL'
   }
