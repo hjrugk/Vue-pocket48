@@ -130,6 +130,11 @@ export default {
         this.duration = e.target.player.duration().toFixed(2)
         this.currentTime_ = this.timeFormat(e.target.player.currentTime().toFixed(2))
         this.duration_ = this.timeFormat(e.target.player.duration().toFixed(2))
+        let bar = document.getElementById('progress-bar')
+        let dot = document.getElementById('progress-dot')
+        let progress = document.querySelector('.progress')
+        bar.style.width = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
+        dot.style.left = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
         if(this.isReview){
           if(e.target.player.currentTime() >= this.barrageList.times[0]){
             if(this.barrages.length===10 && this.barrageList.length){
@@ -192,6 +197,11 @@ export default {
         videoElement.onloadeddata = () => {
           document.querySelector('video').width = parseInt(this.topwidth)
           document.querySelector('video').height = parseInt(this.topHeight)
+          let bar = document.getElementById('progress-bar')
+          let dot = document.getElementById('progress-dot')
+          let progress = document.querySelector('.progress')
+          bar.style.width = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
+          dot.style.left = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
           videoElement.controls = true
           this.isReview = true
           this.showControls = false

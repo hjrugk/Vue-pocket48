@@ -86,6 +86,7 @@ export default {
         flex: 1;
         display: flex;
         justify-content: flex-start;
+        user-select: none;
         .logo-img{
           height: 40px;
         }

@@ -1,12 +1,13 @@
 <template>
   <div class="home">
-    <el-carousel style="height: 330px;" trigger="click" height="330px">
+    <el-carousel style="height: 330px;" trigger="click" height="330px" v-if="adsList[0]">
       <el-carousel-item v-for="(item,index) in adsList" :key="index">
         <a :href="item.url" target="_blank">
           <img :src="'http://www.snh48.com/'+item.img" alt>
         </a>
       </el-carousel-item>
     </el-carousel>
+    <div class="alt_bg" v-else></div>
     <div class="home-nav">
       <group-info></group-info>
     </div>
@@ -65,7 +66,6 @@ export default {
           // console.log(res)
           let one = res.data.split('" </div>");')[0]
           let two = one.split('+')
-          console.log(two)
           let list = [
             {url:two[3],img:two[4]},
             {url:two[8],img:two[9]},
@@ -100,6 +100,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .home{
+  .alt_bg{
+    height: 330px;
+    background-color: #fff;
+    width: 100%;
+  }
   .el-carousel{
     width: 100%;
     text-align: center;

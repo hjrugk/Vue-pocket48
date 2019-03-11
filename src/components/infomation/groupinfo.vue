@@ -70,6 +70,7 @@ export default {
       width: 150px;
       font-size: 14px;
       border-left: 1px solid #e6e6e6;
+      user-select: none;
     }
   }
 }
