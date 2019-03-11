@@ -4,12 +4,18 @@ body {
   margin: 0;
   padding: 0;
 }
+*{
+  outline: none;
+}
 .flex-menu{
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   li{
     display: flex;
     justify-content: center;
-    width: calc(20vw);
+    max-width: calc(15vw);
+    min-width: calc(10vw);
     .el-submenu__title{
       width: 100%;
       text-align: center;
@@ -41,14 +47,16 @@ body {
   transition: all 0.5s ease;
 }
 .button-container {
-  margin-top: 10px;
   height: 40px;
+  margin-bottom: 20px;
   .el-icon-arrow-down {
     font-size: 25px;
   }
   &:hover {
     cursor: pointer;
-    background-color: #ccc;
+    .el-icon-arrow-down{
+      transform: translateY(5px)
+    }
   }
 }
 .backToTop {

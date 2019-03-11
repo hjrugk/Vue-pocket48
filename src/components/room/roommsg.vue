@@ -7,8 +7,10 @@
     >
       <i class="el-icon-arrow-up"></i>
     </div>
-    <msg-list :id="id"></msg-list>
-    <comment-list :id="id"></comment-list>
+    <div class="list">
+      <msg-list :id="id"></msg-list>
+      <comment-list :id="id"></comment-list>
+    </div>
   </div>
 </template>
 
@@ -21,7 +23,7 @@ export default {
     return {
       id: this.$route.params.id,
       bgPath: this.$route.params.bgPath,
-      top: document.body.scrollTop,
+      top: document.body.scrollTop
     };
   },
   methods: {
@@ -56,8 +58,13 @@ export default {
 .msg-container {
   padding: 10px 10px 10px 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+  .list{
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+  }
   .show-comment{
     position: absolute;
     top: 0;

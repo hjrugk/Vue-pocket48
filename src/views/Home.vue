@@ -1,23 +1,144 @@
 <template>
   <div class="home">
-    <el-menu class="el-menu-demo" mode="horizontal" router>
-      <el-menu-item index="/home/groupinfo">所有成员</el-menu-item>
-      <el-menu-item index="/home/memberlive/0">成员直播</el-menu-item>
-      <el-menu-item index="/home/openlive/0">公演直播</el-menu-item>
-    </el-menu>
-    <memberlive></memberlive>
+    <el-carousel style="height: 330px;" trigger="click" height="330px">
+      <el-carousel-item v-for="(item,index) in adsList" :key="index">
+        <a :href="item.url" target="_blank">
+          <img :src="'http://www.snh48.com/'+item.img" alt>
+        </a>
+      </el-carousel-item>
+    </el-carousel>
+    <div class="home-nav">
+      <group-info></group-info>
+    </div>
+    <div class="live-wrapper">
+      <live-list 
+        :type="1" :list="memberList" 
+        :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
+        :livetitle="'成员直播'"
+        v-if="memberList[0]"
+        ></live-list>
+      <div v-else class="alt_bg"></div>
+    </div>
+    <div class="live-wrapper">
+      <live-list 
+        :type="0" :list="openList" 
+        :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
+        :livetitle="'公演直播'"
+        v-if="openList[0]"
+        ></live-list>
+      <div v-else class="alt_bg"></div>
+    </div>
   </div>
 </template>
 
 <script>
-import memberlive from "../components/live/memberlive";
+import liveList from '../components/subComponents/liveItem'
+import groupInfo from '../components/infomation/groupinfo'
 export default {
   data() {
-    return {};
+    return {
+      memberList: [],
+      openList: [],
+      adsList: []
+    };
   },
-  methods: {},
+  methods: {
+    getMemberLive() {
+      this.axios.get("/api/getAllLive?limit=8&id=0").then(res => {
+        let liveList = res.data.content.liveList;
+        let reviewList = res.data.content.reviewList;
+        let list = [...liveList,...reviewList]
+        if(list.length>8){
+          list.splice(8)
+        }
+        this.memberList = list
+      });
+    },
+    getOpenLive() {
+      this.axios.get("/api/getOpenLive?isReview=1").then(res => {
+        this.openList = res.data.content.liveList;
+      });
+    },
+    getSwipeAds(){
+      this.axios.get('/api/getForSwipeAds')
+        .then(res => {
+          // console.log(res)
+          let one = res.data.split('" </div>");')[0]
+          let two = one.split('+')
+          console.log(two)
+          let list = [
+            {url:two[3],img:two[4]},
+            {url:two[8],img:two[9]},
+            {url:two[13],img:two[14]},
+            {url:two[18],img:two[19]},
+            {url:two[23],img:two[24]},
+            {url:two[28],img:two[29]}]
+          // console.log(list)
+          list.map(item => {
+            this.adsList.push(
+              {
+                url: 'http'+item.url.split('http')[1].split('target')[0].split('\\')[0],
+                img:item.img.split("\\")[1].replace('"','')
+              }
+              )
+          })
+          // let list = res.data.ad
+          // this.adsList = list
+        })
+    }
+  },
   components: {
-    memberlive: memberlive
+    liveList,
+    groupInfo
+  },
+  mounted() {
+    this.getMemberLive()
+    this.getOpenLive()
+    this.getSwipeAds()
   }
 };
 </script>
+<style lang="less" scoped>
+.home{
+  .el-carousel{
+    width: 100%;
+    text-align: center;
+    .el-carousel__container{
+      .el-carousel__item{
+        display: flex;
+        justify-content: center;
+        a{
+          width: 85%;
+          display: block;
+          img{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .home-nav{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    .nav-menu{
+      width: 85%;
+      display: flex;
+      justify-content: center;
+      .nav-item{
+        flex: 1;
+        height: 60px;
+        cursor: pointer;
+      }
+    }
+  }
+  .live-wrapper{
+    background-color: #fff;
+    .alt_bg{
+      height: 550px;
+    }
+  }
+}
+</style>
+

@@ -149,48 +149,50 @@ export default {
 </script>
 <style lang="less" scoped>
 .msg-list {
-  .msg-item {
-    max-width: 768px;
-    min-width: 420px;
-    flex: 1;
-    &:hover {
-      background-color: #efefef;
-    }
-    .msg-time {
-      font-size: 12px;
-    }
-    .msg-content {
-      .msg-flip {
-        cursor: pointer;
+  div{
+    .msg-item {
+      max-width: 560px;
+      min-width: 480px;
+      flex: 1;
+      &:hover {
+        background-color: #efefef;
       }
-      .msg-img {
-        width: 100%;
+      .msg-time {
+        font-size: 12px;
       }
-      .live-push{
-        cursor: pointer;
+      .msg-content {
+        .msg-flip {
+          cursor: pointer;
+        }
+        .msg-img {
+          width: 100%;
+        }
+        .live-push{
+          cursor: pointer;
+        }
       }
-    }
-    .msg-sender {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
-      text-decoration: none;
-      color: #000;
-      line-height: 1.5;
-      .sender-avatar {
-        width: 20px;
+      .msg-sender {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        text-decoration: none;
+        color: #000;
+        line-height: 1.5;
+        .sender-avatar {
+          width: 20px;
+        }
+        .sender-name {
+          line-height: 20px;
+          font-size: 15px;
+          display: inline-block;
+          margin-left: 5px;
+          cursor: pointer;
+        }
       }
-      .sender-name {
-        line-height: 20px;
-        font-size: 15px;
-        display: inline-block;
-        margin-left: 5px;
-        cursor: pointer;
+      .fanpai {
+        font-size: 14px;
+        color: #999;
       }
-    }
-    .fanpai {
-      font-size: 14px;
-      color: #999;
     }
   }
-  }  
+}  
 </style>

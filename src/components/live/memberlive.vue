@@ -1,13 +1,20 @@
 <template>
   <div class="live-container">
-    <h2 class="title">直播</h2>
-    <p v-if="!liveList[0]" class="instead-info">当前没有直播</p>
-    <live-list :type="1" :list="liveList" :rect="{width:'160px',height:'160px',maxWidth: '368px'}" v-else></live-list>
-    <h2 class="title">录播</h2>
-    <p v-if="!isSuccess" class="instead-info">
-      <i class="el-icon-loading"></i>
-    </p>
-    <live-list :type="1" :list="reviewList" :rect="{width:'160px',height:'160px',maxWidth: '368px'}" v-else></live-list>
+    <live-list 
+      :type="1" :list="liveList" 
+      :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
+      :livetitle="'直播'"
+       v-if="liveList[0]"></live-list>
+    <div class="review-header" v-if="!isSuccess">
+      <p class="instead-info">
+        <i class="el-icon-loading"></i>
+      </p>
+    </div>
+    <live-list 
+      :type="1" :list="reviewList" 
+      :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
+      :livetitle="'录播'"
+      v-else></live-list>
     <div
       class="button-container flex-all-center"
       @click="getMoreLive"
@@ -64,6 +71,22 @@ export default {
 <style lang="less" scoped>
 .live-container {
   margin: 10px;
+  .live-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .instead-info{
+      width: 85%;
+    }
+  }
+  .review-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .instead-info{
+      width: 85%;
+    }
+  }
   .title,
   .instead-info {
     margin-left: 5px;

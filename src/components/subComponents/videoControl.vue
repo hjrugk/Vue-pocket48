@@ -190,6 +190,8 @@ export default {
         this.player.attachMediaElement(videoElement);
         this.player.load();
         videoElement.onloadeddata = () => {
+          document.querySelector('video').width = parseInt(this.topwidth)
+          document.querySelector('video').height = parseInt(this.topHeight)
           videoElement.controls = true
           this.isReview = true
           this.showControls = false

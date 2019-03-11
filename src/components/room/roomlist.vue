@@ -54,43 +54,51 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.room-list {
+.room{
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  .room-item {
-    flex: 1;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
-    justify-content: flex-start;
-    min-width: 400px;
-    &:hover {
-      background-color: #efefef;
-    }
-    .room-avatar {
-      width: 80px;
-      height: 80px;
-    }
-    .room-info {
-      margin-left: 10px;
-      width: 100%;
-      p {
-        line-height: 1.2;
-        .room-owner {
-          font-size: 16px;
-          margin-right: 10px;
-        }
-        .room-name {
-          font-size: 14px;
-          color: #333;
-        }
+  justify-content: center;
+  padding-top: 10px;
+  .room-list {
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .room-item {
+      flex: 1;
+      padding: 5px;
+      margin: 5px;
+      cursor: pointer;
+      justify-content: flex-start;
+      min-width: 480px;
+      max-width: 480px;
+      &:hover {
+        background-color: #efefef;
       }
-      .room-preview {
-        border-top: 1px solid #ccc;
-        padding-top: 10px;
-        font-size: 14px;
-        min-height: 15px;
+      .room-avatar {
+        width: 80px;
+        height: 80px;
+      }
+      .room-info {
+        margin-left: 10px;
+        width: 100%;
+        p {
+          line-height: 1.2;
+          .room-owner {
+            font-size: 16px;
+            margin-right: 10px;
+          }
+          .room-name {
+            font-size: 14px;
+            color: #333;
+          }
+        }
+        .room-preview {
+          border-top: 1px solid #ccc;
+          padding-top: 10px;
+          font-size: 14px;
+          min-height: 15px;
+        }
       }
     }
   }

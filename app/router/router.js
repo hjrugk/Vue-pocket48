@@ -7,6 +7,7 @@ const Member = require('../schema/memberSchema')
 const downloadFile = require('../plugins/downloadFile')
 const fs = require('fs')
 const barrage = require('../plugins/barrage')
+const http = require('http')
 
 let router = express.Router();
 
@@ -65,7 +66,7 @@ router.get('/api/getMemberList', (req, res) => {
   Group.findOne({name: req.query.group},(err,group) => {
     if(group){
       return res.send({member:group.member,team:group.team})
-    }else{
+    }else if(!err && !group){
       getData(members_postData, members_options, html => {
         const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
         res.send(list[req.query.group])
@@ -171,6 +172,19 @@ router.get('/api/getMemberName', (req,res) => {
       res.send(member)
     }
   })
+})
+
+// 获取轮播图
+router.get('/api/getForSwipeAds', (req,res) => {
+  http.get('http://www.snh48.com/js/topFlashImg.js', response => {
+    let html = ''
+    response.on('data', chunk => {
+      html += chunk
+    })
+    response.on('end', () => {
+      res.send(html)
+    })
+  });
 })
 
 module.exports = router;
