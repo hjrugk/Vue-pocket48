@@ -1,8 +1,8 @@
 <template>
   <div class="about">
     <div class="my-card card-item flex-all-center">
-      <p class="declare">本项目仅作为个人使用，请勿用作其他用途</p>
-      <p class="mail flex-all-center">作者邮箱：
+      <p class="declare">本项目仅供个人娱乐，请勿用作其他用途</p>
+      <p class="mail flex-all-center">联系我：
         <a href="mailto:tassjjjj@live.cn">tassjjjj@live.cn</a>
         <a target="_blank" href="https://www.github.com/hjrugk/Vue-pocket48">
           <span class="address">

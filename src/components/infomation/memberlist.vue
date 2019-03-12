@@ -54,10 +54,21 @@ export default {
   },
   methods: {
     getMemberList() {
-      this.axios.get("/api/getMemberList?group="+this.group).then(res => {
-        this.memberList = res.data.member;
-        this.team = res.data.team
-      });
+      let flag = JSON.parse(localStorage.getItem('isLogin'))
+      if(!flag.serverFlag){
+        this.axios.get("/api/getMemberList?group="+this.group + '&flag=server').then(res => {
+          this.memberList = res.data.member;
+          this.team = res.data.team
+          let flag = JSON.parse(localStorage.getItem('isLogin'))
+          flag.serverFlag = 'database'
+          localStorage.setItem('isLogin',JSON.stringify(flag))
+        });
+      }else{
+        this.axios.get("/api/getMemberList?group="+this.group + '&flag=database').then(res => {
+          this.memberList = res.data.member
+          this.team = res.data.team
+        });
+      }
     },
     getMemberDetail(item, info) {
       this.$store.dispatch("saveDetail", { item, info });

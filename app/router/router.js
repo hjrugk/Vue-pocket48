@@ -63,16 +63,17 @@ router.get('/api/getMemberList', (req, res) => {
   const members_postData = api.members_postData()
 
   const members_options = api.members_options(members_postData)
-  Group.findOne({name: req.query.group},(err,group) => {
-    if(group){
+  // 第一次启动服务器
+  if(req.query.flag==='server'){
+    getData(members_postData, members_options, html => {
+      const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
+      res.send(list[req.query.group])
+    })
+  }else if(req.query.flag==='database'){ // 第N次启动服务器，防止重复存储数据
+    Group.findOne({name: req.query.group},(err,group) => {
       return res.send({member:group.member,team:group.team})
-    }else if(!err && !group){
-      getData(members_postData, members_options, html => {
-        const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
-        res.send(list[req.query.group])
-      })
-    }
-  })
+    })
+  }
 })
 
 // 获取所有直播信息
