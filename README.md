@@ -1,6 +1,6 @@
 # vue-pocket48
 
-使用 vue + Node(express) + MongoDB 做的 web 版口袋48，使用的API参照 [xsaiting/pocket48-grab](https://github.com/xsaiting/pocket48-grab/wiki)
+使用 [Vue](https://vuejs.org/) + [Node](https://nodejs.org) + [MongoDB](https://www.mongodb.com/) 做的 web 版口袋48，使用的API参照 [xsaiting/pocket48-grab](https://github.com/xsaiting/pocket48-grab/wiki)
 
 ## 如何使用？
 

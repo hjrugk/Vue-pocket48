@@ -43,30 +43,16 @@
         </el-carousel>
       </div>
     </div>
-    <div class="player-control flex-justify-center" v-show="showControls">
-      <div class="control-content flex-align-center" :style="{width:topwidth}">
-        <span v-html="currentTime_"></span>
-        <div class="progress" @click="seekToProgress">
-          <div id="progress-bar" ref="bar" @click="seekToProgress">
-            <div id="progress-dot" ref="dot"></div>
-          </div>
-        </div>
-        <span v-html="duration_"></span>
-      </div>
-    </div>
     <div v-if="showInfo" @click="showInfo = !showInfo">
       <popup-info :id="userId"></popup-info>
     </div>
-    <div id="player" @click="pauseOrPlay">
+    <div id="player">
 
     </div>
   </div>
 </template>
 <script>
 import flvjs from 'flv.js'
-import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
-import 'videojs-flash'
 import typeCheck from '../../plugins/typeCheck'
 import popupInfo from './popupInfo'
 export default {
@@ -74,7 +60,10 @@ export default {
   data(){
     return {
       isReview: false,
-      barrageList: {},
+      barrageList: {
+        barrages: [],
+        times: []
+      },
       barrages: [],
       topList: [],
       visibility: false,
@@ -95,12 +84,7 @@ export default {
             }
         ],
         controls: false
-      },
-      currentTime_: 0,
-      duration_: 0,
-      currentTime: 0,
-      duration: 0,
-      showControls: true
+      }
     }
   },
   props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight'],
@@ -112,40 +96,18 @@ export default {
       }
       this.playerOptions.sources[0].type = type
       this.playerOptions.sources[0].src = this.path
+      // eslint-disable-next-line
       this.player = videojs(this.id,this.playerOptions)
       this.player.on('loadeddata', () => {
-        document.querySelector('video').width = parseInt(this.topwidth)
-        document.querySelector('video').height = parseInt(this.topHeight)
-        this.isReview = true
-        this.player.play()
+        this.loadedDataHandler()
         this.player.dimensions(parseInt(this.topwidth),parseInt(this.topHeight))
-        this.topList = this.toplist
-        this.loadBarrages()
       })
       this.player.on('error', () => {
         this.$message.error('无法播放')
       })
-      this.player.on('timeupdate', (e) => {
-        this.currentTime = e.target.player.currentTime().toFixed(2)
-        this.duration = e.target.player.duration().toFixed(2)
-        this.currentTime_ = this.timeFormat(e.target.player.currentTime().toFixed(2))
-        this.duration_ = this.timeFormat(e.target.player.duration().toFixed(2))
-        let bar = document.getElementById('progress-bar')
-        let dot = document.getElementById('progress-dot')
-        let progress = document.querySelector('.progress')
-        bar.style.width = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
-        dot.style.left = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
-        if(this.isReview){
-          if(e.target.player.currentTime() >= this.barrageList.times[0]){
-            if(this.barrages.length===10 && this.barrageList.length){
-              this.barrages.shift()
-              this.barrages.push(this.barrageList.barrages[0])
-            }else{
-              this.barrages.push(this.barrageList.barrages[0])
-            }
-            this.barrageList.times.shift()
-            this.barrageList.barrages.shift()
-          }
+      this.player.on('timeupdate', () => {
+        if(this.isReview && this.barrageList.times.length !==0){
+          this.barrageHandler()
         }
       })
     },
@@ -162,29 +124,6 @@ export default {
       this.userId = id
       this.showInfo = true
     },
-    seekToProgress(e){
-      let bar = document.getElementById('progress-bar')
-      let dot = document.getElementById('progress-dot')
-      bar.style.width = e.offsetX + 'px'
-      dot.style.left = e.offsetX + 'px'
-      this.player.currentTime(e.offsetX/e.target.clientWidth * this.duration)
-    },
-    timeFormat(time){
-      time = parseInt(time)
-      let h = parseInt(time/3600)
-      if(h<10){
-        h = '0'+h
-      }
-      let m = parseInt(time%3600/60)
-      if(m<10){
-        m = '0'+m
-      }
-      let s = time-m*60-h*3600
-      if(s<10){
-        s = '0'+s
-      }
-      return h+':'+m+':'+s
-    },
     playFlv(){
       if (flvjs.isSupported()) {
         var videoElement = document.getElementById(this.id);
@@ -195,19 +134,7 @@ export default {
         this.player.attachMediaElement(videoElement);
         this.player.load();
         videoElement.onloadeddata = () => {
-          document.querySelector('video').width = parseInt(this.topwidth)
-          document.querySelector('video').height = parseInt(this.topHeight)
-          let bar = document.getElementById('progress-bar')
-          let dot = document.getElementById('progress-dot')
-          let progress = document.querySelector('.progress')
-          bar.style.width = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
-          dot.style.left = e.target.player.currentTime()/e.target.player.duration()*progress.clientWidth + 'px'
-          videoElement.controls = true
-          this.isReview = true
-          this.showControls = false
-          this.topList = this.toplist
-          this.player.play()
-          this.loadBarrages()
+          this.loadedDataHandler()
         }
         this.player.on('ERROR',() => {
           this.$message.error('无法播放')
@@ -216,27 +143,32 @@ export default {
           this.$message.error('无法播放')
         }
         videoElement.ontimeupdate = () => {
-          if(this.isReview){
-            if(this.barrageList.times[0] && this.player.currentTime >= this.barrageList.times[0]){
-              if(this.barrages.length===10){
-                this.barrages.shift()
-                this.barrages.push(this.barrageList.barrages[0])
-              }else{
-                this.barrages.push(this.barrageList.barrages[0])
-              }
-              this.barrageList.times.shift()
-              this.barrageList.barrages.shift()
-            }
+          if(this.isReview && this.barrageList.times.length>0){
+            this.barrageHandler()
           }
         }
       }
     },
-    pauseOrPlay(){
-      if(this.player.paused()){
-        this.player.play()
-      }else{
-        this.player.pause()
+    barrageHandler(){
+      if(this.player.currentTime >= this.barrageList.times[0]){
+        if(this.barrages.length===10){
+          this.barrages.shift()
+          this.barrages.push(this.barrageList.barrages[0])
+        }else{
+          this.barrages.push(this.barrageList.barrages[0])
+        }
+        this.barrageList.times.shift()
+        this.barrageList.barrages.shift()
       }
+    },
+    loadedDataHandler(){
+      document.querySelector('video').width = parseInt(this.topwidth)
+      document.querySelector('video').height = parseInt(this.topHeight)
+      document.querySelector('video').controls = true
+      this.isReview = true
+      this.topList = this.toplist
+      this.player.play()
+      this.loadBarrages()
     }
   },
   components: {
@@ -245,6 +177,7 @@ export default {
   mounted() {
     let video = document.createElement('video')
     video.id = this.id
+    video.controls = true
     video.style.backgroundColor = '#000'
     document.getElementById('player').append(video)
   },
@@ -285,6 +218,10 @@ export default {
       justify-content: space-between;
       span{
         width: 120px;
+      }
+      .fullscreen{
+        width: 60px;
+        cursor: pointer;
       }
       .progress{
         background-color: #666;

@@ -11,7 +11,7 @@
       </div>
     </a>
     <video-control 
-      :path="liveInfo.streamPath" 
+      :path="livePath" 
       :type="liveInfo.liveType" 
       :topwidth="topWidth"
       :topHeight="topHeight"
@@ -95,6 +95,17 @@ export default {
   },
   components: {
     videoControl
+  },
+  computed: {
+    livePath: function () {
+      if(this.liveInfo.streamPathLd){
+        return this.liveInfo.streamPathLd
+      }else if(this.liveInfo.streamPathHd){
+        return this.liveInfo.streamPathHd
+      }else{
+        return this.liveInfo.streamPath
+      }
+    } 
   }
 };
 </script>

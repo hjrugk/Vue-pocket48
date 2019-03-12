@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>VUE48</title>
+    <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
   </head>
   <body>
     <noscript>
       <strong>We're sorry but VUE48 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <script src="./libamr-min.js"></script>
-    <script src="./pcmdata.min.js"></script>
-    <script src="./voice.js"></script>
+    <script src="./lib/libamr-min.js" async></script>
+    <script src="./lib/pcmdata.min.js" async></script>
+    <script src="./lib/voice.js" async></script>
+    <script src='https://vjs.zencdn.net/7.4.1/video.js' defer></script>
+    <script src="https://cdn.bootcss.com/videojs-flash/2.2.0/videojs-flash.min.js" defer></script>
     <!-- built files will be auto injected -->
   </body>
 </html>

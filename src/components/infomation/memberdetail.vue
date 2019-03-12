@@ -95,17 +95,19 @@ export default {
     },
     follow(){
       let info = JSON.parse(localStorage.getItem('userinfo'))
-      info.friends.push(this.id)
+      info.friends.push(parseInt(this.id))
       localStorage.setItem('userinfo',JSON.stringify(info))
+      this.isFollowed = true
       this.checkisFollowed()
     },
     unfollow(){
       let info = JSON.parse(localStorage.getItem('userinfo'))
       let index = info.friends.findIndex(item => {
-        return item===this.id
+        return parseInt(item)===parseInt(this.id)
       })
       info.friends.splice(index,1)
       localStorage.setItem('userinfo',JSON.stringify(info))
+      this.isFollowed = false
       this.checkisFollowed()
     },
     checkisFollowed(){

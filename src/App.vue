@@ -11,7 +11,7 @@
         router
       >
         <div class="el-menu-brand flex-all-center" @click="pushToHome">
-          <img class="logo-img" src="./assets/images/login_logo.jpg" alt="">
+          <img class="logo-img" src="./assets/images/login_logo.png" alt="">
           <span class="brand-name">口袋48</span>
         </div>
         <el-menu-item class="none" index="/home">首页</el-menu-item>

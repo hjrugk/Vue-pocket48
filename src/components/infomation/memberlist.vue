@@ -67,7 +67,7 @@ export default {
       });
     },
     altImg(item) {
-      item.avatar = "./assets/alt_avatar.png";
+      item.avatar = "/mediasource/profile_icon.png";
     }
   },
   mounted() {
