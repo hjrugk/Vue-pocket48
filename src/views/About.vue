@@ -1,16 +1,15 @@
 <template>
   <div class="about">
-    <div class="my-card card-item">
-      <div class="title">
-        <p>早发白帝城</p>
-        <p>唐·李白</p>
-      </div>
-      <div class="body">
-        <p>朝辞白帝彩云间</p>
-        <p>千里江陵一日还</p>
-        <p>两岸猿声啼不住</p>
-        <p>轻舟已过万重山</p>
-      </div>
+    <div class="my-card card-item flex-all-center">
+      <p class="declare">本项目仅作为个人使用，请勿用作其他用途</p>
+      <p class="mail flex-all-center">作者邮箱：
+        <a href="mailto:tassjjjj@live.cn">tassjjjj@live.cn</a>
+        <a target="_blank" href="https://www.github.com/hjrugk/Vue-pocket48">
+          <span class="address">
+            Star<i class="el-icon-star-on"></i>
+          </span>
+        </a>
+      </p>
     </div>
   </div>
 </template>
@@ -22,6 +21,23 @@ export default {};
   padding: 10px;
   .card-item{
     text-align: center;
+    flex-wrap: wrap;
+    .mail{
+      width: 100%;
+      a{
+        text-decoration: none;
+      }
+      .address{
+        background-color: #eee;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 60px;
+        color: #000;
+        margin-left: 10px;
+        padding: 0 2px;
+        font-size: 14px;
+      }
+    }
   }
 }
 </style>
