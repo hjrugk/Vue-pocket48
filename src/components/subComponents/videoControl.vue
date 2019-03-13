@@ -89,9 +89,9 @@ export default {
   },
   props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight'],
   methods: {
-    playReview(){
+    playReview(){ // 点击直播封面时开始播放
       let type = typeCheck(this.path)
-      if(type === 'flv'){
+      if(type === 'flv'){ // flv格式利用flv.js播放，其他格式利用video.js播放
         return this.playFlv()
       }
       this.playerOptions.sources[0].type = type
@@ -111,20 +111,20 @@ export default {
         }
       })
     },
-    loadBarrages(){
+    loadBarrages(){ // 载入弹幕列表
       this.axios.post('/api/getBarrages',{url:this.lrcpath})
         .then(res => {
           this.barrageList = res.data
         })
     },
-    toggleTopList(){
+    toggleTopList(){ // 开/关显示贡献榜
       this.visibility = !this.visibility
     },
-    getUserInfo(id){
+    getUserInfo(id){ // 获取聚聚信息，弹窗呈现
       this.userId = id
       this.showInfo = true
     },
-    playFlv(){
+    playFlv(){ // flv.js播放flv格式视频
       if (flvjs.isSupported()) {
         var videoElement = document.getElementById(this.id);
         this.player = flvjs.createPlayer({
@@ -149,7 +149,7 @@ export default {
         }
       }
     },
-    barrageHandler(){
+    barrageHandler(){ // 将获取到的弹幕列表渲染到页面中
       if(this.player.currentTime >= this.barrageList.times[0]){
         if(this.barrages.length===10){
           this.barrages.shift()
@@ -161,7 +161,7 @@ export default {
         this.barrageList.barrages.shift()
       }
     },
-    loadedDataHandler(){
+    loadedDataHandler(){ // 显示视频，并播放，加载弹幕
       document.querySelector('video').width = parseInt(this.topwidth)
       document.querySelector('video').height = parseInt(this.topHeight)
       document.querySelector('video').controls = true
@@ -174,7 +174,7 @@ export default {
   components: {
     popupInfo
   },
-  mounted() {
+  mounted() { // 动态创建video标签，并赋予随机的id，避免video.js选项的重复初始化造成无法播放
     let video = document.createElement('video')
     video.id = this.id
     video.controls = true
@@ -182,7 +182,7 @@ export default {
     document.getElementById('player').append(video)
   },
   computed: {
-    id: function(){
+    id: function(){ // 生成随机的字符串
       let id = Math.random().toString(36).substr(2)
       id = id.replace(/[0-9]/g,'')
       return id

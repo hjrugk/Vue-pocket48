@@ -54,7 +54,7 @@ export default {
     }
   },
   watch: {
-    $route: function () {
+    $route: function () { // 当路由地址变化后，停止播放音频
       this.activeIndex = '/'+this.$router.history.current.fullPath.split('/')[1]
       // eslint-disable-next-line
       RongIMLib.RongIMVoice.init()

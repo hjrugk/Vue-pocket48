@@ -25,7 +25,7 @@ export default {
   name: "groupinfo",
   data() {
     return {
-      groupList: [
+      groupList: [ // 团队列表
         {id:'1',name:'全团',color: '#ffffff'},
         {id:'1000',name:'snh48',color: '#90ccea'},
         {id:'1100',name:'bej48',color: '#ff2471'},
@@ -38,7 +38,7 @@ export default {
       activeIndex: ''
     };
   },
-  methods: {
+  methods: { // 加载成员列表页面
     getList(group) {
       this.$router.push({ name: "memberlist", params: { group } });
     }

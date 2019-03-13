@@ -39,7 +39,7 @@ export default {
     };
   },
   methods: {
-    getAllLive() {
+    getAllLive() { // 获取直播列表
       this.axios.get("/api/getAllLive?limit=8&id=" + this.id).then(res => {
         this.isSuccess = true
         if(res.data.content.reviewList.length){
@@ -50,7 +50,7 @@ export default {
         }
       });
     },
-    getMoreLive() {
+    getMoreLive() { // 获取更多直播
       this.limit += 8;
       this.axios
         .get("/api/getAllLive?limit=" + this.limit + "&id=" + this.id)

@@ -72,7 +72,7 @@ export default {
     };
   },
   methods: {
-    goToMemberRoom(id) {
+    goToMemberRoom(id) { // 跳转到成员房间
       this.axios
         .post("/api/getRoomList", {
           token: this.$store.getters.getToken,
@@ -86,21 +86,21 @@ export default {
           }
         });
     },
-    goToMemberLive(id) {
+    goToMemberLive(id) { // 跳转到成员直播列表
       this.$router.push("/home/memberlive/" + id);
     },
     altImg(item) {
       item = "../assets/alt_fullphoto.png";
       return item;
     },
-    follow(){
+    follow(){ // 关注成员
       let info = JSON.parse(localStorage.getItem('userinfo'))
       info.friends.push(parseInt(this.id))
       localStorage.setItem('userinfo',JSON.stringify(info))
       this.isFollowed = true
       this.checkisFollowed()
     },
-    unfollow(){
+    unfollow(){ //取关成员
       let info = JSON.parse(localStorage.getItem('userinfo'))
       let index = info.friends.findIndex(item => {
         return parseInt(item)===parseInt(this.id)
@@ -110,7 +110,7 @@ export default {
       this.isFollowed = false
       this.checkisFollowed()
     },
-    checkisFollowed(){
+    checkisFollowed(){ // 检查是否关注该成员
       let info = JSON.parse(localStorage.getItem('userinfo'))
       info.friends.forEach(item => {
         if(item===parseInt(this.id)){
@@ -120,13 +120,13 @@ export default {
     }
   },
   created() {
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < 5; i++) { // 根据成员信息生成成员的轮播图列表
       this.fullPhoto.push(this.detail["full_photo_" + i]);
     }
-    this.period = this.periodHandler(this.detail.period);
+    this.period = this.periodHandler(this.detail.period); // 得到成员是哪一期
   },
   computed: {
-    color: function() {
+    color: function() { // 成员队伍主色
       return "#" + this.info.info.color;
     },
     detail: function() {
@@ -135,7 +135,7 @@ export default {
     info: function () {
       return JSON.parse(localStorage.getItem('detail'))
     },
-    team: function () {
+    team: function () { // 成员所在队伍
       return this.info.info.team_name
     }
   },

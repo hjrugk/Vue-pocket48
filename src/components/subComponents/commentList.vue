@@ -51,7 +51,7 @@ export default {
   },
   props: ['id'],
   methods: {
-    getComments() {
+    getComments() { // 获取成员房间留言列表
       this.axios
         .post("/api/getComments", {
           id: this.id,
@@ -74,7 +74,7 @@ export default {
           this.commentList = res.data.content.data;
         });
     },
-    getUserInfo(id){
+    getUserInfo(id){ // 获取聚聚信息
       this.userId = id
       this.showInfo = true
     }

@@ -56,7 +56,7 @@ export default {
   },
   props: ['id'],
   methods: {
-    getMsgList() {
+    getMsgList() { // 获取成员房间所有消息
       this.axios
         .post("/api/getRoomBoard", {
           token: this.$store.getters.getToken,
@@ -66,7 +66,7 @@ export default {
           this.msgList = res.data.content.data;
         });
     },
-    getMore() {
+    getMore() { // 获取更多消息
       this.limit += 10;
       this.axios
         .post("/api/getRoomBoard", {
@@ -79,7 +79,7 @@ export default {
         });
       this.$store.commit('saveScrollTop')
     },
-    getAnswer(questionId, answerId, title) {
+    getAnswer(questionId, answerId, title) { // 获取翻牌消息，以弹出框形式呈现
       const h = this.$createElement;
       this.axios
         .post("/api/getAnswer", {
@@ -99,7 +99,7 @@ export default {
           });
         });
     },
-    getAudio(url){
+    getAudio(url){ // 获取语音消息
       this.axios.post('/api/getAudio',{url})
         .then(res => {
           if(res.data.status === 200){
@@ -113,16 +113,16 @@ export default {
           }
         })
     },
-    stop(){
+    stop(){ // 暂停语音播放
       // eslint-disable-next-line
       RongIMLib.RongIMVoice.init()
       // eslint-disable-next-line
       RongIMLib.RongIMVoice.stop()
     },
-    getLivePage(id) {
+    getLivePage(id) { // 跳转到该成员的直播列表页面
       this.$router.push({name:'livepage',params:{id,type: 1}})
     },
-    getMemberDetail(memberName){
+    getMemberDetail(memberName){ // 跳转到成员列表页面
       let n = []
       if(memberName.includes('-')){
         n = memberName.split('-')
@@ -136,7 +136,7 @@ export default {
     this.getMsgList()
   },
   watch: {
-    msgList: function() {
+    msgList: function() { // 将得到的消息列表的 extInfo 转换为对象
       this.msgList.forEach(item => {
         item.extInfo = JSON.parse(item.extInfo);
         if (item.bodys.includes("amr")) {

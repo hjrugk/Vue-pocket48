@@ -58,17 +58,17 @@ export default {
     };
   },
   methods: {
-    getLive() {
+    getLive() { // 获取直播信息
       this.axios
         .get("/api/getLivePage?type=" + this.type + "&id=" + this.id)
         .then(res => {
           this.liveInfo = res.data.content;
-          if(this.type===0){
+          if(this.type===0){ // 公演
             this.count.praise = res.data.content.count.praiseCount
             this.count.comment = res.data.content.count.commentCount
             this.count.share = res.data.content.count.shareCount
           }
-          if(res.data.content.liveType === 2){
+          if(res.data.content.liveType === 2){ // 电台
             let path = res.data.content.picPath
             if(path.includes(',')){
               this.radioCover = path.split(',')
@@ -84,7 +84,7 @@ export default {
     altImg() {
       this.picPath = "";
     },
-    triggerMethod(w,h){
+    triggerMethod(w,h){ // 公演与成员直播设置不同的视频高宽
       this.topWidth = w
       this.topHeight = h
       this.$refs.vod.playReview()
@@ -97,7 +97,7 @@ export default {
     videoControl
   },
   computed: {
-    livePath: function () {
+    livePath: function () { // 返回最高清晰度的视频地址
       if(this.liveInfo.streamPathLd){
         return this.liveInfo.streamPathLd
       }else if(this.liveInfo.streamPathHd){

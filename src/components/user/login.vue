@@ -54,15 +54,14 @@
       }
     },
     methods: {
-      login(){
-        if(localStorage.getItem('userinfo')){
+      login(){ // 登录
+        if(localStorage.getItem('userinfo')){ // 非第一次登录
           let userInfo = JSON.parse(localStorage.getItem('userinfo'))
           this.$store.commit('saveUserInfo',userInfo.userInfo)
           this.token = userInfo.token
           this.$store.commit('setToken', userInfo.token)
           this.friends = userInfo.friends
-          this.$router.push('/roomlist')
-        }else{
+        }else{ // 第一次登陆，存储用户信息
           this.axios.post('/api/login', {account: this.account,password: this.password})
             .then(res => {
               this.password = ''
@@ -83,7 +82,7 @@
         }
       },
       check(){
-        if(!localStorage.getItem('isLogin')){
+        if(!localStorage.getItem('isLogin')){ // 打卡签到
           return
         }
         let date = new Date().toDateString()
@@ -95,7 +94,7 @@
           this.checkFlag = false
         }
       },
-      getCheck(){
+      getCheck(){ // 检查是否已打卡签到
         this.axios.post('/api/getCheck',{token:this.$store.state.token})
           .then(res => {
             if (res.data.status===200 || res.data.status===1001006){

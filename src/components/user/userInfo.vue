@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    getMemberName(id,key){
+    getMemberName(id,key){ // 获取所推成员信息
       if(id!==0){
         this.axios.get('/api/getMemberName?id=' + id)
         .then(res => {
@@ -60,12 +60,12 @@ export default {
         this.showInfo++
       }
     },
-    triggerMethod(){
+    triggerMethod(){ // 生成所推成员数组
       for (const key in this.recommand) {
         this.getMemberName(this.recommand[key].memberId,key)
       }
     },
-    getMemberDetail(memberName){
+    getMemberDetail(memberName){ // 跳转到成员列表页面
       if(memberName !== '保密'){
         let n = []
         if(memberName.includes('-')){

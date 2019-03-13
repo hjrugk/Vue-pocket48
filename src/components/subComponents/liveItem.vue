@@ -37,10 +37,10 @@ export default {
     return {};
   },
   methods: {
-    getLivePage(id) {
+    getLivePage(id) { // 跳转到直播页面
       this.$router.push({name:'livepage',params:{id,type: this.type}})
     },
-    goToAllLive(){
+    goToAllLive(){ // 跳转到直播详细列表页
       if(this.type===1){
         this.$router.push('/home/memberlive/0')
       }else if(this.type===0){

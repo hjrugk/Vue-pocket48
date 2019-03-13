@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    getMemberLive() {
+    getMemberLive() { // 获取首页显示的成员直播列表
       this.axios.get("/api/getAllLive?limit=8&id=0").then(res => {
         let liveList = res.data.content.liveList;
         let reviewList = res.data.content.reviewList;
@@ -55,12 +55,12 @@ export default {
         this.memberList = list
       });
     },
-    getOpenLive() {
+    getOpenLive() { // 获取首页显示的公演直播列表
       this.axios.get("/api/getOpenLive?isReview=1").then(res => {
         this.openList = res.data.content.liveList;
       });
     },
-    getSwipeAds(){
+    getSwipeAds(){ // 从官网获取轮播图
       this.axios.get('/api/getForSwipeAds')
         .then(res => {
           // console.log(res)

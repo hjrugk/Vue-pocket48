@@ -53,9 +53,9 @@ export default {
     };
   },
   methods: {
-    getMemberList() {
+    getMemberList() { // 从服务器端获取成员列表
       let flag = JSON.parse(localStorage.getItem('isLogin'))
-      if(!flag.serverFlag){
+      if(!flag.serverFlag){ // 第一次启动服务器，发送 server 标识，服务端存储成员数据
         this.axios.get("/api/getMemberList?group="+this.group + '&flag=server').then(res => {
           this.memberList = res.data.member;
           this.team = res.data.team
@@ -63,14 +63,14 @@ export default {
           flag.serverFlag = 'database'
           localStorage.setItem('isLogin',JSON.stringify(flag))
         });
-      }else{
+      }else{ // 之后发送 database 标识，从数据库中获取成员列表
         this.axios.get("/api/getMemberList?group="+this.group + '&flag=database').then(res => {
           this.memberList = res.data.member
           this.team = res.data.team
         });
       }
     },
-    getMemberDetail(item, info) {
+    getMemberDetail(item, info) { // 跳转到成员详细信息页面
       this.$store.dispatch("saveDetail", { item, info });
       this.$router.push({
         name: "memberdetail",
@@ -85,14 +85,14 @@ export default {
     this.getMemberList();
   },
   watch: {
-    $route: function() {
+    $route: function() { // 监听路由地址变化，重新请求成员信息
       this.memberList = []
       this.team = []
       this.group = this.$route.params.group;
       this.getMemberList();
     }
   },
-  computed: {
+  computed: { // 搜索成员，符合条件成员存储在新的数组里
     newList: function() {
       let list = [];
       this.memberList.forEach(item => {

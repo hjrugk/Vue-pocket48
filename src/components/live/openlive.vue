@@ -38,12 +38,12 @@ export default {
     };
   },
   methods: {
-    getOpenLive() {
+    getOpenLive() { // 获取公演列表
       this.axios.get("/api/getOpenLive").then(res => {
         this.liveList = res.data.content.liveList;
       });
     },
-    getMoreLive() {
+    getMoreLive() { 
       this.limit += 8;
       this.axios
         .get("/api/getOpenLive?isReview=1&limit=" + this.limit)
@@ -51,7 +51,7 @@ export default {
           this.reviewList = res.data.content.liveList;
         });
     },
-    getReviewLive() {
+    getReviewLive() { // 获取公演录播列表
       this.axios.get("/api/getOpenLive?isReview=1").then(res => {
         this.reviewList = res.data.content.liveList;
       });

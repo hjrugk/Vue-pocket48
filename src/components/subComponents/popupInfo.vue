@@ -24,7 +24,7 @@ export default {
   },
   props: ['id'],
   methods: {
-    getUserInfo(){
+    getUserInfo(){ // 获取聚聚信息
       this.axios.get('/api/getUserInfo?id=' + this.id)
         .then(res => {
           this.info = res.data.content.userInfo
@@ -32,7 +32,7 @@ export default {
           this.friendsNum = res.data.content.friendsNum
         })
     },
-    goToUserInfo(){
+    goToUserInfo(){ // 点击跳转到聚聚详细信息页面
       this.$router.push({
         name: 'userinfo',
         params: {

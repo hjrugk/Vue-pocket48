@@ -1,4 +1,5 @@
 export function periodHandler(period) {
+  // 返货成员的期数
   let backup = period.toString()
   let length = backup.split('').length
   if (length === 4) {
