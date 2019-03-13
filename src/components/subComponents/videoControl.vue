@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="barrage-container flex-justify-center" v-if="topHeight==='800px'">
-      <div class="barrage-list" :style="{width: topwidth}">
+      <div class="barrage-list" :style="{width: topwidth}" v-if="barrageList.barrages[0]">
         <div class="barrage-item" v-for="(item, index) in barrages" :key="index">
           <p :class="{'sender-name': item.name}" v-html="item.name"></p>
           <p :class="{'sender-content': item.name}" v-html="item.content"></p>

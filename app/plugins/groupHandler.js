@@ -92,6 +92,7 @@ module.exports = function (membersList,teamList) {
   new Group({name: '1600',member:oversea,team: hw}).save()
   new Group({name: '-1',member:other,team: qt}).save()
   new Group({name: '998',member:legend,team: mx}).save()
+  new Group({name: '1',member:membersList,team: teamList}).save()
 
   return {
     '1000': {member:snh,team:jxl},

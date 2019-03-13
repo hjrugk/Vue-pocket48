@@ -18,7 +18,7 @@
         target="_blank"
       >
         <div class="pic-container flex-align-center" :style="{height:rect.height}">
-          <img :src="item.picPath | picPathFormat" alt class="live-pic">
+          <img :src="item.picPath | picPathFormat" alt class="live-pic" :class="{'center-pic':type===1}">
           <div class="live-title" v-html="item.title"></div>
         </div>
         <div class="live-info">
@@ -114,6 +114,10 @@ export default {
         }
         .live-pic {
           width: 100%;
+        }
+        .center-pic{
+          position: relative;
+          top: -50%;
         }
       }
       .live-info{
