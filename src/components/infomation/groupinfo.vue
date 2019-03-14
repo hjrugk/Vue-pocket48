@@ -26,14 +26,14 @@ export default {
   data() {
     return {
       groupList: [ // 团队列表
-        {id:'1',name:'全团',color: '#ffffff'},
-        {id:'1000',name:'snh48',color: '#90ccea'},
-        {id:'1100',name:'bej48',color: '#ff2471'},
-        {id:'1200',name:'gnz48',color: '#aac913'},
-        {id:'1300',name:'shy48',color: '#e70095'},
-        {id:'1400',name:'ckg48',color: '#9d6124'},
+        {id:'1',name:'全团',color: '#8ed2f5'},
+        {id:'1000',name:'snh48',color: '#8ed2f5'},
+        {id:'1100',name:'bej48',color: '#ff2472'},
+        {id:'1200',name:'gnz48',color: '#9fbf40'},
+        {id:'1300',name:'shy48',color: '#e200cc'},
+        {id:'1400',name:'ckg48',color: '#946200'},
         {id:'1500',name:'idft',color: '#b4006e'},
-        {id:'1600',name:'海外练习生',color: '#ffffff'}
+        {id:'1600',name:'海外练习生',color: '#8ed2f5'}
         ],
       activeIndex: ''
     };
