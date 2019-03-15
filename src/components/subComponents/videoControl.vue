@@ -34,9 +34,9 @@
         </div>
       </div>
     </div>
-    <div class="live-pic flex-all-center" v-show="type === 2">
-      <div :style="{width: topwidth,height:topHeight}">
-        <el-carousel indicator-position="none" arrow="never" :height="topHeight">
+    <div class="live-pic flex-all-center" v-if="type === 2">
+      <div :style="{width: topwidth}">
+        <el-carousel indicator-position="none" arrow="never" :height="'700px'">
           <el-carousel-item v-for="item in radiocover" class="flex-all-center" :key="item">
             <img :src="item | picPathFormat" alt @error="altImg(item)">
           </el-carousel-item>
@@ -44,16 +44,14 @@
       </div>
     </div>
     <div v-if="showInfo" @click="showInfo = !showInfo">
-      <popup-info :id="userId"></popup-info>
+      <popup-info style="color:#000;" :id="userId"></popup-info>
     </div>
-    <div id="player">
-
+    <div id="player" :style="{width: topwidth,height: topHeight}">
+      <video id="ali-video"></video>
     </div>
   </div>
 </template>
 <script>
-import flvjs from 'flv.js'
-import typeCheck from '../../plugins/typeCheck'
 import popupInfo from './popupInfo'
 export default {
   name: 'videoControl',
@@ -70,37 +68,29 @@ export default {
       showInfo: false,
       userId: 0,
       player: null,
-      video: null,
       playerOptions: {
-        techOrder:['flash', 'html5'],
-        sourceOrder:true,
-        flash:{hls:{withCredentials:false}},
-        html5:{hls:{withCredentials:false}},
-        sources: [
-          {
-            withCredentials:false,
-            type: '',
-            src: ''
-            }
-        ],
-        controls: false
+        id: 'ali-video',
+        width: '100%',
+        height: '100%',
+        autoplay: true,
+        source: this.path,
+        isLive: this.isLive,
+        defaultDefinition: 'LD'
+      },
+      originBarrageList: {
+        barrages: [],
+        times: []
       }
     }
   },
-  props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight'],
+  props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight','isLive'],
   methods: {
     playReview(){ // 点击直播封面时开始播放
-      let type = typeCheck(this.path)
-      if(type === 'flv'){ // flv格式利用flv.js播放，其他格式利用video.js播放
-        return this.playFlv()
-      }
-      this.playerOptions.sources[0].type = type
-      this.playerOptions.sources[0].src = this.path
+      if(this.type===0 && this.isLive === true) return this.$message.error('直播还未开始')
       // eslint-disable-next-line
-      this.player = videojs(this.id,this.playerOptions)
-      this.player.on('loadeddata', () => {
+      this.player = new Aliplayer(this.playerOptions)
+      this.player.on('ready', () => {
         this.loadedDataHandler()
-        this.player.dimensions(parseInt(this.topwidth),parseInt(this.topHeight))
       })
       this.player.on('error', () => {
         this.$message.error('无法播放')
@@ -110,11 +100,22 @@ export default {
           this.barrageHandler()
         }
       })
+      this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
+        this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
+        let index = this.barrageList.times.findIndex(item => {
+          return parseInt(item)>=this.player.getCurrentTime()
+        })
+        this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
+        this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
+        this.barrages = []
+        this.barrageHandler()
+      })
     },
     loadBarrages(){ // 载入弹幕列表
       this.axios.post('/api/getBarrages',{url:this.lrcpath})
         .then(res => {
           this.barrageList = res.data
+          this.originBarrageList = res.data
         })
     },
     toggleTopList(){ // 开/关显示贡献榜
@@ -124,33 +125,8 @@ export default {
       this.userId = id
       this.showInfo = true
     },
-    playFlv(){ // flv.js播放flv格式视频
-      if (flvjs.isSupported()) {
-        var videoElement = document.getElementById(this.id);
-        this.player = flvjs.createPlayer({
-            type: 'flv',
-            url: this.path
-        });
-        this.player.attachMediaElement(videoElement);
-        this.player.load();
-        videoElement.onloadeddata = () => {
-          this.loadedDataHandler()
-        }
-        this.player.on('ERROR',() => {
-          this.$message.error('无法播放')
-        })
-        videoElement.onerror = () => {
-          this.$message.error('无法播放')
-        }
-        videoElement.ontimeupdate = () => {
-          if(this.isReview && this.barrageList.times.length>0){
-            this.barrageHandler()
-          }
-        }
-      }
-    },
     barrageHandler(){ // 将获取到的弹幕列表渲染到页面中
-      if(this.player.currentTime >= this.barrageList.times[0]){
+      if(this.player.getCurrentTime() >= this.barrageList.times[0]){
         if(this.barrages.length===10){
           this.barrages.shift()
           this.barrages.push(this.barrageList.barrages[0])
@@ -162,9 +138,6 @@ export default {
       }
     },
     loadedDataHandler(){ // 显示视频，并播放，加载弹幕
-      document.querySelector('video').width = parseInt(this.topwidth)
-      document.querySelector('video').height = parseInt(this.topHeight)
-      document.querySelector('video').controls = true
       this.isReview = true
       this.topList = this.toplist
       this.player.play()
@@ -174,20 +147,18 @@ export default {
   components: {
     popupInfo
   },
-  mounted() { // 动态创建video标签，并赋予随机的id，避免video.js选项的重复初始化造成无法播放
-    let video = document.createElement('video')
-    video.id = this.id
-    video.controls = true
-    video.style.backgroundColor = '#000'
-    document.getElementById('player').append(video)
-  },
-  computed: {
-    id: function(){ // 生成随机的字符串
-      let id = Math.random().toString(36).substr(2)
-      id = id.replace(/[0-9]/g,'')
-      return id
-    }
-  }
+  // computed: {
+  //   currentTime: function(){
+  //     if(this.player){
+  //       return this.player.getCurrentTime()
+  //     }
+  //   }
+  // },
+  // watch: {
+  //   currentTime: function(newVal,oldVal) {
+  //       console.log(newVal,oldVal)
+  //   }
+  // }
 }
 </script>
 <style lang="less" scoped>
@@ -198,62 +169,14 @@ export default {
   left: 0;
   width: 100%;
   color: white;
-  &:hover{
-    .player-control{
-      visibility: visible;
-    }
-  }
-  .player-control{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    visibility: hidden;
-    z-index: 105;
-    transition: all 0.3s ease;
-    .control-content{
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      span{
-        width: 120px;
-      }
-      .fullscreen{
-        width: 60px;
-        cursor: pointer;
-      }
-      .progress{
-        background-color: #666;
-        width: 100%;
-        height: 10px;
-        #progress-bar{
-          background-color: #fff;
-          width: 0px;
-          height: 10px;
-          position: relative;
-          #progress-dot{
-            background-color: #fff;
-            box-shadow: 0px 0px 2px #000;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            position: absolute;
-            top: -5px;
-          }
-        }
-      }
-    }
-  }
   .live-pic{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     div{
-      z-index: 0;
       img{
-        z-index: 90;
+        z-index: 98;
         width: 100%;
       }
     }
@@ -286,6 +209,7 @@ export default {
     left: 0;
     width: 100%;
     z-index: 100;
+    text-align: center;
     .top-list{
       height: 800px;
       background-color: rgba(0,0,0,0.6);
@@ -341,7 +265,7 @@ export default {
     width: 100%;
     height: 100px;
     position: absolute;
-    bottom: 120px;
+    bottom: 150px;
     left: 0;
     .barrage-list{
       padding-left: 10px;

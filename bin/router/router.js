@@ -71,7 +71,11 @@ router.get('/api/getMemberList', (req, res) => {
     })
   }else if(req.query.flag==='database'){ // 第N次启动服务器，防止重复存储数据
     Group.findOne({name: req.query.group},(err,group) => {
-      return res.send({member:group.member,team:group.team})
+      if(err){
+        return res.send({status: 404})
+      }else{
+        return res.send({member:group.member,team:group.team})
+      }
     })
   }
 })
@@ -144,8 +148,8 @@ router.post('/api/getAnswer',(req,res) => {
 
 // 成员房间语音留言
 router.post('/api/getAudio',(req,res) => {
-  downloadFile(req.body.url,'./Cache/test.amr',() => {
-    let str = fs.readFileSync('./Cache/test.amr')
+  downloadFile(req.body.url,'./cache/test.amr',() => {
+    let str = fs.readFileSync('./cache/test.amr')
     res.send({status: 200,message:str.toString('base64')})
   })
 })

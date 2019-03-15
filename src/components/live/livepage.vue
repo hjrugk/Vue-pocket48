@@ -1,12 +1,29 @@
 <template>
   <div class="live-page-container my-card">
+    <div class="info-container flex-all-center">
+      <div class="live-info flex-all-center" :style="{width: rect.width}" v-if="liveInfo.picPath">
+        <div class="live-title">
+          <span v-html="liveInfo.subTitle" class="sub-title"></span><br>
+          <span v-html="liveInfo.title" class="main-title"></span>
+        </div>
+        <div v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></div>
+        <div class="comment-info" v-if="type===0">
+          <i class="el-icon-view"></i>
+          <span class="praise-count" v-html="count.praise"></span>
+          <i class="el-icon-edit-outline"></i>
+          <span class="comment-count" v-html="count.comment"></span>
+          <i class="el-icon-share"></i>
+          <span class="share-count" v-html="count.share"></span>
+        </div>
+      </div>
+    </div>
     <a class="flex-all-center" href="javascript:;" v-if="type===1 && picPath">
-      <div class="pic-container flex-all-center" @click="triggerMethod('450px','800px')" :style="{width: '450px',height:'800px'}">
+      <div class="pic-container flex-all-center" @click="triggerMethod" :style="rect">
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
     <a class="flex-all-center" href="javascript:;" v-if="type===0 && picPath">
-      <div class="pic-container flex-all-center" @click="triggerMethod('900px','540px')" :style="{width: '900px',height:'540px'}">
+      <div class="pic-container flex-all-center" @click="triggerMethod" :style="rect">
         <img width="100%" :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
@@ -19,21 +36,8 @@
       ref="vod"
       :toplist="liveInfo.topList"
       :lrcpath="liveInfo.lrcPath"
+      :isLive="isLive"
       v-if="liveInfo.picPath"></video-control>
-    <div class="live-info" v-if="liveInfo.picPath">
-      <p v-html="liveInfo.title" class="main-title"></p>
-      <p v-html="liveInfo.subTitle" class="sub-title"></p>
-    </div>
-    <!-- <div v-else>请返回上一级</div> -->
-    <p v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></p>
-    <div class="comment-info" v-if="type===0">
-      <i class="el-icon-view"></i>
-      <span class="praise-count" v-html="count.praise"></span>
-      <i class="el-icon-edit-outline"></i>
-      <span class="comment-count" v-html="count.comment"></span>
-      <i class="el-icon-share"></i>
-      <span class="share-count" v-html="count.share"></span>
-    </div>
   </div>
 </template>
 
@@ -44,7 +48,6 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      type: this.$route.params.type,
       liveInfo: {},
       picPath: "",
       count: {
@@ -84,9 +87,9 @@ export default {
     altImg() {
       this.picPath = "";
     },
-    triggerMethod(w,h){ // 公演与成员直播设置不同的视频高宽
-      this.topWidth = w
-      this.topHeight = h
+    triggerMethod(){ // 公演与成员直播设置不同的视频高宽
+      this.topWidth = this.rect.width
+      this.topHeight = this.rect.height
       this.$refs.vod.playReview()
     }
   },
@@ -97,15 +100,31 @@ export default {
     videoControl
   },
   computed: {
-    livePath: function () { // 返回最高清晰度的视频地址
-      if(this.liveInfo.streamPathLd){
-        return this.liveInfo.streamPathLd
-      }else if(this.liveInfo.streamPathHd){
-        return this.liveInfo.streamPathHd
+    livePath: function () { // 返回各清晰度视频地址
+      if(this.type===0){
+        let source = {
+          HD: this.liveInfo.streamPathHd || this.liveInfo.streamPath,
+          SD: this.liveInfo.streamPathLd || this.liveInfo.streamPath,
+          LD: this.liveInfo.streamPath
+        }
+        return JSON.stringify(source)
       }else{
         return this.liveInfo.streamPath
       }
-    } 
+    },
+    type: function(){
+      return this.$route.params.type || JSON.parse(localStorage.getItem('type')).type
+    },
+    isLive: function(){
+      return JSON.parse(localStorage.getItem('type')).isLive
+    },
+    rect: function() {
+      if(this.type === 0){
+        return {width: '900px',height: '540px'}
+      }else{
+        return {width: '450px',height: '800px'}
+      }
+    }
   }
 };
 </script>
@@ -117,7 +136,6 @@ export default {
   margin: 5px;
   border-radius: 3px;
   position: relative;
-  text-align: center;
   .pic-container{
     text-align: center;
     background-color: #000;
@@ -126,15 +144,26 @@ export default {
       width: 100%;
     }
   }
-  .live-info {
-    border-top: 1px solid #ccc;
-    margin-top: 5px;
-    .main-title {
-      font-size: 18px;
-      margin-right: 10px;
-    }
-    .sub-title {
-      font-size: 15px;
+  .info-container{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    .live-info {
+      background-color: #fff;
+      padding: 10px;
+      box-sizing: border-box;
+      height: 80px;
+      border: 1px solid #eee;
+      margin-top: 5px;
+      justify-content: space-between;
+      .main-title {
+        font-size: 15px;
+        margin-right: 10px;
+      }
+      .sub-title {
+        font-size: 18px;
+      }
     }
   }
   .comment-info {

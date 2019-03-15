@@ -14,8 +14,8 @@ body {
 .flex-menu li {
   display: flex;
   justify-content: center;
-  max-width: calc(15vw);
-  min-width: calc(10vw);
+  max-width: 150px;
+  min-width: 100px;
 }
 .flex-menu li .el-submenu__title {
   width: 100%;
@@ -97,8 +97,8 @@ body {
 .flex-menu li {
   display: flex;
   justify-content: center;
-  max-width: calc(15vw);
-  min-width: calc(10vw);
+  max-width: 150px;
+  min-width: 100px;
 }
 .flex-menu li .el-submenu__title {
   width: 100%;

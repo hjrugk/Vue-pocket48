@@ -10,9 +10,9 @@
         active-text-color="#ffd04b"
         router
       >
-        <div class="el-menu-brand flex-all-center" @click="pushToHome">
-          <img class="logo-img" src="./assets/images/login_logo.png" alt="">
-          <span class="brand-name">口袋48</span>
+        <div class="el-menu-brand flex-all-center">
+          <img class="logo-img" @click="pushToHome" src="./assets/images/login_logo.png" alt="">
+          <span class="brand-name" @click="pushToHome">口袋48</span>
         </div>
         <el-menu-item class="none" index="/home">首页</el-menu-item>
         <el-menu-item class="none" index="/roomlist" v-show="$store.getters.checkLogin">聚聚</el-menu-item>

@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <el-carousel style="height: 330px;" trigger="click" height="330px" v-if="adsList[0]">
+    <el-carousel trigger="click" height="350px" v-if="adsList[0]">
       <el-carousel-item v-for="(item,index) in adsList" :key="index">
         <a :href="item.url" target="_blank">
-          <img :src="'http://www.snh48.com/'+item.img" alt>
+          <div :style="'background-image: url(\''+'http://www.snh48.com/'+item.img+'\')'"></div>
         </a>
       </el-carousel-item>
     </el-carousel>
@@ -101,7 +101,7 @@ export default {
 <style lang="less" scoped>
 .home{
   .alt_bg{
-    height: 330px;
+    height: 350px;
     background-color: #fff;
     width: 100%;
   }
@@ -115,7 +115,15 @@ export default {
         a{
           width: 85%;
           display: block;
-          img{
+          div{
+            height: 350px;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+          }
+        }
+        @media screen and (max-width: 768px) {
+          a{
             width: 100%;
           }
         }

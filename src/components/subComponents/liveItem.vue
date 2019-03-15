@@ -38,7 +38,8 @@ export default {
   },
   methods: {
     getLivePage(id) { // 跳转到直播页面
-      this.$router.push({name:'livepage',params:{id,type: this.type}})
+      localStorage.setItem('type',JSON.stringify({type: this.type,isLive: this.isLive}))
+      this.$router.push({name:'livepage',params:{id,type: this.type,isLive: this.isLive}})
     },
     goToAllLive(){ // 跳转到直播详细列表页
       if(this.type===1){
@@ -48,7 +49,12 @@ export default {
       }
     }
   },
-  props: ["list", "rect","type","livetitle"]
+  props: ["list", "rect","type","livetitle"],
+  computed: {
+    isLive: function() {
+      return this.livetitle === '直播'
+    } 
+  }
 };
 </script>
 

@@ -14,6 +14,8 @@
       </el-form-item>
       <el-form-item>
         <el-button type="success" @click="getMusicList">确定</el-button>
+        <el-button @click="playOrPause" v-if="isPaused">播放</el-button>
+        <el-button @click="playOrPause" v-else>暂停</el-button>
       </el-form-item>
     </el-form>
     <div class="music-list">
@@ -35,7 +37,7 @@
         </div>
       </div>
     </div>
-    <audio src ref="audio"></audio>
+    <audio src="none" ref="audio"></audio>
   </div>
 </template>
 
@@ -46,21 +48,18 @@ export default {
     return {
       list: [],
       group: 'SNH48',
-      num: 30
+      num: 30,
+      isPaused: true
     };
   },
   methods: {
     getMusicList() {
-      // if (localStorage.getItem("musicList")) {
-      //   this.list = JSON.parse(localStorage.getItem("musicList"));
-      // } else {
       this.axios.get("/api/getMusicList?group=" + this.group + '&num=' + this.num).then(res => {
         let datas = res.data
         datas = datas.substring(9,datas.length-1)
         datas = JSON.parse(datas)
         this.list = datas.data.song.list
       });
-      // }
     },
     getPlayUrl(songmid) {
       this.axios.get("/api/getPlayUrl?songmid=" + songmid).then(res => {
@@ -70,7 +69,22 @@ export default {
           "?fromtag=0&guid=126548448&vkey=" +
           res.data.data.items[0].vkey;
         this.$refs.audio.play();
+        this.isPaused = false
       });
+    },
+    playOrPause(){
+      if(this.$refs.audio.src === 'http://localhost:8080/none'){
+        this.getPlayUrl(this.list[0].songmid)
+        this.isPaused = false
+      }else{
+        if(this.isPaused){
+          this.$refs.audio.play()
+          this.isPaused = false
+        }else{
+          this.$refs.audio.pause()
+          this.isPaused = true
+        }
+      }
     }
   },
   created() {

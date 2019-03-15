@@ -58,16 +58,16 @@ export default {
   .color-item{
     color: #fff;
     text-align: center;
-    &:nth-child(9){
-      color: #000;
-      border-right: 1px solid #e6e6e6;
-    }
   }
   .el-menu-demo{
+    li{
+      max-width: 180px;
+      min-width: 140px;
+    }
     .group-brand{
       flex: 1;
       color: #000;
-      width: 150px;
+      min-width: 120px;
       font-size: 14px;
       border-left: 1px solid #e6e6e6;
       user-select: none;
