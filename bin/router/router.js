@@ -148,8 +148,8 @@ router.post('/api/getAnswer',(req,res) => {
 
 // 成员房间语音留言
 router.post('/api/getAudio',(req,res) => {
-  downloadFile(req.body.url,'./cache/test.amr',() => {
-    let str = fs.readFileSync('./cache/test.amr')
+  downloadFile(req.body.url,'./Cache/test.amr',() => {
+    let str = fs.readFileSync('./Cache/test.amr')
     res.send({status: 200,message:str.toString('base64')})
   })
 })
