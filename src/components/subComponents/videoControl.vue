@@ -47,7 +47,7 @@
       <popup-info style="color:#000;" :id="userId"></popup-info>
     </div>
     <div id="player" :style="{width: topwidth,height: topHeight}">
-      <video id="ali-video"></video>
+      
     </div>
   </div>
 </template>
@@ -101,14 +101,16 @@ export default {
         }
       })
       this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
-        this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
-        let index = this.barrageList.times.findIndex(item => {
-          return parseInt(item)>=this.player.getCurrentTime()
-        })
-        this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
-        this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
-        this.barrages = []
-        this.barrageHandler()
+        if(this.barrageList.times[0]){
+          this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
+          let index = this.barrageList.times.findIndex(item => {
+            return parseInt(item)>=this.player.getCurrentTime()
+          })
+          this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
+          this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
+          this.barrages = []
+          this.barrageHandler()
+        }
       })
     },
     loadBarrages(){ // 载入弹幕列表
@@ -147,18 +149,13 @@ export default {
   components: {
     popupInfo
   },
-  // computed: {
-  //   currentTime: function(){
-  //     if(this.player){
-  //       return this.player.getCurrentTime()
-  //     }
-  //   }
-  // },
-  // watch: {
-  //   currentTime: function(newVal,oldVal) {
-  //       console.log(newVal,oldVal)
-  //   }
-  // }
+  mounted(){
+    this.player = null
+    document.getElementById('player').innerHTML = ''
+    let video = document.createElement('video')
+    video.id = 'ali-video'
+    document.getElementById('player').append(video)
+  }
 }
 </script>
 <style lang="less" scoped>
