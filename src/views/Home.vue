@@ -4,6 +4,7 @@
       <el-carousel-item v-for="(item,index) in adsList" :key="index">
         <a :href="item.url" target="_blank">
           <div :style="'background-image: url(\''+'http://www.snh48.com/'+item.img+'\')'"></div>
+          <div class="mask"></div>
         </a>
       </el-carousel-item>
     </el-carousel>
@@ -115,11 +116,26 @@ export default {
         a{
           width: 85%;
           display: block;
+          position: relative;
+          &:hover{
+            .mask{
+              visibility: visible;
+            }
+          }
           div{
             height: 350px;
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
+          }
+          .mask{
+            background-color: rgba(0,0,0,0.2);
+            visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
           }
         }
         @media screen and (max-width: 768px) {

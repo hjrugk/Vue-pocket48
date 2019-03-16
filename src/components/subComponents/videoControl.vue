@@ -75,7 +75,8 @@ export default {
         autoplay: true,
         source: this.path,
         isLive: this.isLive,
-        defaultDefinition: 'LD'
+        defaultDefinition: 'LD',
+        preload: true
       },
       originBarrageList: {
         barrages: [],
@@ -94,6 +95,7 @@ export default {
       })
       this.player.on('error', () => {
         this.$message.error('无法播放')
+        this.player = null
       })
       this.player.on('timeupdate', () => {
         if(this.isReview && this.barrageList.times.length !==0){
@@ -117,7 +119,7 @@ export default {
       this.axios.post('/api/getBarrages',{url:this.lrcpath})
         .then(res => {
           this.barrageList = res.data
-          this.originBarrageList = res.data
+          this.originBarrageList = JSON.parse(JSON.stringify(res.data))
         })
     },
     toggleTopList(){ // 开/关显示贡献榜
@@ -155,6 +157,9 @@ export default {
     let video = document.createElement('video')
     video.id = 'ali-video'
     document.getElementById('player').append(video)
+  },
+  beforeDestroy() {
+    this.player = null 
   }
 }
 </script>

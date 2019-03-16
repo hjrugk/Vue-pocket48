@@ -73,7 +73,7 @@ export default {
       min-width: 480px;
       max-width: 480px;
       &:hover {
-        background-color: #efefef;
+        background-color: rgba(0,0,0,0.1);
       }
       .room-avatar {
         width: 80px;

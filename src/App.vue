@@ -29,9 +29,10 @@
         <el-submenu class="responsive" index="/">
           <template slot="title">菜单</template>
           <el-menu-item index="/home">首页</el-menu-item>
-          <el-menu-item index="/roomlist">聚聚</el-menu-item>
+          <el-menu-item index="/roomlist" v-show="$store.getters.checkLogin">聚聚</el-menu-item>
           <el-menu-item index="/music">发现</el-menu-item>
-          <el-menu-item index="/login">登录</el-menu-item>
+          <el-menu-item index="/login" v-if="!$store.getters.checkLogin">登录</el-menu-item>
+          <el-menu-item index="/login" v-else>账户</el-menu-item>
           <el-menu-item index="/about">关于</el-menu-item>
         </el-submenu>
       </el-menu>

@@ -7,7 +7,7 @@
         <i class="el-icon-arrow-right"></i>
       </p>
     </div>
-    <transition-group appear tag="div">
+    <transition-group appear tag="div" class="list-container">
       <a
         href="javascript:;"
         @click.prevent="getLivePage(item.liveId)"
@@ -19,6 +19,7 @@
       >
         <div class="pic-container flex-align-center" :style="{height:rect.height}">
           <img :src="item.picPath | picPathFormat" alt class="live-pic" :class="{'center-pic':type===1}">
+          <div class="mask"></div>
           <div class="live-title" v-html="item.title"></div>
         </div>
         <div class="live-info">
@@ -98,10 +99,6 @@ export default {
       text-decoration: none;
       color: #000;
       cursor: pointer;
-      &:hover{
-        background-color: #efefef;
-        border-radius: 5px;
-      }
       .pic-container {
         width: 100%;
         position: relative;
@@ -110,6 +107,9 @@ export default {
         box-shadow: 0 0 3px #666;
         &:hover {
           box-shadow: 0 0 9px #333;
+          .mask{
+            visibility: visible;
+          }
         }
         .live-title{
           font-size: 12px;
@@ -121,16 +121,40 @@ export default {
         .live-pic {
           width: 100%;
         }
+        .mask{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.3);
+          visibility: hidden;
+        }
         .center-pic{
           position: relative;
-          top: -50%;
+          top: -30%;
         }
       }
       .live-info{
         display: flex;
         justify-content: space-between;
         font-size: 12px;
+        .live-url{
+          width: 120px;
+          height: 15px;
+          overflow: hidden;
+        }
       }
+    }
+  }
+  @media screen  and (max-width: 768px) {
+    .list-container{
+      width: 100%;
+    }
+  }
+  @media screen  and (max-width: 510px) {
+    .list-container{
+      justify-content: center;
     }
   }
 }
