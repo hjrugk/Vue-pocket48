@@ -20,7 +20,7 @@ import {
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
-import axios from 'axios'
+import ajax from './plugins/ajax'
 import './assets/less/global.less'
 import {periodHandler} from "./plugins/periodHandler";
 
@@ -54,7 +54,7 @@ Vue.filter('liveUrlFormat', function (item) {
 
 Vue.config.productionTip = false
 
-Vue.prototype.axios = axios
+Vue.prototype.ajax = ajax
 
 new Vue({
   router,

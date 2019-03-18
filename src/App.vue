@@ -47,6 +47,7 @@ export default {
   data() {
     return {
       activeIndex: "/home",
+      TITLE: document.getElementsByTagName('title')[0]
     };
   },
   methods: {
@@ -56,13 +57,19 @@ export default {
   },
   watch: {
     $route: function () { // 当路由地址变化后，停止播放音频
+      if(this.TITLE.innerHTML !== 'VUE48'){this.TITLE.innerText = 'VUE48'}
       this.activeIndex = '/'+this.$router.history.current.fullPath.split('/')[1]
       // eslint-disable-next-line
       RongIMLib.RongIMVoice.init()
       // eslint-disable-next-line
       RongIMLib.RongIMVoice.stop()
     }
-  }
+  },
+  mounted() {
+    this.$store.dispatch('getAllLive',{limit:8,id:0}) 
+    this.$store.dispatch('getOpenReview',{isReview:1}) 
+    this.$store.dispatch('getSwipeAds') 
+  },
 };
 </script>
 

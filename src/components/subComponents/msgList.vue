@@ -56,62 +56,46 @@ export default {
   },
   props: ['id'],
   methods: {
-    getMsgList() { // 获取成员房间所有消息
-      this.axios
-        .post("/api/getRoomBoard", {
-          token: this.$store.getters.getToken,
-          id: this.id
-        })
-        .then(res => {
-          this.msgList = res.data.content.data;
-        });
+    async getMsgList() { // 获取成员房间所有消息
+      const res = await this.ajax('/getRoomBoard',{token: this.$store.getters.getToken,id: this.id},'POST')
+      this.msgList = res.content.data
     },
-    getMore() { // 获取更多消息
+    async getMore() { // 获取更多消息
       this.limit += 10;
-      this.axios
-        .post("/api/getRoomBoard", {
-          token: this.$store.getters.getToken,
+      const res = await this.ajax('getRoomBoard',{token: this.$store.getters.getToken,
           id: this.id,
-          limit: this.limit
-        })
-        .then(res => {
-          this.msgList = res.data.content.data;
-        });
+          limit: this.limit},'POST')
+      this.msgList = res.content.data
       this.$store.commit('saveScrollTop')
     },
-    getAnswer(questionId, answerId, title) { // 获取翻牌消息，以弹出框形式呈现
+    async getAnswer(questionId, answerId, title) { // 获取翻牌消息，以弹出框形式呈现
       const h = this.$createElement;
-      this.axios
-        .post("/api/getAnswer", {
+      const res = await this.ajax('/getAnswer',{
           questionId,
           answerId,
           token: this.$store.getters.getToken
-        })
-        .then(res => {
-          this.answerContent = res.data.content;
-          this.$msgbox({
-            title,
-            message: h("div", null, [
-              h("p", null, this.answerContent.answer),
-              h("p", { style: "color: #ccc" }, this.answerContent.question)
-            ]),
-            confirmButtonText: "确定"
-          });
-        });
+        },'POST')
+      this.answerContent = res.content;
+      this.$msgbox({
+        title,
+        message: h("div", null, [
+          h("p", null, this.answerContent.answer),
+          h("p", { style: "color: #ccc" }, this.answerContent.question)
+        ]),
+        confirmButtonText: "确定"
+      });
     },
-    getAudio(url){ // 获取语音消息
-      this.axios.post('/api/getAudio',{url})
-        .then(res => {
-          if(res.data.status === 200){
-            // eslint-disable-next-line
-            RongIMLib.RongIMVoice.init()
-            this.base64Str = res.data.message
-            // eslint-disable-next-line
-            RongIMLib.RongIMVoice.stop()
-            // eslint-disable-next-line
-            RongIMLib.RongIMVoice.play(this.base64Str)
-          }
-        })
+    async getAudio(url){ // 获取语音消息
+      const res = await this.ajax('getAudio',{url},'POST')
+      if(res.status === 200){
+        // eslint-disable-next-line
+        RongIMLib.RongIMVoice.init()
+        this.base64Str = res.message
+        // eslint-disable-next-line
+        RongIMLib.RongIMVoice.stop()
+        // eslint-disable-next-line
+        RongIMLib.RongIMVoice.play(this.base64Str)
+      }
     },
     stop(){ // 暂停语音播放
       // eslint-disable-next-line

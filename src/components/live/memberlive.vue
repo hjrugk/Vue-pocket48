@@ -1,24 +1,24 @@
 <template>
   <div class="live-container">
     <live-list 
-      :type="1" :list="liveList" 
+      :type="1" :list="memberLiveList" 
       :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
       :livetitle="'直播'"
-       v-if="liveList[0]"></live-list>
+       v-if="memberLiveList[0]"></live-list>
     <div class="review-header" v-if="!isSuccess">
       <p class="instead-info">
         <i class="el-icon-loading"></i>
       </p>
     </div>
     <live-list 
-      :type="1" :list="reviewList" 
+      :type="1" :list="memberReviewList" 
       :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
       :livetitle="'录播'"
       v-else></live-list>
     <div
       class="button-container flex-all-center"
       @click="getMoreLive"
-      v-show="$route.path !=='/home' && reviewList[0]"
+      v-show="$route.path !=='/home' && memberReviewList[0]"
     >
       <i class="el-icon-arrow-down"></i>
     </div>
@@ -26,41 +26,33 @@
 </template>
 
 <script>
-  import liveList from '../subComponents/liveItem'
+  import liveList from '../subComponents/liveList'
 export default {
   name: "memberlive",
   data() {
     return {
-      liveList: [],
-      reviewList: [],
       limit: 8,
       id: this.$route.params.id || 0,
-      isSuccess: false
+      isSuccess: false,
+      memberLiveList: [],
+      memberReviewList: []
     };
   },
   methods: {
-    getAllLive() { // 获取直播列表
-      this.axios.get("/api/getAllLive?limit=8&id=" + this.id).then(res => {
-        this.isSuccess = true
-        if(res.data.content.reviewList.length){
-          this.liveList = res.data.content.liveList;
-          this.reviewList = res.data.content.reviewList;
-        }else{
-          this.$message('没有更多直播')
-        }
-      });
-    },
-    getMoreLive() { // 获取更多直播
+    async getMoreLive() { // 获取更多直播
       this.limit += 8;
-      this.axios
-        .get("/api/getAllLive?limit=" + this.limit + "&id=" + this.id)
-        .then(res => {
-          this.reviewList = res.data.content.reviewList;
-        });
+      const res = await this.ajax('/getAllLive',{limit:this.limit,id:this.id})
+      this.memberReviewList = res.content.reviewList
+    },
+    async getAllLive(){
+      const res = await this.ajax('/getAllLive',{limit:this.limit,id:this.id})
+      this.memberLiveList = res.content.liveList
+      this.memberReviewList = res.content.reviewList
+      this.isSuccess = true
     }
   },
-  mounted() {
-    this.getAllLive();
+  created() {
+    this.getAllLive()
   },
   components: {
     liveList

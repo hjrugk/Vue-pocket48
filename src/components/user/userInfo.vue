@@ -16,7 +16,7 @@
       </div>
       <div class="recommand-info flex-all-center" v-if="showInfo===3">
         <div class="recommand-layer">
-          <div class="first flex-align-center" v-for="(item, index) in recommand" :key="index">
+          <div class="first flex-align-center" v-for="(item, index) in recommend" :key="index">
             <span class="text">{{index | translate}}</span>
             <span class="image" @click="getMemberDetail(item.info.real_name)">
               <img :src="item.info.avatar | picPathFormat" alt="">
@@ -29,7 +29,9 @@
           </div>
         </div>
       </div>
-      <div v-else>加载列表中</div>
+      <div v-else class="alt_bg">
+        <img class="alt-img" src="../../assets/images/loading.gif" alt="">
+      </div> 
     </div>
     <div class="my-card" v-else>
       信息已丢失，请返回上一级
@@ -42,27 +44,25 @@ export default {
   data(){
     return {
       info: this.$route.params.info,
-      recommand: this.$route.params.recommand,
+      recommend: this.$route.params.recommend,
       friendsNum: this.$route.params.friendsNum,
       showInfo: 0
     }
   },
   methods: {
-    getMemberName(id,key){ // 获取所推成员信息
+    async getMemberName(id,key){ // 获取所推成员信息
       if(id!==0){
-        this.axios.get('/api/getMemberName?id=' + id)
-        .then(res => {
-          this.recommand[key].info = res.data.info
-          this.showInfo++
-          })
+        const res = await this.ajax('getMemberName',{id})
+        this.recommend[key].info = res.info
+        this.showInfo++
       }else{
-        this.recommand[key].info = {real_name: '保密',avatar: '/mediasource/profile_icon.png'}
+        this.recommend[key].info = {real_name: '保密',avatar: '/mediasource/profile_icon.png'}
         this.showInfo++
       }
     },
     triggerMethod(){ // 生成所推成员数组
-      for (const key in this.recommand) {
-        this.getMemberName(this.recommand[key].memberId,key)
+      for (const key in this.recommend) {
+        this.getMemberName(this.recommend[key].memberId,key)
       }
     },
     getMemberDetail(memberName){ // 跳转到成员列表页面
@@ -124,6 +124,15 @@ export default {
     font-size: 12px;
     color: #999;
     margin-left: 10px;
+  }
+}
+.alt_bg{
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  text-align: center;
+  .alt-img{
+    height: 300px;
   }
 }
 .recommand-info{

@@ -54,7 +54,7 @@
       }
     },
     methods: {
-      login(){ // 登录
+      async login(){ // 登录
         if(localStorage.getItem('userinfo')){ // 非第一次登录
           let userInfo = JSON.parse(localStorage.getItem('userinfo'))
           this.$store.commit('saveUserInfo',userInfo.userInfo)
@@ -62,23 +62,22 @@
           this.$store.commit('setToken', userInfo.token)
           this.friends = userInfo.friends
         }else{ // 第一次登陆，存储用户信息
-          this.axios.post('/api/login', {account: this.account,password: this.password})
-            .then(res => {
-              this.password = ''
-              this.account = ''
-              this.userInfo = res.data.content.userInfo
-              this.$store.commit('saveUserInfo',res.data.content.userInfo)
-              this.token = res.data.content.token
-              this.$store.commit('setToken', res.data.content.token)
-              this.logFlag = true
-              localStorage.setItem('isLogin',JSON.stringify({logFlag: this.logFlag}))
-              this.friends = res.data.content.friends
-              localStorage.setItem('userinfo', JSON.stringify(res.data.content))
-              this.$message('登陆成功，3秒后刷新')
-              setTimeout(() => {
-                window.location.reload()
-              },3000)
-            })
+          const res = await this.ajax('/login',{account: this.account,password: this.password},'POST')
+          if(res.status === 1001003) return this.$message.error(res.message)
+          this.password = ''
+          this.account = ''
+          this.userInfo = res.content.userInfo
+          this.$store.commit('saveUserInfo',res.content.userInfo)
+          this.token = res.content.token
+          this.$store.commit('setToken', res.content.token)
+          this.logFlag = true
+          localStorage.setItem('isLogin',JSON.stringify({logFlag: this.logFlag}))
+          this.friends = res.content.friends
+          localStorage.setItem('userinfo', JSON.stringify(res.content))
+          this.$message('登陆成功，3秒后刷新')
+          setTimeout(() => {
+            window.location.reload()
+          },3000)
         }
       },
       check(){
@@ -94,19 +93,19 @@
           this.checkFlag = false
         }
       },
-      getCheck(){ // 检查是否已打卡签到
-        this.axios.post('/api/getCheck',{token:this.$store.state.token})
-          .then(res => {
-            if (res.data.status===200 || res.data.status===1001006){
-              let flag = JSON.parse(localStorage.getItem('isLogin'))
-              flag.checkFlag = true
-              flag.date = new Date().toDateString()
-              localStorage.setItem('isLogin',JSON.stringify(flag))
-              this.checkFlag = true
-              this.txt= '已打卡'
-              this.$message('打卡成功')
-            }
-          })
+      async getCheck(){ // 检查是否已打卡签到
+        const res = await this.ajax('/getCheck',{token:this.$store.state.token},'POST')
+        if (res.status===200 || res.status===1001006){
+          let flag = JSON.parse(localStorage.getItem('isLogin'))
+          flag.checkFlag = true
+          flag.date = new Date().toDateString()
+          localStorage.setItem('isLogin',JSON.stringify(flag))
+          this.checkFlag = true
+          this.txt= '已打卡'
+          this.$message('打卡成功')
+        }else{
+          return this.$message.error('请稍后再试')
+        }
       }
     },
     computed: {

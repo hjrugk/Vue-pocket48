@@ -72,19 +72,14 @@ export default {
     };
   },
   methods: {
-    goToMemberRoom(id) { // 跳转到成员房间
-      this.axios
-        .post("/api/getRoomList", {
-          token: this.$store.getters.getToken,
-          friends: [id]
-        })
-        .then(res => {
-          if(res.data.content.length){
-            this.$router.push("/roommsg/" + res.data.content[0].roomId);
-          }else{
-            this.$message('该房间未创建')
-          }
-        });
+    async goToMemberRoom(id) { // 跳转到成员房间
+      const res = await this.ajax('/getRoomList',{token:this.$store.getters.getToken,friends:[id]},'POST')
+      if(res.content.length){
+        localStorage.setItem('bgPath',JSON.stringify(res.content[0].bgPath))
+        this.$router.push({name: 'roommsg',params:{id:res.content[0].roomId,bgPath: res.content[0].bgPath}});
+      }else{
+        this.$message('该房间未创建')
+      }
     },
     goToMemberLive(id) { // 跳转到成员直播列表
       this.$router.push("/home/memberlive/" + id);

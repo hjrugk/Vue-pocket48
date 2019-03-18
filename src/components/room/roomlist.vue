@@ -3,7 +3,7 @@
     <div class="room-list"  v-if="token">
       <div
         class="room-item my-card flex-align-center"
-        v-for="item in member"
+        v-for="item in roomList"
         :key="item.roomId"
         @click="getInfo(item.roomId,item.bgPath)"
       >
@@ -22,11 +22,11 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: "roomlist",
   data() {
     return {
-      msgList: [],
       msgPage: 0,
       token: this.$store.getters.getToken,
       friends: [],
@@ -36,20 +36,16 @@ export default {
   methods: {
     getInfo(roomId, bgPath) {
       this.$router.push({ name: "roommsg", params: { id: roomId, bgPath } });
-    },
-    getRoomList() {
-      this.axios
-        .post("/api/getRoomList", { token: this.token, friends: this.friends })
-        .then(res => {
-          this.member = res.data.content;
-        });
     }
   },
   mounted() {
     this.friends = JSON.parse(localStorage.getItem('userinfo')).friends;
     this.token = this.$store.getters.getToken;
-    this.getRoomList();
-  }
+    this.$store.dispatch('getRoomList',{ token: this.token, friends: this.friends })
+  },
+  computed: {
+    ...mapState(['roomList'])
+  } 
 };
 </script>
 

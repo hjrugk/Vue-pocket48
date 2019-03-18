@@ -8,94 +8,53 @@
         </a>
       </el-carousel-item>
     </el-carousel>
-    <div class="alt_bg" v-else></div>
+    <div class="alt_bg" v-else>
+      <img class="alt-img" src="../assets/images/loading.gif" alt="">
+    </div>
     <div class="home-nav">
       <group-info></group-info>
     </div>
     <div class="live-wrapper">
       <live-list 
-        :type="1" :list="memberList" 
+        :type="1" :list="memberAllLiveList" 
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'成员直播'"
-        v-if="memberList[0]"
+        v-if="memberAllLiveList[0]"
         ></live-list>
-      <div v-else class="alt_bg"></div>
+      <div v-else class="alt_bg">
+        <img src="../assets/images/loading.gif" alt="">
+      </div>
     </div>
     <div class="live-wrapper">
       <live-list 
-        :type="0" :list="openList" 
+        :type="0" :list="openReviewList" 
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'公演直播'"
-        v-if="openList[0]"
+        v-if="openReviewList[0]"
         ></live-list>
-      <div v-else class="alt_bg"></div>
+      <div v-else class="alt_bg">
+        <img src="../assets/images/loading.gif" alt="">
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import liveList from '../components/subComponents/liveItem'
+import liveList from '../components/subComponents/liveList'
 import groupInfo from '../components/infomation/groupinfo'
+import {mapState,mapGetters} from 'vuex'
 export default {
   data() {
     return {
-      memberList: [],
-      openList: [],
-      adsList: []
     };
-  },
-  methods: {
-    getMemberLive() { // 获取首页显示的成员直播列表
-      this.axios.get("/api/getAllLive?limit=8&id=0").then(res => {
-        let liveList = res.data.content.liveList;
-        let reviewList = res.data.content.reviewList;
-        let list = [...liveList,...reviewList]
-        if(list.length>8){
-          list.splice(8)
-        }
-        this.memberList = list
-      });
-    },
-    getOpenLive() { // 获取首页显示的公演直播列表
-      this.axios.get("/api/getOpenLive?isReview=1").then(res => {
-        this.openList = res.data.content.liveList;
-      });
-    },
-    getSwipeAds(){ // 从官网获取轮播图
-      this.axios.get('/api/getForSwipeAds')
-        .then(res => {
-          // console.log(res)
-          let one = res.data.split('" </div>");')[0]
-          let two = one.split('+')
-          let list = [
-            {url:two[3],img:two[4]},
-            {url:two[8],img:two[9]},
-            {url:two[13],img:two[14]},
-            {url:two[18],img:two[19]},
-            {url:two[23],img:two[24]},
-            {url:two[28],img:two[29]}]
-          // console.log(list)
-          list.map(item => {
-            this.adsList.push(
-              {
-                url: 'http'+item.url.split('http')[1].split('target')[0].split('\\')[0],
-                img:item.img.split("\\")[1].replace('"','')
-              }
-              )
-          })
-          // let list = res.data.ad
-          // this.adsList = list
-        })
-    }
   },
   components: {
     liveList,
-    groupInfo
+    groupInfo,
   },
-  mounted() {
-    this.getMemberLive()
-    this.getOpenLive()
-    this.getSwipeAds()
+  computed: {
+    ...mapState(['openReviewList','adsList']),
+    ...mapGetters(['memberAllLiveList'])
   }
 };
 </script>
@@ -105,6 +64,11 @@ export default {
     height: 350px;
     background-color: #fff;
     width: 100%;
+    text-align: center;
+    overflow: hidden;
+    .alt-img{
+      height: 350px;
+    }
   }
   .el-carousel{
     width: 100%;

@@ -1,52 +1,46 @@
 <template>
   <div class="user-info flex-all-center">
-    <div class="popup-info" v-if="info.avatar">
+    <div class="popup-info" v-if="jujuInfo.info.avatar">
       <p style="color: white">·</p>
-      <img @click="goToUserInfo" :src="info.avatar | picPathFormat" alt="">
+      <img class="juju-avatar" @click="goToUserInfo" :src="jujuInfo.info.avatar | picPathFormat" alt="">
       <p class="name">
-        {{info.nickName}}
-        <el-tag size="mini">{{'lv.' + info.level}}</el-tag>
+        {{jujuInfo.info.nickName}}
+        <el-tag size="mini">{{'lv.' + jujuInfo.info.level}}</el-tag>
       </p>
     </div>
     <div class="popup-info flex-all-center" v-else>
-      <p>加载信息中</p>
+      <img class="alt-img" src="../../assets/images/loading.gif" alt="">
     </div>
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
-      recommand: {},
-      friendsNum: 0,
-      info: {}
+      
     }
   },
   props: ['id'],
   methods: {
-    getUserInfo(){ // 获取聚聚信息
-      this.axios.get('/api/getUserInfo?id=' + this.id)
-        .then(res => {
-          this.info = res.data.content.userInfo
-          this.recommand = res.data.content.userRecommend
-          this.friendsNum = res.data.content.friendsNum
-        })
-    },
     goToUserInfo(){ // 点击跳转到聚聚详细信息页面
       this.$router.push({
         name: 'userinfo',
         params: {
-          id: this.info.userId,
-          info: this.info,
-          recommand: this.recommand,
-          friendsNum: this.friendsNum
+          id: this.jujuInfo.info.userId,
+          info: this.jujuInfo.info,
+          recommend: this.jujuInfo.recommend,
+          friendsNum: this.jujuInfo.friendsNum
         }
       })
     }
   },
   mounted() {
-    this.getUserInfo()
-  }
+    this.$store.dispatch('getJuJuInfo',{id:this.id})
+  },
+  computed: {
+    ...mapState(['jujuInfo'])
+  },
 }
 </script>
 <style lang="less" scoped>
@@ -64,7 +58,8 @@ export default {
     background-color: #fff;
     border-radius: 5px;
     text-align: center;
-    img{
+    overflow: hidden;
+    .juju-avatar{
       width: 80px;
       height: 80px;
       border-radius: 50%;
@@ -72,6 +67,9 @@ export default {
     }
     .name{
       color: #000;
+    }
+    .alt-img{
+      height: 100%;
     }
   }
 }

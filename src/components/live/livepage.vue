@@ -61,31 +61,28 @@ export default {
     };
   },
   methods: {
-    getLive() { // 获取直播信息
-      this.axios
-        .get("/api/getLivePage?type=" + this.type + "&id=" + this.id)
-        .then(res => {
-          this.liveInfo = res.data.content;
-          if(this.type===0){ // 公演
-            this.count.praise = res.data.content.count.praiseCount
-            this.count.comment = res.data.content.count.commentCount
-            this.count.share = res.data.content.count.shareCount
-          }
-          if(res.data.content.liveType === 2){ // 电台
-            let path = res.data.content.picPath
-            if(path.includes(',')){
-              this.radioCover = path.split(',')
-            }else{
-              this.radioCover = path
-            }
-            this.picPath = res.data.content.picPath;
-          }else{
-            this.picPath = res.data.content.picPath;
-          }
-        });
+    async getLive() { // 获取直播信息
+      const res = await this.ajax('/getLivePage',{type:this.type,id:this.id})
+      this.liveInfo = res.content;
+      let Title = document.getElementsByTagName('title')[0]
+      Title.innerText = this.liveInfo.subTitle + '--' + this.liveInfo.title
+      if(this.type===0){ // 公演
+        this.count.praise = res.content.count.praiseCount
+        this.count.comment = res.content.count.commentCount
+        this.count.share = res.content.count.shareCount
+      }
+      if(res.content.liveType === 2){ // 电台
+        let path = res.content.picPath
+        if(path.includes(',')){
+          this.radioCover = path.split(',')
+        }else{
+          this.radioCover = path
+        }
+      }
+      this.picPath = res.content.picPath || '/';
     },
     altImg() {
-      this.picPath = "";
+      this.picPath = "/";
     },
     triggerMethod(){ // 公演与成员直播设置不同的视频高宽
       this.topWidth = this.rect.width

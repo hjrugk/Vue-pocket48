@@ -51,28 +51,15 @@ export default {
   },
   props: ['id'],
   methods: {
-    getComments() { // 获取成员房间留言列表
-      this.axios
-        .post("/api/getComments", {
-          id: this.id,
-          token: this.$store.getters.getToken
-        })
-        .then(res => {
-          this.topData = JSON.parse(res.data.content.top1Data.extInfo)
-          this.commentList = res.data.content.data;
-        });
+    async getComments() { // 获取成员房间留言列表
+      const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken},'POST')
+      this.topData = JSON.parse(res.content.top1Data.extInfo)
+      this.commentList = res.content.data;
     },
-    getMore() {
+    async getMore() {
       this.limit += 10;
-      this.axios
-        .post("/api/getComments", {
-          id: this.id,
-          token: this.$store.getters.getToken,
-          limit: this.limit
-        })
-        .then(res => {
-          this.commentList = res.data.content.data;
-        });
+      const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken,limit: this.limit},'POST')
+      this.commentList = res.content.data
     },
     getUserInfo(id){ // 获取聚聚信息
       this.userId = id

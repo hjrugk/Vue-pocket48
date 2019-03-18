@@ -8,11 +8,11 @@
       <el-radio v-model="statusCode" label="0">暂休成员</el-radio>
       <el-radio v-model="statusCode" label="2">其他成员</el-radio>
     </div>
-    <div v-for="(info, i) in team" :key="i" class="team-container">
+    <div v-if="!team[0]" class="alt_bg">
+      <img class="alt-img" src="../../assets/images/loading.gif" alt="">
+    </div>
+    <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
       <p v-html="info.team_name" :style="'color: #'+info.color" class="team-name" v-show="!keywords"></p>
-      <p v-if="!memberList[0]" class="alt_icon">
-        <i class="el-icon-loading"></i>
-      </p>
       <div class="member-list">
         <transition-group mode="out-in" tag="div">
           <div
@@ -53,21 +53,19 @@ export default {
     };
   },
   methods: {
-    getMemberList() { // 从服务器端获取成员列表
+    async getMemberList() { // 从服务器端获取成员列表
       let flag = JSON.parse(localStorage.getItem('isLogin'))
       if(!flag.serverFlag){ // 第一次启动服务器，发送 server 标识，服务端存储成员数据
-        this.axios.get("/api/getMemberList?group="+this.group + '&flag=server').then(res => {
-          this.memberList = res.data.member;
-          this.team = res.data.team
-          let flag = JSON.parse(localStorage.getItem('isLogin'))
-          flag.serverFlag = 'database'
-          localStorage.setItem('isLogin',JSON.stringify(flag))
-        });
+        const res = await this.ajax('/getMemberList',{group:this.group,flag: 'server'})
+        this.memberList = res.member;
+        this.team = res.team
+        let flag = JSON.parse(localStorage.getItem('isLogin'))
+        flag.serverFlag = 'database'
+        localStorage.setItem('isLogin',JSON.stringify(flag))
       }else{ // 之后发送 database 标识，从数据库中获取成员列表
-        this.axios.get("/api/getMemberList?group="+this.group + '&flag=database').then(res => {
-          this.memberList = res.data.member
-          this.team = res.data.team
-        });
+        const res = await this.ajax('/getMemberList',{group:this.group,flag: 'database'})
+        this.memberList = res.member
+        this.team = res.team
       }
     },
     getMemberDetail(item, info) { // 跳转到成员详细信息页面
@@ -108,14 +106,23 @@ export default {
 
 <style lang="less" scoped>
 .member-container {
-  margin: 7px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 7px;
+  .alt_bg {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+    background-color: #fff;
+    .alt-img{
+      height: 600px;
+    }
+  }
   .team-container {
     .team-name {
       font-weight: bold;
       margin-left: 5px;
-    }
-    .alt_icon {
-      padding-left: 2px;
     }
     .member-list > div {
       display: flex;

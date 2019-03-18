@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      bgPath: this.$route.params.bgPath,
+      bgPath: this.$route.params.bgPath || JSON.parse(localStorage.getItem('bgPath')),
       top: document.body.scrollTop
     };
   },
@@ -33,14 +33,11 @@ export default {
     }
   },
   mounted() {
-    if (this.bgPath) {
-      this.bgPath = "http://source.48.cn" + this.bgPath;
-      this.$refs.bgPic.style.background = "url(" + this.bgPath + ")";
-      this.$refs.bgPic.style.backgroundPosition = "center center";
-      this.$refs.bgPic.style.backgroundAttachment = "fixed";
-    } else {
-      this.$refs.bgPic.style.background = "url('../assets/room_bg.png')";
-    }
+    localStorage.setItem('bgPath',JSON.stringify(this.bgPath))
+    this.bgPath = "http://source.48.cn" + this.bgPath;
+    this.$refs.bgPic.style.background = "url(" + this.bgPath + ")";
+    this.$refs.bgPic.style.backgroundPosition = "center center";
+    this.$refs.bgPic.style.backgroundAttachment = "fixed";
   },
   watch: {
     top: function() {

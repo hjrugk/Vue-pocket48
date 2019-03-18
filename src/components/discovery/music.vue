@@ -53,24 +53,22 @@ export default {
     };
   },
   methods: {
-    getMusicList() {
-      this.axios.get("/api/getMusicList?group=" + this.group + '&num=' + this.num).then(res => {
-        let datas = res.data
-        datas = datas.substring(9,datas.length-1)
-        datas = JSON.parse(datas)
-        this.list = datas.data.song.list
-      });
+    async getMusicList() {
+      const res = await this.ajax('/getMusicList',{group:this.group,num:this.num})
+      let data = res
+      data = data.substring(9,data.length-1)
+      data = JSON.parse(data)
+      this.list = data.data.song.list
     },
-    getPlayUrl(songmid) {
-      this.axios.get("/api/getPlayUrl?songmid=" + songmid).then(res => {
-        this.$refs.audio.src =
-          "http://ws.stream.qqmusic.qq.com/" +
-          res.data.data.items[0].filename +
-          "?fromtag=0&guid=126548448&vkey=" +
-          res.data.data.items[0].vkey;
-        this.$refs.audio.play();
-        this.isPaused = false
-      });
+    async getPlayUrl(songmid) {
+      const res = await this.ajax("/getPlayUrl",{songmid:songmid})
+      this.$refs.audio.src =
+        "http://ws.stream.qqmusic.qq.com/" +
+        res.data.items[0].filename +
+        "?fromtag=0&guid=126548448&vkey=" +
+        res.data.items[0].vkey;
+      this.$refs.audio.play();
+      this.isPaused = false
     },
     playOrPause(){
       if(this.$refs.audio.src === 'http://localhost:8080/none'){

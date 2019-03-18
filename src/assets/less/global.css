@@ -17,6 +17,9 @@ body {
   max-width: 150px;
   min-width: 100px;
 }
+.flex-menu li.is-active {
+  border-bottom: 2px solid #fff!important;
+}
 .flex-menu li .el-submenu__title {
   width: 100%;
   text-align: center;
@@ -99,6 +102,9 @@ body {
   justify-content: center;
   max-width: 150px;
   min-width: 100px;
+}
+.flex-menu li.is-active {
+  border-bottom: 2px solid #fff!important;
 }
 .flex-menu li .el-submenu__title {
   width: 100%;

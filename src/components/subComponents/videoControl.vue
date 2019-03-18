@@ -47,7 +47,7 @@
       <popup-info style="color:#000;" :id="userId"></popup-info>
     </div>
     <div id="player" :style="{width: topwidth,height: topHeight}">
-      
+      <video id="ali-video"></video>
     </div>
   </div>
 </template>
@@ -72,7 +72,6 @@ export default {
         id: 'ali-video',
         width: '100%',
         height: '100%',
-        autoplay: true,
         source: this.path,
         isLive: this.isLive,
         defaultDefinition: 'LD',
@@ -95,7 +94,6 @@ export default {
       })
       this.player.on('error', () => {
         this.$message.error('无法播放')
-        this.player = null
       })
       this.player.on('timeupdate', () => {
         if(this.isReview && this.barrageList.times.length !==0){
@@ -115,12 +113,10 @@ export default {
         }
       })
     },
-    loadBarrages(){ // 载入弹幕列表
-      this.axios.post('/api/getBarrages',{url:this.lrcpath})
-        .then(res => {
-          this.barrageList = res.data
-          this.originBarrageList = JSON.parse(JSON.stringify(res.data))
-        })
+    async loadBarrages(){ // 载入弹幕列表
+      const res = await this.ajax('/getBarrages',{url:this.lrcpath},'POST')
+      this.barrageList = res
+      this.originBarrageList = JSON.parse(JSON.stringify(res))
     },
     toggleTopList(){ // 开/关显示贡献榜
       this.visibility = !this.visibility
@@ -139,27 +135,21 @@ export default {
         }
         this.barrageList.times.shift()
         this.barrageList.barrages.shift()
+        let bs = document.querySelector('.barrage-list')
+        bs.scrollTop = bs.scrollHeight
       }
     },
     loadedDataHandler(){ // 显示视频，并播放，加载弹幕
       this.isReview = true
       this.topList = this.toplist
-      this.player.play()
+      if(this.player.play()){
+        this.player.play()
+      }
       this.loadBarrages()
     }
   },
   components: {
     popupInfo
-  },
-  mounted(){
-    this.player = null
-    document.getElementById('player').innerHTML = ''
-    let video = document.createElement('video')
-    video.id = 'ali-video'
-    document.getElementById('player').append(video)
-  },
-  beforeDestroy() {
-    this.player = null 
   }
 }
 </script>

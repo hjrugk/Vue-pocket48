@@ -9,7 +9,7 @@ const fs = require('fs')
 const barrage = require('../plugins/barrage')
 const http = require('http')
 
-let router = express.Router();
+let router = express.Router()
 
 // 获取qq音乐top100
 router.get('/api/getMusicList', (req, res) => {
