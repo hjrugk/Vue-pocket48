@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import openDB from './workers/openDB'
+import findData from './workers/findData'
 import {
   Menu,
   MenuItem,
@@ -22,7 +24,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import ajax from './plugins/ajax'
 import './assets/less/global.less'
-import {periodHandler} from "./plugins/periodHandler";
+import {periodHandler} from "./plugins/periodHandler"
 
 Vue.use(Menu)
 Vue.use(Tag)
@@ -39,6 +41,8 @@ Vue.use(Option)
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$message = Message;
 Vue.prototype.periodHandler = periodHandler
+Vue.prototype.openDB = openDB
+Vue.prototype.findData = findData
 
 Vue.filter('picPathFormat', function (item) {
   if (item.lastIndexOf('http') === -1) {

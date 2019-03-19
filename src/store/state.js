@@ -14,5 +14,6 @@ export default {
     info: {},
     recommend: {},
     friendsNum: 0
-  }
+  },
+  isComplete: false
 }

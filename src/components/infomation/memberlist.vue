@@ -53,20 +53,11 @@ export default {
     };
   },
   methods: {
-    async getMemberList() { // 从服务器端获取成员列表
-      let flag = JSON.parse(localStorage.getItem('isLogin'))
-      if(!flag.serverFlag){ // 第一次启动服务器，发送 server 标识，服务端存储成员数据
-        const res = await this.ajax('/getMemberList',{group:this.group,flag: 'server'})
-        this.memberList = res.member;
-        this.team = res.team
-        let flag = JSON.parse(localStorage.getItem('isLogin'))
-        flag.serverFlag = 'database'
-        localStorage.setItem('isLogin',JSON.stringify(flag))
-      }else{ // 之后发送 database 标识，从数据库中获取成员列表
-        const res = await this.ajax('/getMemberList',{group:this.group,flag: 'database'})
-        this.memberList = res.member
-        this.team = res.team
-      }
+    async getMemberList() { // 从indexedDB获取数据
+      let db = await this.openDB('group',1)
+      let res = await this.findData(db,'groups',this.group)
+      this.memberList = res.member
+      this.team = res.team
     },
     getMemberDetail(item, info) { // 跳转到成员详细信息页面
       this.$store.dispatch("saveDetail", { item, info });
@@ -87,6 +78,7 @@ export default {
       this.memberList = []
       this.team = []
       this.group = this.$route.params.group;
+      this.keywords = ''
       this.getMemberList();
     }
   },

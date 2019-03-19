@@ -42,13 +42,14 @@
 </template>
 
 <script>
+import worker from './workers/worker'
 export default {
   name: "app",
   data() {
     return {
       activeIndex: "/home",
-      TITLE: document.getElementsByTagName('title')[0]
-    };
+      TITLE: document.getElementsByTagName('title')[0],
+    }
   },
   methods: {
     pushToHome(){
@@ -65,10 +66,16 @@ export default {
       RongIMLib.RongIMVoice.stop()
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('getAllLive',{limit:8,id:0}) 
     this.$store.dispatch('getOpenReview',{isReview:1}) 
-    this.$store.dispatch('getSwipeAds') 
+    this.$store.dispatch('getSwipeAds')
+    if(!localStorage.getItem('database')){
+      let isComplete = await worker()
+      if(isComplete){
+        this.$store.dispatch('getComplete')
+      }
+    }
   },
 };
 </script>

@@ -50,5 +50,8 @@ export default {
         )
     })
     commit('saveAdsList',{list:adsList})
+  },
+  async getComplete({commit}){
+    commit('saveComplete')
   }
 }

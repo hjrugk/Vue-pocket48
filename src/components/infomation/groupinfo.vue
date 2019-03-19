@@ -11,7 +11,7 @@
           :key="item.id"
           :index="item.id"
           @click="getList(item.id)"
-          :disabled="item.id==='1'"
+          :disabled="item.id==='1' && isComplete"
           v-show="item.id !== '1'"
         >{{item.name.toUpperCase()}}</el-menu-item>
       </el-menu>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: "groupinfo",
   data() {
@@ -45,6 +46,9 @@ export default {
   },
   mounted() {
     this.activeIndex = this.$route.params.group
+  },
+  computed: {
+    ...mapState(['isComplete'])
   }
 };
 </script>

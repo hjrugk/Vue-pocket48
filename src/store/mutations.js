@@ -33,5 +33,8 @@ export default {
   },
   saveJuJuInfo(state,{info,recommend,friendsNum}){
     state.jujuInfo = {info,recommend,friendsNum}
+  },
+  saveComplete(state){
+    state.isComplete = true
   }
 }

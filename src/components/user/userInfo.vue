@@ -52,8 +52,9 @@ export default {
   methods: {
     async getMemberName(id,key){ // 获取所推成员信息
       if(id!==0){
-        const res = await this.ajax('getMemberName',{id})
-        this.recommend[key].info = res.info
+        let db = await this.openDB('group',1)
+        const res = await this.findData(db,'members',id)
+        this.recommend[key].info = res
         this.showInfo++
       }else{
         this.recommend[key].info = {real_name: '保密',avatar: '/mediasource/profile_icon.png'}

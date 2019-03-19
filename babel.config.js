@@ -18,5 +18,6 @@ module.exports = {
         "styleLibraryName": "theme-chalk"
       }
     ]
-  ]
+  ],
+  "ignore": []
 }

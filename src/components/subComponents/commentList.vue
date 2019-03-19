@@ -13,9 +13,6 @@
       </div>
       <p class="board-content" v-html="topData.text || topData.content + ' ' + topData.giftName"></p>
     </div>
-    <div class="board-item my-card" v-else>
-      <p class="board-content">加载中</p>
-    </div>
     <transition-group tag="div">
       <div class="board-item my-card"
         :class="{isSpec:item.extInfo.senderId===655632}"
@@ -53,7 +50,9 @@ export default {
   methods: {
     async getComments() { // 获取成员房间留言列表
       const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken},'POST')
-      this.topData = JSON.parse(res.content.top1Data.extInfo)
+      if(res.content.top1Data){
+        this.topData = JSON.parse(res.content.top1Data.extInfo)
+      }
       this.commentList = res.content.data;
     },
     async getMore() {

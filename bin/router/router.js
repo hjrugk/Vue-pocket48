@@ -1,9 +1,6 @@
 const express = require('express');
 const api = require('../api/api')
 const getData = require('../plugins/request')
-const groupHandler = require('../plugins/groupHandler')
-const Group = require('../schema/groupSchema')
-const Member = require('../schema/memberSchema')
 const downloadFile = require('../plugins/downloadFile')
 const fs = require('fs')
 const barrage = require('../plugins/barrage')
@@ -58,27 +55,27 @@ router.post('/api/getRoomList', (req, res) => {
   })
 })
 
-// 获取所有成员信息
-router.get('/api/getMemberList', (req, res) => {
-  const members_postData = api.members_postData()
+// // 获取所有成员信息
+// router.get('/api/getMemberList', (req, res) => {
+//   const members_postData = api.members_postData()
 
-  const members_options = api.members_options(members_postData)
-  // 第一次启动服务器
-  if(req.query.flag==='server'){
-    getData(members_postData, members_options, html => {
-      const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
-      res.send(list[req.query.group])
-    })
-  }else if(req.query.flag==='database'){ // 第N次启动服务器，防止重复存储数据
-    Group.findOne({name: req.query.group},(err,group) => {
-      if(err){
-        return res.send({status: 404})
-      }else{
-        return res.send({member:group.member,team:group.team})
-      }
-    })
-  }
-})
+//   const members_options = api.members_options(members_postData)
+//   // 第一次启动服务器
+//   if(req.query.flag==='server'){
+//     getData(members_postData, members_options, html => {
+//       const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
+//       res.send(list[req.query.group])
+//     })
+//   }else if(req.query.flag==='database'){ // 第N次启动服务器，防止重复存储数据
+//     Group.findOne({name: req.query.group},(err,group) => {
+//       if(err){
+//         return res.send({status: 404})
+//       }else{
+//         return res.send({member:group.member,team:group.team})
+//       }
+//     })
+//   }
+// })
 
 // 获取所有直播信息
 router.get('/api/getAllLive', (req, res) => {
@@ -171,13 +168,13 @@ router.get('/api/getUserInfo', (req,res) => {
 })
 
 // 获取成员信息
-router.get('/api/getMemberName', (req,res) => {
-  Member.findOne({mid:parseInt(req.query.id)},(err,member) => {
-    if(member){
-      res.send(member)
-    }
-  })
-})
+// router.get('/api/getMemberName', (req,res) => {
+//   Member.findOne({mid:parseInt(req.query.id)},(err,member) => {
+//     if(member){
+//       res.send(member)
+//     }
+//   })
+// })
 
 // 获取轮播图
 router.get('/api/getForSwipeAds', (req,res) => {
