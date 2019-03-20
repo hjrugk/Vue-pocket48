@@ -19,5 +19,8 @@ module.exports = {
       }
     ]
   ],
-  "ignore": []
+  "ignore": [
+    "app.js",
+    "bin/**/*.js"
+  ]
 }

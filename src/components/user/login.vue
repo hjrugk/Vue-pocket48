@@ -23,7 +23,7 @@
         </el-form>
       </div>
     <div v-else class="user-info my-card">
-      <img :src="userInfo.avatar | picPathFormat" alt="">
+      <img title="点击查看更多信息" :src="userInfo.avatar | picPathFormat" alt="" @click="getRecommend(userInfo.userId)">
       <div class="check">
         <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
       </div>
@@ -32,13 +32,14 @@
           <span v-html="userInfo.nickName" class="user-name"></span>
           <el-tag size="mini" v-html="'lv.'+userInfo.level"></el-tag>
         </p>
-        <p v-html="userInfo.userId"></p>
+        <p v-html="'ID: '+userInfo.userId"></p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
   export default {
     name: "login",
     data() {
@@ -52,7 +53,8 @@
         checkFlag: false,
         txt: '打卡',
         logFlag: this.$store.getters.checkLogin,
-        showInfo: false
+        showInfo: false,
+        recommendInfo: false
       }
     },
     methods: {
@@ -109,9 +111,24 @@
           return this.$message.error('请稍后再试')
         }
       },
+      async getRecommend(id){
+        await this.$store.dispatch('getJuJuInfo',{id})
+        this.$router.push({
+          name: 'userinfo',
+          params: {
+            id: this.jujuInfo.info.userId,
+            info: this.jujuInfo.info,
+            recommend: this.jujuInfo.recommend,
+            friendsNum: this.jujuInfo.friendsNum
+          }
+        })
+      }
     },
     mounted() {
       this.check()
+    },
+    computed: {
+      ...mapState(['jujuInfo']) 
     }
   }
 </script>
@@ -127,7 +144,6 @@
     }
     .brand{
       font-size: 30px;
-      font-family: 方正喵呜体;
     }
   }
 .login-container{
@@ -152,6 +168,7 @@
   img{
     width: 80px;
     height: 80px;
+    cursor: pointer;
     border-radius: 50%;
     border: 2px solid #ccc;
   }

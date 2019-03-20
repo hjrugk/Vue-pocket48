@@ -31,9 +31,6 @@ export default {
       friendsNum: this.$route.params.friendsNum,
     }
   },
-  methods: {
-    
-  },
   components: {
     recommend
   }
