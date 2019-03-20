@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 
 app.use(router);
 
-app.use('/',express.static(path.join(__dirname, 'public')))
+app.use('/',express.static(path.join(__dirname, 'public'),{index: 'index.html'}))
 
 app.listen(3000, () => {
   console.log('Server is running')

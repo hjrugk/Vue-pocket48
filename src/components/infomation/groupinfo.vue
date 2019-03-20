@@ -11,7 +11,7 @@
           :key="item.id"
           :index="item.id"
           @click="getList(item.id)"
-          :disabled="item.id==='1' && isComplete"
+          :disabled="!isComplete"
           v-show="item.id !== '1'"
         >{{item.name.toUpperCase()}}</el-menu-item>
       </el-menu>

@@ -10,17 +10,19 @@
     npm install
     ```
 
-2. 启动服务端
+2. 打包
+
+    ```shell
+    npm run build
+    ```
+
+3. 启动服务端
 
     ```shell
     node app.js
     ```
 
-3. 编译运行
-
-    ```shell
-    npm run serve
-    ```
+4. 在浏览器中输入 `localhost:3000`
 
 ## 主要功能
 

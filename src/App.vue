@@ -75,6 +75,8 @@ export default {
       if(isComplete){
         this.$store.dispatch('getComplete')
       }
+    }else{
+      this.$store.dispatch('getComplete')
     }
   },
 };

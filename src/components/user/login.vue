@@ -27,12 +27,14 @@
       <div class="check">
         <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
       </div>
-      <p v-html="userInfo.nickName"></p>
-      <p v-html="userInfo.userId"></p>
-      <!--<p v-html="userInfo.gender?'女':'男'"></p>-->
-      <!--<p v-html="userInfo.birthday"></p>-->
-      <!--<p v-html="'Level ' + userInfo.level"></p>-->
-      <!--<p v-html="'经验值: ' + userInfo.experience"></p>-->
+      <div class="extra-info">
+        <p>
+          <span v-html="userInfo.nickName"></span>
+          <el-tag size="mini" v-html="'lv.'+userInfo.level"></el-tag>
+        </p>
+        <p v-html="userInfo.userId"></p>
+      </div>
+      <div class="recommend-info"></div>
     </div>
   </div>
 </template>
