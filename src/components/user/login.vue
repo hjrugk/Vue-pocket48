@@ -29,12 +29,11 @@
       </div>
       <div class="extra-info">
         <p>
-          <span v-html="userInfo.nickName"></span>
+          <span v-html="userInfo.nickName" class="user-name"></span>
           <el-tag size="mini" v-html="'lv.'+userInfo.level"></el-tag>
         </p>
         <p v-html="userInfo.userId"></p>
       </div>
-      <div class="recommend-info"></div>
     </div>
   </div>
 </template>
@@ -52,7 +51,8 @@
         type: 'danger',
         checkFlag: false,
         txt: '打卡',
-        logFlag: this.$store.getters.checkLogin
+        logFlag: this.$store.getters.checkLogin,
+        showInfo: false
       }
     },
     methods: {
@@ -104,13 +104,11 @@
           localStorage.setItem('isLogin',JSON.stringify(flag))
           this.checkFlag = true
           this.txt= '已打卡'
-          this.$message('打卡成功')
+          this.$message(res.message)
         }else{
           return this.$message.error('请稍后再试')
         }
-      }
-    },
-    computed: {
+      },
     },
     mounted() {
       this.check()
@@ -159,6 +157,11 @@
   }
   .check{
     margin-top: 5px;
+  }
+  .extra-info{
+    .user-name{
+      margin-right: 10px;
+    }
   }
 }
 </style>
