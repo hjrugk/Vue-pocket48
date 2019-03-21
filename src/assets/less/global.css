@@ -6,39 +6,8 @@ body {
 * {
   outline: none;
 }
-.flex-menu {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-.flex-menu li {
-  display: flex;
-  justify-content: center;
-  max-width: 150px;
-  min-width: 100px;
-}
-.flex-menu li.is-active {
-  border-bottom: 2px solid #fff!important;
-}
-.flex-menu li .el-submenu__title {
-  width: 100%;
-  text-align: center;
-}
 .el-menu--popup {
   width: calc(20vw);
-}
-.flex-justify-center {
-  display: flex;
-  justify-content: center;
-}
-.flex-align-center {
-  display: flex;
-  align-items: center;
-}
-.flex-all-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .v-enter,
 .v-leave-to {
@@ -47,31 +16,6 @@ body {
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;
-}
-.button-container {
-  height: 40px;
-  margin-bottom: 20px;
-}
-.button-container .el-icon-arrow-down {
-  font-size: 25px;
-}
-.button-container:hover {
-  cursor: pointer;
-}
-.button-container:hover .el-icon-arrow-down {
-  transform: translateY(5px);
-}
-.backToTop {
-  width: 30px;
-  height: 30px;
-  position: fixed;
-  bottom: 30px;
-  right: 15px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  background-color: #fff;
-  cursor: pointer;
-  z-index: 999;
 }
 .radio-list {
   padding: 15px 10px 10px 10px;
@@ -92,39 +36,8 @@ body {
 * {
   outline: none;
 }
-.flex-menu {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-.flex-menu li {
-  display: flex;
-  justify-content: center;
-  max-width: 150px;
-  min-width: 100px;
-}
-.flex-menu li.is-active {
-  border-bottom: 2px solid #fff!important;
-}
-.flex-menu li .el-submenu__title {
-  width: 100%;
-  text-align: center;
-}
 .el-menu--popup {
   width: calc(20vw);
-}
-.flex-justify-center {
-  display: flex;
-  justify-content: center;
-}
-.flex-align-center {
-  display: flex;
-  align-items: center;
-}
-.flex-all-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .v-enter,
 .v-leave-to {
@@ -133,31 +46,6 @@ body {
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;
-}
-.button-container {
-  height: 40px;
-  margin-bottom: 20px;
-}
-.button-container .el-icon-arrow-down {
-  font-size: 25px;
-}
-.button-container:hover {
-  cursor: pointer;
-}
-.button-container:hover .el-icon-arrow-down {
-  transform: translateY(5px);
-}
-.backToTop {
-  width: 30px;
-  height: 30px;
-  position: fixed;
-  bottom: 30px;
-  right: 15px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  background-color: #fff;
-  cursor: pointer;
-  z-index: 999;
 }
 .radio-list {
   padding: 15px 10px 10px 10px;

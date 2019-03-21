@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="member-list">
-      <el-menu class="el-menu-demo flex-menu" mode="horizontal" :default-active="activeIndex">
-        <div class="group-brand color-item flex-all-center" style="background-color: #fff">所有团队</div>
+      <el-menu class="el-menu-demo" mode="horizontal" :default-active="activeIndex">
+        <div class="group-brand color-item" style="background-color: #fff">所有团队</div>
         <el-menu-item
           v-for="item in groupList"
           :style="{backgroundColor: item.color}"
@@ -54,6 +54,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .member-list{
   width: 100%;
   .el-menu--horizontal>.el-menu-item{
@@ -64,6 +65,7 @@ export default {
     text-align: center;
   }
   .el-menu-demo{
+    .flex-menu();
     li{
       max-width: 180px;
       min-width: 140px;
@@ -75,6 +77,7 @@ export default {
       font-size: 14px;
       border-left: 1px solid #e6e6e6;
       user-select: none;
+      .flex-all-center();
     }
   }
 }

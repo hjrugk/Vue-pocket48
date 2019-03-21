@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="logo flex-all-center" v-show="!this.$store.getters.checkLogin">
+    <div class="logo" v-show="!this.$store.getters.checkLogin">
       <img src="../../assets/images/login_logo.png" alt="">
       <p class="brand">口袋48</p>
     </div>
-      <div class="login-container flex-justify-center" v-if="!this.$store.getters.checkLogin">
+      <div class="login-container" v-if="!this.$store.getters.checkLogin">
         <el-form 
           status-icon ref="ruleForm2"
           label-position="top"
@@ -23,7 +23,7 @@
         </el-form>
       </div>
     <div v-else class="user-info my-card">
-      <img title="点击查看更多信息" :src="userInfo.avatar | picPathFormat" alt="" @click="getRecommend(userInfo.userId)">
+      <img title="点击查看更多信息" :src="userInfo.avatar | picPathFormat" alt="" @click="getRecommend">
       <div class="check">
         <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
       </div>
@@ -111,15 +111,11 @@ import {mapState} from 'vuex'
           return this.$message.error('请稍后再试')
         }
       },
-      async getRecommend(id){
-        await this.$store.dispatch('getJuJuInfo',{id})
+      async getRecommend(){
         this.$router.push({
           name: 'userinfo',
           params: {
-            id: this.jujuInfo.info.userId,
-            info: this.jujuInfo.info,
-            recommend: this.jujuInfo.recommend,
-            friendsNum: this.jujuInfo.friendsNum
+            id: this.userInfo.userId,
           }
         })
       }
@@ -134,7 +130,9 @@ import {mapState} from 'vuex'
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
   .logo{
+    .flex-all-center();
     width: 100%;
     padding-top: 10px;
     img{
@@ -147,6 +145,7 @@ import {mapState} from 'vuex'
     }
   }
 .login-container{
+  .flex-align-center();
   padding: 10px;
   .el-form{
     .el-form-item{
@@ -179,6 +178,10 @@ import {mapState} from 'vuex'
     .user-name{
       margin-right: 10px;
     }
+  }
+  .flex-justify-center{
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

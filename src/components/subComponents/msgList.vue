@@ -3,7 +3,7 @@
     <transition-group tag="div">
       <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
         <p class="msg-time" v-html="item.msgTimeStr"></p>
-        <p class="msg-sender flex-align-center">
+        <p class="msg-sender">
           <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-avatar">
           <span v-html="item.extInfo.senderName" @click="getMemberDetail(item.extInfo.senderName)" class="sender-name"></span>
         </p>
@@ -38,7 +38,7 @@
         ></p>
       </div>
     </transition-group>
-    <div class="button-container flex-all-center" @click="getMore">
+    <div class="button" @click="getMore">
       <i class="el-icon-arrow-down" v-show="msgList[0]"></i>
     </div>
   </div>
@@ -132,6 +132,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .msg-list {
   div{
     .msg-item {
@@ -156,6 +157,7 @@ export default {
         }
       }
       .msg-sender {
+        .flex-align-center();
         border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
         text-decoration: none;
@@ -177,6 +179,10 @@ export default {
         color: #999;
       }
     }
+  }
+  .button{
+    .flex-all-center();
+    .button-container();
   }
 }  
 </style>

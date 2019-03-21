@@ -1,50 +1,34 @@
 <template>
-  <div class="user-info flex-all-center">
-    <div class="popup-info" v-if="jujuInfo.info.avatar">
+  <div class="user-info">
+    <div class="popup-info" v-if="info.userAvatar || info.senderAvatar">
       <p style="color: white">·</p>
-      <img class="juju-avatar" @click="goToUserInfo" :src="jujuInfo.info.avatar | picPathFormat" alt="">
+      <img class="juju-avatar" @click="goToUserInfo" :src="info.userAvatar || info.senderAvatar | picPathFormat" alt="">
       <p class="name">
-        {{jujuInfo.info.nickName}}
-        <el-tag size="mini">{{'lv.' + jujuInfo.info.level}}</el-tag>
+        {{info.userName || info.senderName}}
+        <el-tag size="mini">{{'lv.' + (info.userLevel || info.senderLevel[2])}}</el-tag>
       </p>
-    </div>
-    <div class="popup-info flex-all-center" v-else>
-      <img class="alt-img" src="../../assets/images/loading.gif" alt="">
     </div>
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
 export default {
-  data() {
-    return {
-      
-    }
-  },
-  props: ['id'],
+  props: ['id','info'],
   methods: {
     goToUserInfo(){ // 点击跳转到聚聚详细信息页面
       this.$router.push({
         name: 'userinfo',
         params: {
-          id: this.jujuInfo.info.userId,
-          info: this.jujuInfo.info,
-          recommend: this.jujuInfo.recommend,
-          friendsNum: this.jujuInfo.friendsNum
+          id: this.info.userId || this.info.senderId
         }
       })
     }
-  },
-  mounted() {
-    this.$store.dispatch('getJuJuInfo',{id:this.id})
-  },
-  computed: {
-    ...mapState(['jujuInfo'])
-  },
+  }
 }
 </script>
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .user-info{
+  .flex-all-center();
   z-index: 101;
   width: calc(100vw);
   height: calc(100vh);

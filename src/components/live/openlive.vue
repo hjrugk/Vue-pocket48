@@ -20,7 +20,7 @@
       :rect="{width:'400px',height:'230px',maxWidth: '600px'}" 
       :livetitle="'录播'"
       v-else></live-list>
-    <div class="button-container flex-all-center" @click="getMoreLive">
+    <div class="button" @click="getMoreLive">
       <i class="el-icon-arrow-down" v-if="openReviewList[0]"></i>
     </div>
   </div>
@@ -63,6 +63,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .open-live-container {
   padding: 10px;
   .live-header{
@@ -73,6 +74,10 @@ export default {
     .alt_icon{
       width: 85%;
     }
+  }
+  .button{
+    .button-container();
+    .flex-all-center();
   }
 }
 </style>

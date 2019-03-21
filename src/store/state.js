@@ -10,10 +10,5 @@ export default {
   openLiveList: [],
   roomList: [],
   adsList: [],
-  jujuInfo: {
-    info: {},
-    recommend: {},
-    friendsNum: 0
-  },
   isComplete: false
 }

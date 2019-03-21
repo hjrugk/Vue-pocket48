@@ -1,6 +1,6 @@
 <template>
   <div class="live-list">
-    <div class="live-header flex-align-center">
+    <div class="live-header">
       <p class="live-type" v-html="livetitle"></p>
       <p class="live-more" @click="goToAllLive" v-show="$route.path ==='/home'">
         查看更多
@@ -17,7 +17,7 @@
         :style="{minWidth: rect.width,maxWidth: rect.maxWidth}"
         target="_blank"
       >
-        <div class="pic-container flex-align-center" :style="{height:rect.height}">
+        <div class="pic-container" :style="{height:rect.height}">
           <img :src="item.picPath | picPathFormat" alt class="live-pic" :class="{'center-pic':type===1}">
           <div class="mask"></div>
           <div class="live-title" v-html="item.title"></div>
@@ -60,12 +60,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .live-list{
   width: 100%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   .live-header{
+    .flex-align-center();
     justify-content: space-between;
     .live-type{
       margin-left: 10px;
@@ -100,6 +102,7 @@ export default {
       color: #000;
       cursor: pointer;
       .pic-container {
+        .flex-align-center();
         width: 100%;
         position: relative;
         overflow: hidden;

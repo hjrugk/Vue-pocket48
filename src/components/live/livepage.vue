@@ -1,7 +1,7 @@
 <template>
   <div class="live-page-container my-card">
-    <div class="info-container flex-all-center">
-      <div class="live-info flex-all-center" :style="{width: rect.width}" v-if="liveInfo.picPath">
+    <div class="info-container">
+      <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.picPath">
         <div class="live-title">
           <span v-html="liveInfo.subTitle" class="sub-title"></span><br>
           <span v-html="liveInfo.title" class="main-title"></span>
@@ -17,13 +17,13 @@
         </div>
       </div>
     </div>
-    <a class="flex-all-center" href="javascript:;" v-if="type===1 && picPath">
-      <div class="pic-container flex-all-center" @click="triggerMethod" :style="rect">
+    <a href="javascript:;" v-if="type===1 && picPath">
+      <div class="pic-container" @click="triggerMethod" :style="rect">
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
-    <a class="flex-all-center" href="javascript:;" v-if="type===0 && picPath">
-      <div class="pic-container flex-all-center" @click="triggerMethod" :style="rect">
+    <a href="javascript:;" v-if="type===0 && picPath">
+      <div class="pic-container" @click="triggerMethod" :style="rect">
         <img width="100%" :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
@@ -127,6 +127,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .live-page-container {
   padding: 10px;
   border: 1px solid #efefef;
@@ -134,19 +135,22 @@ export default {
   border-radius: 3px;
   position: relative;
   .pic-container{
+    .flex-all-center();
     text-align: center;
     background-color: #000;
-    cursor: pointer;
     .live-cover {
+      cursor: pointer;
       width: 100%;
     }
   }
   .info-container{
+    .flex-all-center();
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     .live-info {
+      .flex-all-center();
       background-color: #fff;
       padding: 10px;
       box-sizing: border-box;
@@ -168,6 +172,9 @@ export default {
       margin-right: 10px;
       margin-left: 2px;
     }
+  }
+  a{
+    .flex-all-center();
   }
 }
 </style>

@@ -16,7 +16,7 @@
       :livetitle="'录播'"
       v-else></live-list>
     <div
-      class="button-container flex-all-center"
+      class="button"
       @click="getMoreLive"
       v-show="$route.path !=='/home' && memberReviewList[0]"
     >
@@ -61,6 +61,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .live-container {
   margin: 10px;
   .live-header{
@@ -82,6 +83,10 @@ export default {
   .title,
   .instead-info {
     margin-left: 5px;
+  }
+  .button{
+    .button-container();
+    .flex-all-center();
   }
 }
 </style>

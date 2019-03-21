@@ -1,10 +1,10 @@
 <template>
   <div class="board-list" ref="board">
     <div class="board-item my-card" v-if="topData.senderName">
-      <div class="sender-info flex-align-center">
+      <div class="sender-info">
         <img :src="topData.senderAvatar | picPathFormat" alt class="sender-img">
         <p class="board-name" 
-          @click="getUserInfo(topData.senderId)"
+          @click="getUserInfo(topData)"
           style="display: flex;justify-content:space-between;width:100%;"
         >
           <span>{{topData.senderName}}</span>
@@ -18,17 +18,17 @@
         :class="{isSpec:item.extInfo.senderId===655632}"
         v-for="item in commentList" :key="item.msgidClient"
       >
-        <div class="sender-info flex-align-center">
+        <div class="sender-info">
           <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-img">
-          <p class="board-name" v-html="item.extInfo.senderName" @click="getUserInfo(item.extInfo.senderId)"></p>
+          <p class="board-name" v-html="item.extInfo.senderName" @click="getUserInfo(item.extInfo)"></p>
         </div>
         <p class="board-content" v-html="item.extInfo.text || item.extInfo.content + ' ' + item.extInfo.giftName"></p>
       </div>
     </transition-group>
     <div v-if="showInfo" @click="showInfo = !showInfo">
-      <popup-info :id="userId"></popup-info>
+      <popup-info :info="userInfo"></popup-info>
     </div>
-    <div class="button-container flex-all-center" @click="getMore">
+    <div class="button" @click="getMore">
       <i class="el-icon-arrow-down" v-show="commentList[0]"></i>
     </div>
   </div>
@@ -42,7 +42,7 @@ export default {
       limit: 10,
       commentList: [],
       showInfo: false,
-      userId: 0,
+      userInfo: 0,
       topData: {}
     }
   },
@@ -60,8 +60,8 @@ export default {
       const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken,limit: this.limit},'POST')
       this.commentList = res.content.data
     },
-    getUserInfo(id){ // 获取聚聚信息
-      this.userId = id
+    getUserInfo(info){ // 获取聚聚信息
+      this.userInfo = info
       this.showInfo = true
     }
   },
@@ -81,6 +81,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .board-list {
   .user-info{
     width: calc(100vw);
@@ -117,6 +118,7 @@ export default {
       border: 1px solid #999;
     }
     .sender-info {
+      .flex-align-center();
       justify-content: flex-start;
       border-bottom: 1px solid #ccc;
       .sender-img {
@@ -133,6 +135,10 @@ export default {
     .board-content {
       color: #fff;
     }
+  }
+  .button{
+    .button-container();
+    .flex-all-center();
   }
 }
 </style>

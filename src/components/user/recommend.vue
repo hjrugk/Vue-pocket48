@@ -1,28 +1,26 @@
 <template>
-  <div class="recommand-info flex-all-center">
-      <div class="recommand-layer" v-if="showInfo===3">
-        <div class="first flex-align-center" v-for="(item, index) in recommend" :key="index">
-          <span class="text">{{index | translate}}</span>
-          <span class="image" @click="getMemberDetail(item.info.real_name)">
-            <img :src="item.info.avatar | picPathFormat" alt="">
-          </span>
-          <span class="text" v-html="item.info.real_name"></span>
-          <span class="money">
-            <span>贡献度</span><br>
-            <span v-html="item.money"></span>
-          </span>
-        </div>
+  <div class="recommand-info">
+    <div class="recommand-layer" v-if="showInfo===3">
+      <div class="first" v-for="(item, index) in recommend" :key="index">
+        <span class="text">{{index | translate}}</span>
+        <span class="image" @click="getMemberDetail(item.info.real_name)">
+          <img :src="item.info.avatar | picPathFormat" alt="">
+        </span>
+        <span class="text" v-html="item.info.real_name"></span>
+        <span class="money">
+          <span>贡献度</span><br>
+          <span v-html="item.money"></span>
+        </span>
       </div>
-      <div v-else class="alt_bg">
-        <img class="alt-img" src="../../assets/images/loading.gif" alt="">
-      </div> 
+    </div>
+    <alt-loading v-else></alt-loading>
   </div>
 </template>
 <script>
+import altLoading from '../subComponents/altLoading'
 export default {
   data() {
     return {
-      recommend: this.$route.params.recommend,
       showInfo: 0
     }
   },
@@ -47,7 +45,7 @@ export default {
   },
   methods: {
     async getMemberName(id,key){ // 获取所推成员信息
-      if(id!==0){
+      if(id!==0 && this.recommend[key].show){
         let db = await this.openDB('group',1)
         const res = await this.findData(db,'members',id)
         this.recommend[key].info = res
@@ -77,12 +75,19 @@ export default {
   mounted() {
     this.triggerMethod()
   },
+  props: ['recommend'],
+  components: {
+    altLoading
+  }
 }
 </script>
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .recommand-info{
+  .flex-all-center();
   width: 100%;
   .first{
+    .flex-align-center();
     width: 300px;
     justify-content: space-between;
     margin-bottom: 1px;

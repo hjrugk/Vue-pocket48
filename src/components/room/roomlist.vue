@@ -2,7 +2,7 @@
   <div class="room">
     <div class="room-list"  v-if="token">
       <div
-        class="room-item my-card flex-align-center"
+        class="room-item my-card"
         v-for="item in roomList"
         :key="item.roomId"
         @click="getInfo(item.roomId,item.bgPath)"
@@ -50,6 +50,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .room{
   width: 100%;
   display: flex;
@@ -61,6 +62,7 @@ export default {
     justify-content: space-between;
     flex-wrap: wrap;
     .room-item {
+      .flex-align-center();
       flex: 1;
       padding: 5px;
       margin: 5px;

@@ -22,13 +22,6 @@ export default {
     const res = await ajax('/getRoomList',{ token, friends },'POST')
     commit('saveRoomList',{list:res.content})
   },
-  async getJuJuInfo({commit},{id}){ // 获取聚聚信息
-    const res = await ajax('/getUserInfo',{id})
-    let info = res.content.userInfo
-    let recommend = res.content.userRecommend
-    let friendsNum = res.content.friendsNum
-    commit('saveJuJuInfo',{info,recommend,friendsNum})
-  },
   async getSwipeAds({commit}){ // 从官网获取轮播图
     const res = await ajax('getForSwipeAds')
     let one = res.split('" </div>");')[0]

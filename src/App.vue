@@ -3,14 +3,14 @@
     <div class="navbar">
       <el-menu
         :default-active="activeIndex"
-        class="el-menu-demo flex-menu"
+        class="el-menu-demo"
         mode="horizontal"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
         router
       >
-        <div class="el-menu-brand flex-all-center">
+        <div class="el-menu-brand">
           <img class="logo-img" @click="pushToHome" src="./assets/images/login_logo.png" alt="">
           <span class="brand-name" @click="pushToHome">口袋48</span>
         </div>
@@ -83,12 +83,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import './assets/less/global';
 #app{
   .navbar{
     display: flex;
     justify-content: center;
     width: 100%;
     background-color: #545c64;
+    .el-menu-demo{
+      .flex-menu();
+    }
     .el-menu.el-menu--horizontal{
       border-bottom: none;
     }
@@ -102,6 +106,7 @@ export default {
         height: 60px;
         flex: 1;
         display: flex;
+        align-items: center;
         justify-content: flex-start;
         user-select: none;
         .logo-img{
@@ -117,7 +122,7 @@ export default {
     }
     @media screen and (max-width: 768px) {
       .none{
-        display: none;
+        display: none!important;
       }
       .responsive{
         display: flex!important;

@@ -8,15 +8,13 @@
       <el-radio v-model="statusCode" label="0">暂休成员</el-radio>
       <el-radio v-model="statusCode" label="2">其他成员</el-radio>
     </div>
-    <div v-if="!team[0]" class="alt_bg">
-      <img class="alt-img" src="../../assets/images/loading.gif" alt="">
-    </div>
+    <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
       <p v-html="info.team_name" :style="'color: #'+info.color" class="team-name" v-show="!keywords"></p>
       <div class="member-list">
         <transition-group mode="out-in" tag="div">
           <div
-            class="member-item my-card flex-all-center"
+            class="member-item my-card"
             :style="'border: 1px solid #'+info.color"
             v-for="item in newList"
             :key="item.member_id"
@@ -40,6 +38,7 @@
 </template>
 
 <script>
+import altLoading from '../subComponents/altLoading'
 export default {
   name: "memberlist",
   data() {
@@ -92,25 +91,20 @@ export default {
       });
       return list;
     }
+  },
+  components: {
+    altLoading
   }
 };
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .member-container {
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
   padding-left: 7px;
-  .alt_bg {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    overflow: hidden;
-    background-color: #fff;
-    .alt-img{
-      height: 600px;
-    }
-  }
   .team-container {
     .team-name {
       font-weight: bold;
@@ -121,6 +115,7 @@ export default {
       justify-content: flex-start;
       flex-wrap: wrap;
       .member-item {
+        .flex-all-center();
         flex: 1;
         min-width: 95px;
         max-width: 131px;

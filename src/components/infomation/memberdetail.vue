@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-container flex-justify-center">
+  <div class="detail-container">
     <div class="inner-container">
       <div class="base-info">
         <img
@@ -141,7 +141,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .detail-container {
+  .flex-justify-center();
   width: 100%;
   box-sizing: border-box;
   .inner-container{

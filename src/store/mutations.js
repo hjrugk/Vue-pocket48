@@ -31,9 +31,6 @@ export default {
   saveAdsList(state,{list}){
     state.adsList = list
   },
-  saveJuJuInfo(state,{info,recommend,friendsNum}){
-    state.jujuInfo = {info,recommend,friendsNum}
-  },
   saveComplete(state){
     state.isComplete = true
   }

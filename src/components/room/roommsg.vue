@@ -1,7 +1,7 @@
 <template>
   <div class="msg-container" ref="bgPic">
     <div
-      class="backToTop flex-all-center"
+      class="top"
       @click="toTop"
       v-show="$store.state.scrollTop"
     >
@@ -52,6 +52,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/less/global';
 .msg-container {
   padding: 10px 10px 10px 10px;
   display: flex;
@@ -86,6 +87,10 @@ export default {
     justify-content: flex-end;
     align-items: center;
     display: none;
+  }
+  .top{
+    .backToTop();
+    .flex-all-center();
   }
   @media screen and (max-width: 768px) {
     .board-list {
