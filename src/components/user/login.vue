@@ -16,7 +16,7 @@
           <el-form-item label="密码">
             <el-input type="password" v-model="password"></el-input>
           </el-form-item>
-          <el-form-item class="flex-justify-center">
+          <el-form-item class="button">
             <el-button type="primary" @click.prevent="login">登录</el-button>
             <el-button>重置</el-button>
           </el-form-item>
@@ -145,7 +145,7 @@ import {mapState} from 'vuex'
     }
   }
 .login-container{
-  .flex-align-center();
+  .flex-justify-center();
   padding: 10px;
   .el-form{
     .el-form-item{
@@ -157,6 +157,9 @@ import {mapState} from 'vuex'
           }
         }
       }
+    }
+    .button{
+      .flex-justify-center();
     }
   }
 }
