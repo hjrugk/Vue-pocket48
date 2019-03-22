@@ -16,7 +16,7 @@
             <p v-html="detail.nick_name" class="nick"></p>
           </div>
           <div class="team-name">
-            <el-tag v-html="team" class="team" :color="color"></el-tag>
+            <el-tag v-html="team" class="team" :color="color | overseaFilter"></el-tag>
             <el-tag type="success" v-html="period[0] + ' ' + '第' + period[1] + '期'" class="period"></el-tag>
           </div>
         </div>
@@ -136,6 +136,15 @@ export default {
   },
   mounted() {
     this.checkisFollowed()
+  },
+  filters:{
+    overseaFilter(val){
+      if(val === '#FFFFFF'){
+        return '#8ed2f5'
+      }else{
+        return val
+      }
+    }
   }
 };
 </script>

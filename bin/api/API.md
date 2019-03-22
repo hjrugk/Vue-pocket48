@@ -53,17 +53,3 @@
       ```
 
    * 播放地址拼接 `'http://ws.stream.qqmusic.qq.com/' + filename+'?fromtag=0&guid=126548448&vkey=' + vkey`  
-
-6. 登录
-
-  请求地址 `/login`
-  请求方式 `POST`
-  参数 `{account,password}`
-  返回 `userInfo`
-
-7. 打卡
-  
-  请求地址 `/getCheck`
-  请求方式 `POST`
-  参数 `token`
-  返回 `打卡信息`

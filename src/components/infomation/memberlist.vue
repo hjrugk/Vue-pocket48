@@ -10,7 +10,7 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <p v-html="info.team_name" :style="'color: #'+info.color" class="team-name" v-show="!keywords"></p>
+      <p v-html="info.team_name" :style="'color: #'+info.color | overseaFilter" class="team-name" v-show="!keywords"></p>
       <div class="member-list">
         <transition-group mode="out-in" tag="div">
           <div
@@ -94,6 +94,15 @@ export default {
   },
   components: {
     altLoading
+  },
+  filters:{
+    overseaFilter(val){
+      if(val === 'color: #FFFFFF'){
+        return 'color: #8ed2f5'
+      }else{
+        return val
+      }
+    }
   }
 };
 </script>

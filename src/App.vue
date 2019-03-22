@@ -76,6 +76,11 @@ export default {
         this.$store.dispatch('getComplete')
       }
     }else{
+      let timeStamp = JSON.parse(localStorage.getItem('database')).timeStamp
+      let now = Date.now()
+      if(now>=(parseInt(timeStamp)+2592000000)){
+        await worker()
+      }
       this.$store.dispatch('getComplete')
     }
   },

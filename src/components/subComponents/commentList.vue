@@ -108,8 +108,7 @@ export default {
     flex-direction: column;
     border: 1px solid #777;
     background-color: #666;
-    max-width: 360px;
-    min-width: 300px;
+    max-width: 300px;
     &:hover {
       background-color: #555;
     }

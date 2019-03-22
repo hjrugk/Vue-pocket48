@@ -136,8 +136,8 @@ export default {
 .msg-list {
   div{
     .msg-item {
-      max-width: 560px;
-      min-width: 480px;
+      max-width: 520px;
+      min-width: 400px;
       flex: 1;
       &:hover {
         background-color: #efefef;

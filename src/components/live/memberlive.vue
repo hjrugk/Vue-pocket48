@@ -48,6 +48,9 @@ export default {
       const res = await this.ajax('/getAllLive',{limit:this.limit,id:this.id})
       this.memberLiveList = res.content.liveList
       this.memberReviewList = res.content.reviewList
+      if(this.memberReviewList.length===0){
+        this.$message('没有更多录播了')
+      }
       this.isSuccess = true
     }
   },

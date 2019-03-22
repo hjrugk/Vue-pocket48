@@ -68,7 +68,7 @@ export default {
       margin: 5px;
       cursor: pointer;
       justify-content: flex-start;
-      min-width: 480px;
+      min-width: 360px;
       max-width: 480px;
       &:hover {
         background-color: rgba(0,0,0,0.1);
@@ -98,6 +98,11 @@ export default {
           min-height: 15px;
         }
       }
+    }
+  }
+  @media screen and(max-width: 768px) {
+    .room-list{
+      width: 90%;
     }
   }
 }
