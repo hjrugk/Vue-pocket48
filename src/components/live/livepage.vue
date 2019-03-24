@@ -99,14 +99,9 @@ export default {
   computed: {
     livePath: function () { // 返回各清晰度视频地址
       if(this.type===0){
-        let source = {
-          HD: this.liveInfo.streamPathHd || this.liveInfo.streamPath,
-          SD: this.liveInfo.streamPathLd || this.liveInfo.streamPath,
-          LD: this.liveInfo.streamPath
-        }
-        return JSON.stringify(source)
+        return this.liveInfo.streams
       }else{
-        return this.liveInfo.streamPath
+        return [{streamPath:this.liveInfo.streamPath}]
       }
     },
     type: function(){

@@ -41,32 +41,42 @@ export default {
       visibility: false,
       showInfo: false,
       userInfo: {},
-      player: null,
+      player: {},
       playerOptions: {
         id: 'ali-video',
         width: '100%',
         height: '100%',
-        source: this.path,
+        source: '',
         isLive: this.isLive,
         preload: true
       },
       originBarrageList: {
         barrages: [],
         times: []
-      }
+      },
+      streamsIndex: 0
     }
   },
   props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight','isLive'],
   methods: {
     playReview(){ // 点击直播封面时开始播放
       if(this.type===0 && this.isLive === true) return this.$message.error('直播还未开始')
+      this.playerOptions.source = this.path[this.streamsIndex].streamPath
       // eslint-disable-next-line
       this.player = new Aliplayer(this.playerOptions)
       this.player.on('ready', () => {
         this.loadedDataHandler()
       })
       this.player.on('error', () => {
-        this.$message.error('无法播放')
+        if(this.type===0){
+          this.streamsIndex++
+          if(this.streamsIndex===3) return this.$message.error('无法播放')
+          this.playerOptions.source = this.path[this.streamsIndex].streamPath
+          // eslint-disable-next-line
+          this.player = new Aliplayer(this.playerOptions)
+        }else{
+          this.$message.error('无法播放')
+        }
       })
       this.player.on('timeupdate', () => {
         if(this.isReview && this.barrageList.times.length !==0){

@@ -145,8 +145,8 @@ router.post('/api/getAnswer',(req,res) => {
 
 // 成员房间语音留言
 router.post('/api/getAudio',(req,res) => {
-  downloadFile(req.body.url,'./Cache/test.amr',() => {
-    let str = fs.readFileSync('./Cache/test.amr')
+  downloadFile(req.body.url,'./Cache/pocket-room-audio.amr',() => {
+    let str = fs.readFileSync('./Cache/pocket-room-audio.amr')
     res.send({status: 200,message:str.toString('base64')})
   })
 })

@@ -18,5 +18,5 @@ app.use(router);
 app.use('/',express.static(path.join(__dirname, 'dist'),{index: 'index.html'}))
 
 app.listen(3000, () => {
-  console.log('Server is running')
+  console.log('Your App is running at http://localhost:3000')
 })
