@@ -16,13 +16,7 @@
     npm run build
     ```
 
-3. 启动服务端
-
-    ```shell
-    node app.js
-    ```
-
-4. 在浏览器中输入 `localhost:3000`
+3. 运行 `start.bat`
 
 ## 主要功能
 

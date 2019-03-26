@@ -35,7 +35,7 @@ export default {
       {url:two[23],img:two[24]},
       {url:two[28],img:two[29]}]
     list.map(item => {
-      if(item.url){
+      if(item.url && item.url.includes('http')){
         adsList.push(
           {
             url: 'http'+item.url.split('http')[1].split('target')[0].split('\\')[0],
