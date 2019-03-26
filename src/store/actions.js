@@ -34,7 +34,6 @@ export default {
       {url:two[18],img:two[19]},
       {url:two[23],img:two[24]},
       {url:two[28],img:two[29]}]
-      console.log(list)
     list.map(item => {
       if(item.url){
         adsList.push(
