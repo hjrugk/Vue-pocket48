@@ -34,13 +34,16 @@ export default {
       {url:two[18],img:two[19]},
       {url:two[23],img:two[24]},
       {url:two[28],img:two[29]}]
+      console.log(list)
     list.map(item => {
-      adsList.push(
-        {
-          url: 'http'+item.url.split('http')[1].split('target')[0].split('\\')[0],
-          img:item.img.split("\\")[1].replace('"','')
-        }
+      if(item.url){
+        adsList.push(
+          {
+            url: 'http'+item.url.split('http')[1].split('target')[0].split('\\')[0],
+            img:item.img.split("\\")[1].replace('"','')
+          }
         )
+      }
     })
     commit('saveAdsList',{list:adsList})
   },
