@@ -27,7 +27,7 @@
     </div>
     <div class="live-wrapper">
       <akina-list
-        :type="0" :list="akinaVideos"
+        :type="0" :list="akinaVideos.slice(0,8)"
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'公演录播'"
       v-if="akinaVideos[0]"></akina-list>
