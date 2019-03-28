@@ -67,9 +67,9 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('getAllLive',{limit:8,id:0}) 
-    this.$store.dispatch('getOpenReview',{isReview:1}) 
+    this.$store.dispatch('getAllLive',{limit:8,id:0})
     this.$store.dispatch('getSwipeAds')
+    this.$store.dispatch('getAkinaVideos',{limit:8})
     if(!localStorage.getItem('database')){
       let isComplete = await worker()
       if(isComplete){

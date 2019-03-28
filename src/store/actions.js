@@ -10,10 +10,6 @@ export default {
     let reviewList = res.content.reviewList;
     commit('saveAllLive',{liveList,reviewList})
   },
-  async getOpenReview({commit},{isReview,limit=8}) { // 获取公演录播
-    const res = await ajax('getOpenLive',{isReview,limit})
-    commit('saveOpenReview',{list:res.content.liveList})      
-  },
   async getOpenLive({commit}) { // 获取公演直播
     const res = await ajax('getOpenLive')
     commit('saveOpenLive',{list:res.content.liveList})      
@@ -48,5 +44,9 @@ export default {
   },
   async getComplete({commit}){
     commit('saveComplete')
+  },
+  async getAkinaVideos({commit},{limit}){
+    const res = await ajax('/getAkinaVideos',{limit})
+    commit('saveAkinaVideos',{list:res.data.vlist})
   }
 }

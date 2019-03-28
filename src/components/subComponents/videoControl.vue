@@ -18,7 +18,7 @@
       <popup-info :info="userInfo" style="color:#000;"></popup-info>
     </div>
     <div id="player" :style="{width: topwidth,height: topHeight}">
-      <video id="ali-video"></video>
+      <div id="ali-video"></div>
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
         height: '100%',
         source: '',
         isLive: this.isLive,
-        preload: true
+        autoplay: true
       },
       originBarrageList: {
         barrages: [],
@@ -68,15 +68,7 @@ export default {
         this.loadedDataHandler()
       })
       this.player.on('error', () => {
-        if(this.type===0){
-          this.streamsIndex++
-          if(this.streamsIndex===3) return this.$message.error('无法播放')
-          this.playerOptions.source = this.path[this.streamsIndex].streamPath
-          // eslint-disable-next-line
-          this.player = new Aliplayer(this.playerOptions)
-        }else{
-          this.$message.error('无法播放')
-        }
+        this.$message.error('无法播放')
       })
       this.player.on('timeupdate', () => {
         if(this.isReview && this.barrageList.times.length !==0){

@@ -19,9 +19,6 @@ export default {
     state.memberLiveList = liveList
     state.memberReviewList = reviewList
   },
-  saveOpenReview(state,{list}){
-    state.openReviewList = list
-  },
   saveOpenLive(state,{list}){
     state.openLiveList = list
   },
@@ -33,5 +30,8 @@ export default {
   },
   saveComplete(state){
     state.isComplete = true
+  },
+  saveAkinaVideos(state,{list}){
+    state.akinaVideos = list
   }
 }

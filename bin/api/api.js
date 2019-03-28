@@ -278,6 +278,10 @@ const api = {
         'Content-Length': Buffer.byteLength(postData)
       }
     }
+  },
+  akina_options: (req) => {
+    let limit = req.query.limit || 8
+    return "https://space.bilibili.com/ajax/member/getSubmitVideos?mid=1315101&pagesize="+limit+"&tid=0&page=1&keyword=&order=pubdate"
   }
 }
 

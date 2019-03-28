@@ -189,4 +189,11 @@ router.get('/api/getForSwipeAds', (req,res) => {
   });
 })
 
+// 从B站获取公演录播
+router.get('/api/getAkinaVideos', (req,res) => {
+  getData(null,api.akina_options(req),html => {
+    res.send(html)
+  })
+})
+
 module.exports = router;

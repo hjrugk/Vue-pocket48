@@ -6,9 +6,9 @@ export default {
   scrollTop: false,
   memberLiveList: [],
   memberReviewList: [],
-  openReviewList: [],
   openLiveList: [],
   roomList: [],
   adsList: [],
-  isComplete: false
+  isComplete: false,
+  akinaVideos: []
 }
