@@ -2,7 +2,15 @@ const api = {
   top: "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8¬ice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923",
   random: "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8¬ice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472",
   vkey: (req) => {
-    return "https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?format=json205361747&platform=yqq&cid=205361747&songmid=" + req.query.songmid + '&filename=C400' + req.query.songmid + '.m4a&guid=126548448'
+    return {
+      host: 'c.y.qq.com',
+      port: '',
+      path: "/base/fcgi-bin/fcg_music_express_mobile3.fcg?format=json205361747&platform=yqq&cid=205361747&songmid=" + req.query.songmid + '&filename=C400' + req.query.songmid + '.m4a&guid=126548448',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
   },
   keySearch: function (req) {
     const searchObj = {
@@ -10,8 +18,15 @@ const api = {
       num: req.query.num || 30,
       group: req.query.group || 'SNH48',
     }
-    let url ='https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p='+searchObj.page+'&n='+searchObj.num+'&w=' + searchObj.group
-    return url
+    return {
+      host: 'c.y.qq.com',
+      port: '',
+      path: '/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p='+searchObj.page+'&n='+searchObj.num+'&w=' + searchObj.group,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
   },
   board_postData: (request) => {
     return JSON.stringify({
@@ -32,6 +47,7 @@ const api = {
         token: request.body.token.replace(/\s/g, '+'),
         build: 167,
         os: "android",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -56,6 +72,7 @@ const api = {
         token: '',
         build: 167,
         os: "android",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -77,6 +94,7 @@ const api = {
         token: req.body.token.replace(/\s/g, '+'),
         build: 167,
         os: "android",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -107,6 +125,7 @@ const api = {
       headers: {
         os: "android",
         version: "5.3.1",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -131,6 +150,7 @@ const api = {
       headers: {
         os: "android",
         version: "5.0.1",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -157,6 +177,7 @@ const api = {
       headers: {
         os: "android",
         version: "5.3.1",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -177,6 +198,7 @@ const api = {
       headers: {
         os: "android",
         version: "5.3.1",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -200,6 +222,7 @@ const api = {
         os: "android",
         token: req.body.token.replace(/\s/g, '+'),
         "imei": "355757010989529",
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData),
       }
@@ -250,6 +273,7 @@ const api = {
         'IMEI': '355757010989529',
         build: 0,
         Connection: 'Keep-Alive',
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -274,6 +298,7 @@ const api = {
         'IMEI': '355757010989529',
         build: 0,
         Connection: 'Keep-Alive',
+        'User-Agent': 'samsung,PRODUCT,SM-G955F/Android 4.4.2',
         'Content-Type': 'application/json;charset=utf-8',
         'Content-Length': Buffer.byteLength(postData)
       }
@@ -281,7 +306,15 @@ const api = {
   },
   akina_options: (req) => {
     let limit = req.query.limit || 8
-    return "https://space.bilibili.com/ajax/member/getSubmitVideos?mid=1315101&pagesize="+limit+"&tid=0&page=1&keyword=&order=pubdate"
+    return {
+      host: 'space.bilibili.com',
+      port: '',
+      path: "/ajax/member/getSubmitVideos?mid=1315101&pagesize="+limit+"&tid=0&page=1&keyword=&order=pubdate",
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
   }
 }
 

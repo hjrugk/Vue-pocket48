@@ -10,14 +10,14 @@ let router = express.Router()
 
 // 获取qq音乐top100
 router.get('/api/getMusicList', (req, res) => {
-  getData(null, api.keySearch(req), (html) => {
+  getData(JSON.stringify(null), api.keySearch(req), (html) => {
     res.send(html)
   })
 })
 
 // 获取qq音乐播放链接
 router.get('/api/getPlayUrl', (req, res) => {
-  getData(null, api.vkey(req), html => {
+  getData(JSON.stringify(null), api.vkey(req), html => {
     res.send(html)
   });
 })
@@ -191,7 +191,7 @@ router.get('/api/getForSwipeAds', (req,res) => {
 
 // 从B站获取公演录播
 router.get('/api/getAkinaVideos', (req,res) => {
-  getData(null,api.akina_options(req),html => {
+  getData(JSON.stringify(null),api.akina_options(req),html => {
     res.send(html)
   })
 })

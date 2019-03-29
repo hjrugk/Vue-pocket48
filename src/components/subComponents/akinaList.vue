@@ -17,7 +17,7 @@
         target="_blank"
       >
         <div class="pic-container" :style="{height:rect.height}">
-          <img :src="'http:'+item.pic" :alt="item.title" class="live-pic" :class="{'center-pic':type===1}">
+          <img :src="'http:'+item.pic" :alt="item.title" class="live-pic">
           <div class="mask"></div>
         </div>
         <div class="live-info">
@@ -107,6 +107,8 @@ export default {
         }
         .live-pic {
           width: 100%;
+          position: relative;
+          top: -30%;
         }
         .mask{
           position: absolute;
@@ -116,10 +118,6 @@ export default {
           height: 100%;
           background-color: rgba(0,0,0,0.3);
           visibility: hidden;
-        }
-        .center-pic{
-          position: relative;
-          top: -50%;
         }
       }
       .live-info{
