@@ -4,19 +4,7 @@
 
 ## 如何使用？
 
-1. 安装依赖
-
-    ```shell
-    npm install
-    ```
-
-2. 打包
-
-    ```shell
-    npm run build
-    ```
-
-3. 运行 `start.bat`
+本项目以打包为electron程序，请查看[electron-pocket48](https://github.com/hjrugk/electron-pocket48)
 
 ## 主要功能
 

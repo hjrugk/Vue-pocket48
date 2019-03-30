@@ -1,5 +1,5 @@
 import axios from 'axios'
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = 'http://localhost:3000/api'
 
 export default function ajax (url, data={}, method='GET') {
   return new Promise((resolve, reject) => {

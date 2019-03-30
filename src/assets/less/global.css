@@ -5,6 +5,7 @@ body {
 }
 * {
   outline: none;
+  font-family: 微软雅黑;
 }
 .v-enter,
 .v-leave-to {
@@ -32,6 +33,7 @@ body {
 }
 * {
   outline: none;
+  font-family: 微软雅黑;
 }
 .v-enter,
 .v-leave-to {
