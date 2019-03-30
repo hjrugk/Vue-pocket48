@@ -157,7 +157,8 @@ export default {
   box-sizing: border-box;
   .inner-container{
     padding: 15px;
-    width: 85%;
+    width: 1160px;
+    height: 100%;
     background-color: #fff;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
@@ -165,13 +166,14 @@ export default {
       height: 100px;
       padding-bottom: 20px;
       display: flex;
+      position: relative;
       justify-content: flex-start;
       .base-avatar {
         height: 100%;
       }
       .room-entry {
         position: absolute;
-        right: 7.5%;
+        right: 20px;
         .gap {
           height: 10px;
           margin: 0;

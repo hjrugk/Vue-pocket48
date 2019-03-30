@@ -72,7 +72,7 @@ export default {
     display: flex;
     justify-content: center;
     .instead-info{
-      width: 85%;
+      width: 1160px;
     }
   }
   .review-header{
@@ -80,7 +80,7 @@ export default {
     display: flex;
     justify-content: center;
     .instead-info{
-      width: 85%;
+      width: 1160px;
     }
   }
   .title,

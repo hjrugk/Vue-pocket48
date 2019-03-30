@@ -7,12 +7,12 @@
     </div>
     <live-list 
       :type="0" :list="openLiveList" 
-      :rect="{width:'400px',height:'230px',maxWidth: '600px'}" 
+      :rect="{width:'300px',height:'180px',maxWidth: '400px'}" 
       :livetitle="'直播'"
       v-else></live-list>
       <akina-list
         :type="0" :list="akinaVideos"
-        :rect="{width:'400px',height:'230px',maxWidth: '600px'}" 
+        :rect="{width:'300px',height:'180px',maxWidth: '400px'}" 
         :livetitle="'录播'"
       ></akina-list>
     <div class="button" @click="getMoreAkina">
@@ -59,14 +59,13 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/less/global';
 .open-live-container {
-  padding: 10px;
   .live-header{
     width: 100%;
     display: flex;
     justify-content: center;
     height: 320px;
     .alt_icon{
-      width: 85%;
+      width: 1160px;
     }
   }
   .button{

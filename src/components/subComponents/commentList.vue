@@ -109,6 +109,7 @@ export default {
     border: 1px solid #777;
     background-color: #666;
     max-width: 300px;
+    min-width: 240px;
     &:hover {
       background-color: #555;
     }

@@ -110,8 +110,9 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/less/global';
 .member-container {
-  width: 100%;
+  width: 1160px;
   height: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
   padding-left: 7px;
   .team-container {

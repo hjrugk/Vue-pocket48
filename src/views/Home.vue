@@ -79,7 +79,7 @@ export default {
         display: flex;
         justify-content: center;
         a{
-          width: 85%;
+          width: 1160px;
           display: block;
           position: relative;
           &:hover{
@@ -115,7 +115,6 @@ export default {
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #fff;
     .nav-menu{
       width: 85%;
       display: flex;
@@ -128,7 +127,6 @@ export default {
     }
   }
   .live-wrapper{
-    background-color: #fff;
     .alt_bg{
       height: 550px;
     }

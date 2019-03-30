@@ -59,7 +59,7 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   .list{
-    width: 85%;
+    width: 1160px;
     display: flex;
     justify-content: space-around;
   }

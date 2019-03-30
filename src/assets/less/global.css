@@ -6,9 +6,6 @@ body {
 * {
   outline: none;
 }
-.el-menu--popup {
-  width: calc(20vw);
-}
 .v-enter,
 .v-leave-to {
   opacity: 0;
@@ -35,9 +32,6 @@ body {
 }
 * {
   outline: none;
-}
-.el-menu--popup {
-  width: calc(20vw);
 }
 .v-enter,
 .v-leave-to {

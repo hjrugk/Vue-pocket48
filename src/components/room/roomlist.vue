@@ -53,11 +53,10 @@ export default {
 @import '../../assets/less/global';
 .room{
   width: 100%;
-  display: flex;
-  justify-content: center;
   padding-top: 10px;
   .room-list {
-    width: 75%;
+    margin: 0 auto;
+    width: 1000px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;

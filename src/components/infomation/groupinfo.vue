@@ -2,7 +2,7 @@
   <div>
     <div class="member-list">
       <el-menu class="el-menu-demo" mode="horizontal" :default-active="activeIndex">
-        <div class="group-brand color-item" style="background-color: #fff">所有团队</div>
+        <li class="group-brand color-item" style="background-color: #fff">所有团队</li>
         <el-menu-item
           v-for="item in groupList"
           :style="{backgroundColor: item.color}"
@@ -67,14 +67,14 @@ export default {
   }
   .el-menu-demo{
     .flex-menu();
+    width: 1170px;
+    margin: 0 auto;
     li{
-      max-width: 160px;
-      min-width: 130px;
+      width: 130px;
     }
     .group-brand{
       flex: 1;
       color: #000;
-      min-width: 120px;
       font-size: 14px;
       border-left: 1px solid #e6e6e6;
       user-select: none;

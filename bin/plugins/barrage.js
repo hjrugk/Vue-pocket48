@@ -6,7 +6,7 @@ const barrage = {
   index: -1,
   zeroTime: 0,
   loadLrc: function (url,callback) {
-      getData(null,url,(html) => {
+      getData(JSON.stringify(null),url,(html) => {
         this.parseLrc(html,() => {
           callback({times:this.times,barrages: this.lyrics})
         })

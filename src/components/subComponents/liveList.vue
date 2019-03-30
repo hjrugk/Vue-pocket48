@@ -18,7 +18,7 @@
         target="_blank"
       >
         <div class="pic-container" :style="{height:rect.height}">
-          <img :src="item.picPath | picPathFormat" alt class="live-pic" :class="{'center-pic':type===1}">
+          <img :src="item.picPath | picPathFormat" alt class="live-pic">
           <div class="mask"></div>
           <div class="live-title" v-html="item.title"></div>
         </div>
@@ -63,11 +63,10 @@ export default {
 @import '../../assets/less/global';
 .live-list{
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   .live-header{
     .flex-align-center();
+    margin: 0 auto;
+    width: 1160px;
     justify-content: space-between;
     .live-type{
       margin-left: 10px;
@@ -85,12 +84,13 @@ export default {
       }
     }
   }
-  div{
+  .list-container{
+    margin: 0 auto;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    width: 85%;
-    margin-bottom: 10px;
+    width: 1160px;
+    padding: 10px;
     .live-item {
       flex: 1;
       display: flex;
@@ -120,6 +120,7 @@ export default {
           bottom: 0;
           color: #fff;
           padding-left: 10px;
+          margin-bottom: 10px;
         }
         .live-pic {
           width: 100%;
@@ -133,15 +134,12 @@ export default {
           background-color: rgba(0,0,0,0.3);
           visibility: hidden;
         }
-        .center-pic{
-          position: relative;
-          top: -30%;
-        }
       }
       .live-info{
         display: flex;
         justify-content: space-between;
         font-size: 12px;
+        width: 90%;
         .live-url{
           width: 120px;
           height: 15px;

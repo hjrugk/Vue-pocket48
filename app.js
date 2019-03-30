@@ -19,6 +19,7 @@ app.use(router)
 app.use('/',express.static(path.join(__dirname, 'dist'),{index: 'index.html'}))
 
 app.listen(3000, () => {
-  console.log('Your App is running at http://localhost:3000')
+  console.log('正在为您启动应用···')
   childProcess.exec(`start http://localhost:3000`)
+  console.log('应用已启动:http://localhost:3000')
 })

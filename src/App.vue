@@ -102,7 +102,7 @@ export default {
       border-bottom: none;
     }
     .el-menu{
-      width: 85%;
+      width: 1170px;
       .responsive{
         display: none;
       }

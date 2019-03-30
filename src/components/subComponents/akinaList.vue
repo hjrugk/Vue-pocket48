@@ -47,10 +47,9 @@ export default {
 @import '../../assets/less/global';
 .live-list{
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   .live-header{
+    width: 1160px;
+    margin: 0 auto;
     .flex-align-center();
     justify-content: space-between;
     .live-type{
@@ -69,12 +68,13 @@ export default {
       }
     }
   }
-  div{
+  .list-container{
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    width: 85%;
-    margin-bottom: 10px;
+    width: 1160px;
+    margin: 0 auto;
+    padding: 10px;
     .live-item {
       flex: 1;
       display: flex;
@@ -107,8 +107,6 @@ export default {
         }
         .live-pic {
           width: 100%;
-          position: relative;
-          top: -30%;
         }
         .mask{
           position: absolute;
@@ -124,6 +122,7 @@ export default {
         display: flex;
         justify-content: space-between;
         font-size: 12px;
+        width: 90%;
         .live-url{
           height: 15px;
           overflow: hidden;

@@ -93,7 +93,8 @@ export default {
 
 <style lang="less" scoped>
   .radio-list{
-    padding-bottom: 0px;
+    width: 1160px;
+    margin: 0 auto;
   }
 .music-list{
   padding: 0 5px;
@@ -101,6 +102,8 @@ export default {
   flex-wrap: wrap;
   margin-bottom: 5px;
   margin-top: -5px;
+  width: 1160px;
+  margin: 0 auto;
   .music-item {
     flex: 1;
     margin: 5px;
