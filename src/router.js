@@ -73,6 +73,11 @@ export default new Router({
       component: () => import('./components/live/livepage.vue')
     },
     {
+      path: '/home/bilibili/:id',
+      name: 'bilibili',
+      component: () => import('./components/live/bilibiliVideo.vue')
+    },
+    {
       path: '/userinfo/:id',
       name: 'userinfo',
       component: () => import('./components/user/userInfo.vue')

@@ -9,7 +9,8 @@
     </div>
     <transition-group appear tag="div" class="list-container">
       <a
-        :href="'https://www.bilibili.com/video/av'+item.aid"
+        href="javascript:;"
+        @click.prevent="goToLivePage(item.aid)"
         v-for="item in list"
         :key="item.aid"
         class="live-item"
@@ -37,6 +38,10 @@ export default {
   methods: {
     goToAllLive(){
       this.$router.push('/home/openlive/0')
+    },
+    goToLivePage(id){
+      localStorage.setItem('type',JSON.stringify({type: this.type,isLive: false}))
+      this.$router.push({name:'bilibili',params:{id}})
     }
   },
   props: ["list", "rect","type","livetitle"],
