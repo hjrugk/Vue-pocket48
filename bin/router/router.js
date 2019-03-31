@@ -5,6 +5,7 @@ const downloadFile = require('../plugins/downloadFile')
 const fs = require('fs')
 const barrage = require('../plugins/barrage')
 const http = require('http')
+const path = require('path')
 
 let router = express.Router()
 
@@ -155,8 +156,8 @@ router.post('/api/getAnswer',(req,res) => {
 
 // 成员房间语音留言
 router.post('/api/getAudio',(req,res) => {
-  downloadFile(req.body.url,'./Cache/pocket-room-audio.amr',() => {
-    let str = fs.readFileSync('./Cache/pocket-room-audio.amr')
+  downloadFile(req.body.url,path.join(__dirname,'../../Cache/pocket-room-audio.amr'),() => {
+    let str = fs.readFileSync(path.join(__dirname,'../../Cache/pocket-room-audio.amr'))
     res.send({status: 200,message:str.toString('base64')})
   })
 })

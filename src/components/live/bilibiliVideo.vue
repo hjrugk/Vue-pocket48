@@ -1,9 +1,9 @@
 <template>
   <div class="live-page-container my-card">
     <div class="video-container">
-      <iframe :src="'//player.bilibili.com/player.html?aid='+$route.params.id" 
-        scrolling="no" border="0" frameborder="no" framespacing="0" 
-        allowfullscreen="true" width="900" height="540"> </iframe>
+      <iframe :src="'https://player.bilibili.com/player.html?aid='+$route.params.id" 
+        scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"
+        style="width:900px;height:540px;"> </iframe>
     </div>
   </div>
 </template>
@@ -15,7 +15,6 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/less/global.less';
 .video-container{
-  border: 1px solid #efefef;
   border-radius: 3px;
   position: relative;
   width: 100%;
