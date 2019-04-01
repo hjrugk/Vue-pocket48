@@ -10,7 +10,7 @@
     <transition-group appear tag="div" class="list-container">
       <a
         href="javascript:;"
-        @click.prevent="getLivePage(item.liveId)"
+        @click.prevent="getLivePage(item.liveId,item.title)"
         v-for="item in list"
         :key="item.liveId"
         class="live-item"
@@ -35,12 +35,18 @@
 export default {
   name: "liveItem",
   data() {
-    return {};
+    return {
+      isLive: false
+    };
   },
   methods: {
-    getLivePage(id) { // 跳转到直播页面
+    getLivePage(id,title) { // 跳转到直播页面
+      if(!title.includes('回放生成中')){
+        this.isLive = true
+      }
       localStorage.setItem('type',JSON.stringify({type: this.type,isLive: this.isLive}))
-      this.$router.push({name:'livepage',params:{id,type: this.type,isLive: this.isLive}})
+      let url = this.$router.resolve({name:'livepage',params:{id,type: this.type,isLive: this.isLive}})
+      window.open(url.href,'_blank')
     },
     goToAllLive(){ // 跳转到直播详细列表页
       if(this.type===1){
@@ -50,12 +56,7 @@ export default {
       }
     }
   },
-  props: ["list", "rect","type","livetitle"],
-  computed: {
-    isLive: function() {
-      return this.livetitle === '直播'
-    } 
-  }
+  props: ["list", "rect","type","livetitle"]
 };
 </script>
 

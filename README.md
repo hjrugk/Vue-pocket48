@@ -4,7 +4,15 @@
 
 ## 如何使用？
 
-本项目以打包为electron程序，请查看[electron-pocket48](https://github.com/hjrugk/electron-pocket48)
+1. 本项目已打包为electron程序，请查看[electron-pocket48](https://github.com/hjrugk/electron-pocket48)
+2. 克隆本仓库后
+
+  ```shell
+  cd Vue-pocket48
+  npm install
+  npm run build
+  node server.js
+  ```
 
 ## 主要功能
 

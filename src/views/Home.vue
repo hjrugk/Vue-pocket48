@@ -29,7 +29,7 @@
       <akina-list
         :type="0" :list="akinaVideos.slice(0,8)"
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
-        :livetitle="'公演录播'"
+        :livetitle="'公演直播'"
       v-if="akinaVideos[0]"></akina-list>
       <div v-else class="alt_bg">
         <img src="../assets/images/loading.gif" alt="">

@@ -48,7 +48,8 @@ export default {
         height: '100%',
         source: '',
         isLive: this.isLive,
-        autoplay: true
+        autoplay: true,
+        enableStashBufferForFlv: false
       },
       originBarrageList: {
         barrages: [],
@@ -60,7 +61,8 @@ export default {
   props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight','isLive'],
   methods: {
     playReview(){ // 点击直播封面时开始播放
-      if(this.type===0 && this.isLive === true) return this.$message.error('直播还未开始')
+      this.player = {}
+      if(this.type===0) return this.$message.error('直播还未开始')
       this.playerOptions.source = this.path[this.streamsIndex].streamPath
       // eslint-disable-next-line
       this.player = new Aliplayer(this.playerOptions)
@@ -70,27 +72,25 @@ export default {
       this.player.on('error', () => {
         this.$message.error('无法播放')
       })
-      if(!this.isLive){
-        this.player.on('timeupdate', () => {
-          if(this.isReview && this.barrageList.times.length !==0){
-            this.barrageHandler()
-          }
-        })
-        this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
-          if(this.barrageList.times[0]){
-            this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
-            let index = this.barrageList.times.findIndex(item => {
-              return parseInt(item)>=this.player.getCurrentTime()
-            })
-            this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
-            this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
-            this.barrages = []
-            this.barrageHandler()
-          }else{
-            return true
-          }
-        })
-      }
+      this.player.on('timeupdate', () => {
+        if(this.isReview && this.barrageList.times.length !==0){
+          this.barrageHandler()
+        }
+      })
+      this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
+        if(this.barrageList.times[0]){
+          this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
+          let index = this.barrageList.times.findIndex(item => {
+            return parseInt(item)>=this.player.getCurrentTime()
+          })
+          this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
+          this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
+          this.barrages = []
+          this.barrageHandler()
+        }else{
+          return
+        }
+      })
     },
     async loadBarrages(){ // 载入弹幕列表
       const res = await this.ajax('/getBarrages',{url:this.lrcpath},'POST')
@@ -130,6 +130,12 @@ export default {
     topList,
     radioCover,
     Barrages
+  },
+  mounted() {
+    this.player = {}
+  },
+  beforeDestroy(){
+    this.player = {}
   }
 }
 </script>
