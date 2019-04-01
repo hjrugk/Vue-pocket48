@@ -70,23 +70,27 @@ export default {
       this.player.on('error', () => {
         this.$message.error('无法播放')
       })
-      this.player.on('timeupdate', () => {
-        if(this.isReview && this.barrageList.times.length !==0){
-          this.barrageHandler()
-        }
-      })
-      this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
-        if(this.barrageList.times[0]){
-          this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
-          let index = this.barrageList.times.findIndex(item => {
-            return parseInt(item)>=this.player.getCurrentTime()
-          })
-          this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
-          this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
-          this.barrages = []
-          this.barrageHandler()
-        }
-      })
+      if(!this.isLive){
+        this.player.on('timeupdate', () => {
+          if(this.isReview && this.barrageList.times.length !==0){
+            this.barrageHandler()
+          }
+        })
+        this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
+          if(this.barrageList.times[0]){
+            this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
+            let index = this.barrageList.times.findIndex(item => {
+              return parseInt(item)>=this.player.getCurrentTime()
+            })
+            this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
+            this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
+            this.barrages = []
+            this.barrageHandler()
+          }else{
+            return true
+          }
+        })
+      }
     },
     async loadBarrages(){ // 载入弹幕列表
       const res = await this.ajax('/getBarrages',{url:this.lrcpath},'POST')
