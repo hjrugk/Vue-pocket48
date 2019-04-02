@@ -130,12 +130,6 @@ export default {
     topList,
     radioCover,
     Barrages
-  },
-  mounted() {
-    this.player = {}
-  },
-  beforeDestroy(){
-    this.player = {}
   }
 }
 </script>
