@@ -7,10 +7,10 @@
 1. 本项目已打包为electron程序，请查看[electron-pocket48](https://github.com/hjrugk/electron-pocket48)
 2. 克隆本仓库后
 
-  ```shell
-  cd Vue-pocket48
-  node server.js
-  ```
+   ```shell
+   cd Vue-pocket48
+   node server.js
+   ```
 
 ## 主要功能
 
