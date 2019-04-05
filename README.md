@@ -9,6 +9,7 @@
 
    ```shell
    cd Vue-pocket48
+   npm install
    node server.js
    ```
 
