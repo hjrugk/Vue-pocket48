@@ -157,7 +157,7 @@ export default {
   box-sizing: border-box;
   .inner-container{
     padding: 15px;
-    width: 1160px;
+    width: 85%;
     height: 100%;
     background-color: #fff;
     border-left: 1px solid #eee;
@@ -209,6 +209,11 @@ export default {
     .carousel-container {
       margin-top: 10px;
       text-align: center;
+    }
+  }
+  @media screen and (min-width: 1368px) {
+    .inner-container{
+      width: 1160px;
     }
   }
 }

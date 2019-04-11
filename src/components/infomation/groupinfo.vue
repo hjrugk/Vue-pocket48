@@ -67,7 +67,7 @@ export default {
   }
   .el-menu-demo{
     .flex-menu();
-    width: 1170px;
+    width: 85%;
     margin: 0 auto;
     li{
       width: 130px;
@@ -79,6 +79,11 @@ export default {
       border-left: 1px solid #e6e6e6;
       user-select: none;
       .flex-all-center();
+    }
+  }
+  @media screen and (min-width: 1368px) {
+    .el-menu-demo{
+      width: 1170px;
     }
   }
 }

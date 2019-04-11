@@ -108,7 +108,7 @@ export default {
       return this.$route.params.type || JSON.parse(localStorage.getItem('type')).type
     },
     isLive: function(){
-      return JSON.parse(localStorage.getItem('type')).isLive
+      return this.liveInfo.title.includes('回放')
     },
     rect: function() {
       if(this.type === 0){

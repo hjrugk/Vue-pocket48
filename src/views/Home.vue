@@ -2,8 +2,8 @@
   <div class="home">
     <el-carousel trigger="click" height="350px" v-if="adsList[0]">
       <el-carousel-item v-for="(item,index) in adsList" :key="index">
-        <a :href="item.url" target="_blank">
-          <div :style="'background-image: url(\''+'http://www.snh48.com/'+item.img+'\')'"></div>
+        <a :href="item.url" target="_blank" class="carousel-link">
+          <div class="img-item" :style="'background-image: url(\''+'http://www.snh48.com/'+item.img+'\')'"></div>
           <div class="mask"></div>
         </a>
       </el-carousel-item>
@@ -78,17 +78,18 @@ export default {
       .el-carousel__item{
         display: flex;
         justify-content: center;
-        a{
-          width: 1160px;
-          display: block;
+        .carousel-link{
+          width: 100%;
+          display: flex;
+          justify-content: center;
           position: relative;
           &:hover{
             .mask{
               visibility: visible;
             }
           }
-          div{
-            height: 350px;
+          .img-item{
+            width: 85%;
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
@@ -103,26 +104,20 @@ export default {
             left: 0;
           }
         }
-        @media screen and (max-width: 768px) {
-          a{
-            width: 100%;
-          }
+      }
+    }
+    @media screen and (max-width: 768px){
+      .el-carousel__item{
+        .img-item{
+          width: 100%;
         }
       }
     }
-  }
-  .home-nav{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    .nav-menu{
-      width: 85%;
-      display: flex;
-      justify-content: center;
-      .nav-item{
-        flex: 1;
-        height: 60px;
-        cursor: pointer;
+    @media screen and (min-width: 1368px){
+      .el-carousel__item{
+        .img-item{
+          width: 1170px!important;
+        }
       }
     }
   }

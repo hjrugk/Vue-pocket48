@@ -56,7 +56,7 @@ export default {
   padding-top: 10px;
   .room-list {
     margin: 0 auto;
-    width: 1000px;
+    width: 75%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -102,6 +102,12 @@ export default {
   @media screen and(max-width: 768px) {
     .room-list{
       width: 90%;
+      justify-content: center;
+    }
+  }
+  @media screen and(min-width: 1368px) {
+    .room-list{
+      width: 1000px;
     }
   }
 }

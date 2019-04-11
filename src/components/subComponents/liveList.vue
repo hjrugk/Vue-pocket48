@@ -67,7 +67,7 @@ export default {
   .live-header{
     .flex-align-center();
     margin: 0 auto;
-    width: 1160px;
+    width: 85%;
     justify-content: space-between;
     .live-type{
       margin-left: 10px;
@@ -90,7 +90,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    width: 1160px;
+    width: 85%;
     padding: 10px;
     .live-item {
       flex: 1;
@@ -152,6 +152,11 @@ export default {
   @media screen  and (max-width: 768px) {
     .list-container{
       width: 100%;
+    }
+  }
+  @media screen  and (min-width: 1368px) {
+    .list-container,.live-header{
+      width: 1160px;
     }
   }
   @media screen  and (max-width: 510px) {

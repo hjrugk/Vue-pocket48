@@ -102,7 +102,7 @@ export default {
       border-bottom: none;
     }
     .el-menu{
-      width: 1170px;
+      width: 85%;
       .responsive{
         display: none;
       }
@@ -132,6 +132,11 @@ export default {
       .responsive{
         display: flex!important;
       }
+    }
+  }
+  @media screen and (min-width: 1368px){
+    .el-menu{
+      width: 1170px!important;
     }
   }
 }

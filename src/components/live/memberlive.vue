@@ -72,7 +72,7 @@ export default {
     display: flex;
     justify-content: center;
     .instead-info{
-      width: 1160px;
+      width: 85%;
     }
   }
   .review-header{
@@ -80,7 +80,7 @@ export default {
     display: flex;
     justify-content: center;
     .instead-info{
-      width: 1160px;
+      width: 85%;
     }
   }
   .title,
@@ -90,6 +90,11 @@ export default {
   .button{
     .button-container();
     .flex-all-center();
+  }
+  @media screen and (min-width: 1368px) {
+    .instead-info{
+      width: 1160px;
+    }
   }
 }
 </style>

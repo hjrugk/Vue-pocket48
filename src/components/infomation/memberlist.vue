@@ -110,7 +110,7 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/less/global';
 .member-container {
-  width: 1160px;
+  width: 85%;
   height: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -153,6 +153,11 @@ export default {
         }
       }
     }
+  }
+}
+@media screen and (min-width: 1368px) {
+  .member-container{
+    width: 1160px;
   }
 }
 </style>

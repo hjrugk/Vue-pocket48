@@ -59,7 +59,7 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   .list{
-    width: 1160px;
+    width: 85%;
     display: flex;
     justify-content: space-around;
   }
@@ -82,6 +82,11 @@ export default {
     }
     .comment-layer {
       display: flex;
+    }
+  }
+  @media screen and (min-width: 1368px) {
+    .list{
+      width: 1160px;
     }
   }
 }
