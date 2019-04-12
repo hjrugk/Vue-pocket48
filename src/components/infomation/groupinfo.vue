@@ -70,7 +70,7 @@ export default {
     width: 85%;
     margin: 0 auto;
     li{
-      width: 130px;
+      width: 11.11%;
     }
     .group-brand{
       flex: 1;
