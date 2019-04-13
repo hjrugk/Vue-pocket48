@@ -57,18 +57,15 @@ export default {
   .room-list {
     margin: 0 auto;
     width: 75%;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     flex-wrap: wrap;
     .room-item {
       .flex-align-center();
-      flex: 1;
       padding: 5px;
       margin: 5px;
       cursor: pointer;
       justify-content: flex-start;
-      min-width: 360px;
-      max-width: 480px;
       &:hover {
         background-color: rgba(0,0,0,0.1);
       }
@@ -102,7 +99,7 @@ export default {
   @media screen and(max-width: 768px) {
     .room-list{
       width: 90%;
-      justify-content: center;
+      grid-template-columns: repeat(1, 1fr);
     }
   }
   @media screen and(min-width: 1368px) {

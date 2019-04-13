@@ -12,7 +12,7 @@
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
       <p v-html="info.team_name" :style="'color: #'+info.color | overseaFilter" class="team-name" v-show="!keywords"></p>
       <div class="member-list">
-        <transition-group mode="out-in" tag="div">
+        <transition-group mode="out-in" tag="div" class="members">
           <div
             class="member-item my-card"
             :style="'border: 1px solid #'+info.color"
@@ -120,16 +120,13 @@ export default {
       font-weight: bold;
       margin-left: 5px;
     }
-    .member-list > div {
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
+    .members {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-auto-columns: auto;
       .member-item {
         .flex-all-center();
-        flex: 1;
-        min-width: 95px;
-        max-width: 131px;
-        height: 200px;
+        max-height: 200px;
         border: 1px solid #ddd;
         padding: 5px;
         margin-right: 8px;
@@ -141,16 +138,32 @@ export default {
           background-color: #efefef;
         }
         .avatar-container {
-          width: 100px;
-          height: 130px;
+          max-height: 120px;
           .member-avatar {
             border-radius: 50%;
-            width: 100%;
+            width: 87%;
           }
         }
-        .member-name {
-          margin-top: 10px;
-        }
+      }
+    }
+    @media screen and (max-width: 1100px) {
+      .members{
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+    @media screen and (max-width: 900px) {
+      .members{
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+    @media screen and (max-width: 700px) {
+      .members{
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    @media screen and (max-width: 500px) {
+      .members{
+        grid-template-columns: repeat(3, 1fr);
       }
     }
   }

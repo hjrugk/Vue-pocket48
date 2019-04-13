@@ -98,8 +98,8 @@ export default {
   }
 .music-list{
   padding: 0 5px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   margin-bottom: 5px;
   margin-top: -5px;
   width: 85%;
@@ -109,8 +109,6 @@ export default {
     margin: 5px;
     display: flex;
     flex-direction: column;
-    min-width: 120px;
-    max-width: 206px;
     justify-content: space-between;
     align-items: center;
     &:hover{
@@ -139,6 +137,21 @@ export default {
 @media screen and (min-width: 1368px){
   .music-list,.radio-list{
     width: 1160px;
+  }
+}
+@media screen and (max-width: 1024px){
+  .music-list{
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media screen and (max-width: 700px) {
+  .music-list{
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 500px) {
+  .music-list{
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

@@ -54,6 +54,20 @@ export default {
   methods: {
     pushToHome(){
       this.$router.push('/')
+    },
+    check() {
+      if(localStorage.getItem('userinfo')){
+        let tmp = Date.now()
+        let userInfo = JSON.parse(localStorage.getItem('userinfo'))
+        if(tmp - userInfo.tmp >= 12960000) {
+          this.$message.error('登陆已失效')
+          localStorage.removeItem('userinfo')
+          localStorage.removeItem('isLogin')
+          setTimeout(() => {
+              window.location.reload()
+            },3000)
+        }
+      }
     }
   },
   watch: {
@@ -67,6 +81,7 @@ export default {
     }
   },
   async mounted() {
+    this.check()
     this.$store.dispatch('getAllLive',{limit:8,id:0})
     this.$store.dispatch('getSwipeAds')
     this.$store.dispatch('getAkinaVideos',{limit:8})

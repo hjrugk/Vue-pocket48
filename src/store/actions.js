@@ -16,6 +16,7 @@ export default {
   },
   async getRoomList({commit},{ token, friends }) { // 获取关注成员房间列表
     const res = await ajax('/getRoomList',{ token, friends },'POST')
+    console.log(res)
     commit('saveRoomList',{list:res.content})
   },
   async getSwipeAds({commit}){ // 从官网获取轮播图

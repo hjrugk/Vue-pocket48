@@ -71,9 +71,10 @@ import {mapState} from 'vuex'
           this.password = ''
           this.account = ''
           this.userInfo = res.content.userInfo
-          this.$store.commit('saveUserInfo',res.content.userInfo)
+          res.content.tmp = Date.now()
+          this.$store.commit('saveUserInfo',this.userInfo)
           this.token = res.content.token
-          this.$store.commit('setToken', res.content.token)
+          this.$store.commit('setToken', this.token)
           this.logFlag = true
           localStorage.setItem('isLogin',JSON.stringify({logFlag: this.logFlag}))
           this.friends = res.content.friends

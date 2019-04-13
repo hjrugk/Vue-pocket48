@@ -14,10 +14,9 @@
         v-for="item in list"
         :key="item.liveId"
         class="live-item"
-        :style="{minWidth: rect.width,maxWidth: rect.maxWidth}"
         target="_blank"
       >
-        <div class="pic-container" :style="{height:rect.height}">
+        <div class="pic-container">
           <img :src="item.picPath | picPathFormat" alt class="live-pic">
           <div class="mask"></div>
           <div class="live-title" v-html="item.title"></div>
@@ -87,24 +86,20 @@ export default {
   }
   .list-container{
     margin: 0 auto;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
     width: 85%;
     padding: 10px;
     .live-item {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 0 5px 10px 0px;
       padding: 5px;
       text-decoration: none;
       color: #000;
       cursor: pointer;
       .pic-container {
         .flex-align-center();
-        width: 100%;
+        // max-width: 240px;
+        max-height: 150px;
         position: relative;
         overflow: hidden;
         border-radius: 5px;
@@ -142,16 +137,16 @@ export default {
         font-size: 12px;
         width: 90%;
         .live-url{
-          width: 120px;
           height: 15px;
           overflow: hidden;
         }
       }
     }
   }
-  @media screen  and (max-width: 768px) {
+  @media screen  and (max-width: 900px) {
     .list-container{
-      width: 100%;
+      width: 90%;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
   @media screen  and (min-width: 1368px) {
@@ -159,9 +154,10 @@ export default {
       width: 1160px;
     }
   }
-  @media screen  and (max-width: 510px) {
+  @media screen  and (max-width: 610px) {
     .list-container{
       justify-content: center;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
