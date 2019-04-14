@@ -1,5 +1,7 @@
 # vue-pocket48
 
+4月15号口袋48更新不知道有啥影响
+
 使用 [Vue](https://vuejs.org/) + [Node](https://nodejs.org) 做的 web 版口袋48，使用的API参照 [xsaiting/pocket48-grab](https://github.com/xsaiting/pocket48-grab/wiki)
 
 ## 如何使用？
@@ -27,3 +29,4 @@
 * 成员房间翻牌
 * 成员房间音频([参考文章](http://www.cnblogs.com/yuhongda0315/p/5224188.html))
 * 查看聚聚信息
+
