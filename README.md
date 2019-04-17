@@ -1,13 +1,12 @@
 # vue-pocket48
 
-4月15号口袋48更新不知道有啥影响
+新版本开发中
 
 使用 [Vue](https://vuejs.org/) + [Node](https://nodejs.org) 做的 web 版口袋48，使用的API参照 [xsaiting/pocket48-grab](https://github.com/xsaiting/pocket48-grab/wiki)
 
 ## 如何使用？
 
-1. 本项目已打包为electron程序，请查看[electron-pocket48](https://github.com/hjrugk/electron-pocket48)
-2. 克隆本仓库后
+1. 克隆本仓库后
 
    ```shell
    cd Vue-pocket48
