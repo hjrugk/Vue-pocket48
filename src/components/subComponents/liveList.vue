@@ -10,20 +10,21 @@
     <transition-group appear tag="div" class="list-container">
       <a
         href="javascript:;"
-        @click.prevent="getLivePage(item.liveId,item.title)"
+        @click.prevent="getLivePage(item.liveId,item.title,item.coverPath)"
         v-for="item in list"
         :key="item.liveId"
         class="live-item"
         target="_blank"
       >
         <div class="pic-container">
-          <img :src="item.picPath | picPathFormat" alt class="live-pic">
+          <img :src="item.coverPath | picPathFormat" alt class="live-pic">
           <div class="mask"></div>
           <div class="live-title" v-html="item.title"></div>
         </div>
         <div class="live-info">
-          <p :title="item.subTitle" v-html="item.subTitle" class="live-url"></p>
-          <p v-html="new Date(item.startTime).toLocaleDateString()" class="live-time"></p>
+          <p v-if="!item.teamList" :title="item.userInfo.nickname" v-html="item.userInfo.nickname" class="live-url"></p>
+          <p v-else-if="item.teamList[0]" :title="item.teamList[0].teamName" v-html="item.teamList[0].teamName" class="live-url"></p>
+          <p v-html="new Date(parseInt(item.ctime || item.stime)).toLocaleDateString()" class="live-time"></p>
         </div>
       </a>
     </transition-group>
@@ -39,11 +40,11 @@ export default {
     };
   },
   methods: {
-    getLivePage(id,title) { // 跳转到直播页面
+    getLivePage(id,title,cover) { // 跳转到直播页面
       if(!title.includes('回放生成中')){
         this.isLive = true
       }
-      localStorage.setItem('type',JSON.stringify({type: this.type,isLive: this.isLive}))
+      localStorage.setItem('type',JSON.stringify({type: this.type,isLive: this.isLive,cover}))
       let url = this.$router.resolve({name:'livepage',params:{id,type: this.type,isLive: this.isLive}})
       window.open(url.href,'_blank')
     },

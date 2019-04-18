@@ -6,19 +6,18 @@
       </p>
       <div>
         <p class="name">
-          {{jujuInfo.info.nickName}}
+          {{jujuInfo.info.nickname}}
           <el-tag size="mini" v-html="'lv.'+jujuInfo.info.level"></el-tag>
         </p>
         <span v-html="'ID：'+jujuInfo.info.userId"></span>
         <span v-html="'关注：' + jujuInfo.friendsNum" style="margin-left: 10px;"></span>
       </div>
     </div>
-    <recommend v-if="jujuInfo.info.avatar" :recommend="jujuInfo.recommend"></recommend>
+    <!-- <recommend v-if="jujuInfo.info.avatar" :recommend="jujuInfo.recommend"></recommend> -->
     <alt-loading v-else></alt-loading>
   </div>
 </template>
 <script>
-import recommend from './recommend'
 import altLoading from '../subComponents/altLoading'
 export default {
   name: 'userInfo',
@@ -33,16 +32,14 @@ export default {
     }
   },
   components: {
-    recommend,
     altLoading
   },
   methods: {
     async getJuJuInfo(){ // 获取聚聚信息
-      const res = await this.ajax('/getUserInfo',{id:this.id})
-      let info = res.content.userInfo
-      let recommend = res.content.userRecommend
-      let friendsNum = res.content.friendsNum
-      this.jujuInfo = {info,recommend,friendsNum}
+      const res = await this.ajax('/getUserInfo',{userId:this.id,token: this.$store.getters.getToken},'POST')
+      let info = res.content.baseUserInfo
+      let friendsNum = res.content.baseUserInfo.friends
+      this.jujuInfo = {info,recommend:{},friendsNum}
     },
   },
   mounted() {

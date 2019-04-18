@@ -17,8 +17,8 @@ export default async function(membersList,teamList) {
   const gr = []
   const zb = []
   const hw = []
-  const qt = [{team_name:'官方账号',color:'90CCEA',team_id:0}]
-  const mx = [{team_name:'明星殿堂',color:'48474F',team_id:999}]
+  const qt = [{teamName:'官方账号',color:'90CCEA',groupId:0}]
+  const mx = [{team_name:'明星殿堂',color:'48474F',groupId:999}]
 
   let myDB = await openDB('group',1)
   let memberTransaction=myDB.transaction('members','readwrite');
@@ -26,7 +26,7 @@ export default async function(membersList,teamList) {
 
   membersList.forEach(item => {
     memberStore.add(item);
-    switch (parseInt(item.team / 100)) {
+    switch (parseInt(item.groupId)) {
       case 10:
         snh.push(item)
         break
@@ -57,7 +57,7 @@ export default async function(membersList,teamList) {
   })
   
   teamList.forEach(item => {
-    switch (parseInt(item.team_id / 100)) {
+    switch (parseInt(item.groupId)) {
       case 10:
         jxl.push(item)
         break

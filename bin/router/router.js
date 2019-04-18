@@ -55,6 +55,16 @@ router.post('/api/login', (req, res) => {
   })
 })
 
+router.post('/api/checkToken', (req, res) => {
+  const token_postData = api.token_postData(req)
+
+  const token_options = api.token_options(req)
+
+  getData(token_postData, token_options, (html) => {
+    res.send(html)
+  })
+})
+
 // 获取关注成员列表
 router.post('/api/getRoomList', (req, res) => {
   const room_postData = api.room_postData(req)
@@ -65,28 +75,6 @@ router.post('/api/getRoomList', (req, res) => {
     res.send(html)
   })
 })
-
-// // 获取所有成员信息
-// router.get('/api/getMemberList', (req, res) => {
-//   const members_postData = api.members_postData()
-
-//   const members_options = api.members_options(members_postData)
-//   // 第一次启动服务器
-//   if(req.query.flag==='server'){
-//     getData(members_postData, members_options, html => {
-//       const list = groupHandler(JSON.parse(html).content.memberInfo,JSON.parse(html).content.team)
-//       res.send(list[req.query.group])
-//     })
-//   }else if(req.query.flag==='database'){ // 第N次启动服务器，防止重复存储数据
-//     Group.findOne({name: req.query.group},(err,group) => {
-//       if(err){
-//         return res.send({status: 404})
-//       }else{
-//         return res.send({member:group.member,team:group.team})
-//       }
-//     })
-//   }
-// })
 
 // 获取所有直播信息
 router.get('/api/getAllLive', (req, res) => {
@@ -117,6 +105,16 @@ router.get('/api/getLivePage', (req, res) => {
   const livePage_options = api.livePage_options(livePage_postData)
 
   getData(livePage_postData, livePage_options, html => {
+    res.send(html)
+  })
+})
+
+router.get('/api/getOpenPage', (req, res) => {
+  const openPage_postData = api.openPage_postData(req)
+
+  const openPage_options = api.openPage_options(openPage_postData)
+
+  getData(openPage_postData, openPage_options, html => {
     res.send(html)
   })
 })
@@ -164,28 +162,19 @@ router.post('/api/getAudio',(req,res) => {
 
 // 获取弹幕
 router.post('/api/getBarrages', (req,res) => {
-  barrage.loadLrc("https://source.48.cn" + req.body.url,function(data) {
+  barrage.loadLrc(req.body.url,function(data) {
     res.send(data)
   })
 })
 
 // 获取聚聚信息
-router.get('/api/getUserInfo', (req,res) => {
-  const userInfo_postData = api.userInfo_postData()
-  const userInfo_options = api.userInfo_options(req,userInfo_postData)
+router.post('/api/getUserInfo', (req,res) => {
+  const userInfo_postData = api.userInfo_postData(req)
+  const userInfo_options = api.userInfo_options(req)
   getData(userInfo_postData,userInfo_options,html => {
     res.send(html)
   })
 })
-
-// 获取成员信息
-// router.get('/api/getMemberName', (req,res) => {
-//   Member.findOne({mid:parseInt(req.query.id)},(err,member) => {
-//     if(member){
-//       res.send(member)
-//     }
-//   })
-// })
 
 // 获取轮播图
 router.get('/api/getForSwipeAds', (req,res) => {
@@ -203,6 +192,14 @@ router.get('/api/getForSwipeAds', (req,res) => {
 // 从B站获取公演录播
 router.get('/api/getAkinaVideos', (req,res) => {
   getData(JSON.stringify(null),api.akina_options(req),html => {
+    res.send(html)
+  })
+})
+
+router.post('/api/getRoomInfo', (req,res) => {
+  const roomInfo_postData = api.roomInfo_postData(req)
+  const roomInfo_options = api.roomInfo_options()
+  getData(roomInfo_postData,roomInfo_options,html => {
     res.send(html)
   })
 })

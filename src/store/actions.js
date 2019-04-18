@@ -4,20 +4,25 @@ export default {
   saveDetail({commit},info){
     commit('saveDetail',info)
   },
-  async getAllLive({commit},{limit,id}){ // 获取成员直播
-    const res = await ajax('getAllLive',{limit,id})
-    let liveList = res.content.liveList || [];
-    let reviewList = res.content.reviewList;
-    commit('saveAllLive',{liveList,reviewList})
+  async getAllLive({commit}){ // 获取成员直播
+    const res1 = await ajax('/getAllLive',{record:false,userId: 0})
+    const res2 = await ajax('/getAllLive',{record:true,userId:0})
+    let liveList = res1.content.liveList || [];
+    let reviewList = res2.content.liveList || [];
+    let newList = [...liveList,...reviewList]
+    commit('saveAllLive',{newList})
   },
   async getOpenLive({commit}) { // 获取公演直播
     const res = await ajax('getOpenLive')
     commit('saveOpenLive',{list:res.content.liveList})      
   },
   async getRoomList({commit},{ token, friends }) { // 获取关注成员房间列表
-    const res = await ajax('/getRoomList',{ token, friends },'POST')
-    console.log(res)
-    commit('saveRoomList',{list:res.content})
+    let list = []
+    for(let i = 0;i < friends.length;i++){
+      const res = await ajax('/getRoomInfo',{token:token,name:friends[i]},'POST')
+      list.push(res.content.data[0])
+    }
+    commit('saveRoomList',{list})
   },
   async getSwipeAds({commit}){ // 从官网获取轮播图
     const res = await ajax('getForSwipeAds')

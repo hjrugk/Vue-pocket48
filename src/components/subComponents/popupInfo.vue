@@ -1,11 +1,11 @@
 <template>
   <div class="user-info">
-    <div class="popup-info" v-if="info.userAvatar || info.senderAvatar">
+    <div class="popup-info" v-if="info.user.avatar">
       <p style="color: white">·</p>
-      <img class="juju-avatar" @click="goToUserInfo" :src="info.userAvatar || info.senderAvatar | picPathFormat" alt="">
+      <img class="juju-avatar" @click="goToUserInfo" :src="info.user.avatar | picPathFormat" alt="">
       <p class="name">
-        {{info.userName || info.senderName}}
-        <el-tag size="mini">{{'lv.' + (info.userLevel || info.senderLevel[2])}}</el-tag>
+        {{info.user.nickName}}
+        <el-tag size="mini">{{'lv.' + (info.user.level)}}</el-tag>
       </p>
     </div>
   </div>
@@ -18,7 +18,7 @@ export default {
       this.$router.push({
         name: 'userinfo',
         params: {
-          id: this.info.userId || this.info.senderId
+          id: this.info.user.userId
         }
       })
     }

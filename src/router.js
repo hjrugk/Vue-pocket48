@@ -38,7 +38,7 @@ export default new Router({
       component: () => import('./components/user/login.vue')
     },
     {
-      path: '/roommsg/:id',
+      path: '/roommsg/:roomId',
       name: 'roommsg',
       component: () => import('./components/room/roommsg.vue')
     },

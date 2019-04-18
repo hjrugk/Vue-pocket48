@@ -20,8 +20,7 @@ export default {
   },
   memberAllLiveList: state => {
     let liveList = state.memberLiveList
-    let reviewList = state.memberReviewList
-    let list = [...liveList,...reviewList]
+    let list = [...liveList]
     if(list.length>8){
       list = list.slice(0,8)
     }

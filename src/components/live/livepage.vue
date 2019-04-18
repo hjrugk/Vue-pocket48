@@ -34,10 +34,10 @@
       :topHeight="topHeight"
       :radiocover="radioCover"
       ref="vod"
-      :toplist="liveInfo.topList"
-      :lrcpath="liveInfo.lrcPath"
+      :toplist="liveInfo.topUser"
+      :lrcpath="liveInfo.msgFilePath"
       :isLive="isLive"
-      v-if="liveInfo.picPath"></video-control>
+      v-if="liveInfo"></video-control>
   </div>
 </template>
 
@@ -62,24 +62,17 @@ export default {
   },
   methods: {
     async getLive() { // 获取直播信息
-      const res = await this.ajax('/getLivePage',{type:this.type,id:this.id})
-      this.liveInfo = res.content;
-      let Title = document.getElementsByTagName('title')[0]
-      Title.innerText = this.liveInfo.subTitle + '--' + this.liveInfo.title
-      if(this.type===0){ // 公演
-        this.count.praise = res.content.count.praiseCount
-        this.count.comment = res.content.count.commentCount
-        this.count.share = res.content.count.shareCount
-      }
-      if(res.content.liveType === 2){ // 电台
-        let path = res.content.picPath
-        if(path.includes(',')){
-          this.radioCover = path.split(',')
-        }else{
-          this.radioCover = path
+      this.picPath = JSON.parse(localStorage.getItem('type')).cover
+      if(this.type === 0){
+        const res = await this.ajax('/getOpenPage',{id:this.id})
+        this.liveInfo = res.content
+      }else{
+        const res = await this.ajax('/getLivePage',{id:this.id})
+        this.liveInfo = res.content;
+        if(this.liveInfo.carousels){
+          this.radioCover = this.liveInfo.carousels.carousels
         }
       }
-      this.picPath = res.content.picPath || '/';
     },
     altImg() {
       this.picPath = "/";
@@ -98,17 +91,13 @@ export default {
   },
   computed: {
     livePath: function () { // 返回各清晰度视频地址
-      if(this.type===0){
-        return this.liveInfo.streams
-      }else{
-        return [{streamPath:this.liveInfo.streamPath}]
-      }
+      return [{streamPath:this.liveInfo.playStreamPath}]
     },
     type: function(){
       return this.$route.params.type || JSON.parse(localStorage.getItem('type')).type
     },
     isLive: function(){
-      return this.liveInfo.title.includes('回放')
+      return !this.liveInfo.review
     },
     rect: function() {
       if(this.type === 0){

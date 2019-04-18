@@ -34,8 +34,7 @@ export default {
         {id:'1300',name:'shy48',color: '#e200cc'},
         {id:'1400',name:'ckg48',color: '#946200'},
         {id:'1500',name:'idft',color: '#b4006e'},
-        {id:'1600',name:'海外练习生',color: '#8ed2f5'},
-        {id:'998',name:'明星殿堂',color: '#48474f'}
+        {id:'1600',name:'海外练习生',color: '#8ed2f5'}
         ],
       activeIndex: ''
     };
@@ -70,7 +69,7 @@ export default {
     width: 85%;
     margin: 0 auto;
     li{
-      width: 11.11%;
+      width: 12.5%;
     }
     .group-brand{
       flex: 1;

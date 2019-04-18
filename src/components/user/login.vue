@@ -24,9 +24,9 @@
       </div>
     <div v-else class="user-info my-card">
       <img title="点击查看更多信息" :src="userInfo.avatar | picPathFormat" alt="" @click="getRecommend">
-      <div class="check">
+      <!-- <div class="check">
         <el-button @click="getCheck" :type="type" size="mini" :disabled="checkFlag" v-html="txt"></el-button>
-      </div>
+      </div> -->
       <div class="extra-info">
         <p>
           <span v-html="userInfo.nickName" class="user-name"></span>
@@ -77,7 +77,7 @@ import {mapState} from 'vuex'
           this.$store.commit('setToken', this.token)
           this.logFlag = true
           localStorage.setItem('isLogin',JSON.stringify({logFlag: this.logFlag}))
-          this.friends = res.content.friends
+          this.userInfo.friends = []
           localStorage.setItem('userinfo', JSON.stringify(res.content))
           this.$message('登陆成功，3秒后刷新')
           setTimeout(() => {
@@ -119,7 +119,7 @@ import {mapState} from 'vuex'
             id: this.userInfo.userId,
           }
         })
-      }
+      },
     },
     mounted() {
       this.check()

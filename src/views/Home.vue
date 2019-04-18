@@ -16,7 +16,7 @@
     </div>
     <div class="live-wrapper">
       <live-list 
-        :type="1" :list="memberAllLiveList" 
+        :type="1" :list="memberAllLiveList.slice(0,8)" 
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'成员直播'"
         v-if="memberAllLiveList[0]"

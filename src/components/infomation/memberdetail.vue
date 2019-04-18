@@ -3,17 +3,17 @@
     <div class="inner-container">
       <div class="base-info">
         <img
-          :src="detail.avatar | picPathFormat"
+          :src="detail.avatar"
           alt
           class="base-avatar"
           :style="'border: 1px solid '+color"
         >
         <div class="base-name">
           <div class="real-name">
-            <span v-html="detail.real_name" class="real"></span>
+            <span v-html="detail.realName" class="real"></span>
             <el-tag class="follow-tag" v-if="isFollowed" @click="unfollow" size="mini">取消关注</el-tag>
             <el-tag class="follow-tag" v-else @click="follow" type="danger" size="mini">关注</el-tag>
-            <p v-html="detail.nick_name" class="nick"></p>
+            <p v-html="detail.nickName" class="nick"></p>
           </div>
           <div class="team-name">
             <el-tag v-html="team" class="team" :color="color | overseaFilter"></el-tag>
@@ -23,14 +23,14 @@
         <div class="room-entry">
           <el-button
             type="primary"
-            @click="goToMemberRoom(detail.member_id)"
+            @click="goToMemberRoom(detail.realName)"
             size="mini"
             v-if="$store.state.logFlag"
           >房间</el-button>
           <p class="gap"></p>
-          <el-button type="success" @click="goToMemberLive(detail.member_id)" size="mini">直播</el-button>
+          <el-button type="success" @click="goToMemberLive(detail.userId)" size="mini">直播</el-button>
           <p class="gap"></p>
-          <a :href="'https://www.weibo.com/u/' + detail.wb_uid" target="_blank">
+          <a :href="'https://www.weibo.com/u/' + detail.wbUid" target="_blank">
             <el-button type="danger" size="mini">微博</el-button>
           </a>
         </div>
@@ -41,20 +41,20 @@
       >
         <el-carousel trigger="click" height="500px">
           <el-carousel-item v-for="item in fullPhoto" :key="item">
-            <img :src="item | picPathFormat" alt @error="altImg(item)">
+            <img :src="item" alt @error="altImg(item)">
           </el-carousel-item>
         </el-carousel>
       </div>
       <div class="extra-info">
-        <p v-html="'加入时间：' + detail.ctime.split(' ')[0]"></p>
+        <p v-html="'加入时间：' + new Date(detail.ctime).toLocaleDateString()"></p>
         <p v-html="'生日：' + detail.birthday"></p>
         <p v-html="'出生地：' + detail.birthplace"></p>
-        <p v-html="'血型：' + detail.blood_type"></p>
+        <p v-html="'血型：' + detail.bloodType"></p>
         <p v-html="'星座：' + detail.constellation"></p>
         <p v-html="'身高：' + detail.height"></p>
         <p v-html="'爱好：' + detail.hobbies"></p>
         <p v-html="'特长：' + detail.specialty"></p>
-        <p v-html="'星座运势：' + detail.star_region"></p>
+        <p v-html="'星座运势：' + detail.starRegion"></p>
       </div>
     </div>
   </div>
@@ -72,11 +72,12 @@ export default {
     };
   },
   methods: {
-    async goToMemberRoom(id) { // 跳转到成员房间
-      const res = await this.ajax('/getRoomList',{token:this.$store.getters.getToken,friends:[id]},'POST')
-      if(res.content.length){
-        localStorage.setItem('bgPath',JSON.stringify(res.content[0].bgPath))
-        this.$router.push({name: 'roommsg',params:{id:res.content[0].roomId,bgPath: res.content[0].bgPath}});
+    async goToMemberRoom(name) { // 跳转到成员房间
+      const res = await this.ajax('/getRoomInfo',{name},'POST')
+      let owner = res.content.data[0]
+      if(res.content.data.length){
+        localStorage.setItem('bgPath',JSON.stringify('/'))
+        this.$router.push({name: 'roommsg',params:{ownerId:owner.ownerId,roomId:owner.targetId,bgPath: '/'}});
       }else{
         this.$message('该房间未创建')
       }
@@ -90,25 +91,25 @@ export default {
     },
     follow(){ // 关注成员
       let info = JSON.parse(localStorage.getItem('userinfo'))
-      info.friends.push(parseInt(this.id))
+      info.userInfo.friends.push(this.detail.realName)
       localStorage.setItem('userinfo',JSON.stringify(info))
       this.isFollowed = true
       this.checkisFollowed()
     },
     unfollow(){ //取关成员
       let info = JSON.parse(localStorage.getItem('userinfo'))
-      let index = info.friends.findIndex(item => {
-        return parseInt(item)===parseInt(this.id)
+      let index = info.userInfo.friends.findIndex(item => {
+        return parseInt(item)===this.detail.realName
       })
-      info.friends.splice(index,1)
+      info.userInfo.friends.splice(index,1)
       localStorage.setItem('userinfo',JSON.stringify(info))
       this.isFollowed = false
       this.checkisFollowed()
     },
     checkisFollowed(){ // 检查是否关注该成员
       let info = JSON.parse(localStorage.getItem('userinfo'))
-      info.friends.forEach(item => {
-        if(item===parseInt(this.id)){
+      info.userInfo.friends.forEach(item => {
+        if(item===this.detail.realName){
           this.isFollowed = true
         }
       })
@@ -116,13 +117,13 @@ export default {
   },
   created() {
     for (let i = 1; i < 5; i++) { // 根据成员信息生成成员的轮播图列表
-      this.fullPhoto.push(this.detail["full_photo_" + i]);
+      this.fullPhoto.push(this.detail["fullPhoto" + i]);
     }
-    this.period = this.periodHandler(this.detail.period); // 得到成员是哪一期
+    this.period = this.periodHandler(this.detail.periodId); // 得到成员是哪一期
   },
   computed: {
     color: function() { // 成员队伍主色
-      return "#" + this.info.info.color;
+      return "#" + this.info.info.teamColor;
     },
     detail: function() {
       return this.info.item;
@@ -131,7 +132,7 @@ export default {
       return JSON.parse(localStorage.getItem('detail'))
     },
     team: function () { // 成员所在队伍
-      return this.info.info.team_name
+      return this.info.info.teamName
     }
   },
   mounted() {

@@ -31,7 +31,7 @@ export default {
   name: "memberlive",
   data() {
     return {
-      limit: 8,
+      next: 0,
       id: this.$route.params.id || 0,
       isSuccess: false,
       memberLiveList: [],
@@ -40,14 +40,16 @@ export default {
   },
   methods: {
     async getMoreLive() { // 获取更多直播
-      this.limit += 8;
-      const res = await this.ajax('/getAllLive',{limit:this.limit,id:this.id})
-      this.memberReviewList = res.content.reviewList
+      const res = await this.ajax('/getAllLive',{next:this.next,userId:this.id,record:true})
+      this.memberReviewList = this.memberReviewList.concat(res.content.liveList)
+      this.next = res.content.next
     },
     async getAllLive(){
-      const res = await this.ajax('/getAllLive',{limit:this.limit,id:this.id})
-      this.memberLiveList = res.content.liveList
-      this.memberReviewList = res.content.reviewList
+      const res1 = await this.ajax('/getAllLive',{record:false,userId:this.id})
+      const res2 = await this.ajax('/getAllLive',{record:true,userId:this.id})
+      this.memberLiveList = res1.content.liveList
+      this.memberReviewList = res2.content.liveList
+      this.next = res2.content.next
       if(this.memberReviewList.length===0){
         this.$message('没有更多录播了')
       }

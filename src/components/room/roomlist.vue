@@ -1,23 +1,23 @@
 <template>
   <div class="room">
-    <div class="room-list"  v-if="token">
+    <div class="room-list">
       <div
         class="room-item my-card"
         v-for="item in roomList"
         :key="item.roomId"
-        @click="getInfo(item.roomId,item.bgPath)"
+        @click="getInfo(item.ownerId,item.targetId,'/')"
       >
-        <img class="room-avatar" :src="item.roomAvatar | picPathFormat" alt>
+        <img class="room-avatar" :src="item.targetAvatar | picPathFormat" alt>
         <div class="room-info">
           <p>
-            <span class="room-owner" v-html="item.creatorName"></span>
-            <span class="room-name" v-html="item.roomName"></span>
+            <span class="room-owner" v-html="item.ownerName"></span>
+            <span class="room-name" v-html="item.targetName"></span>
           </p>
-          <p class="room-preview" v-html="item.roomTopic"></p>
+          <p class="room-preview" v-html="item.msg"></p>
         </div>
       </div>
     </div>
-    <div class="my-card" v-else>您还没有登录</div>
+    <div class="my-card" v-if="!friends[0]">您还没有关注成员</div>
   </div>
 </template>
 
@@ -34,12 +34,12 @@ export default {
     };
   },
   methods: {
-    getInfo(roomId, bgPath) {
-      this.$router.push({ name: "roommsg", params: { id: roomId, bgPath } });
+    getInfo(ownerId,roomId, bgPath) {
+      this.$router.push({ name: "roommsg", params: { ownerId,roomId, bgPath } });
     }
   },
-  mounted() {
-    this.friends = JSON.parse(localStorage.getItem('userinfo')).friends;
+  async mounted() {
+    this.friends = JSON.parse(localStorage.getItem('userinfo')).userInfo.friends;
     this.token = this.$store.getters.getToken;
     this.$store.dispatch('getRoomList',{ token: this.token, friends: this.friends })
   },

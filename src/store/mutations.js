@@ -15,9 +15,8 @@ export default {
   saveScrollTop(state){
     state.scrollTop = true
   },
-  saveAllLive(state,{liveList,reviewList}){
-    state.memberLiveList = liveList
-    state.memberReviewList = reviewList
+  saveAllLive(state,{newList}){
+    state.memberLiveList = newList
   },
   saveOpenLive(state,{list}){
     state.openLiveList = list

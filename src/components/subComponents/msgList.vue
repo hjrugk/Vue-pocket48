@@ -2,39 +2,46 @@
   <div class="msg-list">
     <transition-group tag="div">
       <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
-        <p class="msg-time" v-html="item.msgTimeStr"></p>
+        <p class="msg-time" v-html="new Date(parseInt(item.msgTime)).toLocaleDateString()"></p>
         <p class="msg-sender">
-          <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-avatar">
-          <span v-html="item.extInfo.senderName" @click="getMemberDetail(item.extInfo.senderName)" class="sender-name"></span>
+          <img :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-avatar">
+          <span v-html="JSON.parse(item.extInfo).user.nickName" @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)" class="sender-name"></span>
         </p>
-        <p v-show="item.extInfo.faipaiContent" v-html="item.extInfo.faipaiContent" class="fanpai"></p>
-        <p class="msg-content" v-if="item.bodys.includes('jpg'||'png'||'gif'||'bmp')">
+        <p class="msg-content" v-if="item.msgType==='IMAGE'">
           <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
         </p>
-        <p class="msg-content" v-else-if="item.bodys.includes('amr')" @click="stop">
+        <p class="msg-content" v-else-if="item.msgType==='EXPRESS'">
+          <span v-html="JSON.parse(item.extInfo).emotionName"></span>
+        </p>
+        <p class="msg-content" v-else-if="item.bodys==='偶像翻牌'">
+          <span v-html="JSON.parse(item.extInfo).answer"></span><br>
+          <span v-html="JSON.parse(item.extInfo).question"
+          class="fanpai"></span>
+        </p>
+        <p class="msg-content" v-else-if="JSON.parse(item.extInfo).replyName">
+          <span v-html="JSON.parse(item.extInfo).text"></span><br>
+          <span v-html="JSON.parse(item.extInfo).replyText"
+            class="fanpai"
+          ></span>
+        </p>
+        <p class="msg-content" v-else-if="JSON.parse(item.extInfo).liveCover">
+          <span v-html="'直播：'+JSON.parse(item.extInfo).liveTitle"
+            @click="getLivePage(JSON.parse(item.extInfo).liveId)"
+            style="cursor: pointer; color: blue;"
+          ></span><br>
+        </p>
+        <p class="msg-content" v-else-if="item.msgType==='AUDIO'" @click="stop">
           <el-button @click="getAudio(JSON.parse(item.bodys).url)">
             语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s
           </el-button>
         </p>
-        <p class="msg-content" v-else-if="item.bodys.includes('mp4')">
+        <p class="msg-content" v-else-if="item.msgType==='VIDEO'">
           <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
-        </p>
-        <p class="msg-content" v-else-if="item.extInfo.referenceTitle">
-          <span class="live-push" v-html="item.extInfo.referenceTitle"
-            @click="getLivePage(item.extInfo.referenceObjectId)"
-          ></span>
-        </p>
-        <p class="msg-content" v-else-if="item.extInfo.idolFlipTitle">
-          <span
-            v-html="item.extInfo.idolFlipTitle"
-            class="msg-flip"
-            @click="getAnswer(item.extInfo.idolFlipQuestionId,item.extInfo.idolFlipAnswerId,item.extInfo.idolFlipTitle)"
-          ></span>
         </p>
         <p
           class="msg-content"
-          v-else
-          v-html="item.extInfo.text || item.extInfo.messageText"
+          v-else-if="item.msgType==='TEXT'"
+          v-html="JSON.parse(item.extInfo).text"
         ></p>
       </div>
     </transition-group>
@@ -48,24 +55,26 @@ export default {
   name: 'msgList',
   data() {
     return {
-      limit: 10,
+      nextTime: 0,
       base64Str: '',
       answerContent: {},
       msgList: []
     }
   },
-  props: ['id'],
+  props: ['ownerId','roomId'],
   methods: {
     async getMsgList() { // 获取成员房间所有消息
-      const res = await this.ajax('/getRoomBoard',{token: this.$store.getters.getToken,id: this.id},'POST')
-      this.msgList = res.content.data
+      const res = await this.ajax('/getRoomBoard',{token: this.$store.getters.getToken,ownerId: this.ownerId,roomId:this.roomId},'POST')
+      this.msgList = res.content.message
+      this.nextTime = res.content.nextTime
     },
     async getMore() { // 获取更多消息
-      this.limit += 10;
       const res = await this.ajax('getRoomBoard',{token: this.$store.getters.getToken,
-          id: this.id,
-          limit: this.limit},'POST')
-      this.msgList = res.content.data
+          ownerId: this.ownerId,
+          roomId:this.roomId,
+          nextTime: this.nextTime},'POST')
+      this.msgList = this.msgList.concat(res.content.message)
+      this.nextTime = res.content.nextTime
       this.$store.commit('saveScrollTop')
     },
     async getAnswer(questionId, answerId, title) { // 获取翻牌消息，以弹出框形式呈现
@@ -119,16 +128,16 @@ export default {
   created() {
     this.getMsgList()
   },
-  watch: {
-    msgList: function() { // 将得到的消息列表的 extInfo 转换为对象
-      this.msgList.forEach(item => {
-        item.extInfo = JSON.parse(item.extInfo);
-        if (item.bodys.includes("amr")) {
-          this.amr = JSON.parse(item.bodys);
-        }
-      });
-    }
-  }
+  // watch: {
+  //   msgList: function() { // 将得到的消息列表的 extInfo 转换为对象
+  //     this.msgList.forEach(item => {
+  //       item.extInfo = JSON.parse(item.extInfo);
+  //       // if (item.bodys.includes("amr")) {
+  //       //   this.amr = JSON.parse(item.bodys);
+  //       // }
+  //     });
+  //   }
+  // }
 }
 </script>
 <style lang="less" scoped>
@@ -155,6 +164,10 @@ export default {
         .live-push{
           cursor: pointer;
         }
+        .fanpai {
+          font-size: 14px;
+          color: #999;
+        }
       }
       .msg-sender {
         .flex-align-center();
@@ -173,10 +186,6 @@ export default {
           margin-left: 5px;
           cursor: pointer;
         }
-      }
-      .fanpai {
-        font-size: 14px;
-        color: #999;
       }
     }
   }

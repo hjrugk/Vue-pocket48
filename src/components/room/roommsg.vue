@@ -3,13 +3,17 @@
     <div
       class="top"
       @click="toTop"
-      v-show="$store.state.scrollTop"
     >
       <i class="el-icon-arrow-up"></i>
     </div>
+    <div class="show-all-msg">
+      <i class="el-icon-arrow-left" @click="shouldShowAllMsg = !shouldShowAllMsg"></i>
+    </div>
     <div class="list">
-      <msg-list :id="id"></msg-list>
-      <comment-list :id="id"></comment-list>
+      <transition-group>
+        <msg-list :key="1" :ownerId="ownerId" :roomId="roomId" v-show="!shouldShowAllMsg"></msg-list>
+        <comment-list :key="2" :roomId="roomId" v-show="shouldShowAllMsg"></comment-list>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -21,9 +25,11 @@ export default {
   name: "roommsg",
   data() {
     return {
-      id: this.$route.params.id,
+      ownerId: this.$route.params.ownerId,
+      roomId: this.$route.params.roomId,
       bgPath: this.$route.params.bgPath || JSON.parse(localStorage.getItem('bgPath')),
-      top: document.body.scrollTop
+      top: document.body.scrollTop,
+      shouldShowAllMsg: false
     };
   },
   methods: {
@@ -75,6 +81,15 @@ export default {
   .top{
     .backToTop();
     .flex-all-center();
+  }
+  .show-all-msg{
+    position: fixed;
+    right: 10%;
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    .flex-all-center();
+    cursor: pointer;
   }
   @media screen and (max-width: 768px) {
     .board-list {

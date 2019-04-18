@@ -10,15 +10,15 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <p v-html="info.team_name" :style="'color: #'+info.color | overseaFilter" class="team-name" v-show="!keywords"></p>
+      <p v-html="info.teamName" :style="'color: #'+info.teamColor | overseaFilter" class="team-name" v-show="!keywords"></p>
       <div class="member-list">
         <transition-group mode="out-in" tag="div" class="members">
           <div
             class="member-item my-card"
-            :style="'border: 1px solid #'+info.color"
+            :style="'border: 1px solid #'+info.teamColor"
             v-for="item in newList"
-            :key="item.member_id"
-            v-show="item.team === info.team_id && item.status.toString()===statusCode"
+            :key="item.userId"
+            v-show="item.teamId === info.teamId && item.status.toString()===statusCode"
             @click="getMemberDetail(item,info)"
           >
             <p class="avatar-container">
@@ -29,7 +29,7 @@
                 class="member-avatar"
               >
             </p>
-            <p class="member-name" v-html="item.real_name"></p>
+            <p class="member-name" v-html="item.realName"></p>
           </div>
         </transition-group>
       </div>
@@ -62,7 +62,7 @@ export default {
       this.$store.dispatch("saveDetail", { item, info });
       this.$router.push({
         name: "memberdetail",
-        params: { id: item.member_id }
+        params: { id: item.userId }
       });
     },
     altImg(item) {
@@ -85,7 +85,7 @@ export default {
     newList: function() {
       let list = [];
       this.memberList.forEach(item => {
-        if (item.real_name.includes(this.keywords)) {
+        if (item.realName.includes(this.keywords)) {
           list.push(item);
         }
       });

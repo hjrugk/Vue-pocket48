@@ -1,15 +1,15 @@
 <template>
   <div class="open-live-container">
-    <div v-if="!openLiveList[0]" class="live-header">
-      <p class="alt_icon">
-        <i class="el-icon-loading"></i>
-      </p>
-    </div>
     <live-list 
       :type="0" :list="openLiveList" 
       :rect="{width:'300px',height:'180px',maxWidth: '400px'}" 
       :livetitle="'直播'"
-      v-else></live-list>
+      v-if="openLiveList[0].teamList"></live-list>
+    <div v-else class="live-header">
+      <p class="alt_icon">
+        <i class="el-icon-loading"></i>
+      </p>
+    </div>
       <akina-list
         :type="0" :list="akinaVideos"
         :rect="{width:'300px',height:'180px',maxWidth: '400px'}" 

@@ -3,7 +3,7 @@
     <div :style="{width: topWidth}">
       <el-carousel indicator-position="none" arrow="never" :height="'700px'">
         <el-carousel-item v-for="item in radiocover" :key="item">
-          <img :src="item | picPathFormat" alt>
+          <img :src="'http://source.48.cn'+item" alt>
         </el-carousel-item>
       </el-carousel>
     </div>

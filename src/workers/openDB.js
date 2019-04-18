@@ -10,7 +10,7 @@ export default function openDB(name,version){
     request.onupgradeneeded = function(e) {
       let db = e.target.result;
       if(!db.objectStoreNames.contains('members')) {
-        db.createObjectStore('members', {keyPath: 'member_id'});
+        db.createObjectStore('members', {keyPath: 'userId'});
         db.createObjectStore('groups', {keyPath: 'name'});
       }
     }

@@ -59,8 +59,8 @@ export default {
       if(localStorage.getItem('userinfo')){
         let tmp = Date.now()
         let userInfo = JSON.parse(localStorage.getItem('userinfo'))
-        if(tmp - userInfo.tmp >= 12960000) {
-          this.$message.error('登陆已失效')
+        if(tmp - userInfo.tmp >= 86400000) {
+          this.$message.error('请重新登录')
           localStorage.removeItem('userinfo')
           localStorage.removeItem('isLogin')
           setTimeout(() => {
@@ -82,7 +82,7 @@ export default {
   },
   async mounted() {
     this.check()
-    this.$store.dispatch('getAllLive',{limit:8,id:0})
+    this.$store.dispatch('getAllLive')
     this.$store.dispatch('getSwipeAds')
     this.$store.dispatch('getAkinaVideos',{limit:8})
     if(!localStorage.getItem('database')){

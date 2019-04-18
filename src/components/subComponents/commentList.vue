@@ -1,6 +1,6 @@
 <template>
   <div class="board-list" ref="board">
-    <div class="board-item my-card" v-if="topData.senderName">
+    <!-- <div class="board-item my-card" v-if="topData.senderName">
       <div class="sender-info">
         <img :src="topData.senderAvatar | picPathFormat" alt class="sender-img">
         <p class="board-name" 
@@ -12,17 +12,17 @@
         </p>
       </div>
       <p class="board-content" v-html="topData.text || topData.content + ' ' + topData.giftName"></p>
-    </div>
+    </div> -->
     <transition-group tag="div">
       <div class="board-item my-card"
-        :class="{isSpec:item.extInfo.senderId===655632}"
+        :class="{isSpec:JSON.parse(item.extInfo).user.userId===655632}"
         v-for="item in commentList" :key="item.msgidClient"
       >
         <div class="sender-info">
-          <img :src="item.extInfo.senderAvatar | picPathFormat" alt class="sender-img">
-          <p class="board-name" v-html="item.extInfo.senderName" @click="getUserInfo(item.extInfo)"></p>
+          <img :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-img">
+          <p class="board-name" v-html="JSON.parse(item.extInfo).user.nickName" @click="getUserInfo(JSON.parse(item.extInfo))"></p>
         </div>
-        <p class="board-content" v-html="item.extInfo.text || item.extInfo.content + ' ' + item.extInfo.giftName"></p>
+        <p class="board-content" v-html="JSON.parse(item.extInfo).text"></p>
       </div>
     </transition-group>
     <div v-if="showInfo" @click="showInfo = !showInfo">
@@ -39,26 +39,26 @@ export default {
   name: 'commentList',
   data(){
     return {
-      limit: 10,
+      nextTime: 0,
       commentList: [],
       showInfo: false,
       userInfo: 0,
       topData: {}
     }
   },
-  props: ['id'],
+  props: ['roomId'],
   methods: {
     async getComments() { // 获取成员房间留言列表
-      const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken},'POST')
-      if(res.content.top1Data){
-        this.topData = JSON.parse(res.content.top1Data.extInfo)
-      }
-      this.commentList = res.content.data;
+      const res = await this.ajax('/getComments',{id:this.roomId,token: this.$store.getters.getToken},'POST')
+      // if(res.content.top1Data){
+      //   this.topData = JSON.parse(res.content.top1Data.extInfo)
+      // }
+      this.commentList = res.content.message;
+      this.nextTime = res.content.nextTime
     },
     async getMore() {
-      this.limit += 10;
-      const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken,limit: this.limit},'POST')
-      this.commentList = res.content.data
+      const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken,nextTime: this.nextTime},'POST')
+      this.commentList = this.commentList.concat(res.content.message)
     },
     getUserInfo(info){ // 获取聚聚信息
       this.userInfo = info
@@ -67,13 +67,6 @@ export default {
   },
   created() {
     this.getComments()
-  },
-  watch: {
-    commentList: function() {
-      this.commentList.forEach(item => {
-        item.extInfo = JSON.parse(item.extInfo);
-      });
-    }
   },
   components: {
     popupInfo
@@ -108,8 +101,8 @@ export default {
     flex-direction: column;
     border: 1px solid #777;
     background-color: #666;
-    max-width: 300px;
-    min-width: 240px;
+    max-width: 360px;
+    min-width: 300px;
     &:hover {
       background-color: #555;
     }

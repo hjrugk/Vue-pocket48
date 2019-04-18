@@ -47,7 +47,6 @@ export default {
         width: '100%',
         height: '100%',
         source: '',
-        isLive: this.isLive,
         autoplay: true,
         enableStashBufferForFlv: false
       },
@@ -64,6 +63,7 @@ export default {
       this.player = {}
       if(this.type===0) return this.$message.error('直播还未开始')
       this.playerOptions.source = this.path[this.streamsIndex].streamPath
+      this.playerOptions.isLive = this.isLive
       // eslint-disable-next-line
       this.player = new Aliplayer(this.playerOptions)
       this.player.on('ready', () => {
@@ -93,6 +93,7 @@ export default {
       })
     },
     async loadBarrages(){ // 载入弹幕列表
+      if(!this.lrcpath) return
       const res = await this.ajax('/getBarrages',{url:this.lrcpath},'POST')
       this.barrageList = res
       this.originBarrageList = JSON.parse(JSON.stringify(res))
