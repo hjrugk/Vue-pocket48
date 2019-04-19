@@ -196,7 +196,7 @@ const api = {
     return {
       host: 'pocketapi.48.cn',
       port: '',
-      path: 'https://pocketapi.48.cn/im/api/v1/im/search',
+      path: '/im/api/v1/im/search',
       method: 'POST',
       headers: {
         ...COMMONHEADERS
@@ -205,17 +205,19 @@ const api = {
   },
   roomInfo_postData: (req) => {
     return JSON.stringify({
-      "name": req.body.name
+      "sourceId": req.body.userId,
+      "type": 0
     })
   },
-  roomInfo_options: () => {
+  roomInfo_options: (req) => {
     return {
       host: 'pocketapi.48.cn',
       port: '',
-      path: '/im/api/v1/im/search',
+      path: '/im/api/v1/im/room/info/type/source',
       method: 'POST',
       headers: {
-        ...COMMONHEADERS
+        ...COMMONHEADERS,
+        token: req.body.token
       }
     }
   },
