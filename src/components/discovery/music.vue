@@ -19,7 +19,12 @@
       </el-form-item>
     </el-form>
     <div class="music-list">
-      <div class="music-item my-card" v-for="(item, i) in list" :key="i" @click="getPlayUrl(item.songmid)">
+      <div
+        class="music-item my-card"
+        v-for="(item, i) in list"
+        :key="i"
+        @click="getPlayUrl(item.songmid)"
+      >
         <img
           class="image"
           :src="
@@ -47,40 +52,43 @@ export default {
   data() {
     return {
       list: [],
-      group: 'SNH48',
+      group: "SNH48",
       num: 30,
       isPaused: true
     };
   },
   methods: {
     async getMusicList() {
-      const res = await this.ajax('/getMusicList',{group:this.group,num:this.num})
-      let data = res
-      data = data.substring(9,data.length-1)
-      data = JSON.parse(data)
-      this.list = data.data.song.list
+      const res = await this.ajax("/getMusicList", {
+        group: this.group,
+        num: this.num
+      });
+      let data = res;
+      data = data.substring(9, data.length - 1);
+      data = JSON.parse(data);
+      this.list = data.data.song.list;
     },
     async getPlayUrl(songmid) {
-      const res = await this.ajax("/getPlayUrl",{songmid:songmid})
+      const res = await this.ajax("/getPlayUrl", { songmid: songmid });
       this.$refs.audio.src =
         "http://ws.stream.qqmusic.qq.com/" +
         res.data.items[0].filename +
         "?fromtag=0&guid=126548448&vkey=" +
         res.data.items[0].vkey;
       this.$refs.audio.play();
-      this.isPaused = false
+      this.isPaused = false;
     },
-    playOrPause(){
-      if(this.$refs.audio.src === 'http://localhost:8080/none'){
-        this.getPlayUrl(this.list[0].songmid)
-        this.isPaused = false
-      }else{
-        if(this.isPaused){
-          this.$refs.audio.play()
-          this.isPaused = false
-        }else{
-          this.$refs.audio.pause()
-          this.isPaused = true
+    playOrPause() {
+      if (this.$refs.audio.src === "http://localhost:8080/none") {
+        this.getPlayUrl(this.list[0].songmid);
+        this.isPaused = false;
+      } else {
+        if (this.isPaused) {
+          this.$refs.audio.play();
+          this.isPaused = false;
+        } else {
+          this.$refs.audio.pause();
+          this.isPaused = true;
         }
       }
     }
@@ -92,11 +100,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .radio-list{
-    width: 85%;
-    margin: 0 auto;
-  }
-.music-list{
+.radio-list {
+  width: 85%;
+  margin: 0 auto;
+}
+.music-list {
   padding: 0 5px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -111,7 +119,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    &:hover{
+    &:hover {
       background-color: #eee;
       box-shadow: 0 0 5px #ccc;
       cursor: pointer;
@@ -121,7 +129,7 @@ export default {
     }
     .songinfo {
       text-align: center;
-      .songname{
+      .songname {
         font-size: 14px;
         max-height: 20px;
         overflow: hidden;
@@ -134,23 +142,24 @@ export default {
     }
   }
 }
-@media screen and (min-width: 1368px){
-  .music-list,.radio-list{
+@media screen and (min-width: 1368px) {
+  .music-list,
+  .radio-list {
     width: 1160px;
   }
 }
-@media screen and (max-width: 1024px){
-  .music-list{
+@media screen and (max-width: 1024px) {
+  .music-list {
     grid-template-columns: repeat(5, 1fr);
   }
 }
 @media screen and (max-width: 700px) {
-  .music-list{
+  .music-list {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media screen and (max-width: 500px) {
-  .music-list{
+  .music-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }

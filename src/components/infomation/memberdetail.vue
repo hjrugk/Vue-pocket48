@@ -2,12 +2,7 @@
   <div class="detail-container">
     <div class="inner-container">
       <div class="base-info">
-        <img
-          :src="detail.avatar"
-          alt
-          class="base-avatar"
-          :style="'border: 1px solid '+color"
-        >
+        <img :src="detail.avatar" alt class="base-avatar" :style="'border: 1px solid '+color">
         <div class="base-name">
           <div class="real-name">
             <span v-html="detail.realName" class="real"></span>
@@ -23,7 +18,7 @@
         <div class="room-entry">
           <el-button
             type="primary"
-            @click="goToMemberRoom(detail.realName)"
+            @click="goToMemberRoom(detail.userId)"
             size="mini"
             v-if="$store.state.logFlag"
           >房间</el-button>
@@ -72,78 +67,94 @@ export default {
     };
   },
   methods: {
-    async goToMemberRoom(name) { // 跳转到成员房间
-      const res = await this.ajax('/getRoomInfo',{name},'POST')
-      let owner = res.content.data[0]
-      if(res.content.data.length){
-        localStorage.setItem('bgPath',JSON.stringify('/'))
-        this.$router.push({name: 'roommsg',params:{ownerId:owner.ownerId,roomId:owner.targetId,bgPath: '/'}});
-      }else{
-        this.$message('该房间未创建')
+    async goToMemberRoom(id) {
+      // 跳转到成员房间
+      const res = await this.ajax(
+        "/getRoomInfo",
+        { userId: id, token: this.$store.getters.getToken },
+        "POST"
+      );
+      if (res.success) {
+        let owner = res.content;
+        let bgPath = owner.userConfig.bgImg;
+        localStorage.setItem("bgPath", JSON.stringify(bgPath));
+        this.$router.push({
+          name: "roommsg",
+          params: { ownerId: id, roomId: owner.roomInfo.roomId, bgPath }
+        });
+      } else {
+        this.$message("该房间未创建");
       }
     },
-    goToMemberLive(id) { // 跳转到成员直播列表
+    goToMemberLive(id) {
+      // 跳转到成员直播列表
       this.$router.push("/home/memberlive/" + id);
     },
     altImg(item) {
       item = "../assets/alt_fullphoto.png";
       return item;
     },
-    follow(){ // 关注成员
-      let info = JSON.parse(localStorage.getItem('userinfo'))
-      info.userInfo.friends.push(this.detail.realName)
-      localStorage.setItem('userinfo',JSON.stringify(info))
-      this.isFollowed = true
-      this.checkisFollowed()
+    follow() {
+      // 关注成员
+      let info = JSON.parse(localStorage.getItem("userinfo"));
+      info.userInfo.friends.push(this.detail.userId);
+      localStorage.setItem("userinfo", JSON.stringify(info));
+      this.isFollowed = true;
+      this.checkisFollowed();
     },
-    unfollow(){ //取关成员
-      let info = JSON.parse(localStorage.getItem('userinfo'))
+    unfollow() {
+      //取关成员
+      let info = JSON.parse(localStorage.getItem("userinfo"));
       let index = info.userInfo.friends.findIndex(item => {
-        return parseInt(item)===this.detail.realName
-      })
-      info.userInfo.friends.splice(index,1)
-      localStorage.setItem('userinfo',JSON.stringify(info))
-      this.isFollowed = false
-      this.checkisFollowed()
+        return parseInt(item) === this.detail.userId;
+      });
+      info.userInfo.friends.splice(index, 1);
+      localStorage.setItem("userinfo", JSON.stringify(info));
+      this.isFollowed = false;
+      this.checkisFollowed();
     },
-    checkisFollowed(){ // 检查是否关注该成员
-      let info = JSON.parse(localStorage.getItem('userinfo'))
+    checkisFollowed() {
+      // 检查是否关注该成员
+      let info = JSON.parse(localStorage.getItem("userinfo"));
       info.userInfo.friends.forEach(item => {
-        if(item===this.detail.realName){
-          this.isFollowed = true
+        if (item === this.detail.userId) {
+          this.isFollowed = true;
         }
-      })
+      });
     }
   },
   created() {
-    for (let i = 1; i < 5; i++) { // 根据成员信息生成成员的轮播图列表
+    for (let i = 1; i < 5; i++) {
+      // 根据成员信息生成成员的轮播图列表
       this.fullPhoto.push(this.detail["fullPhoto" + i]);
     }
     this.period = this.periodHandler(this.detail.periodId); // 得到成员是哪一期
   },
   computed: {
-    color: function() { // 成员队伍主色
+    color: function() {
+      // 成员队伍主色
       return "#" + this.info.info.teamColor;
     },
     detail: function() {
       return this.info.item;
     },
-    info: function () {
-      return JSON.parse(localStorage.getItem('detail'))
+    info: function() {
+      return JSON.parse(localStorage.getItem("detail"));
     },
-    team: function () { // 成员所在队伍
-      return this.info.info.teamName
+    team: function() {
+      // 成员所在队伍
+      return this.info.info.teamName;
     }
   },
   mounted() {
-    this.checkisFollowed()
+    this.checkisFollowed();
   },
-  filters:{
-    overseaFilter(val){
-      if(val === '#FFFFFF'){
-        return '#8ed2f5'
-      }else{
-        return val
+  filters: {
+    overseaFilter(val) {
+      if (val === "#FFFFFF") {
+        return "#8ed2f5";
+      } else {
+        return val;
       }
     }
   }
@@ -151,12 +162,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
+@import "../../assets/less/global";
 .detail-container {
   .flex-justify-center();
   width: 100%;
   box-sizing: border-box;
-  .inner-container{
+  .inner-container {
     padding: 15px;
     width: 85%;
     height: 100%;
@@ -195,10 +206,10 @@ export default {
         }
         .real-name {
           font-size: 18px;
-          .follow-tag{
+          .follow-tag {
             cursor: pointer;
           }
-          .real{
+          .real {
             padding-right: 5px;
           }
           .nick {
@@ -213,7 +224,7 @@ export default {
     }
   }
   @media screen and (min-width: 1368px) {
-    .inner-container{
+    .inner-container {
       width: 1160px;
     }
   }

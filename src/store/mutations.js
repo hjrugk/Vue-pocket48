@@ -10,27 +10,37 @@ export default {
   },
   saveDetail(state, info) {
     state.detail = info
-    localStorage.setItem('detail',JSON.stringify(info))
+    localStorage.setItem('detail', JSON.stringify(info))
   },
-  saveScrollTop(state){
+  saveScrollTop(state) {
     state.scrollTop = true
   },
-  saveAllLive(state,{newList}){
+  saveAllLive(state, {
+    newList
+  }) {
     state.memberLiveList = newList
   },
-  saveOpenLive(state,{list}){
+  saveOpenLive(state, {
+    list
+  }) {
     state.openLiveList = list
   },
-  saveRoomList(state,{list}){
+  saveRoomList(state, {
+    list
+  }) {
     state.roomList = list
   },
-  saveAdsList(state,{list}){
+  saveAdsList(state, {
+    list
+  }) {
     state.adsList = list
   },
-  saveComplete(state){
+  saveComplete(state) {
     state.isComplete = true
   },
-  saveAkinaVideos(state,{list}){
+  saveAkinaVideos(state, {
+    list
+  }) {
     state.akinaVideos = list
   }
 }

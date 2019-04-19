@@ -10,39 +10,39 @@
 </template>
 <script>
 export default {
-  props: ['topWidth',"barrages"],
-  updated(){
-    this.$refs.bs.scrollTop = this.$refs.bs.scrollHeight
+  props: ["topWidth", "barrages"],
+  updated() {
+    this.$refs.bs.scrollTop = this.$refs.bs.scrollHeight;
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global';
- .barrage-container{
-   .flex-justify-center();
+@import "../../assets/less/global";
+.barrage-container {
+  .flex-justify-center();
   width: 100%;
   height: 100px;
   position: absolute;
   bottom: 150px;
   left: 0;
-  .barrage-list{
+  .barrage-list {
     padding-left: 10px;
     z-index: 95;
     height: 180px;
     overflow: scroll;
-    .barrage-item{
+    .barrage-item {
       width: 150px;
-      background-color: rgba(255,255,255,0.7);
+      background-color: rgba(255, 255, 255, 0.7);
       padding: 5px;
       font-size: 12px;
       margin: 2px 0 0 0;
       border-radius: 3px;
     }
-    .sender-name{ 
+    .sender-name {
       color: blue;
       padding-bottom: 3px;
     }
-    .sender-content{
+    .sender-content {
       color: #000;
     }
   }

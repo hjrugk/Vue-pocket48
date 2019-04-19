@@ -11,24 +11,24 @@
 </template>
 <script>
 export default {
-  props: ['type','topWidth','radiocover']
-}
+  props: ["type", "topWidth", "radiocover"]
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global';
-.live-pic{
+@import "../../assets/less/global";
+.live-pic {
   .flex-all-center();
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  div{
-    img{
+  div {
+    img {
       z-index: 98;
       width: 100%;
     }
   }
-  .el-carousel__item{
+  .el-carousel__item {
     .flex-all-center();
   }
 }

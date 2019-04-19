@@ -142,7 +142,7 @@ router.post('/api/getCheck', (req, res) => {
 })
 
 // 翻牌内容
-router.post('/api/getAnswer',(req,res) => {
+router.post('/api/getAnswer', (req, res) => {
   const flip_postData = api.flip_postData(req)
 
   const flip_options = api.flip_options(req, flip_postData)
@@ -153,31 +153,34 @@ router.post('/api/getAnswer',(req,res) => {
 })
 
 // 成员房间语音留言
-router.post('/api/getAudio',(req,res) => {
-  downloadFile(req.body.url,path.join(__dirname,'../../Cache/pocket-room-audio.amr'),() => {
-    let str = fs.readFileSync(path.join(__dirname,'../../Cache/pocket-room-audio.amr'))
-    res.send({status: 200,message:str.toString('base64')})
+router.post('/api/getAudio', (req, res) => {
+  downloadFile(req.body.url, path.join(__dirname, '../../Cache/pocket-room-audio.amr'), () => {
+    let str = fs.readFileSync(path.join(__dirname, '../../Cache/pocket-room-audio.amr'))
+    res.send({
+      status: 200,
+      message: str.toString('base64')
+    })
   })
 })
 
 // 获取弹幕
-router.post('/api/getBarrages', (req,res) => {
-  barrage.loadLrc(req.body.url,function(data) {
+router.post('/api/getBarrages', (req, res) => {
+  barrage.loadLrc(req.body.url, function (data) {
     res.send(data)
   })
 })
 
 // 获取聚聚信息
-router.post('/api/getUserInfo', (req,res) => {
+router.post('/api/getUserInfo', (req, res) => {
   const userInfo_postData = api.userInfo_postData(req)
   const userInfo_options = api.userInfo_options(req)
-  getData(userInfo_postData,userInfo_options,html => {
+  getData(userInfo_postData, userInfo_options, html => {
     res.send(html)
   })
 })
 
 // 获取轮播图
-router.get('/api/getForSwipeAds', (req,res) => {
+router.get('/api/getForSwipeAds', (req, res) => {
   http.get('http://www.snh48.com/js/topFlashImg.js', response => {
     let html = ''
     response.on('data', chunk => {
@@ -190,16 +193,16 @@ router.get('/api/getForSwipeAds', (req,res) => {
 })
 
 // 从B站获取公演录播
-router.get('/api/getAkinaVideos', (req,res) => {
-  getData(JSON.stringify(null),api.akina_options(req),html => {
+router.get('/api/getAkinaVideos', (req, res) => {
+  getData(JSON.stringify(null), api.akina_options(req), html => {
     res.send(html)
   })
 })
 
-router.post('/api/getRoomInfo', (req,res) => {
+router.post('/api/getRoomInfo', (req, res) => {
   const roomInfo_postData = api.roomInfo_postData(req)
-  const roomInfo_options = api.roomInfo_options()
-  getData(roomInfo_postData,roomInfo_options,html => {
+  const roomInfo_options = api.roomInfo_options(req)
+  getData(roomInfo_postData, roomInfo_options, html => {
     res.send(html)
   })
 })

@@ -12,15 +12,21 @@
         </p>
       </div>
       <p class="board-content" v-html="topData.text || topData.content + ' ' + topData.giftName"></p>
-    </div> -->
+    </div>-->
     <transition-group tag="div">
-      <div class="board-item my-card"
+      <div
+        class="board-item my-card"
         :class="{isSpec:JSON.parse(item.extInfo).user.userId===655632}"
-        v-for="item in commentList" :key="item.msgidClient"
+        v-for="item in commentList"
+        :key="item.msgidClient"
       >
         <div class="sender-info">
           <img :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-img">
-          <p class="board-name" v-html="JSON.parse(item.extInfo).user.nickName" @click="getUserInfo(JSON.parse(item.extInfo))"></p>
+          <p
+            class="board-name"
+            v-html="JSON.parse(item.extInfo).user.nickName"
+            @click="getUserInfo(JSON.parse(item.extInfo))"
+          ></p>
         </div>
         <p class="board-content" v-html="JSON.parse(item.extInfo).text"></p>
       </div>
@@ -34,62 +40,76 @@
   </div>
 </template>
 <script>
-import popupInfo from './popupInfo'
+import popupInfo from "./popupInfo";
 export default {
-  name: 'commentList',
-  data(){
+  name: "commentList",
+  data() {
     return {
       nextTime: 0,
       commentList: [],
       showInfo: false,
       userInfo: 0,
       topData: {}
-    }
+    };
   },
-  props: ['roomId'],
+  props: ["roomId"],
   methods: {
-    async getComments() { // 获取成员房间留言列表
-      const res = await this.ajax('/getComments',{id:this.roomId,token: this.$store.getters.getToken},'POST')
+    async getComments() {
+      // 获取成员房间留言列表
+      const res = await this.ajax(
+        "/getComments",
+        { id: this.roomId, token: this.$store.getters.getToken },
+        "POST"
+      );
       // if(res.content.top1Data){
       //   this.topData = JSON.parse(res.content.top1Data.extInfo)
       // }
       this.commentList = res.content.message;
-      this.nextTime = res.content.nextTime
+      this.nextTime = res.content.nextTime;
     },
     async getMore() {
-      const res = await this.ajax('/getComments',{id:this.id,token: this.$store.getters.getToken,nextTime: this.nextTime},'POST')
-      this.commentList = this.commentList.concat(res.content.message)
+      const res = await this.ajax(
+        "/getComments",
+        {
+          id: this.id,
+          token: this.$store.getters.getToken,
+          nextTime: this.nextTime
+        },
+        "POST"
+      );
+      this.commentList = this.commentList.concat(res.content.message);
     },
-    getUserInfo(info){ // 获取聚聚信息
-      this.userInfo = info
-      this.showInfo = true
+    getUserInfo(info) {
+      // 获取聚聚信息
+      this.userInfo = info;
+      this.showInfo = true;
     }
   },
   created() {
-    this.getComments()
+    this.getComments();
   },
   components: {
     popupInfo
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global';
+@import "../../assets/less/global";
 .board-list {
-  .user-info{
+  .user-info {
     width: calc(100vw);
     height: calc(100vh);
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.3);
-    .popup-info{
+    background-color: rgba(0, 0, 0, 0.3);
+    .popup-info {
       width: 240px;
       height: 200px;
       background-color: #fff;
       border-radius: 5px;
       text-align: center;
-      img{
+      img {
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -106,7 +126,7 @@ export default {
     &:hover {
       background-color: #555;
     }
-    &.isSpec{
+    &.isSpec {
       background-color: #999;
       border: 1px solid #999;
     }
@@ -129,7 +149,7 @@ export default {
       color: #fff;
     }
   }
-  .button{
+  .button {
     .button-container();
     .flex-all-center();
   }

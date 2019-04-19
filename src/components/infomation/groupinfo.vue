@@ -21,57 +21,59 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "groupinfo",
   data() {
     return {
-      groupList: [ // 团队列表
-        {id:'1',name:'全团',color: '#8ed2f5'},
-        {id:'1000',name:'snh48',color: '#8ed2f5'},
-        {id:'1100',name:'bej48',color: '#ff2472'},
-        {id:'1200',name:'gnz48',color: '#9fbf40'},
-        {id:'1300',name:'shy48',color: '#e200cc'},
-        {id:'1400',name:'ckg48',color: '#946200'},
-        {id:'1500',name:'idft',color: '#b4006e'},
-        {id:'1600',name:'海外练习生',color: '#8ed2f5'}
-        ],
-      activeIndex: ''
+      groupList: [
+        // 团队列表
+        { id: "1", name: "全团", color: "#8ed2f5" },
+        { id: "1000", name: "snh48", color: "#8ed2f5" },
+        { id: "1100", name: "bej48", color: "#ff2472" },
+        { id: "1200", name: "gnz48", color: "#9fbf40" },
+        { id: "1300", name: "shy48", color: "#e200cc" },
+        { id: "1400", name: "ckg48", color: "#946200" },
+        { id: "1500", name: "idft", color: "#b4006e" },
+        { id: "1600", name: "海外练习生", color: "#8ed2f5" }
+      ],
+      activeIndex: ""
     };
   },
-  methods: { // 加载成员列表页面
+  methods: {
+    // 加载成员列表页面
     getList(group) {
       this.$router.push({ name: "memberlist", params: { group } });
     }
   },
   mounted() {
-    this.activeIndex = this.$route.params.group
+    this.activeIndex = this.$route.params.group;
   },
   computed: {
-    ...mapState(['isComplete'])
+    ...mapState(["isComplete"])
   }
 };
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
-.member-list{
+@import "../../assets/less/global";
+.member-list {
   width: 100%;
-  .el-menu--horizontal>.el-menu-item{
-    color: #fff
+  .el-menu--horizontal > .el-menu-item {
+    color: #fff;
   }
-  .color-item{
+  .color-item {
     color: #fff;
     text-align: center;
   }
-  .el-menu-demo{
+  .el-menu-demo {
     .flex-menu();
     width: 85%;
     margin: 0 auto;
-    li{
+    li {
       width: 12.5%;
     }
-    .group-brand{
+    .group-brand {
       flex: 1;
       color: #000;
       font-size: 14px;
@@ -81,7 +83,7 @@ export default {
     }
   }
   @media screen and (min-width: 1368px) {
-    .el-menu-demo{
+    .el-menu-demo {
       width: 1170px;
     }
   }

@@ -3,7 +3,8 @@
     <div class="info-container">
       <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.picPath">
         <div class="live-title">
-          <span v-html="liveInfo.subTitle" class="sub-title"></span><br>
+          <span v-html="liveInfo.subTitle" class="sub-title"></span>
+          <br>
           <span v-html="liveInfo.title" class="main-title"></span>
         </div>
         <div v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></div>
@@ -24,12 +25,19 @@
     </a>
     <a href="javascript:;" v-if="type===0 && picPath">
       <div class="pic-container" @click="triggerMethod" :style="rect">
-        <img width="100%" :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
+        <img
+          width="100%"
+          :src="picPath | picPathFormat"
+          @error="altImg"
+          alt
+          class="live-cover"
+          v-show="picPath"
+        >
       </div>
     </a>
-    <video-control 
-      :path="livePath" 
-      :type="liveInfo.liveType" 
+    <video-control
+      :path="livePath"
+      :type="liveInfo.liveType"
       :topwidth="topWidth"
       :topHeight="topHeight"
       :radiocover="radioCover"
@@ -37,12 +45,13 @@
       :toplist="liveInfo.topUser"
       :lrcpath="liveInfo.msgFilePath"
       :isLive="isLive"
-      v-if="liveInfo"></video-control>
+      v-if="liveInfo"
+    ></video-control>
   </div>
 </template>
 
 <script>
-import videoControl from '../subComponents/videoControl'
+import videoControl from "../subComponents/videoControl";
 export default {
   name: "livepage",
   data() {
@@ -56,31 +65,33 @@ export default {
         share: 0
       },
       radioCover: [],
-      topWidth: '',
-      topHeight: ''
+      topWidth: "",
+      topHeight: ""
     };
   },
   methods: {
-    async getLive() { // 获取直播信息
-      this.picPath = JSON.parse(localStorage.getItem('type')).cover
-      if(this.type === 0){
-        const res = await this.ajax('/getOpenPage',{id:this.id})
-        this.liveInfo = res.content
-      }else{
-        const res = await this.ajax('/getLivePage',{id:this.id})
+    async getLive() {
+      // 获取直播信息
+      this.picPath = JSON.parse(localStorage.getItem("type")).cover;
+      if (this.type === 0) {
+        const res = await this.ajax("/getOpenPage", { id: this.id });
         this.liveInfo = res.content;
-        if(this.liveInfo.carousels){
-          this.radioCover = this.liveInfo.carousels.carousels
+      } else {
+        const res = await this.ajax("/getLivePage", { id: this.id });
+        this.liveInfo = res.content;
+        if (this.liveInfo.carousels) {
+          this.radioCover = this.liveInfo.carousels.carousels;
         }
       }
     },
     altImg() {
       this.picPath = "/";
     },
-    triggerMethod(){ // 公演与成员直播设置不同的视频高宽
-      this.topWidth = this.rect.width
-      this.topHeight = this.rect.height
-      this.$refs.vod.playReview()
+    triggerMethod() {
+      // 公演与成员直播设置不同的视频高宽
+      this.topWidth = this.rect.width;
+      this.topHeight = this.rect.height;
+      this.$refs.vod.playReview();
     }
   },
   created() {
@@ -90,20 +101,23 @@ export default {
     videoControl
   },
   computed: {
-    livePath: function () { // 返回各清晰度视频地址
-      return [{streamPath:this.liveInfo.playStreamPath}]
+    livePath: function() {
+      // 返回各清晰度视频地址
+      return [{ streamPath: this.liveInfo.playStreamPath }];
     },
-    type: function(){
-      return this.$route.params.type || JSON.parse(localStorage.getItem('type')).type
+    type: function() {
+      return (
+        this.$route.params.type || JSON.parse(localStorage.getItem("type")).type
+      );
     },
-    isLive: function(){
-      return !this.liveInfo.review
+    isLive: function() {
+      return !this.liveInfo.review;
     },
     rect: function() {
-      if(this.type === 0){
-        return {width: '900px',height: '540px'}
-      }else{
-        return {width: '450px',height: '800px'}
+      if (this.type === 0) {
+        return { width: "900px", height: "540px" };
+      } else {
+        return { width: "450px", height: "800px" };
       }
     }
   }
@@ -111,14 +125,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
+@import "../../assets/less/global";
 .live-page-container {
   padding: 10px;
   border: 1px solid #efefef;
   margin: 5px;
   border-radius: 3px;
   position: relative;
-  .pic-container{
+  .pic-container {
     .flex-all-center();
     text-align: center;
     background-color: #000;
@@ -127,7 +141,7 @@ export default {
       width: 100%;
     }
   }
-  .info-container{
+  .info-container {
     .flex-all-center();
     width: 100%;
     position: absolute;
@@ -152,12 +166,14 @@ export default {
     }
   }
   .comment-info {
-    .praise-count,.comment-count,.share-count {
+    .praise-count,
+    .comment-count,
+    .share-count {
       margin-right: 10px;
       margin-left: 2px;
     }
   }
-  a{
+  a {
     .flex-all-center();
   }
 }

@@ -10,7 +10,12 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <p v-html="info.teamName" :style="'color: #'+info.teamColor | overseaFilter" class="team-name" v-show="!keywords"></p>
+      <p
+        v-html="info.teamName"
+        :style="'color: #'+info.teamColor | overseaFilter"
+        class="team-name"
+        v-show="!keywords"
+      ></p>
       <div class="member-list">
         <transition-group mode="out-in" tag="div" class="members">
           <div
@@ -38,7 +43,7 @@
 </template>
 
 <script>
-import altLoading from '../subComponents/altLoading'
+import altLoading from "../subComponents/altLoading";
 export default {
   name: "memberlist",
   data() {
@@ -47,18 +52,20 @@ export default {
       group: this.$route.params.group,
       team: [],
       keywords: this.$route.params.memberName || "",
-      statusCode: '1',
+      statusCode: "1",
       statusVal: ["正式成员", "暂休成员", "其他成员"]
     };
   },
   methods: {
-    async getMemberList() { // 从indexedDB获取数据
-      let db = await this.openDB('group',1)
-      let res = await this.findData(db,'groups',this.group)
-      this.memberList = res.member
-      this.team = res.team
+    async getMemberList() {
+      // 从indexedDB获取数据
+      let db = await this.openDB("group", 1);
+      let res = await this.findData(db, "groups", this.group);
+      this.memberList = res.member;
+      this.team = res.team;
     },
-    getMemberDetail(item, info) { // 跳转到成员详细信息页面
+    getMemberDetail(item, info) {
+      // 跳转到成员详细信息页面
       this.$store.dispatch("saveDetail", { item, info });
       this.$router.push({
         name: "memberdetail",
@@ -73,15 +80,17 @@ export default {
     this.getMemberList();
   },
   watch: {
-    $route: function() { // 监听路由地址变化，重新请求成员信息
-      this.memberList = []
-      this.team = []
+    $route: function() {
+      // 监听路由地址变化，重新请求成员信息
+      this.memberList = [];
+      this.team = [];
       this.group = this.$route.params.group;
-      this.keywords = ''
+      this.keywords = "";
       this.getMemberList();
     }
   },
-  computed: { // 搜索成员，符合条件成员存储在新的数组里
+  computed: {
+    // 搜索成员，符合条件成员存储在新的数组里
     newList: function() {
       let list = [];
       this.memberList.forEach(item => {
@@ -95,12 +104,12 @@ export default {
   components: {
     altLoading
   },
-  filters:{
-    overseaFilter(val){
-      if(val === 'color: #FFFFFF'){
-        return 'color: #8ed2f5'
-      }else{
-        return val
+  filters: {
+    overseaFilter(val) {
+      if (val === "color: #FFFFFF") {
+        return "color: #8ed2f5";
+      } else {
+        return val;
       }
     }
   }
@@ -108,7 +117,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
+@import "../../assets/less/global";
 .member-container {
   width: 85%;
   height: 100%;
@@ -147,29 +156,29 @@ export default {
       }
     }
     @media screen and (max-width: 1100px) {
-      .members{
+      .members {
         grid-template-columns: repeat(6, 1fr);
       }
     }
     @media screen and (max-width: 900px) {
-      .members{
+      .members {
         grid-template-columns: repeat(5, 1fr);
       }
     }
     @media screen and (max-width: 700px) {
-      .members{
+      .members {
         grid-template-columns: repeat(4, 1fr);
       }
     }
     @media screen and (max-width: 500px) {
-      .members{
+      .members {
         grid-template-columns: repeat(3, 1fr);
       }
     }
   }
 }
 @media screen and (min-width: 1368px) {
-  .member-container{
+  .member-container {
     width: 1160px;
   }
 }

@@ -22,9 +22,22 @@
           <div class="live-title" v-html="item.title"></div>
         </div>
         <div class="live-info">
-          <p v-if="!item.teamList" :title="item.userInfo.nickname" v-html="item.userInfo.nickname" class="live-url"></p>
-          <p v-else-if="item.teamList[0]" :title="item.teamList[0].teamName" v-html="item.teamList[0].teamName" class="live-url"></p>
-          <p v-html="new Date(parseInt(item.ctime || item.stime)).toLocaleDateString()" class="live-time"></p>
+          <p
+            v-if="!item.teamList"
+            :title="item.userInfo.nickname"
+            v-html="item.userInfo.nickname"
+            class="live-url"
+          ></p>
+          <p
+            v-else-if="item.teamList[0]"
+            :title="item.teamList[0].teamName"
+            v-html="item.teamList[0].teamName"
+            class="live-url"
+          ></p>
+          <p
+            v-html="new Date(parseInt(item.ctime || item.stime)).toLocaleDateString()"
+            class="live-time"
+          ></p>
         </div>
       </a>
     </transition-group>
@@ -40,52 +53,60 @@ export default {
     };
   },
   methods: {
-    getLivePage(id,title,cover) { // 跳转到直播页面
-      if(!title.includes('回放生成中')){
-        this.isLive = true
+    getLivePage(id, title, cover) {
+      // 跳转到直播页面
+      if (!title.includes("回放生成中")) {
+        this.isLive = true;
       }
-      localStorage.setItem('type',JSON.stringify({type: this.type,isLive: this.isLive,cover}))
-      let url = this.$router.resolve({name:'livepage',params:{id,type: this.type,isLive: this.isLive}})
-      window.open(url.href,'_blank')
+      localStorage.setItem(
+        "type",
+        JSON.stringify({ type: this.type, isLive: this.isLive, cover })
+      );
+      let url = this.$router.resolve({
+        name: "livepage",
+        params: { id, type: this.type, isLive: this.isLive }
+      });
+      window.open(url.href, "_blank");
     },
-    goToAllLive(){ // 跳转到直播详细列表页
-      if(this.type===1){
-        this.$router.push('/home/memberlive/0')
-      }else if(this.type===0){
-        this.$router.push('/home/openlive/0')
+    goToAllLive() {
+      // 跳转到直播详细列表页
+      if (this.type === 1) {
+        this.$router.push("/home/memberlive/0");
+      } else if (this.type === 0) {
+        this.$router.push("/home/openlive/0");
       }
     }
   },
-  props: ["list", "rect","type","livetitle"]
+  props: ["list", "rect", "type", "livetitle"]
 };
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
-.live-list{
+@import "../../assets/less/global";
+.live-list {
   width: 100%;
-  .live-header{
+  .live-header {
     .flex-align-center();
     margin: 0 auto;
     width: 85%;
     justify-content: space-between;
-    .live-type{
+    .live-type {
       margin-left: 10px;
       font-weight: 500;
       font-size: 20px;
     }
-    .live-more{
+    .live-more {
       margin-right: 20px;
       margin-bottom: 5px;
       cursor: pointer;
       color: #333;
       font-size: 14px;
-      &:hover{
+      &:hover {
         color: #666;
       }
     }
   }
-  .list-container{
+  .list-container {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -99,7 +120,6 @@ export default {
       cursor: pointer;
       .pic-container {
         .flex-align-center();
-        // max-width: 240px;
         max-height: 150px;
         position: relative;
         overflow: hidden;
@@ -107,11 +127,11 @@ export default {
         box-shadow: 0 0 3px #666;
         &:hover {
           box-shadow: 0 0 9px #333;
-          .mask{
+          .mask {
             visibility: visible;
           }
         }
-        .live-title{
+        .live-title {
           font-size: 12px;
           position: absolute;
           bottom: 0;
@@ -122,41 +142,42 @@ export default {
         .live-pic {
           width: 100%;
         }
-        .mask{
+        .mask {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(0,0,0,0.3);
+          background-color: rgba(0, 0, 0, 0.3);
           visibility: hidden;
         }
       }
-      .live-info{
+      .live-info {
         display: flex;
         justify-content: space-between;
         font-size: 12px;
         width: 90%;
-        .live-url{
+        .live-url {
           height: 15px;
           overflow: hidden;
         }
       }
     }
   }
-  @media screen  and (max-width: 900px) {
-    .list-container{
+  @media screen and (max-width: 900px) {
+    .list-container {
       width: 90%;
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  @media screen  and (min-width: 1368px) {
-    .list-container,.live-header{
+  @media screen and (min-width: 1368px) {
+    .list-container,
+    .live-header {
       width: 1160px;
     }
   }
-  @media screen  and (max-width: 610px) {
-    .list-container{
+  @media screen and (max-width: 610px) {
+    .list-container {
       justify-content: center;
       grid-template-columns: repeat(2, 1fr);
     }

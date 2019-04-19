@@ -3,7 +3,7 @@ export default function getDataByKey(db, storeName, value) {
     let transaction = db.transaction(storeName, 'readwrite');
     let store = transaction.objectStore(storeName);
     let request = store.get(value);
-    request.onsuccess = function(e) {
+    request.onsuccess = function (e) {
       resolve(e.target.result)
     }
   })

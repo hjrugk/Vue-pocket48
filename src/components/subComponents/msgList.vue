@@ -4,8 +4,16 @@
       <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
         <p class="msg-time" v-html="new Date(parseInt(item.msgTime)).toLocaleDateString()"></p>
         <p class="msg-sender">
-          <img :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-avatar">
-          <span v-html="JSON.parse(item.extInfo).user.nickName" @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)" class="sender-name"></span>
+          <img
+            :src="JSON.parse(item.extInfo).user.avatar | picPathFormat"
+            alt
+            class="sender-avatar"
+          >
+          <span
+            v-html="JSON.parse(item.extInfo).user.nickName"
+            @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)"
+            class="sender-name"
+          ></span>
         </p>
         <p class="msg-content" v-if="item.msgType==='IMAGE'">
           <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
@@ -14,26 +22,27 @@
           <span v-html="JSON.parse(item.extInfo).emotionName"></span>
         </p>
         <p class="msg-content" v-else-if="item.bodys==='偶像翻牌'">
-          <span v-html="JSON.parse(item.extInfo).answer"></span><br>
-          <span v-html="JSON.parse(item.extInfo).question"
-          class="fanpai"></span>
+          <span v-html="JSON.parse(item.extInfo).answer"></span>
+          <br>
+          <span v-html="JSON.parse(item.extInfo).question" class="fanpai"></span>
         </p>
         <p class="msg-content" v-else-if="JSON.parse(item.extInfo).replyName">
-          <span v-html="JSON.parse(item.extInfo).text"></span><br>
-          <span v-html="JSON.parse(item.extInfo).replyText"
-            class="fanpai"
-          ></span>
+          <span v-html="JSON.parse(item.extInfo).text"></span>
+          <br>
+          <span v-html="JSON.parse(item.extInfo).replyText" class="fanpai"></span>
         </p>
         <p class="msg-content" v-else-if="JSON.parse(item.extInfo).liveCover">
-          <span v-html="'直播：'+JSON.parse(item.extInfo).liveTitle"
+          <span
+            v-html="'直播：'+JSON.parse(item.extInfo).liveTitle"
             @click="getLivePage(JSON.parse(item.extInfo).liveId)"
             style="cursor: pointer; color: blue;"
-          ></span><br>
+          ></span>
+          <br>
         </p>
         <p class="msg-content" v-else-if="item.msgType==='AUDIO'" @click="stop">
-          <el-button @click="getAudio(JSON.parse(item.bodys).url)">
-            语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s
-          </el-button>
+          <el-button
+            @click="getAudio(JSON.parse(item.bodys).url)"
+          >语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s</el-button>
         </p>
         <p class="msg-content" v-else-if="item.msgType==='VIDEO'">
           <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
@@ -52,38 +61,59 @@
 </template>
 <script>
 export default {
-  name: 'msgList',
+  name: "msgList",
   data() {
     return {
       nextTime: 0,
-      base64Str: '',
+      base64Str: "",
       answerContent: {},
       msgList: []
-    }
+    };
   },
-  props: ['ownerId','roomId'],
+  props: ["ownerId", "roomId"],
   methods: {
-    async getMsgList() { // 获取成员房间所有消息
-      const res = await this.ajax('/getRoomBoard',{token: this.$store.getters.getToken,ownerId: this.ownerId,roomId:this.roomId},'POST')
-      this.msgList = res.content.message
-      this.nextTime = res.content.nextTime
-    },
-    async getMore() { // 获取更多消息
-      const res = await this.ajax('getRoomBoard',{token: this.$store.getters.getToken,
+    async getMsgList() {
+      // 获取成员房间所有消息
+      const res = await this.ajax(
+        "/getRoomBoard",
+        {
+          token: this.$store.getters.getToken,
           ownerId: this.ownerId,
-          roomId:this.roomId,
-          nextTime: this.nextTime},'POST')
-      this.msgList = this.msgList.concat(res.content.message)
-      this.nextTime = res.content.nextTime
-      this.$store.commit('saveScrollTop')
+          roomId: this.roomId
+        },
+        "POST"
+      );
+      this.msgList = res.content.message;
+      this.nextTime = res.content.nextTime;
     },
-    async getAnswer(questionId, answerId, title) { // 获取翻牌消息，以弹出框形式呈现
+    async getMore() {
+      // 获取更多消息
+      const res = await this.ajax(
+        "getRoomBoard",
+        {
+          token: this.$store.getters.getToken,
+          ownerId: this.ownerId,
+          roomId: this.roomId,
+          nextTime: this.nextTime
+        },
+        "POST"
+      );
+      this.msgList = this.msgList.concat(res.content.message);
+      this.nextTime = res.content.nextTime;
+      this.$store.commit("saveScrollTop");
+    },
+    async getAnswer(questionId, answerId, title) {
+      // 获取翻牌消息，以弹出框形式呈现
       const h = this.$createElement;
-      const res = await this.ajax('/getAnswer',{
+      const res = await this.ajax(
+        "/getAnswer",
+        {
           questionId,
           answerId,
           token: this.$store.getters.getToken
-        },'POST')
+        },
+        "POST"
+      );
       this.answerContent = res.content;
       this.$msgbox({
         title,
@@ -94,40 +124,47 @@ export default {
         confirmButtonText: "确定"
       });
     },
-    async getAudio(url){ // 获取语音消息
-      const res = await this.ajax('getAudio',{url},'POST')
-      if(res.status === 200){
+    async getAudio(url) {
+      // 获取语音消息
+      const res = await this.ajax("getAudio", { url }, "POST");
+      if (res.status === 200) {
         // eslint-disable-next-line
-        RongIMLib.RongIMVoice.init()
-        this.base64Str = res.message
+        RongIMLib.RongIMVoice.init();
+        this.base64Str = res.message;
         // eslint-disable-next-line
-        RongIMLib.RongIMVoice.stop()
+        RongIMLib.RongIMVoice.stop();
         // eslint-disable-next-line
-        RongIMLib.RongIMVoice.play(this.base64Str)
+        RongIMLib.RongIMVoice.play(this.base64Str);
       }
     },
-    stop(){ // 暂停语音播放
+    stop() {
+      // 暂停语音播放
       // eslint-disable-next-line
-      RongIMLib.RongIMVoice.init()
+      RongIMLib.RongIMVoice.init();
       // eslint-disable-next-line
-      RongIMLib.RongIMVoice.stop()
+      RongIMLib.RongIMVoice.stop();
     },
-    getLivePage(id) { // 跳转到该成员的直播列表页面
-      this.$router.push({name:'livepage',params:{id,type: 1}})
+    getLivePage(id) {
+      // 跳转到该成员的直播列表页面
+      this.$router.push({ name: "livepage", params: { id, type: 1 } });
     },
-    getMemberDetail(memberName){ // 跳转到成员列表页面
-      let n = []
-      if(memberName.includes('-')){
-        n = memberName.split('-')
-      }else{
-        n = [memberName]
+    getMemberDetail(memberName) {
+      // 跳转到成员列表页面
+      let n = [];
+      if (memberName.includes("-")) {
+        n = memberName.split("-");
+      } else {
+        n = [memberName];
       }
-      this.$router.push({name:'memberlist',params: {group: '1', memberName: n[n.length-1]}})
+      this.$router.push({
+        name: "memberlist",
+        params: { group: "1", memberName: n[n.length - 1] }
+      });
     }
   },
   created() {
-    this.getMsgList()
-  },
+    this.getMsgList();
+  }
   // watch: {
   //   msgList: function() { // 将得到的消息列表的 extInfo 转换为对象
   //     this.msgList.forEach(item => {
@@ -138,12 +175,12 @@ export default {
   //     });
   //   }
   // }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global';
+@import "../../assets/less/global";
 .msg-list {
-  div{
+  div {
     .msg-item {
       max-width: 520px;
       min-width: 400px;
@@ -161,7 +198,7 @@ export default {
         .msg-img {
           width: 100%;
         }
-        .live-push{
+        .live-push {
           cursor: pointer;
         }
         .fanpai {
@@ -189,9 +226,9 @@ export default {
       }
     }
   }
-  .button{
+  .button {
     .flex-all-center();
     .button-container();
   }
-}  
+}
 </style>

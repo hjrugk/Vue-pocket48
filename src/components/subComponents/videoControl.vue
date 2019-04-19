@@ -3,16 +3,28 @@
     <div class="info-header" v-show="!visibility" v-if="topHeight==='800px'">
       <div :style="{width: topwidth}">
         <div>
-          <p @click="toggleTopList">贡献榜 <i class="el-icon-arrow-right"></i></p>
+          <p @click="toggleTopList">
+            贡献榜
+            <i class="el-icon-arrow-right"></i>
+          </p>
         </div>
         <span></span>
       </div>
     </div>
-    <top-list 
-      :topHeight="topHeight" :topWidth="topwidth"  v-show="visibility" 
-      :topList="topList" @getuserinfo="getUserInfo" @togglevisibility="toggleTopList"
-      ></top-list>
-    <Barrages :topWidth="topwidth" :barrages="barrages" v-show="topHeight==='800px'" v-if="barrageList.barrages[0]" />
+    <top-list
+      :topHeight="topHeight"
+      :topWidth="topwidth"
+      v-show="visibility"
+      :topList="topList"
+      @getuserinfo="getUserInfo"
+      @togglevisibility="toggleTopList"
+    ></top-list>
+    <Barrages
+      :topWidth="topwidth"
+      :barrages="barrages"
+      v-show="topHeight==='800px'"
+      v-if="barrageList.barrages[0]"
+    />
     <radio-cover :type="type" :topWidth="topwidth" :radiocover="radiocover"></radio-cover>
     <div v-if="showInfo" @click="showInfo = !showInfo">
       <popup-info :info="userInfo" style="color:#000;"></popup-info>
@@ -23,13 +35,13 @@
   </div>
 </template>
 <script>
-import radioCover from './radioCover'
-import topList from './topList'
-import popupInfo from './popupInfo'
-import Barrages from './barrages'
+import radioCover from "./radioCover";
+import topList from "./topList";
+import popupInfo from "./popupInfo";
+import Barrages from "./barrages";
 export default {
-  name: 'videoControl',
-  data(){
+  name: "videoControl",
+  data() {
     return {
       isReview: false,
       barrageList: {
@@ -43,10 +55,10 @@ export default {
       userInfo: {},
       player: {},
       playerOptions: {
-        id: 'ali-video',
-        width: '100%',
-        height: '100%',
-        source: '',
+        id: "ali-video",
+        width: "100%",
+        height: "100%",
+        source: "",
         autoplay: true,
         enableStashBufferForFlv: false
       },
@@ -55,75 +67,101 @@ export default {
         times: []
       },
       streamsIndex: 0
-    }
+    };
   },
-  props: ['path','type','topwidth',"radiocover","toplist","lrcpath",'topHeight','isLive'],
+  props: [
+    "path",
+    "type",
+    "topwidth",
+    "radiocover",
+    "toplist",
+    "lrcpath",
+    "topHeight",
+    "isLive"
+  ],
   methods: {
-    playReview(){ // 点击直播封面时开始播放
-      this.player = {}
-      if(this.type===0) return this.$message.error('直播还未开始')
-      this.playerOptions.source = this.path[this.streamsIndex].streamPath
-      this.playerOptions.isLive = this.isLive
+    playReview() {
+      // 点击直播封面时开始播放
+      this.player = {};
+      if (this.type === 0) return this.$message.error("直播还未开始");
+      this.playerOptions.source = this.path[this.streamsIndex].streamPath;
+      this.playerOptions.isLive = this.isLive;
       // eslint-disable-next-line
-      this.player = new Aliplayer(this.playerOptions)
-      this.player.on('ready', () => {
-        this.loadedDataHandler()
-      })
-      this.player.on('error', () => {
-        this.$message.error('无法播放')
-      })
-      this.player.on('timeupdate', () => {
-        if(this.isReview && this.barrageList.times.length !==0){
-          this.barrageHandler()
+      this.player = new Aliplayer(this.playerOptions);
+      this.player.on("ready", () => {
+        this.loadedDataHandler();
+      });
+      this.player.on("error", () => {
+        this.$message.error("无法播放");
+      });
+      this.player.on("timeupdate", () => {
+        if (this.isReview && this.barrageList.times.length !== 0) {
+          this.barrageHandler();
         }
-      })
-      this.player.on('completeSeek',() => { // 回看时的加载弹幕逻辑
-        if(this.barrageList.times[0]){
-          this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList))
+      });
+      this.player.on("completeSeek", () => {
+        // 回看时的加载弹幕逻辑
+        if (this.barrageList.times[0]) {
+          this.barrageList = JSON.parse(JSON.stringify(this.originBarrageList));
           let index = this.barrageList.times.findIndex(item => {
-            return parseInt(item)>=this.player.getCurrentTime()
-          })
-          this.barrageList.barrages = this.barrageList.barrages.slice(index,this.barrageList.barrages.length-1)
-          this.barrageList.times = this.barrageList.times.slice(index,this.barrageList.times.length-1)
-          this.barrages = []
-          this.barrageHandler()
-        }else{
-          return
+            return parseInt(item) >= this.player.getCurrentTime();
+          });
+          this.barrageList.barrages = this.barrageList.barrages.slice(
+            index,
+            this.barrageList.barrages.length - 1
+          );
+          this.barrageList.times = this.barrageList.times.slice(
+            index,
+            this.barrageList.times.length - 1
+          );
+          this.barrages = [];
+          this.barrageHandler();
+        } else {
+          return;
         }
-      })
+      });
     },
-    async loadBarrages(){ // 载入弹幕列表
-      if(!this.lrcpath) return
-      const res = await this.ajax('/getBarrages',{url:this.lrcpath},'POST')
-      this.barrageList = res
-      this.originBarrageList = JSON.parse(JSON.stringify(res))
+    async loadBarrages() {
+      // 载入弹幕列表
+      if (!this.lrcpath) return;
+      const res = await this.ajax(
+        "/getBarrages",
+        { url: this.lrcpath },
+        "POST"
+      );
+      this.barrageList = res;
+      this.originBarrageList = JSON.parse(JSON.stringify(res));
     },
-    toggleTopList(){ // 开/关显示贡献榜
-      this.visibility = !this.visibility
+    toggleTopList() {
+      // 开/关显示贡献榜
+      this.visibility = !this.visibility;
     },
-    getUserInfo(info){ // 获取聚聚信息，弹窗呈现
-      this.userInfo = info
-      this.showInfo = true
+    getUserInfo(info) {
+      // 获取聚聚信息，弹窗呈现
+      this.userInfo = info;
+      this.showInfo = true;
     },
-    barrageHandler(){ // 将获取到的弹幕列表渲染到页面中
-      if(this.player.getCurrentTime() >= this.barrageList.times[0]){
-        if(this.barrages.length===10){
-          this.barrages.shift()
-          this.barrages.push(this.barrageList.barrages[0])
-        }else{
-          this.barrages.push(this.barrageList.barrages[0])
+    barrageHandler() {
+      // 将获取到的弹幕列表渲染到页面中
+      if (this.player.getCurrentTime() >= this.barrageList.times[0]) {
+        if (this.barrages.length === 10) {
+          this.barrages.shift();
+          this.barrages.push(this.barrageList.barrages[0]);
+        } else {
+          this.barrages.push(this.barrageList.barrages[0]);
         }
-        this.barrageList.times.shift()
-        this.barrageList.barrages.shift()
+        this.barrageList.times.shift();
+        this.barrageList.barrages.shift();
       }
     },
-    loadedDataHandler(){ // 显示视频，并播放，加载弹幕
-      this.isReview = true
-      this.topList = this.toplist
-      if(this.player.play()){
-        this.player.play()
+    loadedDataHandler() {
+      // 显示视频，并播放，加载弹幕
+      this.isReview = true;
+      this.topList = this.toplist;
+      if (this.player.play()) {
+        this.player.play();
       }
-      this.loadBarrages()
+      this.loadBarrages();
     }
   },
   components: {
@@ -132,11 +170,11 @@ export default {
     radioCover,
     Barrages
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global.less';
-.video-container{
+@import "../../assets/less/global.less";
+.video-container {
   padding: 10px 0;
   position: absolute;
   top: 0;
@@ -144,19 +182,19 @@ export default {
   width: 100%;
   color: white;
   .flex-justify-center();
-  .info-header{
+  .info-header {
     position: absolute;
     top: 5px;
     left: 5px;
     width: 100%;
     z-index: 99;
     .flex-justify-center();
-    div{
+    div {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      p{
-        background-color: rgba(0,0,0,0.3);
+      p {
+        background-color: rgba(0, 0, 0, 0.3);
         padding: 5px 20px;
         font-size: 13px;
         border-radius: 15px;
@@ -166,11 +204,11 @@ export default {
       }
     }
   }
-  video{ 
+  video {
     height: 100%;
   }
 }
-.hidden{
+.hidden {
   visibility: hidden;
 }
 </style>

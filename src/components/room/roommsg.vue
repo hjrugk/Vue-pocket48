@@ -1,9 +1,6 @@
 <template>
   <div class="msg-container" ref="bgPic">
-    <div
-      class="top"
-      @click="toTop"
-    >
+    <div class="top" @click="toTop">
       <i class="el-icon-arrow-up"></i>
     </div>
     <div class="show-all-msg">
@@ -19,15 +16,16 @@
 </template>
 
 <script>
-import msgList from '../subComponents/msgList'
-import commentList from '../subComponents/commentList'
+import msgList from "../subComponents/msgList";
+import commentList from "../subComponents/commentList";
 export default {
   name: "roommsg",
   data() {
     return {
       ownerId: this.$route.params.ownerId,
       roomId: this.$route.params.roomId,
-      bgPath: this.$route.params.bgPath || JSON.parse(localStorage.getItem('bgPath')),
+      bgPath:
+        this.$route.params.bgPath || JSON.parse(localStorage.getItem("bgPath")),
       top: document.body.scrollTop,
       shouldShowAllMsg: false
     };
@@ -39,7 +37,7 @@ export default {
     }
   },
   mounted() {
-    localStorage.setItem('bgPath',JSON.stringify(this.bgPath))
+    localStorage.setItem("bgPath", JSON.stringify(this.bgPath));
     this.bgPath = "http://source.48.cn" + this.bgPath;
     this.$refs.bgPic.style.background = "url(" + this.bgPath + ")";
     this.$refs.bgPic.style.backgroundPosition = "center center";
@@ -58,13 +56,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
+@import "../../assets/less/global";
 .msg-container {
   padding: 10px 10px 10px 10px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  .list{
+  .list {
     width: 85%;
     display: flex;
     justify-content: space-around;
@@ -78,11 +76,11 @@ export default {
     align-items: center;
     display: none;
   }
-  .top{
+  .top {
     .backToTop();
     .flex-all-center();
   }
-  .show-all-msg{
+  .show-all-msg {
     position: fixed;
     right: 10%;
     background-color: #fff;
@@ -100,7 +98,7 @@ export default {
     }
   }
   @media screen and (min-width: 1368px) {
-    .list{
+    .list {
       width: 1160px;
     }
   }

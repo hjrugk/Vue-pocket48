@@ -4,16 +4,19 @@
       <div
         class="room-item my-card"
         v-for="item in roomList"
-        :key="item.roomId"
-        @click="getInfo(item.ownerId,item.targetId,'/')"
+        :key="item.roomInfo.roomId"
+        @click="getInfo(item.roomInfo.ownerId,item.roomInfo.roomId,item.userConfig.bgImg)"
       >
-        <img class="room-avatar" :src="item.targetAvatar | picPathFormat" alt>
+        <img class="room-avatar" :src="item.roomInfo.roomAvatar | picPathFormat" alt>
         <div class="room-info">
           <p>
-            <span class="room-owner" v-html="item.ownerName"></span>
-            <span class="room-name" v-html="item.targetName"></span>
+            <span class="room-owner" v-html="item.roomInfo.ownerName"></span>
+            <span class="room-icon" v-for="(icon,i) in item.roomInfo.icon" :key="i">
+              <img :src="icon | picPathFormat">
+            </span>
+            <span class="room-name" v-html="item.roomInfo.roomName"></span>
           </p>
-          <p class="room-preview" v-html="item.msg"></p>
+          <p class="room-preview" v-html="item.roomInfo.roomTopic"></p>
         </div>
       </div>
     </div>
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "roomlist",
   data() {
@@ -34,24 +37,32 @@ export default {
     };
   },
   methods: {
-    getInfo(ownerId,roomId, bgPath) {
-      this.$router.push({ name: "roommsg", params: { ownerId,roomId, bgPath } });
+    getInfo(ownerId, roomId, bgPath) {
+      this.$router.push({
+        name: "roommsg",
+        params: { ownerId, roomId, bgPath }
+      });
     }
   },
   async mounted() {
-    this.friends = JSON.parse(localStorage.getItem('userinfo')).userInfo.friends;
+    this.friends = JSON.parse(
+      localStorage.getItem("userinfo")
+    ).userInfo.friends;
     this.token = this.$store.getters.getToken;
-    this.$store.dispatch('getRoomList',{ token: this.token, friends: this.friends })
+    this.$store.dispatch("getRoomList", {
+      token: this.token,
+      friends: this.friends
+    });
   },
   computed: {
-    ...mapState(['roomList'])
-  } 
+    ...mapState(["roomList"])
+  }
 };
 </script>
 
 <style lang="less" scoped>
-@import '../../assets/less/global';
-.room{
+@import "../../assets/less/global";
+.room {
   width: 100%;
   padding-top: 10px;
   .room-list {
@@ -67,7 +78,7 @@ export default {
       cursor: pointer;
       justify-content: flex-start;
       &:hover {
-        background-color: rgba(0,0,0,0.1);
+        background-color: rgba(0, 0, 0, 0.1);
       }
       .room-avatar {
         width: 80px;
@@ -81,6 +92,12 @@ export default {
           .room-owner {
             font-size: 16px;
             margin-right: 10px;
+          }
+          .room-icon {
+            margin-right: 10px;
+            img {
+              height: 14px;
+            }
           }
           .room-name {
             font-size: 14px;
@@ -97,13 +114,13 @@ export default {
     }
   }
   @media screen and(max-width: 768px) {
-    .room-list{
+    .room-list {
       width: 90%;
       grid-template-columns: repeat(1, 1fr);
     }
   }
   @media screen and(min-width: 1368px) {
-    .room-list{
+    .room-list {
       width: 1000px;
     }
   }

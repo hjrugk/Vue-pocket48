@@ -4,11 +4,12 @@
       <div class="first" v-for="(item, index) in recommend" :key="index">
         <span class="text">{{index | translate}}</span>
         <span class="image" @click="getMemberDetail(item.info.real_name)">
-          <img :src="item.info.avatar | picPathFormat" alt="">
+          <img :src="item.info.avatar | picPathFormat" alt>
         </span>
         <span class="text" v-html="item.info.real_name"></span>
         <span class="money">
-          <span>贡献度</span><br>
+          <span>贡献度</span>
+          <br>
           <span v-html="item.money"></span>
         </span>
       </div>
@@ -17,109 +18,118 @@
   </div>
 </template>
 <script>
-import altLoading from '../subComponents/altLoading'
+import altLoading from "../subComponents/altLoading";
 export default {
   data() {
     return {
       showInfo: 0
-    }
+    };
   },
   filters: {
-    translate: function(val){
-      let newVal = ''
+    translate: function(val) {
+      let newVal = "";
       switch (val) {
-        case 'first':
-          newVal = '首推'
+        case "first":
+          newVal = "首推";
           break;
-        case 'second':
-          newVal = '二推'
+        case "second":
+          newVal = "二推";
           break;
-        case 'third':
-          newVal = '三推'
+        case "third":
+          newVal = "三推";
           break;
         default:
           break;
       }
-      return newVal
+      return newVal;
     }
   },
   methods: {
-    async getMemberName(id,key){ // 获取所推成员信息
-      if(id!==0 && this.recommend[key].show){
-        let db = await this.openDB('group',1)
-        const res = await this.findData(db,'members',id)
-        this.recommend[key].info = res
-        this.showInfo++
-      }else{
-        this.recommend[key].info = {real_name: '保密',avatar: '/mediasource/profile_icon.png'}
-        this.showInfo++
+    async getMemberName(id, key) {
+      // 获取所推成员信息
+      if (id !== 0 && this.recommend[key].show) {
+        let db = await this.openDB("group", 1);
+        const res = await this.findData(db, "members", id);
+        this.recommend[key].info = res;
+        this.showInfo++;
+      } else {
+        this.recommend[key].info = {
+          real_name: "保密",
+          avatar: "/mediasource/profile_icon.png"
+        };
+        this.showInfo++;
       }
     },
-    triggerMethod(){ // 生成所推成员数组
+    triggerMethod() {
+      // 生成所推成员数组
       for (const key in this.recommend) {
-        this.getMemberName(this.recommend[key].memberId,key)
+        this.getMemberName(this.recommend[key].memberId, key);
       }
     },
-    getMemberDetail(memberName){ // 跳转到成员列表页面
-      if(memberName !== '保密'){
-        let n = []
-        if(memberName.includes('-')){
-          n = memberName.split('-')
-        }else{
-          n = [memberName]
+    getMemberDetail(memberName) {
+      // 跳转到成员列表页面
+      if (memberName !== "保密") {
+        let n = [];
+        if (memberName.includes("-")) {
+          n = memberName.split("-");
+        } else {
+          n = [memberName];
         }
-        this.$router.push({name:'memberlist',params: {group: '1', memberName: n[n.length-1]}})
+        this.$router.push({
+          name: "memberlist",
+          params: { group: "1", memberName: n[n.length - 1] }
+        });
       }
     }
   },
   mounted() {
-    this.triggerMethod()
+    this.triggerMethod();
   },
-  props: ['recommend'],
+  props: ["recommend"],
   components: {
     altLoading
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global';
-.recommand-info{
+@import "../../assets/less/global";
+.recommand-info {
   .flex-all-center();
   width: 100%;
-  .first{
+  .first {
     .flex-align-center();
     width: 300px;
     justify-content: space-between;
     margin-bottom: 1px;
     padding: 10px;
-    .text{
+    .text {
       width: 80px;
     }
-    .image{
+    .image {
       width: 80px;
       height: 80px;
       border-radius: 50%;
       border: 2px solid #ccc;
       overflow: hidden;
       cursor: pointer;
-      img{
+      img {
         width: 100%;
       }
     }
-    .money{
+    .money {
       font-size: 12px;
       color: #999;
-      span{
+      span {
         line-height: 2;
       }
     }
   }
-  .alt_bg{
+  .alt_bg {
     width: 100%;
     height: 300px;
     overflow: hidden;
     text-align: center;
-    .alt-img{
+    .alt-img {
       height: 300px;
     }
   }

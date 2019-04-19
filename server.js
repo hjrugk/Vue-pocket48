@@ -16,7 +16,9 @@ server.use(bodyParser.json())
 
 server.use(router)
 
-server.use('/',express.static(path.join(__dirname, 'dist'),{index: 'index.html'}))
+server.use('/', express.static(path.join(__dirname, 'dist'), {
+  index: 'index.html'
+}))
 
 server.listen(3000, () => {
   console.log('服务器启动成功')

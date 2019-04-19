@@ -2,7 +2,7 @@
   <div class="user-info my-card">
     <div class="base-info" v-if="jujuInfo.info.avatar">
       <p class="avatar">
-        <img :src="jujuInfo.info.avatar | picPathFormat" alt="">
+        <img :src="jujuInfo.info.avatar | picPathFormat" alt>
       </p>
       <div>
         <p class="name">
@@ -18,10 +18,10 @@
   </div>
 </template>
 <script>
-import altLoading from '../subComponents/altLoading'
+import altLoading from "../subComponents/altLoading";
 export default {
-  name: 'userInfo',
-  data(){
+  name: "userInfo",
+  data() {
     return {
       id: this.$route.params.id,
       jujuInfo: {
@@ -29,33 +29,38 @@ export default {
         friendsNum: 0,
         recommend: {}
       }
-    }
+    };
   },
   components: {
     altLoading
   },
   methods: {
-    async getJuJuInfo(){ // 获取聚聚信息
-      const res = await this.ajax('/getUserInfo',{userId:this.id,token: this.$store.getters.getToken},'POST')
-      let info = res.content.baseUserInfo
-      let friendsNum = res.content.baseUserInfo.friends
-      this.jujuInfo = {info,recommend:{},friendsNum}
-    },
+    async getJuJuInfo() {
+      // 获取聚聚信息
+      const res = await this.ajax(
+        "/getUserInfo",
+        { userId: this.id, token: this.$store.getters.getToken },
+        "POST"
+      );
+      let info = res.content.baseUserInfo;
+      let friendsNum = res.content.baseUserInfo.friends;
+      this.jujuInfo = { info, recommend: {}, friendsNum };
+    }
   },
   mounted() {
-    this.getJuJuInfo()
+    this.getJuJuInfo();
   }
-}
+};
 </script>
 <style lang="less" scoped>
-@import '../../assets/less/global';
-.user-info{
+@import "../../assets/less/global";
+.user-info {
   text-align: center;
   padding: 20px;
   margin: 5px;
-  .avatar{
+  .avatar {
     overflow: hidden;
-    img{
+    img {
       width: 80px;
       height: 80px;
       border-radius: 50%;
@@ -63,14 +68,14 @@ export default {
       height: 80px;
     }
   }
-  .base-info{
+  .base-info {
     .flex-all-center();
     margin-bottom: 20px;
-    .name{
+    .name {
       margin-left: 20px;
     }
   }
-  .base-info>div>span{
+  .base-info > div > span {
     font-size: 12px;
     color: #999;
     margin-left: 10px;

@@ -459,3 +459,77 @@
         "liveType": 0
     }
 }
+
+14. 房间信息
+
+    POST https://pocketapi.48.cn/im/api/v1/im/room/info/type/source
+    Common-Header
+    token
+
+    form-data: {
+        "sourceId": "userId",
+        "type": 0
+    }
+
+    response: {
+    "status": 200,
+    "success": true,
+    "message": "OK",
+    "content": {
+        "roomInfo": {
+            "roomId": "67313743",
+            "roomName": "聊天室A",
+            "roomAvatar": "/mediasource/room/1493277152571M4Maby92gt.jpg",
+            "roomTopic": "想做你们的特等奖",
+            "ctime": "1481461750000",
+            "roomType": 0,
+            "chatType": 1,
+            "ownerId": "63558",
+            "ownerName": "SNH48-洪珮雲",
+            "icon": [
+                "/mediasource/teamLogo2/all/snh48_h2.png"
+            ],
+            "bubbleId": "283923487550767106",
+            "bgImg": "/mediasource/room/1554311106719BGqZQ47P26.jpg"
+        },
+        "userFunction": {
+            "sendText": true,
+            "sendImage": false,
+            "sendVideo": false,
+            "sendVoice": false,
+            "sendGif": false,
+            "sendEmoticon": true,
+            "sendForward": false,
+            "sendGift": true,
+            "openAudio": false
+        },
+        "roomRole": "0",
+        "userConfig": {
+            "bgImg": "/mediasource/room/1554311106719BGqZQ47P26.jpg",
+            "bubbleId": "0"
+        }
+    }
+}
+
+15. 信息同步
+
+    POST https://pocketapi.48.cn/user/api/v1/client/update/group_team_star
+    Common-Header
+
+    form-data: {}
+
+    response: {
+        "status": 200,
+        "success": true,
+        "message": "OK",
+        "content": {
+            officialInfo,
+            domainInfo,
+            starInfo,
+            starAdjunctInfo,
+            groupInfo,
+            periodInfo,
+            teamInfo,
+            starOfficialRelationInfo
+        }
+    }
