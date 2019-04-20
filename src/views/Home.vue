@@ -35,12 +35,15 @@
         <img src="../assets/images/loading.gif" alt="">
       </div>
     </div>
+    <router-view></router-view>
+    <About />
   </div>
 </template>
 
 <script>
 import liveList from '../components/subComponents/liveList'
 // import akinaList from '../components/subComponents/akinaList'
+import About from './About'
 import groupInfo from '../components/infomation/groupinfo'
 import {mapState,mapGetters} from 'vuex'
 export default {
@@ -50,6 +53,7 @@ export default {
   },
   components: {
     liveList,
+    About,
     groupInfo,
     // akinaList
   },

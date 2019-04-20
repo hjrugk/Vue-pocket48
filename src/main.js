@@ -4,22 +4,6 @@ import router from './router'
 import store from './store'
 import openDB from './workers/openDB'
 import findData from './workers/findData'
-import {
-  Menu,
-  MenuItem,
-  Submenu,
-  Form,
-  FormItem,
-  Input,
-  Carousel,
-  CarouselItem,
-  Tag,
-  Message,
-  Radio,
-  MessageBox,
-  Select,
-  Option,
-} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import ajax from './plugins/ajax'
@@ -28,20 +12,6 @@ import {
   periodHandler
 } from "./plugins/periodHandler"
 
-Vue.use(Menu)
-Vue.use(Tag)
-Vue.use(MenuItem)
-Vue.use(Submenu)
-Vue.use(Input)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Carousel)
-Vue.use(CarouselItem)
-Vue.use(Radio)
-Vue.use(Select)
-Vue.use(Option)
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$message = Message;
 Vue.prototype.periodHandler = periodHandler
 Vue.prototype.openDB = openDB
 Vue.prototype.findData = findData

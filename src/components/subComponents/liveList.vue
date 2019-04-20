@@ -117,15 +117,16 @@ export default {
       cursor: pointer;
       .pic-container {
         .flex-align-center();
-        max-height: 150px;
+        height: 150px;
         position: relative;
         overflow: hidden;
         border-radius: 5px;
         box-shadow: 0 0 3px #666;
+        background-color: #000;
         &:hover {
           box-shadow: 0 0 9px #333;
           .mask {
-            visibility: visible;
+            background-color: rgba(0,0,0,0.3);
           }
         }
         .live-title {
@@ -152,8 +153,7 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(0, 0, 0, 0.3);
-          visibility: hidden;
+          background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 67%,rgba(0,0,0,0.65) 100%);
         }
       }
       .live-info {

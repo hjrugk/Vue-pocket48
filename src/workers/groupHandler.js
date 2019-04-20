@@ -5,7 +5,7 @@ export default async function (membersList, teamList) {
   const bej = []
   const gnz = []
   const shy = []
-  const ckg = []
+  let ckg = []
   const idft = []
   const oversea = []
   const other = []
@@ -63,6 +63,9 @@ export default async function (membersList, teamList) {
         legend.push(item)
     }
   })
+
+  const new_ckg = await fetch('./data/ckg.json').then(res => res.json())
+  ckg = ckg.concat(new_ckg)
 
   teamList.forEach(item => {
     switch (parseInt(item.groupId)) {

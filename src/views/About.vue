@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <div class="my-card card-item">
+    <div class="card-item">
       <p class="declare">本项目仅供个人娱乐，请勿用作其他用途</p>
       <p class="mail">联系我：
         <a href="mailto:tassjjjj@live.cn">tassjjjj@live.cn</a>
@@ -19,8 +19,12 @@ export default {};
 <style lang="less" scoped>
 @import '../assets/less/global';
 .about {
-  padding: 10px;
+  margin-top: 50px;
   .card-item{
+    padding: 30px;
+    background-color: #333;
+    font-size: 12px;
+    color: #eee;
     .flex-all-center();
     text-align: center;
     flex-wrap: wrap;
@@ -29,6 +33,7 @@ export default {};
       width: 100%;
       a{
         text-decoration: none;
+        color: #eee;
       }
       .address{
         background-color: #eee;
@@ -38,7 +43,7 @@ export default {};
         color: #000;
         margin-left: 10px;
         padding: 0 2px;
-        font-size: 14px;
+        font-size: 12px;
       }
     }
   }
