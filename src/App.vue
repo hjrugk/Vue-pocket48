@@ -55,17 +55,17 @@ export default {
     pushToHome(){
       this.$router.push('/')
     },
-    check() {
+    async check() {
       if(localStorage.getItem('userinfo')){
-        let tmp = Date.now()
         let userInfo = JSON.parse(localStorage.getItem('userinfo'))
-        if(tmp - userInfo.tmp >= 86400000) {
-          this.$message.error('请重新登录')
-          localStorage.removeItem('userinfo')
+        const res = await this.ajax('/getUserInfo',{token:userInfo.token,userId:userInfo.userInfo.userId},'POST')
+        if(!res.success){
           localStorage.removeItem('isLogin')
-          setTimeout(() => {
-              window.location.reload()
-            },3000)
+          localStorage.removeItem('userinfo')
+          this.$message.error('登录已失效，请重新登录')
+          return setTimeout(function(){
+            window.location.reload()
+          },3000)
         }
       }
     }

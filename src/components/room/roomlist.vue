@@ -46,8 +46,8 @@ export default {
   },
   async mounted() {
     this.friends = JSON.parse(
-      localStorage.getItem("userinfo")
-    ).userInfo.friends;
+      localStorage.getItem("friends")
+    );
     this.token = this.$store.getters.getToken;
     this.$store.dispatch("getRoomList", {
       token: this.token,

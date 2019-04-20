@@ -2,7 +2,7 @@
   <div class="detail-container">
     <div class="inner-container">
       <div class="base-info">
-        <img :src="detail.avatar" alt class="base-avatar" :style="'border: 1px solid '+color">
+        <img :src="detail.avatar | picPathFormat" alt class="base-avatar" :style="'border: 1px solid '+color">
         <div class="base-name">
           <div class="real-name">
             <span v-html="detail.realName" class="real"></span>
@@ -96,31 +96,36 @@ export default {
     },
     follow() {
       // 关注成员
-      let info = JSON.parse(localStorage.getItem("userinfo"));
-      info.userInfo.friends.push(this.detail.userId);
-      localStorage.setItem("userinfo", JSON.stringify(info));
+      let friends = []
+      if(localStorage.getItem('friends')){
+        friends = JSON.parse(localStorage.getItem("friends"));
+      }
+      friends.push(this.detail.userId);
+      localStorage.setItem("friends", JSON.stringify(friends));
       this.isFollowed = true;
       this.checkisFollowed();
     },
     unfollow() {
       //取关成员
-      let info = JSON.parse(localStorage.getItem("userinfo"));
-      let index = info.userInfo.friends.findIndex(item => {
+      let friends = JSON.parse(localStorage.getItem("friends"));
+      let index = friends.findIndex(item => {
         return parseInt(item) === this.detail.userId;
       });
-      info.userInfo.friends.splice(index, 1);
-      localStorage.setItem("userinfo", JSON.stringify(info));
+      friends.splice(index, 1);
+      localStorage.setItem("friends", JSON.stringify(friends));
       this.isFollowed = false;
       this.checkisFollowed();
     },
     checkisFollowed() {
       // 检查是否关注该成员
-      let info = JSON.parse(localStorage.getItem("userinfo"));
-      info.userInfo.friends.forEach(item => {
-        if (item === this.detail.userId) {
-          this.isFollowed = true;
-        }
-      });
+      if(localStorage.getItem('friends')){
+        let friends = JSON.parse(localStorage.getItem("friends"));
+        friends.forEach(item => {
+          if (item === this.detail.userId) {
+            this.isFollowed = true;
+          }
+        });
+      }
     }
   },
   created() {

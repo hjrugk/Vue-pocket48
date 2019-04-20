@@ -89,7 +89,6 @@ export default {
           "isLogin",
           JSON.stringify({ logFlag: this.logFlag })
         );
-        this.userInfo.friends = [];
         localStorage.setItem("userinfo", JSON.stringify(res.content));
         this.$message("登陆成功，3秒后刷新");
         setTimeout(() => {
