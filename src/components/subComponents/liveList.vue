@@ -10,7 +10,7 @@
     <transition-group appear tag="div" class="list-container">
       <a
         href="javascript:;"
-        @click.prevent="getLivePage(item.liveId,item.title,item.coverPath)"
+        @click.prevent="getLivePage(item)"
         v-for="item in list"
         :key="item.liveId"
         class="live-item"
@@ -53,18 +53,15 @@ export default {
     };
   },
   methods: {
-    getLivePage(id, title, cover) {
+    getLivePage(liveInfo) {
       // 跳转到直播页面
-      if (!title.includes("回放生成中")) {
-        this.isLive = true;
-      }
       localStorage.setItem(
         "type",
-        JSON.stringify({ type: this.type, isLive: this.isLive, cover })
+        JSON.stringify({ type: liveInfo.liveType, cover: liveInfo.coverPath, title: liveInfo.title, ctime: liveInfo.ctime || liveInfo.stime })
       );
       let url = this.$router.resolve({
         name: "livepage",
-        params: { id, type: this.type, isLive: this.isLive }
+        params: { id: liveInfo.liveId, type: liveInfo.liveType, title: liveInfo.title, ctime: liveInfo.ctime || liveInfo.stime }
       });
       window.open(url.href, "_blank");
     },
@@ -138,6 +135,13 @@ export default {
           color: #fff;
           padding-left: 10px;
           margin-bottom: 10px;
+        }
+        .on-live{
+          position: absolute;
+          top: 5px;
+          color: #fff;
+          right: 10px;
+          font-size: 12px;
         }
         .live-pic {
           width: 100%;

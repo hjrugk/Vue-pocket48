@@ -18,7 +18,7 @@
         class="board-item my-card"
         :class="{isSpec:JSON.parse(item.extInfo).user.userId===655632}"
         v-for="item in commentList"
-        :key="item.msgidClient"
+        :key="item.msgTime"
       >
         <div class="sender-info">
           <img :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-img">

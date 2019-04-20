@@ -68,12 +68,12 @@ export default new Router({
       component: () => import('./components/live/openlive.vue')
     },
     {
-      path: '/home/livepage/:id',
+      path: '/livepage/:id',
       name: 'livepage',
       component: () => import('./components/live/livepage.vue')
     },
     {
-      path: '/home/bilibili/:id',
+      path: '/bilibili/:id',
       name: 'bilibili',
       component: () => import('./components/live/bilibiliVideo.vue')
     },

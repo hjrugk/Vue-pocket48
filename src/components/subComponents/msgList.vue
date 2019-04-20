@@ -2,7 +2,7 @@
   <div class="msg-list">
     <transition-group tag="div">
       <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
-        <p class="msg-time" v-html="new Date(parseInt(item.msgTime)).toLocaleDateString()"></p>
+        <p class="msg-time" v-html="new Date(parseInt(item.msgTime)).toLocaleString()"></p>
         <p class="msg-sender">
           <img
             :src="JSON.parse(item.extInfo).user.avatar | picPathFormat"
@@ -165,16 +165,6 @@ export default {
   created() {
     this.getMsgList();
   }
-  // watch: {
-  //   msgList: function() { // 将得到的消息列表的 extInfo 转换为对象
-  //     this.msgList.forEach(item => {
-  //       item.extInfo = JSON.parse(item.extInfo);
-  //       // if (item.bodys.includes("amr")) {
-  //       //   this.amr = JSON.parse(item.bodys);
-  //       // }
-  //     });
-  //   }
-  // }
 };
 </script>
 <style lang="less" scoped>

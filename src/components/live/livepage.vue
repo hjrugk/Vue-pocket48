@@ -1,13 +1,13 @@
 <template>
   <div class="live-page-container my-card">
     <div class="info-container">
-      <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.picPath">
+      <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.user">
         <div class="live-title">
-          <span v-html="liveInfo.subTitle" class="sub-title"></span>
+          <span v-html="liveInfo.user.userName+'的直播间'" class="sub-title"></span>
           <br>
-          <span v-html="liveInfo.title" class="main-title"></span>
+          <span v-html="title" class="main-title"></span>
         </div>
-        <div v-html="new Date(liveInfo.startTime).toLocaleDateString()" class="live-time"></div>
+        <div v-html="new Date(parseInt(ctime)).toLocaleString()" class="live-time"></div>
         <div class="comment-info" v-if="type===0">
           <i class="el-icon-view"></i>
           <span class="praise-count" v-html="count.praise"></span>
@@ -18,12 +18,7 @@
         </div>
       </div>
     </div>
-    <a href="javascript:;" v-if="type===1 && picPath">
-      <div class="pic-container" @click="triggerMethod" :style="rect">
-        <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
-      </div>
-    </a>
-    <a href="javascript:;" v-if="type===0 && picPath">
+    <a href="javascript:;" v-if="type===0">
       <div class="pic-container" @click="triggerMethod" :style="rect">
         <img
           width="100%"
@@ -33,6 +28,11 @@
           class="live-cover"
           v-show="picPath"
         >
+      </div>
+    </a>
+    <a href="javascript:;" v-else>
+      <div class="pic-container" @click="triggerMethod" :style="rect">
+        <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
       </div>
     </a>
     <video-control
@@ -103,7 +103,13 @@ export default {
   computed: {
     livePath: function() {
       // 返回各清晰度视频地址
-      return [{ streamPath: this.liveInfo.playStreamPath }];
+      let streamPath = []
+      if(this.type === 0){
+        streamPath = this.liveInfo.playStreams
+      }else {
+        streamPath = [{ streamPath: this.liveInfo.playStreamPath }];
+      }
+      return streamPath
     },
     type: function() {
       return (
@@ -111,7 +117,13 @@ export default {
       );
     },
     isLive: function() {
-      return !this.liveInfo.review;
+      let isLive = false
+      if(this.type === 0){
+        isLive = (this.liveInfo.status===2)
+      }else{
+        isLive = !this.liveInfo.review
+      }
+      return isLive
     },
     rect: function() {
       if (this.type === 0) {
@@ -119,6 +131,12 @@ export default {
       } else {
         return { width: "450px", height: "800px" };
       }
+    },
+    title(){
+      return this.$route.params.title || JSON.parse(localStorage.getItem("type")).title
+    },
+    ctime(){
+      return this.$route.params.ctime || JSON.parse(localStorage.getItem("type")).ctime
     }
   }
 };
@@ -136,6 +154,7 @@ export default {
     .flex-all-center();
     text-align: center;
     background-color: #000;
+    overflow: hidden;
     .live-cover {
       cursor: pointer;
       width: 100%;

@@ -82,12 +82,14 @@ export default {
   }
   .show-all-msg {
     position: fixed;
-    right: 10%;
+    right: 15px;
+    top: 80px;
     background-color: #fff;
     width: 30px;
     height: 30px;
     .flex-all-center();
     cursor: pointer;
+    border: 1px solid #eee;
   }
   @media screen and (max-width: 768px) {
     .board-list {

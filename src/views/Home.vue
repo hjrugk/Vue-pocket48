@@ -26,11 +26,11 @@
       </div>
     </div>
     <div class="live-wrapper">
-      <akina-list
+      <live-list
         :type="0" :list="akinaVideos.slice(0,8)"
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'公演直播'"
-      v-if="akinaVideos[0]"></akina-list>
+      v-if="akinaVideos[0]"></live-list>
       <div v-else class="alt_bg">
         <img src="../assets/images/loading.gif" alt="">
       </div>
@@ -40,7 +40,7 @@
 
 <script>
 import liveList from '../components/subComponents/liveList'
-import akinaList from '../components/subComponents/akinaList'
+// import akinaList from '../components/subComponents/akinaList'
 import groupInfo from '../components/infomation/groupinfo'
 import {mapState,mapGetters} from 'vuex'
 export default {
@@ -51,7 +51,7 @@ export default {
   components: {
     liveList,
     groupInfo,
-    akinaList
+    // akinaList
   },
   computed: {
     ...mapState(['adsList','akinaVideos']),

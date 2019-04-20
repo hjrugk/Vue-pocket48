@@ -103,14 +103,10 @@ export default {
   },
   async getAkinaVideos({
     commit
-  }, {
-    limit
   }) {
-    const res = await ajax('/getAkinaVideos', {
-      limit
-    })
+    const res = await ajax('/getOpenLive', )
     commit('saveAkinaVideos', {
-      list: res.data.vlist
+      list: res.content.liveList
     })
   }
 }

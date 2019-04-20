@@ -68,8 +68,8 @@ const api = {
   },
   login_postData: (request) => {
     return JSON.stringify({
-      "pwd": request.body.password, //密码
-      "mobile": request.body.account, //用户名
+      "pwd": request.body.password, 
+      "mobile": request.body.account, 
     })
   },
   login_options: () => {
@@ -104,9 +104,10 @@ const api = {
   },
   openLive_postData: (req) => {
     return JSON.stringify({
-      "record": req.query.isReview || false, //是否为录播,1获取录播,0获取直播
-      "groupId": req.query.id || 0, //团体id,详见syncsystemOverview
-      "liveId": 0
+      "record": req.query.isReview || false, 
+      "groupId": req.query.id || 0, 
+      "liveId": 0,
+      "next": req.query.next || 0
     })
   },
   openLive_options: () => {
@@ -122,7 +123,7 @@ const api = {
   },
   livePage_postData: (req) => {
     return JSON.stringify({
-      "liveId": req.query.id //成员直播的liveId
+      "liveId": req.query.id 
     })
   },
   livePage_options: () => {
@@ -138,7 +139,7 @@ const api = {
   },
   openPage_postData: (req) => {
     return JSON.stringify({
-      "liveId": req.query.id //公演直播的liveId
+      "liveId": req.query.id 
     })
   },
   openPage_options: () => {
@@ -154,7 +155,7 @@ const api = {
   },
   comment_postData: (req) => {
     return JSON.stringify({
-      "roomId": req.body.id, //房间id, 详见roomList
+      "roomId": req.body.id, 
       "nextTime": req.body.nextTime
     })
   },
@@ -217,6 +218,7 @@ const api = {
       method: 'POST',
       headers: {
         ...COMMONHEADERS,
+        'Cache-Control': 'maxAge=1000',
         token: req.body.token
       }
     }
