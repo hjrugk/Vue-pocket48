@@ -14,11 +14,7 @@
       :livetitle="'录播'"
       v-if="openReviewList[0]"
     ></live-list>
-    <div v-else class="live-header">
-      <p class="alt_icon">
-        <i class="el-icon-loading"></i>
-      </p>
-    </div>
+    <alt-loading v-else></alt-loading>
     <!-- <akina-list
       :type="0"
       :list="akinaVideos"
@@ -33,6 +29,7 @@
 
 <script>
 import liveList from "../subComponents/liveList";
+import altLoading from '../subComponents/altLoading'
 // import akinaList from "../subComponents/akinaList";
 import { mapState } from "vuex";
 export default {
@@ -68,6 +65,7 @@ export default {
   },
   components: {
     liveList,
+    altLoading
     // akinaList
   },
   computed: {

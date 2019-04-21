@@ -3,9 +3,9 @@
     <div class="top" @click="toTop">
       <i class="el-icon-arrow-up"></i>
     </div>
-    <div class="show-all-msg" @click="shouldShowAllMsg = !shouldShowAllMsg">
+    <div class="show-all-msg" @click="changeToggleBtnText">
       <i class="el-icon-arrow-left"></i>
-      <span class="show-msg-button">留言板</span>
+      <span class="show-msg-button" v-html="innerTextOfToggleButon"></span>
     </div>
     <div class="list">
       <transition-group name="slide-fade">
@@ -28,13 +28,18 @@ export default {
       roomId: this.$route.params.roomId,
       bgPath:
         this.$route.params.bgPath || JSON.parse(localStorage.getItem("bgPath")),
-      shouldShowAllMsg: false
+      shouldShowAllMsg: false,
+      innerTextOfToggleButon: '留言板'
     };
   },
   methods: {
     toTop() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
+    },
+    changeToggleBtnText(){
+      this.shouldShowAllMsg = !this.shouldShowAllMsg
+      this.shouldShowAllMsg ? this.innerTextOfToggleButon = '返回' : this.innerTextOfToggleButon = '留言板'
     }
   },
   mounted() {
@@ -99,7 +104,10 @@ export default {
     cursor: pointer;
     border: 1px solid #eee;
     transition: all 0.5s ease;
+    overflow: hidden;
     .show-msg-button{
+      transition: all 0.5s ease;
+      // width: 50px;
       font-size: 14px;
       height: 30px;
       line-height: 30px;
@@ -115,10 +123,8 @@ export default {
     .show-all-msg{
       width: 30px;
       padding: 0;
-      i{
-        margin-left: 15px;
-      }
       .show-msg-button{
+        width: 0;
         visibility: hidden;
       }
     }

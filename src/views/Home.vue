@@ -8,9 +8,7 @@
         </a>
       </el-carousel-item>
     </el-carousel>
-    <div class="alt_bg" v-else>
-      <img class="alt-img" src="../assets/images/loading.gif" alt="">
-    </div>
+    <alt-loading v-else></alt-loading>
     <div class="home-nav">
       <group-info></group-info>
     </div>
@@ -21,9 +19,7 @@
         :livetitle="'成员直播'"
         v-if="memberAllLiveList[0]"
         ></live-list>
-      <div v-else class="alt_bg">
-        <img src="../assets/images/loading.gif" alt="">
-      </div>
+      <alt-loading v-else></alt-loading>
     </div>
     <div class="live-wrapper">
       <live-list
@@ -31,17 +27,15 @@
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'公演直播'"
       v-if="akinaVideos[0]"></live-list>
-      <div v-else class="alt_bg">
-        <img src="../assets/images/loading.gif" alt="">
-      </div>
+      <alt-loading v-else></alt-loading>
     </div>
-    <router-view></router-view>
     <About />
   </div>
 </template>
 
 <script>
 import liveList from '../components/subComponents/liveList'
+import altLoading from '../components/subComponents/altLoading'
 // import akinaList from '../components/subComponents/akinaList'
 import About from './About'
 import groupInfo from '../components/infomation/groupinfo'
@@ -55,6 +49,7 @@ export default {
     liveList,
     About,
     groupInfo,
+    altLoading
     // akinaList
   },
   computed: {

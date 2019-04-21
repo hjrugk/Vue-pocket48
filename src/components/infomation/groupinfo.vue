@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="member-list">
-      <el-menu class="el-menu-demo" mode="horizontal" :default-active="activeIndex">
+      <el-menu class="el-menu-demo" mode="horizontal" :default-active="activeIndex" active-text-color="#FFFFFF">
         <li class="group-brand color-item" style="background-color: #fff">所有团队</li>
         <el-menu-item
           v-for="item in groupList"

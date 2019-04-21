@@ -1,6 +1,6 @@
 <template>
   <div class="live-page-container my-card">
-    <div class="info-container">
+    <div class="info-container" v-show="showInfoHeader">
       <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.user">
         <div class="live-title">
           <span v-html="liveInfo.user.userName+'的直播间'" class="sub-title"></span>
@@ -18,8 +18,8 @@
         </div>
       </div>
     </div>
-    <a href="javascript:;" v-if="type===0">
-      <div class="pic-container" @click="triggerMethod" :style="rect">
+    <a href="javascript:;" v-if="type===0" style="cursor: default;">
+      <div class="pic-container" :style="rect">
         <img
           width="100%"
           :src="picPath | picPathFormat"
@@ -28,11 +28,17 @@
           class="live-cover"
           v-show="picPath"
         >
+        <div class="mask" @click="triggerMethod">
+          <div class="play-btn" @click.prevent="triggerMethod"></div>
+        </div>
       </div>
     </a>
-    <a href="javascript:;" v-else>
-      <div class="pic-container" @click="triggerMethod" :style="rect">
+    <a href="javascript:;" v-else style="cursor: default;">
+      <div class="pic-container" :style="rect">
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
+        <div class="mask" @click="triggerMethod">
+          <div class="play-btn" @click.prevent="triggerMethod"></div>
+        </div>
       </div>
     </a>
     <video-control
@@ -66,7 +72,8 @@ export default {
       },
       radioCover: [],
       topWidth: "",
-      topHeight: ""
+      topHeight: "",
+      showInfoHeader: true
     };
   },
   methods: {
@@ -92,6 +99,7 @@ export default {
       this.topWidth = this.rect.width;
       this.topHeight = this.rect.height;
       this.$refs.vod.playReview();
+      this.showInfoHeader = false
     }
   },
   created() {
@@ -155,9 +163,38 @@ export default {
     text-align: center;
     background-color: #000;
     overflow: hidden;
+    position: relative;
     .live-cover {
       cursor: pointer;
       width: 100%;
+    }
+    .mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      .flex-all-center();
+      .play-btn{
+        cursor: pointer;
+        position: absolute;
+        opacity: 0;
+        transition: all 0.1s ease-out;
+        transform: scale(1);
+        width: 54px;
+        height: 54px;
+        background-size: 100% 100%;
+        background-image: url(https://sta-op.douyucdn.cn/front-publish/live-master/assets/images/icon-play_e4e7e68.webp);
+      }
+    }
+    &:hover {
+      box-shadow: 0 0 9px #333;
+      .mask {
+        .play-btn{
+          opacity: 1;
+          transform: scale(1.3);
+        }
+      }
     }
   }
   .info-container {
@@ -166,6 +203,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 100;
     .live-info {
       .flex-all-center();
       background-color: #fff;

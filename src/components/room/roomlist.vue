@@ -20,12 +20,16 @@
         </div>
       </div>
     </div>
-    <div class="my-card" v-if="!friends[0]">您还没有关注成员</div>
+    <div v-if="!friends[0]" style="width: 100%;text-align:center;height:300px;padding-top:150px;">
+      <img src="@/assets/images/no_data.webp" alt="">
+    </div>
+    <alt-loading v-else-if="friends[0]&&!roomList[0]"></alt-loading>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import altLoading from '../subComponents/altLoading'
 export default {
   name: "roomlist",
   data() {
@@ -45,17 +49,22 @@ export default {
     }
   },
   async mounted() {
-    this.friends = JSON.parse(
-      localStorage.getItem("friends")
-    );
-    this.token = this.$store.getters.getToken;
-    this.$store.dispatch("getRoomList", {
-      token: this.token,
-      friends: this.friends
-    });
+    if(localStorage.getItem('friends')){
+      this.friends = JSON.parse(
+        localStorage.getItem("friends")
+      );
+      this.token = this.$store.getters.getToken;
+      this.$store.dispatch("getRoomList", {
+        token: this.token,
+        friends: this.friends
+      });
+    }
   },
   computed: {
     ...mapState(["roomList"])
+  },
+  components: {
+    altLoading
   }
 };
 </script>

@@ -20,7 +20,7 @@
         <transition-group mode="out-in" tag="div" class="members">
           <div
             class="member-item my-card"
-            :style="'border: 1px solid #'+info.teamColor"
+            :style="'box-shadow: 0 0 3px #'+info.teamColor"
             v-for="item in newList"
             :key="item.userId"
             v-show="item.teamId === info.teamId && item.status.toString()===statusCode"
@@ -37,6 +37,9 @@
             <p class="member-name" v-html="item.realName"></p>
           </div>
         </transition-group>
+        <div v-if="!newList[0]" style="width: 100%;text-align:center;height:300px;padding-top:150px;">
+          <img src="@/assets/images/no_data.webp" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -133,13 +136,13 @@ export default {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       grid-auto-columns: auto;
+      grid-auto-flow: row;
+      grid-gap: 15px;
       .member-item {
         .flex-all-center();
         max-height: 200px;
         border: 1px solid #ddd;
         padding: 5px;
-        margin-right: 8px;
-        margin-bottom: 8px;
         text-align: center;
         flex-wrap: wrap;
         cursor: pointer;

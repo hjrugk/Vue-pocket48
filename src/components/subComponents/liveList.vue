@@ -7,7 +7,7 @@
         <i class="el-icon-arrow-right"></i>
       </p>
     </div>
-    <transition-group appear tag="div" class="list-container">
+    <transition-group appear tag="div" class="list-container" v-if="list">
       <a
         href="javascript:;"
         @click.prevent="getLivePage(item)"
@@ -16,9 +16,12 @@
         class="live-item"
         target="_blank"
       >
-        <div class="pic-container">
-          <img :src="item.coverPath | picPathFormat" alt class="live-pic">
-          <div class="mask"></div>
+        <div class="pic-container"
+          :style="'background-image: url(\''+'http://source.48.cn'+item.coverPath+'\')'"
+        >
+          <div class="mask">
+            <div class="play-btn"></div>
+          </div>
           <div class="live-title" v-html="item.title"></div>
         </div>
         <div class="live-info">
@@ -41,6 +44,9 @@
         </div>
       </a>
     </transition-group>
+    <div v-else style="width: 100%;text-align:center;height:300px;padding-top:150px;">
+      <img src="@/assets/images/no_data.webp" alt="">
+    </div>
   </div>
 </template>
 
@@ -123,10 +129,16 @@ export default {
         border-radius: 5px;
         box-shadow: 0 0 3px #666;
         background-color: #000;
+        background-position: center center;
+        background-size: cover;
         &:hover {
           box-shadow: 0 0 9px #333;
           .mask {
             background-color: rgba(0,0,0,0.3);
+            .play-btn{
+              opacity: 1;
+              transform: scale(1.3);
+            }
           }
         }
         .live-title {
@@ -144,16 +156,24 @@ export default {
           right: 10px;
           font-size: 12px;
         }
-        .live-pic {
-          width: 100%;
-        }
         .mask {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
+          .flex-all-center();
           background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 67%,rgba(0,0,0,0.65) 100%);
+          .play-btn{
+            position: absolute;
+            opacity: 0;
+            transition: all 0.1s ease-out;
+            transform: scale(1);
+            width: 54px;
+            height: 54px;
+            background-size: 100% 100%;
+            background-image: url(https://sta-op.douyucdn.cn/front-publish/live-master/assets/images/icon-play_e4e7e68.webp);
+          }
         }
       }
       .live-info {

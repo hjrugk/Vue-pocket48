@@ -1,6 +1,6 @@
 <template>
   <div class="alt_bg">
-    <img class="alt-img" src="../../assets/images/loading.gif" alt>
+    <img class="alt-img" src="@/assets/images/loading1.gif" alt>
   </div>
 </template>
 <script>
@@ -14,7 +14,6 @@ export default {};
   height: 100%;
   text-align: center;
   overflow: hidden;
-  background-color: #fff !important;
   .alt-img {
     height: 100%;
   }

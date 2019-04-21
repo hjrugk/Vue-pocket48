@@ -5,14 +5,14 @@
         :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b"
+        background-color="#654ea3"
+        text-color="#FFF"
+        active-text-color="#FFFFFF"
         router
       >
         <div class="el-menu-brand">
-          <img class="logo-img" @click="pushToHome" src="./assets/images/login_logo.png" alt="">
-          <span class="brand-name" @click="pushToHome">口袋48</span>
+          <img class="logo-img" @click="pushToHome" src="@/assets/images/login_logo.png" alt="">
+          <span class="brand-name" @click="pushToHome">VUE48</span>
         </div>
         <el-menu-item class="none" index="/home">首页</el-menu-item>
         <el-menu-item class="none" index="/roomlist" v-show="$store.getters.checkLogin">聚聚</el-menu-item>
@@ -107,11 +107,11 @@ export default {
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #545c64;
+    background: #654ea3;
     .el-menu-demo{
       .flex-menu();
     }
-    .el-menu.el-menu--horizontal{
+    .el-menu--horizontal{
       border-bottom: none;
     }
     .el-menu{
@@ -132,9 +132,8 @@ export default {
         }
         .brand-name{
           font-size: 25px;
-          margin-left: 10px;
           color: #fff;
-          width: 100px;
+          margin-left: 10px;
         }
       }
     }

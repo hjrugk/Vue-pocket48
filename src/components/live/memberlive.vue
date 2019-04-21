@@ -7,18 +7,17 @@
       :livetitle="'直播'"
       v-if="memberLiveList[0]"
     ></live-list>
-    <div class="review-header" v-if="!isSuccess">
-      <p class="instead-info">
-        <i class="el-icon-loading"></i>
-      </p>
-    </div>
+    <alt-loading v-if="!isSuccess"></alt-loading>
     <live-list
       :type="1"
       :list="memberReviewList"
       :rect="{width:'240px',height:'150px',maxWidth: '360px'}"
       :livetitle="'录播'"
-      v-else
+      v-if="memberReviewList[0]"
     ></live-list>
+    <div v-if="!memberReviewList[0]" style="width: 100%;text-align:center;height:300px;padding-top:150px;">
+      <img src="@/assets/images/no_data.webp" alt="">
+    </div>
     <div class="button" @click="getMoreLive" v-show="$route.path !=='/home' && memberReviewList[0]">
       <i class="el-icon-arrow-down"></i>
     </div>
@@ -27,6 +26,7 @@
 
 <script>
 import liveList from "../subComponents/liveList";
+import altLoading from '../subComponents/altLoading'
 export default {
   name: "memberlive",
   data() {
@@ -66,14 +66,15 @@ export default {
       if (this.memberReviewList.length === 0) {
         this.$message("没有更多录播了");
       }
-      this.isSuccess = true;
+      this.isSuccess = res1.success;
     }
   },
   created() {
     this.getAllLive();
   },
   components: {
-    liveList
+    liveList,
+    altLoading
   }
 };
 </script>

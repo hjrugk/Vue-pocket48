@@ -1,6 +1,7 @@
 const COMMONHEADERS = {
   'Content-Type': 'application/json',
   'Connection': 'keep-alive',
+  'Cache-Control': 'maxAge=30',
   'Host': 'pocketapi.48.cn',
   'accept': '*/*',
   'Accept-Language': 'zh-Hans-CN;q=1',
@@ -218,7 +219,6 @@ const api = {
       method: 'POST',
       headers: {
         ...COMMONHEADERS,
-        'Cache-Control': 'maxAge=1000',
         token: req.body.token
       }
     }

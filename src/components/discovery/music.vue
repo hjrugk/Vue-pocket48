@@ -18,7 +18,7 @@
         <el-button @click="playOrPause" v-else>暂停</el-button>
       </el-form-item>
     </el-form>
-    <div class="music-list">
+    <div class="music-list" v-if="list[0]">
       <div
         class="music-item my-card"
         v-for="(item, i) in list"
@@ -42,11 +42,13 @@
         </div>
       </div>
     </div>
+    <alt-loading v-else></alt-loading>
     <audio src="none" ref="audio"></audio>
   </div>
 </template>
 
 <script>
+import altLoading from '../subComponents/altLoading'
 export default {
   name: "music",
   data() {
@@ -95,6 +97,9 @@ export default {
   },
   created() {
     this.getMusicList();
+  },
+  components: {
+    altLoading
   }
 };
 </script>
