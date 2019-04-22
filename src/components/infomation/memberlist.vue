@@ -10,12 +10,15 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <p
-        v-html="info.teamName"
-        :style="'color: #'+info.teamColor | overseaFilter"
-        class="team-name"
-        v-show="!keywords"
-      ></p>
+      <div class="team-info">
+        <span
+          v-html="info.teamName"
+          :style="'color: #'+info.teamColor | overseaFilter"
+          class="team-name"
+          v-show="!keywords"
+        ></span>
+        <img class="team-logo" :src="info.teamLogo | picPathFormat" alt="">
+      </div>
       <div class="member-list">
         <transition-group mode="out-in" tag="div" class="members">
           <div
@@ -46,7 +49,7 @@
 </template>
 
 <script>
-import altLoading from "../subComponents/altLoading";
+import altLoading from "@/components/subComponents/altLoading";
 export default {
   name: "memberlist",
   data() {
@@ -128,9 +131,19 @@ export default {
   box-sizing: border-box;
   padding-left: 7px;
   .team-container {
-    .team-name {
-      font-weight: bold;
-      margin-left: 5px;
+    .team-info{
+      .flex-align-center();
+      height: 50px;
+      padding: 20px 0;
+      .team-name {
+        font-weight: bold;
+        margin: 0 5px;
+      }
+      .team-logo{
+        width: 28px;
+        margin-top: 2px;
+        margin-left: 5px;
+      }
     }
     .members {
       display: grid;

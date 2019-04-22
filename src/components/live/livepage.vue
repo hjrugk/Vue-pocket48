@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import videoControl from "../subComponents/videoControl";
+import videoControl from "@/components/subComponents/videoControl";
 export default {
   name: "livepage",
   data() {

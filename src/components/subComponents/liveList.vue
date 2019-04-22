@@ -20,6 +20,10 @@
           :style="'background-image: url(\''+'http://source.48.cn'+item.coverPath+'\')'"
         >
           <div class="mask">
+            <div class="live-status">
+              <img v-if="item.liveType!==0" class="type" :src="'./images/live_type_'+item.liveType+'.webp'" alt="">
+              <img class="status" :src="'./images/live_status_'+item.status+'.webp'" alt="">
+            </div>
             <div class="play-btn"></div>
           </div>
           <div class="live-title" v-html="item.title"></div>
@@ -52,7 +56,7 @@
 
 <script>
 export default {
-  name: "liveItem",
+  name: "liveList",
   data() {
     return {
       isLive: false
@@ -88,10 +92,13 @@ export default {
 @import "../../assets/less/global";
 .live-list {
   width: 100%;
+  margin-top: 30px;
   .live-header {
     .flex-align-center();
     margin: 0 auto;
     width: 85%;
+    padding: 0 10px;
+    box-sizing: border-box;
     justify-content: space-between;
     .live-type {
       margin-left: 10px;
@@ -110,12 +117,13 @@ export default {
     }
   }
   .list-container {
+    box-sizing: border-box;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 10px;
-    width: 85%;
-    padding: 10px;
+    width: 87%;
+    padding: 10px 20px;
     .live-item {
       padding: 5px;
       text-decoration: none;
@@ -174,6 +182,21 @@ export default {
             background-size: 100% 100%;
             background-image: url(https://sta-op.douyucdn.cn/front-publish/live-master/assets/images/icon-play_e4e7e68.webp);
           }
+          .live-status{
+            .type{
+              position: absolute;
+              top: 5px;
+              left: 0;
+              height: 20px;
+              margin-left: 5px;
+            }
+            .status{
+              position: absolute;
+              top: 5px;
+              right: 0;
+              height: 20px;
+            }
+          }
         }
       }
       .live-info {
@@ -190,7 +213,7 @@ export default {
   }
   @media screen and (max-width: 900px) {
     .list-container {
-      width: 90%;
+      // width: 90%;
       grid-template-columns: repeat(3, 1fr);
     }
   }

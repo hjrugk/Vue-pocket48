@@ -29,7 +29,7 @@
 
 <script>
 import { mapState } from "vuex";
-import altLoading from '../subComponents/altLoading'
+import altLoading from '@/components/subComponents/altLoading'
 export default {
   name: "roomlist",
   data() {

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import altLoading from '../subComponents/altLoading'
+import altLoading from '@/components/subComponents/altLoading'
 export default {
   name: "music",
   data() {

@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import msgList from "../subComponents/msgList";
-import commentList from "../subComponents/commentList";
+import msgList from "@/components/subComponents/msgList";
+import commentList from "@/components/subComponents/commentList";
 
 export default {
   name: "roommsg",

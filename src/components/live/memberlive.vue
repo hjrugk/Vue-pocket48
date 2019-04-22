@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import liveList from "../subComponents/liveList";
-import altLoading from '../subComponents/altLoading'
+import liveList from "@/components/subComponents/liveList";
+import altLoading from '@/components/subComponents/altLoading'
 export default {
   name: "memberlive",
   data() {

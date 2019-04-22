@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <div class="member-list">
-      <el-menu class="el-menu-demo" mode="horizontal" :default-active="activeIndex" active-text-color="#FFFFFF">
-        <li class="group-brand color-item" style="background-color: #fff">所有团队</li>
-        <el-menu-item
-          v-for="item in groupList"
-          :style="{backgroundColor: item.color}"
-          class="color-item"
-          router
-          :key="item.id"
-          :index="item.id"
-          @click="getList(item.id)"
-          :disabled="!isComplete"
-          v-show="item.id !== '1'"
-        >{{item.name.toUpperCase()}}</el-menu-item>
-      </el-menu>
-      <router-view></router-view>
-    </div>
+  <div class="member-list">
+    <el-menu class="el-menu-demo" mode="horizontal" :default-active="activeIndex" active-text-color="#FFFFFF">
+      <li class="group-brand color-item" style="background-color: #fff">所有团队</li>
+      <el-menu-item
+        v-for="item in groupList"
+        :style="{backgroundColor: item.color}"
+        class="color-item"
+        router
+        :key="item.id"
+        :index="item.id"
+        @click="getList(item.id)"
+        :disabled="!isComplete"
+        v-show="item.id !== '1'"
+      >{{item.name.toUpperCase()}}</el-menu-item>
+    </el-menu>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -87,5 +85,10 @@ export default {
       width: 1170px;
     }
   }
+  // @media screen and (max-width: 768px) {
+  //   .el-menu-demo {
+  //     width: 90%;
+  //   }
+  // }
 }
 </style>

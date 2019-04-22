@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import liveList from '../components/subComponents/liveList'
-import altLoading from '../components/subComponents/altLoading'
+import liveList from '@/components/subComponents/liveList'
+import altLoading from '@/components/subComponents/altLoading'
 // import akinaList from '../components/subComponents/akinaList'
 import About from './About'
-import groupInfo from '../components/infomation/groupinfo'
+import groupInfo from '@/components/infomation/groupinfo'
 import {mapState,mapGetters} from 'vuex'
 export default {
   data() {
@@ -60,19 +60,10 @@ export default {
 </script>
 <style lang="less" scoped>
 .home{
-  .alt_bg{
-    height: 350px;
-    background-color: #fff;
-    width: 100%;
-    text-align: center;
-    overflow: hidden;
-    .alt-img{
-      height: 350px;
-    }
-  }
   .el-carousel{
     width: 100%;
     text-align: center;
+    z-index: 999;
     .el-carousel__container{
       .el-carousel__item{
         display: flex;
@@ -108,7 +99,7 @@ export default {
     @media screen and (max-width: 768px){
       .el-carousel__item{
         .img-item{
-          width: 100%;
+          width: 100%!important;
         }
       }
     }
@@ -120,10 +111,8 @@ export default {
       }
     }
   }
-  .live-wrapper{
-    .alt_bg{
-      height: 550px;
-    }
+  .home-nav{
+    width: 100%;
   }
 }
 </style>
