@@ -141,6 +141,7 @@ export default {
       .member-item {
         .flex-all-center();
         max-height: 200px;
+        min-height: 150px;
         border: 1px solid #ddd;
         padding: 5px;
         text-align: center;

@@ -1,7 +1,5 @@
 # vue-pocket48
 
-6.0 版本大部分功能已恢复，api 接口来自于网络，以及其他来源
-
 使用 [Vue](https://vuejs.org/) + [Node](https://nodejs.org) 做的 web 版口袋48，请谨慎登录
 
 ## 如何使用？

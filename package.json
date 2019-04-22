@@ -1,12 +1,11 @@
 {
   "name": "vue-pocket48",
-  "version": "1.0.0",
+  "version": "6.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "start": "electron ."
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "element-ui": "^2.5.4",
