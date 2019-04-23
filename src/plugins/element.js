@@ -31,4 +31,5 @@ Vue.use(Radio)
 Vue.use(Select)
 Vue.use(Option)
 Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;

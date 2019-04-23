@@ -2,7 +2,7 @@
   <div class="live-list">
     <div class="live-header">
       <p class="live-type" v-html="livetitle"></p>
-      <p class="live-more" @click="goToAllLive" v-show="$route.path ==='/home'">
+      <p class="live-more" @click="goToAllLive" v-if="$route.path ==='/home'">
         查看更多
         <i class="el-icon-arrow-right"></i>
       </p>
@@ -32,15 +32,25 @@
           <p
             v-if="!item.teamList"
             :title="item.userInfo.nickname"
-            v-html="item.userInfo.nickname"
-            class="live-url"
-          ></p>
+            class="header"
+          >
+            <span class="live-url">{{item.userInfo.nickname}}</span>
+            <img
+              :src="item.userInfo.teamLogo | picPathFormat"
+              class="live-logo"
+            />
+          </p>
           <p
             v-else-if="item.teamList[0]"
             :title="item.teamList[0].teamName"
-            v-html="item.teamList[0].teamName"
-            class="live-url"
-          ></p>
+            class="header"
+          >
+            <span class="live-url">{{item.teamList[0].teamName}}</span>
+            <img
+              :src="item.teamList[0].teamLogo | picPathFormat"
+              class="live-logo"
+            />
+          </p>
           <p
             v-html="new Date(parseInt(item.ctime || item.stime)).toLocaleDateString()"
             class="live-time"
@@ -115,6 +125,16 @@ export default {
         color: #666;
       }
     }
+    .live-filter {
+      margin-right: 10px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      color: #333;
+      font-size: 20px;
+      &:hover {
+        color: #666;
+      }
+    }
   }
   .list-container {
     box-sizing: border-box;
@@ -139,13 +159,15 @@ export default {
         background-color: #000;
         background-position: center center;
         background-size: cover;
+        transition: all 0.1s ease-out;
         &:hover {
           box-shadow: 0 0 9px #333;
+          transform: scale(1.05);
           .mask {
             background-color: rgba(0,0,0,0.3);
             .play-btn{
               opacity: 1;
-              transform: scale(1.3);
+              transform: scale(1.05);
             }
           }
         }
@@ -155,6 +177,7 @@ export default {
           bottom: 0;
           color: #fff;
           padding-left: 10px;
+          max-width: 180px;
           margin-bottom: 10px;
         }
         .on-live{
@@ -185,8 +208,8 @@ export default {
           .live-status{
             .type{
               position: absolute;
-              top: 5px;
-              left: 0;
+              bottom: 10px;
+              right: 5px;
               height: 20px;
               margin-left: 5px;
             }
@@ -203,10 +226,21 @@ export default {
         display: flex;
         justify-content: space-between;
         font-size: 12px;
-        width: 90%;
-        .live-url {
-          height: 15px;
-          overflow: hidden;
+        width: 100%;
+        padding: 0 5px;
+        box-sizing: border-box;
+        .header{
+          .flex-align-center();
+          .live-url {
+            height: 15px;
+            overflow: hidden;
+          }
+          .live-logo{
+            width: 20px;
+            height: 11.6px;
+            margin-top: 3px;
+            margin-left: 5px;
+          }
         }
       }
     }

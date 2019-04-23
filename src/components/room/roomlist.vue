@@ -86,8 +86,10 @@ export default {
       margin: 5px;
       cursor: pointer;
       justify-content: flex-start;
+      transition: all 0.1s ease-out;
       &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 5px #aaa;
+        background-color: #fefefe;
       }
       .room-avatar {
         width: 80px;

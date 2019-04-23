@@ -1,5 +1,9 @@
 <template>
   <div class="live-container">
+    <select-filter @changelivelist="changelivelist" @close="changeShowFilter" v-show="shouldShowFilter" />
+    <div class="live-filter">
+      <i class="el-icon-sort" @click="shouldShowFilter = !shouldShowFilter"></i>
+    </div>
     <live-list
       :type="1"
       :list="memberLiveList"
@@ -27,6 +31,7 @@
 <script>
 import liveList from "@/components/subComponents/liveList";
 import altLoading from '@/components/subComponents/altLoading'
+import selectFilter from '@/components/subComponents/selectFilter'
 export default {
   name: "memberlive",
   data() {
@@ -35,7 +40,8 @@ export default {
       id: this.$route.params.id || 0,
       isSuccess: false,
       memberLiveList: [],
-      memberReviewList: []
+      memberReviewList: [],
+      shouldShowFilter: false
     };
   },
   methods: {
@@ -67,6 +73,14 @@ export default {
         this.$message("没有更多录播了");
       }
       this.isSuccess = res1.success;
+    },
+    changeShowFilter(){
+      this.shouldShowFilter = false
+    },
+    changelivelist({userId}){
+      this.id = userId
+      this.shouldShowFilter = false
+      this.getAllLive()
     }
   },
   created() {
@@ -74,7 +88,8 @@ export default {
   },
   components: {
     liveList,
-    altLoading
+    altLoading,
+    selectFilter
   }
 };
 </script>
@@ -83,6 +98,12 @@ export default {
 @import "../../assets/less/global";
 .live-container {
   margin: 10px;
+  .live-filter{
+    position: absolute;
+    top: 120px;
+    right: 10%;
+    font-size: 20px;
+  }
   .live-header {
     width: 100%;
     display: flex;

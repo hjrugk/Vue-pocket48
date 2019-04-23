@@ -113,20 +113,23 @@ export default {
   padding: 0 5px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  grid-gap: 10px;
   margin-bottom: 5px;
   margin-top: -5px;
   width: 85%;
   margin: 0 auto;
   .music-item {
     flex: 1;
-    margin: 5px;
+    // margin: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.1s ease-out;
     &:hover {
-      background-color: #eee;
-      box-shadow: 0 0 5px #ccc;
+      // background-color: #eee;
+      box-shadow: 0 0 5px #aaa;
+      transform: scale(1.05);
       cursor: pointer;
     }
     .image {

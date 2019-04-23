@@ -10,12 +10,11 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <div class="team-info">
+      <div class="team-info" v-show="!keywords">
         <span
           v-html="info.teamName"
           :style="'color: #'+info.teamColor | overseaFilter"
           class="team-name"
-          v-show="!keywords"
         ></span>
         <img class="team-logo" :src="info.teamLogo | picPathFormat" alt="">
       </div>
@@ -130,10 +129,13 @@ export default {
   margin: 0 auto;
   box-sizing: border-box;
   padding-left: 7px;
+  .radio-list{
+    margin-bottom: 10px;
+  }
   .team-container {
     .team-info{
       .flex-align-center();
-      height: 50px;
+      // height: 50px;
       padding: 20px 0;
       .team-name {
         font-weight: bold;
@@ -155,13 +157,14 @@ export default {
         .flex-all-center();
         max-height: 200px;
         min-height: 150px;
-        border: 1px solid #ddd;
         padding: 5px;
         text-align: center;
         flex-wrap: wrap;
         cursor: pointer;
+        transition: transform 0.1s ease-out;
         &:hover {
-          background-color: #efefef;
+          transform: scale(1.1);
+          box-sizing: 0 0 5px; 
         }
         .avatar-container {
           max-height: 120px;

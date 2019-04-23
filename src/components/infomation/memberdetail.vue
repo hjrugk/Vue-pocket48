@@ -6,7 +6,7 @@
         <div class="base-name">
           <div class="real-name">
             <span v-html="detail.realName" class="real"></span>
-            <el-tag class="follow-tag" v-if="isFollowed" @click="unfollow" size="mini">取消关注</el-tag>
+            <el-tag class="follow-tag" v-if="isFollowed" @click="unfollow" size="mini">已关注</el-tag>
             <el-tag class="follow-tag" v-else @click="follow" type="danger" size="mini">关注</el-tag>
             <p v-html="detail.nickName" class="nick"></p>
           </div>
@@ -107,14 +107,30 @@ export default {
     },
     unfollow() {
       //取关成员
-      let friends = JSON.parse(localStorage.getItem("friends"));
-      let index = friends.findIndex(item => {
-        return parseInt(item) === this.detail.userId;
-      });
-      friends.splice(index, 1);
-      localStorage.setItem("friends", JSON.stringify(friends));
-      this.isFollowed = false;
-      this.checkisFollowed();
+      
+      this.$confirm('是否要取消关注？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let friends = JSON.parse(localStorage.getItem("friends"));
+          let index = friends.findIndex(item => {
+            return parseInt(item) === this.detail.userId;
+          });
+          friends.splice(index, 1);
+          localStorage.setItem("friends", JSON.stringify(friends));
+          this.isFollowed = false;
+          this.checkisFollowed();
+          this.$message({
+            type: 'success',
+            message: '取关成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '操作已取消'
+          });          
+        });
     },
     checkisFollowed() {
       // 检查是否关注该成员
@@ -172,13 +188,13 @@ export default {
   .flex-justify-center();
   width: 100%;
   box-sizing: border-box;
+  margin: 10px 0;
   .inner-container {
     padding: 15px;
     width: 85%;
     height: 100%;
     background-color: #fff;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
+    box-shadow: 0 0 3px #ccc;
     .base-info {
       height: 100px;
       padding-bottom: 20px;
