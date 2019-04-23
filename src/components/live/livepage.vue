@@ -1,20 +1,18 @@
 <template>
   <div class="live-page-container my-card">
     <div class="info-container" v-show="showInfoHeader">
-      <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.user">
+      <div class="live-info" :style="{width: rect.width}">
         <div class="live-title">
-          <span v-html="liveInfo.user.userName+'的直播间'" class="sub-title"></span>
+          <span v-html="title" class="sub-title"></span>
           <br>
-          <span v-html="title" class="main-title"></span>
+          <span v-if="type!==0" v-html="liveInfo.user.userName+'的直播间'" class="main-title"></span>
         </div>
         <div v-html="new Date(parseInt(ctime)).toLocaleString()" class="live-time"></div>
         <div class="comment-info" v-if="type===0">
           <i class="el-icon-view"></i>
-          <span class="praise-count" v-html="count.praise"></span>
-          <i class="el-icon-edit-outline"></i>
-          <span class="comment-count" v-html="count.comment"></span>
-          <i class="el-icon-share"></i>
-          <span class="share-count" v-html="count.share"></span>
+          <span class="praise-count" v-html="liveInfo.playNum"></span>
+          <i class="el-icon-star-off"></i>
+          <span class="comment-count" v-html="liveInfo.praiseNum"></span>
         </div>
       </div>
     </div>
@@ -57,7 +55,7 @@
 </template>
 
 <script>
-import videoControl from "@/components/subComponents/videoControl";
+import videoControl from "./subCons/videoControl";
 export default {
   name: "livepage",
   data() {
@@ -226,8 +224,7 @@ export default {
     .praise-count,
     .comment-count,
     .share-count {
-      margin-right: 10px;
-      margin-left: 2px;
+      margin: 0 5px;
     }
   }
   a {

@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import liveList from "@/components/subComponents/liveList";
-import altLoading from '@/components/subComponents/altLoading'
-import selectFilter from '@/components/subComponents/selectFilter'
+import liveList from "./subCons/liveList";
+import altLoading from '@/components/common/altLoading'
+import selectFilter from '@/components/common/selectFilter'
 export default {
   name: "memberlive",
   data() {

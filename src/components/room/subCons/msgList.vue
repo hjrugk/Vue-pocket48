@@ -79,7 +79,7 @@
   </div>
 </template>
 <script>
-import altLoading from './altLoading'
+import altLoading from '@/components/common/altLoading'
 export default {
   name: "msgList",
   data() {
@@ -223,7 +223,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/less/global";
+@import "../../../assets/less/global";
 .max-height{
   height: calc(100vh);
 }

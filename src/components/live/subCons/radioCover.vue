@@ -15,7 +15,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/less/global";
+@import "../../../assets/less/global";
 .live-pic {
   .flex-all-center();
   position: absolute;

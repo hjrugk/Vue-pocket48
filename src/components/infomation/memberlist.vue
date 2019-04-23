@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import altLoading from "@/components/subComponents/altLoading";
+import altLoading from "@/components/common/altLoading";
 export default {
   name: "memberlist",
   data() {

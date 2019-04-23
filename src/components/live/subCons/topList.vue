@@ -45,7 +45,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/less/global";
+@import "../../../assets/less/global";
 .top-container {
   .flex-justify-center();
   padding: 10px 0;

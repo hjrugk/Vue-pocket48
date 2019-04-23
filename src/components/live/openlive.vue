@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import liveList from "@/components/subComponents/liveList";
-import altLoading from '@/components/subComponents/altLoading'
+import liveList from "./subCons/liveList";
+import altLoading from '@/components/common/altLoading'
 // import akinaList from "../subComponents/akinaList";
 import { mapState } from "vuex";
 export default {

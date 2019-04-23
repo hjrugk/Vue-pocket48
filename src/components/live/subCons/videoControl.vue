@@ -37,7 +37,7 @@
 <script>
 import radioCover from "./radioCover";
 import topList from "./topList";
-import popupInfo from "./popupInfo";
+import popupInfo from "@/components/common/popupInfo";
 import Barrages from "./barrages";
 export default {
   name: "videoControl",
@@ -175,7 +175,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/less/global.less";
+@import "../../../assets/less/global.less";
 .video-container {
   padding: 10px 0;
   position: absolute;

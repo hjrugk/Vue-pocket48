@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../assets/less/global";
+@import "../../../assets/less/global";
 .live-list {
   width: 100%;
   margin-top: 30px;

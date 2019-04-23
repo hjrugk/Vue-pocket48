@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import altLoading from "@/components/subComponents/altLoading";
+import altLoading from "@/components/common/altLoading";
 export default {
   data() {
     return {

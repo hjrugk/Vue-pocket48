@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import liveList from '@/components/subComponents/liveList'
-import altLoading from '@/components/subComponents/altLoading'
+import liveList from '@/components/live/subCons/liveList'
+import altLoading from '@/components/common/altLoading'
 // import akinaList from '../components/subComponents/akinaList'
 import About from './About'
 import groupInfo from '@/components/infomation/groupinfo'

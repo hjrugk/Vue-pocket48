@@ -64,12 +64,17 @@ export default {
       line-height: 25px;
       text-align: center;
       background-color: #eee;
-      width: 50px;
+      width: 80px;
       height: 25px;
     }
   }
   .showAll{
     height: auto;
+  }
+  @media screen and (max-width: 600px) {
+    .member-list{
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 }
 </style>

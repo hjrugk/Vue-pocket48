@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-import popupInfo from "./popupInfo";
+import popupInfo from "@/components/common/popupInfo";
 export default {
   name: "commentList",
   data() {
@@ -94,7 +94,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/less/global";
+@import "../../../assets/less/global";
 .board-list {
   .user-info {
     width: calc(100vw);
