@@ -25,7 +25,7 @@
       v-show="topHeight==='800px'"
       v-if="barrageList.barrages[0]"
     />
-    <radio-cover :type="type" :topWidth="topwidth" :radiocover="radiocover"></radio-cover>
+    <radio-cover :carouselTime="carouselTime" :type="type" :topWidth="topwidth" :radiocover="radiocover"></radio-cover>
     <div v-if="showInfo" @click="showInfo = !showInfo">
       <popup-info :info="userInfo" style="color:#000;"></popup-info>
     </div>
@@ -77,7 +77,8 @@ export default {
     "toplist",
     "lrcpath",
     "topHeight",
-    "isLive"
+    "isLive",
+    "carouselTime"
   ],
   methods: {
     playReview() {

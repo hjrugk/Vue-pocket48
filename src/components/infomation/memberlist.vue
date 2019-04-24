@@ -18,7 +18,7 @@
         ></span>
         <img class="team-logo" :src="info.teamLogo | picPathFormat" alt="">
       </div>
-      <div class="member-list">
+      <div class="member-list" v-if="info.status===1">
         <transition-group mode="out-in" tag="div" class="members">
           <div
             class="member-item my-card"

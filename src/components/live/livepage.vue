@@ -8,11 +8,11 @@
           <span v-if="type!==0" v-html="liveInfo.user.userName+'的直播间'" class="main-title"></span>
         </div>
         <div v-html="new Date(parseInt(ctime)).toLocaleString()" class="live-time"></div>
-        <div class="comment-info" v-if="type===0">
+        <div class="comment-info">
           <i class="el-icon-view"></i>
-          <span class="praise-count" v-html="liveInfo.playNum"></span>
-          <i class="el-icon-star-off"></i>
-          <span class="comment-count" v-html="liveInfo.praiseNum"></span>
+          <span class="praise-count" v-html="liveInfo.playNum || liveInfo.onlineNum"></span>
+          <i class="el-icon-star-off" v-if="type===0"></i>
+          <span class="comment-count" v-if="type===0" v-html="liveInfo.praiseNum"></span>
         </div>
       </div>
     </div>
@@ -46,6 +46,7 @@
       :topHeight="topHeight"
       :radiocover="radioCover"
       ref="vod"
+      :carouselTime="liveInfo.carousels?parseInt(liveInfo.carousels.carouselTime):5000"
       :toplist="liveInfo.topUser"
       :lrcpath="liveInfo.msgFilePath"
       :isLive="isLive"

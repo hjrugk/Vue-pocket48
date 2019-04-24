@@ -1,7 +1,7 @@
 <template>
   <div class="live-pic" v-if="type === 2">
     <div :style="{width: topWidth}">
-      <el-carousel indicator-position="none" arrow="never" :height="'700px'">
+      <el-carousel :interval="carouselTime" indicator-position="none" arrow="never" :height="'700px'">
         <el-carousel-item v-for="item in radiocover" :key="item">
           <img :src="'http://source.48.cn'+item" alt>
         </el-carousel-item>
@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  props: ["type", "topWidth", "radiocover"]
+  props: ["type", "topWidth", "radiocover","carouselTime"]
 };
 </script>
 <style lang="less" scoped>

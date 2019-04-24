@@ -20,7 +20,11 @@ Vue.filter('picPathFormat', function (item) {
   if (item.lastIndexOf('http') === -1) {
     return ((item.lastIndexOf(',') === -1) ? ("https://source.48.cn" + item) : ("https://source.48.cn" + item.split(',')[0]))
   } else {
-    return item
+    if(item.lastIndexOf(':') === -1){
+      return 'http:' + item.split("http")[1]
+    }else{
+      return item
+    }
   }
 })
 

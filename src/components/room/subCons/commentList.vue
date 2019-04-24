@@ -17,6 +17,8 @@
       <div
         class="board-item"
         v-for="item in commentList"
+        :class="{isSpec:JSON.parse(item.extInfo).user.userId==ownerId}"
+        v-show="item.msgType==='TEXT'"
         :key="item.msgTime"
       >
         <div class="sender-info">
@@ -26,7 +28,6 @@
             :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-img">
         </div>
         <p class="board-content"
-          :class="{isSpec:JSON.parse(item.extInfo).user.userId==ownerId}"
           v-html="JSON.parse(item.extInfo).text"></p>
       </div>
     </transition-group>
@@ -119,8 +120,8 @@ export default {
   .board-item {
     display: flex;
     position: relative;
+    justify-content: flex-end;
     // flex-direction: column;
-    // border: 1px solid #777;
     // background-color: #666;
     max-width: 360px;
     min-width: 300px;
@@ -131,15 +132,15 @@ export default {
       .flex-align-center();
       justify-content: flex-start;
       position: absolute;
-      left: 0;
-      bottom: 0;
+      right: 0;
+      bottom: 16px;
       // border-bottom: 1px solid #ccc;
       .sender-img {
         width: 30px;
         height: 30px;
         border: 1px solid #ccc;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-left: 10px;
         cursor: pointer;
       }
       // .board-name {
@@ -150,14 +151,29 @@ export default {
     .board-content {
       // color: #fff;
       padding: 30px;
-      margin-left: 40px;
+      margin-right: 40px;
       background-color: #fff;
-      border-radius: 10px 10px 10px 0;
-      border: 1px solid #ccc;
+      border-radius: 10px 10px 0 10px;
+      border: 1px solid #71a9e9;;
       box-sizing: border-box;
-      &.isSpec {
-        background-color: #9bc3f2;
+    }
+  }
+  .isSpec {
+    justify-content: flex-start;
+    margin-left: -40px;
+    .sender-info{
+      left: 0;
+      right: auto;
+      .sender-img{
+        margin-left: auto;
+        margin-right: 10px;
       }
+    }
+    .board-content{
+      margin-right: auto;
+      background-color: #9bc3f2;
+      margin-left: 40px;
+      border-radius: 10px 10px 10px 0;
     }
   }
   .button {

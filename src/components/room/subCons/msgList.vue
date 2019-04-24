@@ -1,7 +1,7 @@
 <template>
   <div class="msg-list" :class="{'max-height':!msgList[0]}">
     <transition-group tag="div" v-if="msgList[0]">
-      <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
+      <div v-for="item in msgList" :key="item.msgTime" class="msg-item" @click.self="stop(JSON.parse(item.extInfo))">
         <div class="msg-sender">
           <img
             :src="JSON.parse(item.extInfo).user.avatar | picPathFormat"
@@ -18,16 +18,21 @@
           ></div>
         </div>
         <div class="msg-content" v-else-if="item.msgType==='EXPRESS'">
-          <span v-html="JSON.parse(item.extInfo).emotionName"></span>
+          <span v-html="'emoji_'+JSON.parse(item.extInfo).emotionName"></span>
         </div>
-        <div class="msg-content" v-else-if="item.bodys==='偶像翻牌'">
+        <div class="msg-content idol-reply" v-else-if="item.bodys==='偶像翻牌'">
           <span v-html="JSON.parse(item.extInfo).answer"></span>
-          <br>
           <span v-html="JSON.parse(item.extInfo).question" class="fanpai"></span>
+          <div class="msg-time" style="color: #000;"
+            v-html="item.bodys"
+          ></div>
         </div>
         <div class="msg-content idol-reply" v-else-if="JSON.parse(item.extInfo).replyName">
-          <span class="reply" v-html="JSON.parse(item.extInfo).text"></span>
+          <span v-html="JSON.parse(item.extInfo).text"></span>
           <span v-html="JSON.parse(item.extInfo).replyText" class="fanpai"></span>
+          <div class="msg-time" style="color: #000;"
+            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+          ></div>
         </div>
         <div class="msg-content msg-img" 
           :style="'background-image:url('+'http://source.48.cn'+JSON.parse(item.extInfo).liveCover+');'"
@@ -37,38 +42,39 @@
             v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
           ></div>
           <div class="mask" @click="getLivePage(JSON.parse(item.extInfo),item.msgTime)">
+            <img src="@/assets/images/home_square_live.webp" alt="">
             <playBtn />
           </div>
         </div>
-        <div class="msg-content" v-else-if="item.msgType==='AUDIO'" @click="stop">
-          <el-button
-            @click="getAudio(JSON.parse(item.bodys))"
+        <div class="msg-content msg-audio" v-else-if="item.msgType==='AUDIO'">
+          <audio :src="JSON.parse(item.bodys).url" controls ></audio>
+          <div 
+            class="audio-item"
+            v-if="JSON.parse(item.bodys).ext==='amr'"
+            @click="getAudio(JSON.parse(item.bodys))" 
           >
-            <span :id="JSON.parse(item.bodys).url"
-              style="position: absolute;
-                    display: block;
-                    left: 0;
-                    top: 0;
-                    width: 148px;
-                    height: 100%;
-                    transition: all 0.3s ease;
-                    overflow: hidden;
-                    line-height: 40px;
-                    z-index: 9999;
-                    background-color: #409EFF;" 
-            >
-            <span style="width: 148px;color: #fff;display: inline-block;">
-              语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s</span>
-            </span>
-            <span class="voice-des">语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s</span>
-          </el-button>
+            <span :id="JSON.parse(item.bodys).url">{{(JSON.parse(item.bodys).dur/1000).toFixed(2)}} s</span>
+            <img class="voice-img" src="@/assets/images/icon_jvjv_voice_in.webp" alt="">
+          </div>
         </div>
-        <div class="msg-content" v-else-if="item.msgType==='VIDEO'">
-          <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
+        <div class="msg-content msg-video" 
+          style="width:360px;height:480px"
+          v-else-if="item.msgType==='VIDEO'">
+          <video controls :src="JSON.parse(item.bodys).url" alt width="100%"></video>
+        </div>
+        <div
+          class="msg-content msg-vote"
+          v-else-if="item.bodys==='投票消息'"
+        >
+          {{JSON.parse(item.extInfo).text}}
+          <img src="@/assets/images/ic_post_vote.webp" width="30" >
+          <div class="msg-time" style="color: #000;"
+            v-html="item.bodys"
+          ></div>
         </div>
         <div
           class="msg-content"
-          v-else-if="item.msgType==='TEXT'"
+          v-else
         >
           {{JSON.parse(item.extInfo).text}}
           <div class="msg-time" 
@@ -152,7 +158,7 @@ export default {
         confirmButtonText: "确定"
       });
     },
-    async getAudio({ext,url}) {
+    async getAudio({ext,url,dur}) {
       // 获取语音消息
       if(ext === 'amr'){
         const res = await this.ajax("getAudio", { url }, "POST");
@@ -169,16 +175,16 @@ export default {
         this.$refs.voice.src = url
         this.$refs.voice.addEventListener('loadeddata', () => {
           this.$refs.voice.play()
-          this.progressHandler(url)
+          this.progressHandler(url,dur)
         })
       }
     },
-    stop() {
+    stop({dur}) {
       // 暂停语音播放
       if(this.$refs.voice.played){
         this.$refs.voice.pause()
         if(this.progress){
-          this.progress.style.width = '148px'
+          this.progress.innerText = dur
         }
       }
       // eslint-disable-next-line
@@ -213,11 +219,18 @@ export default {
         params: { group: "1", memberName: n[n.length - 1] }
       });
     },
-    progressHandler(url){
+    progressHandler(url,dur){
+      if(this.progress){
+        this.progress.innerText = (JSON.parse(localStorage.getItem('duration'))/1000).toFixed(2)
+        this.progress = null
+      }
       this.progress = document.getElementById(url)
+      localStorage.setItem('duration',JSON.stringify(dur))
       this.$refs.voice.addEventListener('timeupdate', () => {
-        let ratio = this.$refs.voice.currentTime / this.$refs.voice.duration
-        this.progress.style.width = ratio * 148 + 'px'
+        this.progress.innerText = (this.$refs.voice.duration - this.$refs.voice.currentTime).toFixed(2)
+      })
+      this.$refs.voice.addEventListener('ended', () => {
+        this.progress.innerText = (dur/1000).toFixed(2)
       })
     },
     showImage(url){
@@ -265,9 +278,42 @@ export default {
         background-color: #9bc3f2;
         padding: 30px 30px 40px 30px;
         border-radius: 10px 10px 10px 0;
-        border: 1px solid #ccc;
+        border: 1px solid #71a9e9;
         box-sizing: border-box;
         margin-left: 40px;
+        &.msg-video{
+          padding: 0;
+          border-radius: 0;
+          box-sizing: content-box;
+        }
+        &.msg-audio{
+          padding: 0;
+          background: none;
+          border: none;
+          // background: #fff;
+          // padding: 0;
+          // width: 150px;
+          // height: 40px;
+          // border-radius: 20px;
+          // cursor: pointer;
+          .audio-item{
+            .flex-align-center();
+            width: 150px;
+            height: 40px;
+            border-radius: 20px;
+            cursor: pointer;
+            background: #fff;
+            padding: 10px;
+            justify-content: space-between;
+            .voice-img{
+              width: 20px;
+            }
+          }
+        }
+        &.msg-vote{
+          .flex-align-center();
+          background-color: #fff;
+        }
         &.idol-reply{
           background-color: #fff;
         }
@@ -287,19 +333,9 @@ export default {
               opacity: 1;
               transform: scale(1.05);
             }
-          }
-        }
-        .el-button{
-          position: relative;
-          width: 150px;
-          height: 40px;
-          .voice-des{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            line-height: 40px;
+            img{
+              opacity: 0;
+            }
           }
         }
         .msg-flip {
@@ -324,16 +360,16 @@ export default {
           border-top: 1px solid #ccc;
           color: #999;
         }
+        .reply{
+          background-color: #9bc3f2;
+        }
       }
       .msg-sender {
-        text-decoration: none;
-        position: absolute;
-        padding: 0;
-        margin: 0;
-        left: 0;
-        bottom: 0;
         color: #000;
         .sender-avatar {
+          position: absolute;
+          left: 0;
+          bottom: 0;
           width: 30px;
           border: 1px solid #ccc;
           border-radius: 50%;

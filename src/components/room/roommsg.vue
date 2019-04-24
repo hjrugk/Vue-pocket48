@@ -44,7 +44,15 @@ export default {
   },
   mounted() {
     localStorage.setItem("bgPath", JSON.stringify(this.bgPath));
-    this.bgPath = "http://source.48.cn" + this.bgPath;
+    if (this.bgPath.lastIndexOf('http') === -1) {
+      this.bgPath = ((this.bgPath.lastIndexOf(',') === -1) ? ("https://source.48.cn" + this.bgPath) : ("https://source.48.cn" + this.bgPath.split(',')[0]))
+    } else {
+      if(this.bgPath.lastIndexOf(':') === -1){
+        this.bgPath = 'http:' + this.bgPath.split("http")[1]
+      }else{
+        this.bgPath = this.bgPath
+      }
+    }
     this.$refs.bgPic.style.background = "url(" + this.bgPath + ")";
     this.$refs.bgPic.style.backgroundPosition = "center center";
     this.$refs.bgPic.style.backgroundAttachment = "fixed";
