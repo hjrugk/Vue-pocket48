@@ -15,20 +15,19 @@
     </div>-->
     <transition-group tag="div">
       <div
-        class="board-item my-card"
-        :class="{isSpec:JSON.parse(item.extInfo).user.userId===655632}"
+        class="board-item"
         v-for="item in commentList"
         :key="item.msgTime"
       >
         <div class="sender-info">
-          <img :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-img">
-          <p
-            class="board-name"
-            v-html="JSON.parse(item.extInfo).user.nickName"
+          <img 
             @click="getUserInfo(JSON.parse(item.extInfo))"
-          ></p>
+            :title="JSON.parse(item.extInfo).user.nickName"
+            :src="JSON.parse(item.extInfo).user.avatar | picPathFormat" alt class="sender-img">
         </div>
-        <p class="board-content" v-html="JSON.parse(item.extInfo).text"></p>
+        <p class="board-content"
+          :class="{isSpec:JSON.parse(item.extInfo).user.userId==ownerId}"
+          v-html="JSON.parse(item.extInfo).text"></p>
       </div>
     </transition-group>
     <div v-if="showInfo" @click="showInfo = !showInfo">
@@ -52,7 +51,7 @@ export default {
       topData: {}
     };
   },
-  props: ["roomId"],
+  props: ["roomId","ownerId"],
   methods: {
     async getComments() {
       // 获取成员房间留言列表
@@ -71,13 +70,14 @@ export default {
       const res = await this.ajax(
         "/getComments",
         {
-          id: this.id,
           token: this.$store.getters.getToken,
+          id: this.roomId,
           nextTime: this.nextTime
         },
         "POST"
       );
       this.commentList = this.commentList.concat(res.content.message);
+      this.nextTime = res.content.nextTime;
     },
     getUserInfo(info) {
       // 获取聚聚信息
@@ -118,35 +118,46 @@ export default {
   }
   .board-item {
     display: flex;
-    flex-direction: column;
-    border: 1px solid #777;
-    background-color: #666;
+    position: relative;
+    // flex-direction: column;
+    // border: 1px solid #777;
+    // background-color: #666;
     max-width: 360px;
     min-width: 300px;
-    &:hover {
-      background-color: #555;
-    }
-    &.isSpec {
-      background-color: #999;
-      border: 1px solid #999;
-    }
+    // &:hover {
+    //   background-color: #555;
+    // }
     .sender-info {
       .flex-align-center();
       justify-content: flex-start;
-      border-bottom: 1px solid #ccc;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      // border-bottom: 1px solid #ccc;
       .sender-img {
         width: 30px;
         height: 30px;
+        border: 1px solid #ccc;
         border-radius: 50%;
         margin-right: 10px;
-      }
-      .board-name {
-        color: #eee;
         cursor: pointer;
       }
+      // .board-name {
+      //   color: #eee;
+      //   cursor: pointer;
+      // }
     }
     .board-content {
-      color: #fff;
+      // color: #fff;
+      padding: 30px;
+      margin-left: 40px;
+      background-color: #fff;
+      border-radius: 10px 10px 10px 0;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      &.isSpec {
+        background-color: #9bc3f2;
+      }
     }
   }
   .button {

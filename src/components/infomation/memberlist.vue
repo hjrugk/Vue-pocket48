@@ -10,7 +10,7 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <div class="team-info" v-show="!keywords">
+      <div class="team-info" v-show="!keywords" v-if="info.status===1">
         <span
           v-html="info.teamName"
           :style="'color: #'+info.teamColor | overseaFilter"
@@ -28,7 +28,9 @@
             v-show="item.teamId === info.teamId && item.status.toString()===statusCode"
             @click="getMemberDetail(item,info)"
           >
-            <p class="avatar-container">
+            <p class="avatar-container"
+              v-if="item.teamId === info.teamId && item.status.toString()===statusCode"
+            >
               <img
                 :src="item.avatar | picPathFormat"
                 alt
@@ -36,7 +38,9 @@
                 class="member-avatar"
               >
             </p>
-            <p class="member-name" v-html="item.realName"></p>
+            <p class="member-name" v-html="item.realName"
+              v-if="item.teamId === info.teamId && item.status.toString()===statusCode"
+            ></p>
           </div>
         </transition-group>
         <div v-if="!newList[0]" style="width: 100%;text-align:center;height:300px;padding-top:150px;">
@@ -129,6 +133,7 @@ export default {
   margin: 0 auto;
   box-sizing: border-box;
   padding-left: 7px;
+  padding-bottom: 80px;
   .radio-list{
     margin-bottom: 10px;
   }

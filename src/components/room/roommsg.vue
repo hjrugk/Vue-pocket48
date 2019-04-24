@@ -10,7 +10,7 @@
     <div class="list">
       <transition-group name="slide-fade">
         <msg-list :key="1" :ownerId="ownerId" :roomId="roomId" v-show="!shouldShowAllMsg"></msg-list>
-        <comment-list :key="2" :roomId="roomId" v-show="shouldShowAllMsg"></comment-list>
+        <comment-list :key="2" :ownerId="ownerId" :roomId="roomId" v-show="shouldShowAllMsg"></comment-list>
       </transition-group>
     </div>
   </div>

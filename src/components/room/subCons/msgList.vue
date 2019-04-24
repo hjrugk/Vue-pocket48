@@ -1,45 +1,46 @@
 <template>
   <div class="msg-list" :class="{'max-height':!msgList[0]}">
     <transition-group tag="div" v-if="msgList[0]">
-      <div v-for="item in msgList" :key="item.msgTime" class="msg-item my-card">
-        <p class="msg-time" v-html="new Date(parseInt(item.msgTime)).toLocaleString()"></p>
-        <p class="msg-sender">
+      <div v-for="item in msgList" :key="item.msgTime" class="msg-item">
+        <div class="msg-sender">
           <img
             :src="JSON.parse(item.extInfo).user.avatar | picPathFormat"
-            alt
+            :title="JSON.parse(item.extInfo).user.nickName"
+            @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)"
             class="sender-avatar"
           >
-          <span
-            v-html="JSON.parse(item.extInfo).user.nickName"
-            @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)"
-            class="sender-name"
-          ></span>
-        </p>
-        <p class="msg-content" v-if="item.msgType==='IMAGE'">
-          <img :src="JSON.parse(item.bodys).url" alt class="msg-img">
-        </p>
-        <p class="msg-content" v-else-if="item.msgType==='EXPRESS'">
+        </div>
+        <div class="msg-content msg-img" v-if="item.msgType==='IMAGE'" 
+          @click.self="showImage(JSON.parse(item.bodys).url)"
+          :style="'background-image:url('+JSON.parse(item.bodys).url+');'">
+          <div class="msg-time" 
+            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+          ></div>
+        </div>
+        <div class="msg-content" v-else-if="item.msgType==='EXPRESS'">
           <span v-html="JSON.parse(item.extInfo).emotionName"></span>
-        </p>
-        <p class="msg-content" v-else-if="item.bodys==='偶像翻牌'">
+        </div>
+        <div class="msg-content" v-else-if="item.bodys==='偶像翻牌'">
           <span v-html="JSON.parse(item.extInfo).answer"></span>
           <br>
           <span v-html="JSON.parse(item.extInfo).question" class="fanpai"></span>
-        </p>
-        <p class="msg-content" v-else-if="JSON.parse(item.extInfo).replyName">
-          <span v-html="JSON.parse(item.extInfo).text"></span>
-          <br>
+        </div>
+        <div class="msg-content idol-reply" v-else-if="JSON.parse(item.extInfo).replyName">
+          <span class="reply" v-html="JSON.parse(item.extInfo).text"></span>
           <span v-html="JSON.parse(item.extInfo).replyText" class="fanpai"></span>
-        </p>
-        <p class="msg-content" v-else-if="JSON.parse(item.extInfo).liveCover">
-          <span
-            v-html="'直播：'+JSON.parse(item.extInfo).liveTitle"
-            @click="getLivePage(JSON.parse(item.extInfo),item.msgTime)"
-            style="cursor: pointer; color: blue;"
-          ></span>
-          <br>
-        </p>
-        <p class="msg-content" v-else-if="item.msgType==='AUDIO'" @click="stop">
+        </div>
+        <div class="msg-content msg-img" 
+          :style="'background-image:url('+'http://source.48.cn'+JSON.parse(item.extInfo).liveCover+');'"
+          :title="JSON.parse(item.extInfo).user.nickName+'的直播间'"
+          v-else-if="JSON.parse(item.extInfo).liveCover">
+          <div class="msg-time" 
+            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+          ></div>
+          <div class="mask" @click="getLivePage(JSON.parse(item.extInfo),item.msgTime)">
+            <playBtn />
+          </div>
+        </div>
+        <div class="msg-content" v-else-if="item.msgType==='AUDIO'" @click="stop">
           <el-button
             @click="getAudio(JSON.parse(item.bodys))"
           >
@@ -56,19 +57,24 @@
                     z-index: 9999;
                     background-color: #409EFF;" 
             >
-            <span style="width: 148px;color: #fff;display: inline-block;">语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s</span>
+            <span style="width: 148px;color: #fff;display: inline-block;">
+              语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s</span>
             </span>
             <span class="voice-des">语音消息 {{ JSON.parse(item.bodys).dur/1000 }}s</span>
           </el-button>
-        </p>
-        <p class="msg-content" v-else-if="item.msgType==='VIDEO'">
+        </div>
+        <div class="msg-content" v-else-if="item.msgType==='VIDEO'">
           <video controls :src="JSON.parse(item.bodys).url" alt class="msg-video"></video>
-        </p>
-        <p
+        </div>
+        <div
           class="msg-content"
           v-else-if="item.msgType==='TEXT'"
-          v-html="JSON.parse(item.extInfo).text"
-        ></p>
+        >
+          {{JSON.parse(item.extInfo).text}}
+          <div class="msg-time" 
+            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+          ></div>
+        </div>
       </div>
     </transition-group>
     <alt-loading v-else></alt-loading>
@@ -80,6 +86,7 @@
 </template>
 <script>
 import altLoading from '@/components/common/altLoading'
+import playBtn from '@/components/common/playBtn'
 export default {
   name: "msgList",
   data() {
@@ -212,13 +219,17 @@ export default {
         let ratio = this.$refs.voice.currentTime / this.$refs.voice.duration
         this.progress.style.width = ratio * 148 + 'px'
       })
+    },
+    showImage(url){
+      window.open(url,'_blank')
     }
   },
   created() {
     this.getMsgList();
   },
   components: {
-    altLoading
+    altLoading,
+    playBtn
   }
 };
 </script>
@@ -231,15 +242,53 @@ export default {
   div {
     .msg-item {
       max-width: 520px;
-      min-width: 400px;
-      flex: 1;
-      &:hover {
-        background-color: #efefef;
-      }
+      // min-width: 400px;
+      padding-bottom: 0;
+      // flex: 1;
+      margin-bottom: 20px;
+      position: relative;
+      // &:hover {
+      //   background-color: #efefef;
+      // }
       .msg-time {
         font-size: 12px;
+        z-index: 99;
+        color: #fff;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        // background-color: #fff;
+        padding: 5px 10px;
+        // border-radius: 8px;
       }
       .msg-content {
+        background-color: #9bc3f2;
+        padding: 30px 30px 40px 30px;
+        border-radius: 10px 10px 10px 0;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin-left: 40px;
+        &.idol-reply{
+          background-color: #fff;
+        }
+        .mask{
+          position: absolute;
+          transition: all 0.1s ease-out;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          .flex-all-center();
+        }
+        &:hover{
+          .mask{
+            background-color: rgba(0,0,0,.2);
+            .play-btn{
+              opacity: 1;
+              transform: scale(1.05);
+            }
+          }
+        }
         .el-button{
           position: relative;
           width: 150px;
@@ -256,32 +305,38 @@ export default {
         .msg-flip {
           cursor: pointer;
         }
-        .msg-img {
-          width: 100%;
+        &.msg-img {
+          padding: 0;
+          width: 200px;
+          height: 200px;
+          background-size: cover;
+          cursor: pointer;
+          position: relative;
         }
         .live-push {
           cursor: pointer;
         }
         .fanpai {
           font-size: 14px;
+          margin-top: 10px;
+          padding-top: 10px;
+          display: block;
+          border-top: 1px solid #ccc;
           color: #999;
         }
       }
       .msg-sender {
-        .flex-align-center();
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 10px;
         text-decoration: none;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        left: 0;
+        bottom: 0;
         color: #000;
-        line-height: 1.5;
         .sender-avatar {
-          width: 20px;
-        }
-        .sender-name {
-          line-height: 20px;
-          font-size: 15px;
-          display: inline-block;
-          margin-left: 5px;
+          width: 30px;
+          border: 1px solid #ccc;
+          border-radius: 50%;
           cursor: pointer;
         }
       }

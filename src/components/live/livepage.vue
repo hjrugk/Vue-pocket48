@@ -1,7 +1,7 @@
 <template>
   <div class="live-page-container my-card">
     <div class="info-container" v-show="showInfoHeader">
-      <div class="live-info" :style="{width: rect.width}">
+      <div class="live-info" :style="{width: rect.width}" v-if="liveInfo.liveId">
         <div class="live-title">
           <span v-html="title" class="sub-title"></span>
           <br>

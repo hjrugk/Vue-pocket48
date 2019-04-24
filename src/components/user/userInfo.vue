@@ -15,12 +15,10 @@
     </div>
     <!-- <recommend v-if="jujuInfo.info.avatar" :recommend="jujuInfo.recommend"></recommend> -->
     <alt-loading v-else></alt-loading>
-    <Bubble />
   </div>
 </template>
 <script>
 import altLoading from "@/components/common/altLoading";
-import Bubble from './subCons/bubble'
 export default {
   name: "userInfo",
   data() {
@@ -34,8 +32,7 @@ export default {
     };
   },
   components: {
-    altLoading,
-    Bubble
+    altLoading
   },
   methods: {
     async getJuJuInfo() {
