@@ -20,18 +20,17 @@
           <template slot="title">发现</template>
           <el-menu-item index="/music">音乐</el-menu-item>
           <el-menu-item index="/video">视频</el-menu-item>
-          <el-menu-item index="/film">影视</el-menu-item>
-          <el-menu-item index="/variety">综艺</el-menu-item>
+          <el-menu-item index="/film">CP</el-menu-item>
         </el-submenu>
         <el-menu-item class="none" index="/login" v-if="!$store.getters.checkLogin">登录</el-menu-item>
-        <el-menu-item class="none" index="/login" v-else>账户</el-menu-item>
+        <el-menu-item class="none" index="/login" v-else>我的</el-menu-item>
         <el-submenu class="responsive" index="/">
           <template slot="title">菜单</template>
           <el-menu-item index="/home">首页</el-menu-item>
           <el-menu-item index="/roomlist" v-show="$store.getters.checkLogin">聚聚</el-menu-item>
           <el-menu-item index="/music">发现</el-menu-item>
           <el-menu-item index="/login" v-if="!$store.getters.checkLogin">登录</el-menu-item>
-          <el-menu-item index="/login" v-else>账户</el-menu-item>
+          <el-menu-item index="/login" v-else>我的</el-menu-item>
         </el-submenu>
       </el-menu>
     </div>

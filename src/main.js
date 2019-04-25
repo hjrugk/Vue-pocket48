@@ -17,6 +17,7 @@ Vue.prototype.openDB = openDB
 Vue.prototype.findData = findData
 
 Vue.filter('picPathFormat', function (item) {
+  item = item || " "
   if (item.lastIndexOf('http') === -1) {
     return ((item.lastIndexOf(',') === -1) ? ("https://source.48.cn" + item) : ("https://source.48.cn" + item.split(',')[0]))
   } else {

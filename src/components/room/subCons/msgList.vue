@@ -5,7 +5,7 @@
         <div class="msg-sender">
           <img
             :src="JSON.parse(item.extInfo).user.avatar | picPathFormat"
-            :title="JSON.parse(item.extInfo).user.nickName"
+            :title="JSON.parse(item.extInfo).user.nickName+'-查看更多信息'"
             @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)"
             class="sender-avatar"
           >
@@ -13,9 +13,6 @@
         <div class="msg-content msg-img" v-if="item.msgType==='IMAGE'" 
           @click.self="showImage(JSON.parse(item.bodys).url)"
           :style="'background-image:url('+JSON.parse(item.bodys).url+');'">
-          <div class="msg-time" 
-            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
-          ></div>
         </div>
         <div class="msg-content" v-else-if="item.msgType==='EXPRESS'">
           <span v-html="'emoji_'+JSON.parse(item.extInfo).emotionName"></span>
@@ -31,7 +28,7 @@
           <span v-html="JSON.parse(item.extInfo).text"></span>
           <span v-html="JSON.parse(item.extInfo).replyText" class="fanpai"></span>
           <div class="msg-time" style="color: #000;"
-            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+            v-html="new Date(parseInt(item.msgTime)).toLocaleString()"
           ></div>
         </div>
         <div class="msg-content msg-img" 
@@ -39,7 +36,7 @@
           :title="JSON.parse(item.extInfo).user.nickName+'的直播间'"
           v-else-if="JSON.parse(item.extInfo).liveCover">
           <div class="msg-time" 
-            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+            v-html="new Date(parseInt(item.msgTime)).toLocaleString()"
           ></div>
           <div class="mask" @click="getLivePage(JSON.parse(item.extInfo),item.msgTime)">
             <img src="@/assets/images/home_square_live.webp" alt="">
@@ -76,15 +73,22 @@
           class="msg-content"
           v-else
         >
-          {{JSON.parse(item.extInfo).text}}
+          <div v-if="JSON.parse(item.extInfo).user.userId!==parseInt(ownerId)" class="sender-name" @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)">
+            {{JSON.parse(item.extInfo).user.nickName}}
+            <img width="20px" v-if="JSON.parse(item.extInfo).user.teamLogo" :src="JSON.parse(item.extInfo).user.teamLogo | picPathFormat" >
+          </div>
+          <div>{{JSON.parse(item.extInfo).text}}</div>
           <div class="msg-time" 
-            v-html="new Date(parseInt(item.msgTime)).toLocaleTimeString()"
+            v-html="new Date(parseInt(item.msgTime)).toLocaleString()"
           ></div>
         </div>
       </div>
     </transition-group>
     <alt-loading v-else></alt-loading>
     <audio src ref="voice"></audio>
+    <div class="msg-next" v-if="msgList[0]">
+      <span class="time-stamp" v-html="new Date(parseInt(nextTime)).toLocaleString()"></span>
+    </div>
     <div class="button" @click="getMore">
       <i class="el-icon-arrow-down" v-show="msgList[0]"></i>
     </div>
@@ -278,9 +282,29 @@ export default {
         background-color: #9bc3f2;
         padding: 30px 30px 40px 30px;
         border-radius: 10px 10px 10px 0;
-        border: 1px solid #71a9e9;
+        border: 1px solid #9bc3f2;
         box-sizing: border-box;
         margin-left: 40px;
+        &:before{
+          position: absolute;
+          left: 30px;
+          bottom: 0;
+          content: "";
+          width: 0;
+          height: 0;
+          border-bottom: 10px solid #9bc3f2;
+          border-left: 10px solid transparent;
+        }
+        .sender-name{
+          .flex-align-center();
+          font-size: 12px;
+          margin-bottom: 5px;
+          cursor: pointer;
+          img{
+            margin-top: 2px;
+            margin-left: 5px;
+          }
+        }
         &.msg-video{
           padding: 0;
           border-radius: 0;
@@ -290,12 +314,6 @@ export default {
           padding: 0;
           background: none;
           border: none;
-          // background: #fff;
-          // padding: 0;
-          // width: 150px;
-          // height: 40px;
-          // border-radius: 20px;
-          // cursor: pointer;
           .audio-item{
             .flex-align-center();
             width: 150px;
@@ -347,7 +365,6 @@ export default {
           height: 200px;
           background-size: cover;
           cursor: pointer;
-          position: relative;
         }
         .live-push {
           cursor: pointer;
@@ -381,6 +398,16 @@ export default {
   .button {
     .flex-all-center();
     .button-container();
+  }
+  .msg-next{
+    width: 100%;
+    height: 30px;
+    .flex-all-center();
+    .time-stamp{
+      font-size: 12px;
+      padding: 5px;
+      background-color: #eee;
+    }
   }
 }
 </style>

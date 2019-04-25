@@ -10,7 +10,7 @@
     </div>
     <alt-loading v-if="!team[0]"></alt-loading>
     <div v-for="(info, i) in team" :key="i" class="team-container" v-else>
-      <div class="team-info" v-show="!keywords" v-if="info.status===1">
+      <div class="team-info" v-show="!keywords" v-if="info.status===1||info.teamId===1401">
         <span
           v-html="info.teamName"
           :style="'color: #'+info.teamColor | overseaFilter"
@@ -18,7 +18,7 @@
         ></span>
         <img class="team-logo" :src="info.teamLogo | picPathFormat" alt="">
       </div>
-      <div class="member-list" v-if="info.status===1">
+      <div class="member-list" v-if="info.status===1||info.teamId===1401">
         <transition-group mode="out-in" tag="div" class="members">
           <div
             class="member-item my-card"

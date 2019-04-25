@@ -8,7 +8,7 @@
       <span class="show-msg-button" v-html="innerTextOfToggleButon"></span>
     </div>
     <div class="list">
-      <transition-group name="slide-fade">
+      <transition-group tag="div" name="slide-fade">
         <msg-list :key="1" :ownerId="ownerId" :roomId="roomId" v-show="!shouldShowAllMsg"></msg-list>
         <comment-list :key="2" :ownerId="ownerId" :roomId="roomId" v-show="shouldShowAllMsg"></comment-list>
       </transition-group>
@@ -78,7 +78,7 @@ export default {
   opacity: 0;
 }
 .msg-container {
-  padding: 10px 10px 10px 10px;
+  padding: 30px 10px 10px 10px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

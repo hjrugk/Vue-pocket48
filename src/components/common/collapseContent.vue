@@ -10,11 +10,11 @@
       </div>
     </div>
     <div class="member-list" :class="{showAll:showAllList}">
-      <span class="member-item" 
+      <div class="member-item" 
         v-for="(member, i) in memberList" 
         :key="i" v-html="member.realName" 
         @click="getTheLiveList(member.userId)"
-        v-show="member.teamId===team.teamId&&member.status===1"></span>
+        v-show="member.teamId===team.teamId&&member.status===1"></div>
     </div>
   </div>
 </template>
@@ -65,6 +65,7 @@ export default {
       text-align: center;
       background-color: #eee;
       width: 80px;
+      cursor: pointer;
       height: 25px;
     }
   }

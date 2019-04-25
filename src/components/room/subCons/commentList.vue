@@ -156,6 +156,16 @@ export default {
       border-radius: 10px 10px 0 10px;
       border: 1px solid #71a9e9;;
       box-sizing: border-box;
+      &:after{
+        position: absolute;
+        right: 30px;
+        bottom: 16px;
+        content: "";
+        width: 0;
+        height: 0;
+        border-bottom: 10px solid #71a9e9;
+        border-right: 10px solid transparent;
+      }
     }
   }
   .isSpec {
