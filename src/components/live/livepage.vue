@@ -26,7 +26,7 @@
           class="live-cover"
           v-show="picPath"
         >
-        <div class="mask" @click="triggerMethod">
+        <div class="mask">
           <div class="play-btn" @click.prevent="triggerMethod"></div>
         </div>
       </div>
@@ -34,7 +34,7 @@
     <a href="javascript:;" v-else style="cursor: default;">
       <div class="pic-container" :style="rect">
         <img :src="picPath | picPathFormat" @error="altImg" alt class="live-cover" v-show="picPath">
-        <div class="mask" @click="triggerMethod">
+        <div class="mask">
           <div class="play-btn" @click.prevent="triggerMethod"></div>
         </div>
       </div>

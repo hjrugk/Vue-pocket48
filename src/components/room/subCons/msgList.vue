@@ -73,8 +73,9 @@
           class="msg-content"
           v-else
         >
-          <div v-if="JSON.parse(item.extInfo).user.userId!==parseInt(ownerId)" class="sender-name" @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)">
+          <div class="sender-name" @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)">
             {{JSON.parse(item.extInfo).user.nickName}}
+            <img width="18px" v-if="JSON.parse(item.extInfo).sessionRole===2" src="@/assets/images/ic_houseowner.webp" >
             <img width="20px" v-if="JSON.parse(item.extInfo).user.teamLogo" :src="JSON.parse(item.extInfo).user.teamLogo | picPathFormat" >
           </div>
           <div>{{JSON.parse(item.extInfo).text}}</div>

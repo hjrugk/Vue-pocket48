@@ -1,23 +1,10 @@
 <template>
   <div class="board-list" ref="board">
-    <!-- <div class="board-item my-card" v-if="topData.senderName">
-      <div class="sender-info">
-        <img :src="topData.senderAvatar | picPathFormat" alt class="sender-img">
-        <p class="board-name" 
-          @click="getUserInfo(topData)"
-          style="display: flex;justify-content:space-between;width:100%;"
-        >
-          <span>{{topData.senderName}}</span>
-          <el-tag size="mini" type="danger" color="#eee">本周TOP1</el-tag>
-        </p>
-      </div>
-      <p class="board-content" v-html="topData.text || topData.content + ' ' + topData.giftName"></p>
-    </div>-->
     <transition-group tag="div">
       <div
         class="board-item"
         v-for="item in commentList"
-        :class="{isSpec:JSON.parse(item.extInfo).user.userId==ownerId}"
+        :class="{isSpec:JSON.parse(item.extInfo).user.roleId===3}"
         v-show="item.msgType==='TEXT'"
         :key="item.msgTime"
       >
