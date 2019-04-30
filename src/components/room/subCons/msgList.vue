@@ -14,7 +14,7 @@
           @click.self="showImage(JSON.parse(item.bodys).url)"
           :style="'background-image:url('+JSON.parse(item.bodys).url+');'">
         </div>
-        <div class="msg-content" v-else-if="item.msgType==='EXPRESS'">
+        <div class="msg-content bubble" v-else-if="item.msgType==='EXPRESS'">
           <span v-html="'emoji_'+JSON.parse(item.extInfo).emotionName"></span>
         </div>
         <div class="msg-content idol-reply" v-else-if="item.bodys==='偶像翻牌'">
@@ -60,7 +60,7 @@
           <video controls :src="JSON.parse(item.bodys).url" alt width="100%"></video>
         </div>
         <div
-          class="msg-content msg-vote"
+          class="msg-content msg-vote bubble"
           v-else-if="item.bodys==='投票消息'"
         >
           {{JSON.parse(item.extInfo).text}}
@@ -70,7 +70,7 @@
           ></div>
         </div>
         <div
-          class="msg-content"
+          class="msg-content bubble"
           v-else
         >
           <div class="sender-name" @click="getMemberDetail(JSON.parse(item.extInfo).user.nickName)">
@@ -282,19 +282,21 @@ export default {
       .msg-content {
         background-color: #9bc3f2;
         padding: 30px 30px 40px 30px;
-        border-radius: 10px 10px 10px 0;
+        border-radius: 10px;
         border: 1px solid #9bc3f2;
         box-sizing: border-box;
         margin-left: 40px;
-        &:before{
+        &.bubble:before{
           position: absolute;
           left: 30px;
-          bottom: 0;
+          bottom: -5px;
           content: "";
           width: 0;
           height: 0;
-          border-bottom: 10px solid #9bc3f2;
+          border-top: 20px solid #9bc3f2;
+          border-radius: 7px 0 0;
           border-left: 10px solid transparent;
+          transform: rotate(75deg);
         }
         .sender-name{
           .flex-align-center();

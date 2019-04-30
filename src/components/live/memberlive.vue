@@ -2,7 +2,7 @@
   <div class="live-container">
     <select-filter @changelivelist="changelivelist" @close="changeShowFilter" v-show="shouldShowFilter" />
     <div class="live-filter">
-      <i class="el-icon-sort" @click="shouldShowFilter = !shouldShowFilter"></i>
+      <img src="@/assets/images/shaixuan.webp" @click="shouldShowFilter = !shouldShowFilter" />
     </div>
     <live-list
       :type="1"
@@ -103,6 +103,10 @@ export default {
     top: 120px;
     right: 10%;
     font-size: 20px;
+    img{
+      width: 20px;
+      cursor: pointer;
+    }
   }
   .live-header {
     width: 100%;

@@ -1,5 +1,8 @@
 <template>
   <div class="collapse-container">
+    <div class="member-list">
+      <div class="member-item" @click="changelivelist({userId:0})">全团</div>
+    </div>
     <collapseItem
       @changelivelist="changelivelist"
      :groupId="group.id" v-for="group in groupList" :key="group.id" />
@@ -33,5 +36,23 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.member-list{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 20px;
+  grid-gap: 10px;
+  height: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  transition: all 0.2s ease-out;
+  .member-item{
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    background-color: #eee;
+    width: 80px;
+    cursor: pointer;
+    height: 25px;
+  }
+}
 </style>
