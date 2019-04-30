@@ -115,7 +115,7 @@ export default {
     box-sizing: border-box;
     justify-content: space-between;
     .live-type {
-      margin-left: 10px;
+      margin-left: 15px;
       font-weight: 500;
       font-size: 20px;
     }

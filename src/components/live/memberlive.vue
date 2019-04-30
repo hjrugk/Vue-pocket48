@@ -101,8 +101,9 @@ export default {
   .live-filter{
     position: absolute;
     top: 120px;
-    right: 10%;
+    right: 11.5%;
     font-size: 20px;
+    margin-left: 15px;
     img{
       width: 20px;
       cursor: pointer;

@@ -199,6 +199,18 @@ router.get('/api/getAkinaVideos', (req, res) => {
   })
 })
 
+router.get('/api/getTopicVideoList', (req, res) => {
+  getData(JSON.stringify(null), api.coupleTag_options(req), html => {
+    res.send(html)
+  })
+})
+
+router.get('/api/getContainerDetail', (req, res) => {
+  getData(JSON.stringify(null), api.container_options(req), html => {
+    res.send(html)
+  })
+})
+
 router.post('/api/getRoomInfo', (req, res) => {
   const roomInfo_postData = api.roomInfo_postData(req)
   const roomInfo_options = api.roomInfo_options(req)

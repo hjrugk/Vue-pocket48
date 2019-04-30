@@ -1,12 +1,5 @@
 <template>
   <div class="live-list">
-    <div class="live-header">
-      <p class="live-type" v-html="livetitle"></p>
-      <p class="live-more" @click="goToAllLive" v-show="$route.path ==='/home'">
-        查看更多
-        <i class="el-icon-arrow-right"></i>
-      </p>
-    </div>
     <transition-group appear tag="div" class="list-container">
       <a
         href="javascript:;"
@@ -17,7 +10,7 @@
         target="_blank"
       >
         <div class="pic-container">
-          <img :src="'http:'+item.pic" :alt="item.title" class="live-pic">
+          <img :src="item.pic" :alt="item.title" class="live-pic">
           <div class="mask"></div>
         </div>
         <div class="live-info">
@@ -35,18 +28,11 @@ export default {
     return {};
   },
   methods: {
-    goToAllLive() {
-      this.$router.push("/home/openlive/0");
-    },
     goToLivePage(id) {
-      localStorage.setItem(
-        "type",
-        JSON.stringify({ type: this.type, isLive: false })
-      );
       this.$router.push({ name: "bilibili", params: { id } });
     }
   },
-  props: ["list", "rect", "type", "livetitle"]
+  props: ["list"]
 };
 </script>
 

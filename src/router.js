@@ -15,9 +15,23 @@ export default new Router({
       component: Home
     },
     {
-      path: '/music',
+      path: '/discovery',
+      redirect: '/discovery/music'
+    },
+    {
+      path: '/discovery/music',
       name: 'music',
       component: () => import('./components/discovery/music.vue')
+    },
+    {
+      path: '/discovery/couple',
+      name: 'couple',
+      component: () => import('./components/discovery/couple.vue')
+    },
+    {
+      path: '/discovery/couple/topic/:coupleId',
+      name: 'topic',
+      component: () => import('./components/discovery/subCons/topic.vue')
     },
     {
       path: '/roomlist',

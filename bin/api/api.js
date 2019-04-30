@@ -234,6 +234,28 @@ const api = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
       }
     }
+  },
+  coupleTag_options: (req) => {
+    return {
+      host: 'api.bilibili.com',
+      port: '',
+      path: "/x/web-interface/tag/top?pn=1&ps=20&tid="+req.query.coupleId,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
+  },
+  container_options: (req) => {
+    return {
+      host: 'm.weibo.cn',
+      port: '',
+      path: "/api/container/getIndex?containerid="+req.query.containerId,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
   }
 }
 module.exports = api
