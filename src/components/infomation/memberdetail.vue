@@ -107,7 +107,6 @@ export default {
     },
     unfollow() {
       //取关成员
-      
       this.$confirm('是否要取消关注？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

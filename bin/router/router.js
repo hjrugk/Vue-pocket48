@@ -205,8 +205,20 @@ router.get('/api/getTopicVideoList', (req, res) => {
   })
 })
 
+router.get('/api/getmBlogContainer', (req, res) => {
+  getData(JSON.stringify(null), api.mBlogContainer_options(req), html => {
+    res.send(html)
+  })
+})
+
 router.get('/api/getContainerDetail', (req, res) => {
-  getData(JSON.stringify(null), api.container_options(req), html => {
+  getData(JSON.stringify(null), api.containerDetail_options(req), html => {
+    res.send(html)
+  })
+})
+
+router.get('/api/getMBlogData', (req, res) => {
+  getData(JSON.stringify(null), api.mBlogData_options(req), html => {
     res.send(html)
   })
 })

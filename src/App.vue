@@ -16,7 +16,7 @@
         </div>
         <el-menu-item class="none" index="/home">首页</el-menu-item>
         <el-menu-item class="none" index="/roomlist" v-show="$store.getters.checkLogin">聚聚</el-menu-item>
-        <el-submenu class="none" index="/discovery">
+        <el-submenu popper-class="none" index="/discovery">
           <template slot="title">发现</template>
           <el-menu-item index="/discovery/music">音乐</el-menu-item>
           <el-menu-item index="/discovery/video">视频</el-menu-item>
@@ -28,7 +28,6 @@
           <template slot="title">菜单</template>
           <el-menu-item index="/home">首页</el-menu-item>
           <el-menu-item index="/roomlist" v-show="$store.getters.checkLogin">聚聚</el-menu-item>
-          <el-menu-item index="/discovery">发现</el-menu-item>
           <el-menu-item index="/login" v-if="!$store.getters.checkLogin">登录</el-menu-item>
           <el-menu-item index="/login" v-else>我的</el-menu-item>
         </el-submenu>

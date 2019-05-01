@@ -246,11 +246,33 @@ const api = {
       }
     }
   },
-  container_options: (req) => {
+  containerDetail_options: (req) => {
     return {
       host: 'm.weibo.cn',
       port: '',
       path: "/api/container/getIndex?containerid="+req.query.containerId,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
+  },
+  mBlogContainer_options: (req) => {
+    return {
+      host: 'm.weibo.cn',
+      port: '',
+      path: "/api/container/getIndex?containerid=100103type%3D1%26q%3D"+encodeURI(req.query.containerName),
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+      }
+    }
+  },
+  mBlogData_options: (req) => {
+    return {
+      host: 'm.weibo.cn',
+      port: '',
+      path: "/api/container/getIndex?type=uid&value="+req.query.weiboUid,
       method: 'GET',
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',

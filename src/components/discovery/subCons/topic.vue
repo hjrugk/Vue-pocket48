@@ -1,33 +1,43 @@
 <template>
   <div class="topic-container">
-    <TopicHeader :coupleName="couple.coupleName" :mblogData="mblogData" 
-      :memberOne="coupleMember.memberOne" :memberTwo="coupleMember.memberTwo" 
+    <TopicHeader :couple="couple" :coupleName="couple.coupleName" :mblogData="mblogData"
       v-if="coupleMember.memberOne.abbr" />
-      <TopicNav />
-    <AkinaList :list="tagVideoList" v-if="tagVideoList[0]" />
+    <TopicNav @receiveTwice="receiveTwice" :channelFlag="channelFlag" @toggleChannel="toggleChannel" />
+    <AkinaList v-show="channelFlag" :list="tagVideoList" v-if="tagVideoList[0]" />
+    <div v-if="isSuccess">
+      <mBlogAnalysis :two="two" v-show="!channelFlag" :memberOne="coupleMember.memberOne" :memberTwo="coupleMember.memberTwo" />
+    </div>
+    <altLoading v-if="!channelFlag&&!isSuccess" />
   </div>
 </template>
 <script>
 import TopicHeader from './topicHeader'
 import TopicNav from './topicNav'
+import mBlogAnalysis from './mBlogAnalysis'
 import AkinaList from '@/components/common/akinaList'
+import altLoading from '@/components/common/altLoading'
 export default {
+  name: 'topic',
   data(){
     return {
       coupleId: this.$route.params.coupleId,
-      couple: this.$route.params.couple,
       tagVideoList: [],
       coupleMember: {
         memberOne: {},
         memberTwo: {}
       },
-      mblogData: {}
+      mblogData: {},
+      channelFlag: true,
+      isSuccess: false,
+      two: {}
     }
   },
   components: {
     TopicHeader,
     AkinaList,
-    TopicNav
+    TopicNav,
+    mBlogAnalysis,
+    altLoading
   },
   methods: {
     async getTopicVideoList(){
@@ -44,12 +54,25 @@ export default {
     async getContainerDetail(){
       const res = await this.ajax('/getContainerDetail',{containerId: this.couple.containerId})
       this.mblogData = res.data
+    },
+    toggleChannel(channel){
+      this.channelFlag = channel
+    },
+    async receiveTwice(){
+      const two = await this.ajax('getMBlogData',{weiboUid: this.coupleMember.memberTwo.wbUid})
+      this.two = await two.data.userInfo
+      this.isSuccess = true
     }
   },
   mounted(){
     this.getMemberDetail()
     this.getTopicVideoList()
     this.getContainerDetail()
+  },
+  computed: {
+    couple(){
+      return JSON.parse(localStorage.getItem('CACHE_OF_COUPLE'))
+    }
   }
 }
 </script>
