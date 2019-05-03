@@ -11,7 +11,7 @@
         router
       >
         <div class="el-menu-brand">
-          <img class="logo-img" @click="pushToHome" src="@/assets/images/login_logo.png" alt="">
+          <img class="logo-img" @click="pushToHome" src="images/login_logo.png" alt="">
           <span class="brand-name" @click="pushToHome">VUE48</span>
         </div>
         <el-menu-item class="none" index="/home">首页</el-menu-item>

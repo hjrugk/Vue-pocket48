@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="logo" v-show="!this.$store.getters.checkLogin">
-      <img src="@/assets/images/login_logo.png" alt>
+      <img src="images/login_logo.png" alt>
       <p class="brand">口袋48</p>
     </div>
     <div class="login-container" v-if="!this.$store.getters.checkLogin">

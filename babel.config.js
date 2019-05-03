@@ -20,7 +20,8 @@ module.exports = {
     ]
   ],
   "ignore": [
-    "app.js",
-    "bin/**/*.js"
+    "server.js",
+    "bin/**/*.js",
+    "public/lib/*.js"
   ]
 }

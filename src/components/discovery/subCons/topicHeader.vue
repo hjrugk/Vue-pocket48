@@ -1,10 +1,10 @@
 <template>
-  <div v-if="mblogData.pageInfo" class="topic-header-container" :style="'background-image: url('+mblogData.pageInfo.portrait+');'">
-    <div class="bg-mask"></div>
+  <div v-if="mblogData.pageInfo" class="topic-header-container">
+    <div class="bg-mask" :style="'background-image: url('+mblogData.pageInfo.portrait+');'"></div>
     <div class="topic-portrait">
       <img :src="mblogData.pageInfo.portrait" alt="">
       <div class="topic-name">
-        <span style="margin-right: 10px;">{{coupleName}}</span>
+        <h3 style="margin-right: 10px;">{{coupleName}}</h3>
         <el-tag class="follow-tag" v-if="isFollowed" @click="unfollow" size="mini">已关注</el-tag>
         <el-tag class="follow-tag" v-else @click="follow" type="danger" size="mini">关注</el-tag>
         <br>
@@ -91,18 +91,18 @@ export default {
   display: flex;
   justify-content: space-between;
   position: relative;
-  background-repeat: no-repeat;
-  background-size: cover;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
+  overflow: hidden;
   .bg-mask{
     width: 100%;
     height: 100%;
     position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
     top: 0;
     left: 0;
-    background-color: #fff;
-    opacity: 0.7;
+    filter: blur(12px);
   }
   .topic-portrait{
     display: flex;
@@ -116,10 +116,14 @@ export default {
     .topic-name{
       padding: 0 20px;
       font-size: 30px;
+      color: #fff;
       .detail-desc{
         font-size: 14px;
         padding-left: 2px;
         max-width: 300px;
+      }
+      .follow-tag{
+        cursor: pointer;
       }
     }
   }
@@ -132,7 +136,7 @@ export default {
     .mblog-data-detail{
       font-size: 14px;
       width: 120px;
-      color: #555;
+      color: #fff;
       letter-spacing: 2px;
       text-align: right;
       padding: 5px;

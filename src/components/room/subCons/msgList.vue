@@ -366,6 +366,7 @@ export default {
           padding: 0;
           width: 200px;
           height: 200px;
+          position: relative;
           background-size: cover;
           cursor: pointer;
         }

@@ -1,6 +1,6 @@
 <template>
   <div class="alt_bg">
-    <img class="alt-img" src="@/assets/images/loading1.gif" alt>
+    <img class="alt-img" src="images/loading1.gif" alt>
   </div>
 </template>
 <script>

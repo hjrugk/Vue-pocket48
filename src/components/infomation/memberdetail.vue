@@ -36,7 +36,7 @@
       >
         <el-carousel trigger="click" height="500px">
           <el-carousel-item v-for="item in fullPhoto" :key="item">
-            <img :src="item" alt @error="altImg(item)">
+            <img :src="item" alt="公式照">
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -89,10 +89,6 @@ export default {
     goToMemberLive(id) {
       // 跳转到成员直播列表
       this.$router.push("/home/memberlive/" + id);
-    },
-    altImg(item) {
-      item = "../assets/alt_fullphoto.png";
-      return item;
     },
     follow() {
       // 关注成员

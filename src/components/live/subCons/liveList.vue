@@ -1,13 +1,13 @@
 <template>
   <div class="live-list">
     <div class="live-header">
-      <p class="live-type" v-html="livetitle"></p>
+      <h2 class="live-type" v-html="livetitle"></h2>
       <p class="live-more" @click="goToAllLive" v-if="$route.path ==='/home'">
         查看更多
         <i class="el-icon-arrow-right"></i>
       </p>
     </div>
-    <transition-group appear tag="div" class="list-container" v-if="list">
+    <div class="list-container" v-if="list">
       <a
         href="javascript:;"
         @click.prevent="getLivePage(item)"
@@ -57,7 +57,7 @@
           ></p>
         </div>
       </a>
-    </transition-group>
+    </div>
     <div v-else style="width: 100%;text-align:center;height:300px;padding-top:150px;">
       <img src="@/assets/images/no_data.webp" alt="">
     </div>
@@ -116,7 +116,6 @@ export default {
     justify-content: space-between;
     .live-type {
       margin-left: 15px;
-      font-weight: 500;
       font-size: 20px;
     }
     .live-more {
