@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "analyz": "set NODE_ENV=production && set npm_config_report=true && npm run dist"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "less": "^3.9.0",
