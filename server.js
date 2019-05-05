@@ -22,7 +22,5 @@ server.use('/', express.static(path.join(__dirname, 'dist'), {
 
 server.listen(3000, () => {
   console.log('服务器启动成功 http://localhost:3000')
-  if(process.env.NODE_ENV==='production'){
-    childProcess.exec(`start http://localhost:3000`)
-  }
+  childProcess.exec(`start http://localhost:3000`)
 })
