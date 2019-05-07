@@ -49,6 +49,9 @@ export default {
         margin-left: 5px;
       }
     }
+    .arrow{
+      cursor: pointer;
+    }
   }
   .member-list{
     display: grid;

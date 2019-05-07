@@ -31,32 +31,35 @@
 import liveList from "./subCons/liveList";
 import altLoading from '@/components/common/altLoading'
 // import akinaList from "../subComponents/akinaList";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "openlive",
   data() {
     return {
       next: 0,
       openLiveList: [],
-      openReviewList: []
+      openReviewList: [],
+      groupId: this.$route.params.id || 0,
+      shouldShowFilter: false,
+      team: '全团'
     };
   },
   methods: {
     async getOpenLive() {
       // 获取公演列表
       const res1 = await this.ajax("getOpenLive");
-      const res2 = await this.ajax("getOpenLive",{isReview: true});
+      const res2 = await this.ajax("getOpenLive",{isReview: true, groupId: this.groupId});
       this.openLiveList = res1.content.liveList;
       this.openReviewList = res2.content.liveList;
       this.next = res2.content.next
     },
-    async getMoreAkina() {
-      // 获取B站up寒影AkiNa录播
-      this.limit += 8;
-      this.$store.dispatch("getAkinaVideos", { limit: this.limit });
-    },
+    // async getMoreAkina() {
+    //   // 获取B站up寒影AkiNa录播
+    //   this.limit += 8;
+    //   this.$store.dispatch("getAkinaVideos", { limit: this.limit });
+    // },
     async getMoreOpen() {
-      const res = await this.ajax("getOpenLive",{isReview: true,next: this.next});
+      const res = await this.ajax("getOpenLive",{isReview: true,next: this.next, groupId: this.groupId});
       this.openReviewList = this.openReviewList.concat(res.content.liveList);
     }
   },
@@ -67,10 +70,10 @@ export default {
     liveList,
     altLoading
     // akinaList
-  },
-  computed: {
-    ...mapState(["akinaVideos"])
   }
+  // computed: {
+  //   ...mapState(["akinaVideos"])
+  // }
 };
 </script>
 

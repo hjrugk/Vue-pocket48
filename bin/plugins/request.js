@@ -1,6 +1,6 @@
 const https = require('https')
 
-module.exports = function (postData, options, callback) {
+module.exports =  (postData, options) => new Promise((reolve, reject) => {
   const req = https.request(options, response => {
     response.setEncoding('utf8');
     let html = ''
@@ -8,14 +8,14 @@ module.exports = function (postData, options, callback) {
       html += chunk
     });
     response.on('end', () => {
-      callback(html)
+      reolve(html)
     });
   })
 
   req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
+    reject(e.message);
   });
 
   req.write(postData);
   req.end();
-};
+});

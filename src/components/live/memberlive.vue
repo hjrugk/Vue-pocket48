@@ -1,12 +1,11 @@
 <template>
   <div class="live-container">
     <select-filter @changelivelist="changelivelist" @close="changeShowFilter" v-show="shouldShowFilter" />
-    <div class="live-filter">
-      <img src="@/assets/images/shaixuan.webp" @click="shouldShowFilter = !shouldShowFilter" />
-    </div>
     <live-list
       :type="1"
       :list="memberLiveList"
+      @changeshowfilter="changeShowFilter"
+      :showFilterBtn="true"
       :rect="{width:'240px',height:'150px',maxWidth: '360px'}"
       :livetitle="'直播'"
       v-if="memberLiveList[0]"
@@ -75,7 +74,8 @@ export default {
       this.isSuccess = res1.success;
     },
     changeShowFilter(){
-      this.shouldShowFilter = false
+      console.log('ok')
+      this.shouldShowFilter = !this.shouldShowFilter
     },
     changelivelist({userId}){
       this.id = userId
@@ -98,17 +98,6 @@ export default {
 @import "../../assets/less/global";
 .live-container {
   margin: 10px;
-  .live-filter{
-    position: absolute;
-    top: 120px;
-    right: 11.5%;
-    font-size: 20px;
-    margin-left: 15px;
-    img{
-      width: 20px;
-      cursor: pointer;
-    }
-  }
   .live-header {
     width: 100%;
     display: flex;

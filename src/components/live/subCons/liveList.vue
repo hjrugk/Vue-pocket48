@@ -6,6 +6,9 @@
         查看更多
         <i class="el-icon-arrow-right"></i>
       </p>
+      <div class="live-filter" v-show="showFilterBtn" v-else>
+        <img src="@/assets/images/shaixuan.webp" @click="changeShowFilter" />
+      </div>
     </div>
     <div class="list-container" v-if="list">
       <a
@@ -93,9 +96,22 @@ export default {
       } else if (this.type === 0) {
         this.$router.push("/home/openlive/0");
       }
+    },
+    changeShowFilter(){
+      console.log('ok')
+      this.$emit('changeshowfilter')
     }
   },
-  props: ["list", "rect", "type", "livetitle"],
+  props: {
+    list: Array,
+    rect: Object,
+    type: Number,
+    livetitle: String,
+    showFilterBtn: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     playBtn
   }
@@ -128,14 +144,13 @@ export default {
         color: #666;
       }
     }
-    .live-filter {
-      margin-right: 10px;
-      margin-bottom: 5px;
-      cursor: pointer;
-      color: #333;
+    .live-filter{
+      position: relative;
       font-size: 20px;
-      &:hover {
-        color: #666;
+      right: 10px;
+      img{
+        width: 20px;
+        cursor: pointer;
       }
     }
   }

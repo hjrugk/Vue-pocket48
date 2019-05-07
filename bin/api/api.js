@@ -106,7 +106,8 @@ const api = {
   openLive_postData: (req) => {
     return JSON.stringify({
       "record": req.query.isReview || false, 
-      "groupId": req.query.id || 0, 
+      "groupId": req.query.groupId || 0, 
+      "teamId": req.query.teamId || 0,
       "liveId": 0,
       "next": req.query.next || 0
     })
