@@ -101,12 +101,26 @@ export default {
   }) {
     commit('saveComplete')
   },
-  async getAkinaVideos({
-    commit
-  }) {
-    const res = await ajax('/getOpenLive', )
-    commit('saveAkinaVideos', {
-      list: res.content.liveList
-    })
+  // async getAkinaVideos({
+  //   commit
+  // }) {
+  //   const res = await ajax('/getOpenLive', )
+  //   commit('saveAkinaVideos', {
+  //     list: res.content.liveList
+  //   })
+  // },
+  async checkIsLogin(){
+    if(localStorage.getItem('userinfo')){
+      let userInfo = JSON.parse(localStorage.getItem('userinfo'))
+      const res = await ajax('/getUserInfo',{token:userInfo.token,userId:userInfo.userInfo.userId},'POST')
+      if(!res.success){
+        localStorage.removeItem('isLogin')
+        localStorage.removeItem('userinfo')
+        this.$message.error('登录已失效，请重新登录')
+        return setTimeout(function(){
+          window.location.reload()
+        },3000)
+      }
+    }
   }
 }

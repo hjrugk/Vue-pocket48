@@ -74,7 +74,6 @@ export default {
       this.isSuccess = res1.success;
     },
     changeShowFilter(){
-      console.log('ok')
       this.shouldShowFilter = !this.shouldShowFilter
     },
     changelivelist({userId}){

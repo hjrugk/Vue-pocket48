@@ -98,7 +98,6 @@ export default {
       }
     },
     changeShowFilter(){
-      console.log('ok')
       this.$emit('changeshowfilter')
     }
   },

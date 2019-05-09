@@ -11,7 +11,7 @@ export default {
   position: absolute;
   opacity: 0;
   transition: all 0.1s ease-out;
-  transform: scale(1);
+  transform: scale(1.3);
   width: 54px;
   height: 54px;
   background-size: 100% 100%;

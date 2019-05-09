@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "login",
   data() {
@@ -96,39 +96,39 @@ export default {
         }, 3000);
       }
     },
-    check() {
-      if (!localStorage.getItem("isLogin")) {
-        // 打卡签到
-        return;
-      }
-      let date = new Date().toDateString();
-      let flag = JSON.parse(localStorage.getItem("isLogin"));
-      if (flag.date && flag.date === date) {
-        this.checkFlag = true;
-        this.txt = "已打卡";
-      } else {
-        this.checkFlag = false;
-      }
-    },
-    async getCheck() {
-      // 检查是否已打卡签到
-      const res = await this.ajax(
-        "/getCheck",
-        { token: this.$store.state.token },
-        "POST"
-      );
-      if (res.status === 200 || res.status === 1001006) {
-        let flag = JSON.parse(localStorage.getItem("isLogin"));
-        flag.checkFlag = true;
-        flag.date = new Date().toDateString();
-        localStorage.setItem("isLogin", JSON.stringify(flag));
-        this.checkFlag = true;
-        this.txt = "已打卡";
-        this.$message(res.message);
-      } else {
-        return this.$message.error("请稍后再试");
-      }
-    },
+    // check() {
+    //   if (!localStorage.getItem("isLogin")) {
+    //     // 打卡签到
+    //     return;
+    //   }
+    //   let date = new Date().toDateString();
+    //   let flag = JSON.parse(localStorage.getItem("isLogin"));
+    //   if (flag.date && flag.date === date) {
+    //     this.checkFlag = true;
+    //     this.txt = "已打卡";
+    //   } else {
+    //     this.checkFlag = false;
+    //   }
+    // },
+    // async getCheck() {
+    //   // 检查是否已打卡签到
+    //   const res = await this.ajax(
+    //     "/getCheck",
+    //     { token: this.$store.state.token },
+    //     "POST"
+    //   );
+    //   if (res.status === 200 || res.status === 1001006) {
+    //     let flag = JSON.parse(localStorage.getItem("isLogin"));
+    //     flag.checkFlag = true;
+    //     flag.date = new Date().toDateString();
+    //     localStorage.setItem("isLogin", JSON.stringify(flag));
+    //     this.checkFlag = true;
+    //     this.txt = "已打卡";
+    //     this.$message(res.message);
+    //   } else {
+    //     return this.$message.error("请稍后再试");
+    //   }
+    // },
     async getRecommend() {
       this.$router.push({
         name: "userinfo",
@@ -138,12 +138,12 @@ export default {
       });
     }
   },
-  mounted() {
-    this.check();
-  },
-  computed: {
-    ...mapState(["jujuInfo"])
-  }
+  // mounted() {
+  //   this.check();
+  // },
+  // computed: {
+  //   ...mapState(["jujuInfo"])
+  // }
 };
 </script>
 
