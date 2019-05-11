@@ -23,6 +23,7 @@ export default {
   async mounted() {
     this.$store.dispatch('checkIsLogin')
     this.$store.dispatch('getAllLive')
+    this.$store.dispatch('getOpenLive')
     this.$store.dispatch('getSwipeAds')
     if(!localStorage.getItem('database')){
       let isComplete = await worker()

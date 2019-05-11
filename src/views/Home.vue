@@ -23,10 +23,10 @@
     </div>
     <div class="live-wrapper">
       <live-list
-        :type="0" :list="akinaVideos.slice(0,8)"
+        :type="0" :list="openLiveList.slice(0,8)"
         :rect="{width:'240px',height:'150px',maxWidth: '360px'}" 
         :livetitle="'公演直播'"
-      v-if="akinaVideos[0]"></live-list>
+      v-if="openLiveList[0]"></live-list>
       <alt-loading v-else></alt-loading>
     </div>
     <About />
@@ -53,7 +53,7 @@ export default {
     // akinaList
   },
   computed: {
-    ...mapState(['adsList','akinaVideos']),
+    ...mapState(['adsList','openLiveList']),
     ...mapGetters(['memberAllLiveList'])
   }
 };
