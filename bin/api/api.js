@@ -48,13 +48,11 @@ const api = {
       }
     }
   },
-  board_postData: (request) => {
-    return JSON.stringify({
-      "roomId": request.body.roomId, //房间id, 详见roomList
-      "ownerId": request.body.ownerId,
-      "nextTime": request.body.nextTime || 0
-    })
-  },
+  board_postData: (request) => JSON.stringify({
+    "roomId": request.body.roomId, //房间id, 详见roomList
+    "ownerId": request.body.ownerId,
+    "nextTime": request.body.nextTime || 0
+  }),
   board_options: (request) => {
     return {
       host: 'pocketapi.48.cn',
@@ -67,12 +65,10 @@ const api = {
       }
     }
   },
-  login_postData: (request) => {
-    return JSON.stringify({
-      "pwd": request.body.password, 
-      "mobile": request.body.account, 
-    })
-  },
+  login_postData: (request) => JSON.stringify({
+    "pwd": request.body.password, 
+    "mobile": request.body.account, 
+  }),
   login_options: () => {
     return {
       host: 'pocketapi.48.cn',
@@ -84,14 +80,12 @@ const api = {
       }
     }
   },
-  allLive_postData: (req) => {
-    return JSON.stringify({
-      "liveId": req.query.id || 0,
-      "record": req.query.record || true,
-      "next": req.query.next || 0,
-      "userId": req.query.userId
-    })
-  },
+  allLive_postData: (req) => JSON.stringify({
+    "liveId": req.query.id || 0,
+    "record": req.query.record || true,
+    "next": req.query.next || 0,
+    "userId": req.query.userId
+  }),
   allLive_options: () => {
     return {
       host: 'pocketapi.48.cn',
@@ -103,15 +97,13 @@ const api = {
       }
     }
   },
-  openLive_postData: (req) => {
-    return JSON.stringify({
-      "record": req.query.isReview || false, 
-      "groupId": req.query.groupId || 0, 
-      "teamId": req.query.teamId || 0,
-      "liveId": 0,
-      "next": req.query.next || 0
-    })
-  },
+  openLive_postData: (req) => JSON.stringify({
+    "record": req.query.isReview || false, 
+    "groupId": req.query.groupId || 0, 
+    "teamId": req.query.teamId || 0,
+    "liveId": 0,
+    "next": req.query.next || 0
+  }),
   openLive_options: () => {
     return {
       host: 'pocketapi.48.cn',
@@ -123,11 +115,9 @@ const api = {
       }
     }
   },
-  livePage_postData: (req) => {
-    return JSON.stringify({
-      "liveId": req.query.id 
-    })
-  },
+  livePage_postData: (req) => JSON.stringify({
+    "liveId": req.query.id 
+  }),
   livePage_options: () => {
     return {
       host: 'pocketapi.48.cn',
@@ -139,11 +129,9 @@ const api = {
       }
     }
   },
-  openPage_postData: (req) => {
-    return JSON.stringify({
-      "liveId": req.query.id 
-    })
-  },
+  openPage_postData: (req) => JSON.stringify({
+    "liveId": req.query.id 
+  }),
   openPage_options: () => {
     return {
       host: 'pocketapi.48.cn',
@@ -155,12 +143,10 @@ const api = {
       }
     }
   },
-  comment_postData: (req) => {
-    return JSON.stringify({
-      "roomId": req.body.id, 
-      "nextTime": req.body.nextTime
-    })
-  },
+  comment_postData: (req) => JSON.stringify({
+    "roomId": req.body.id, 
+    "nextTime": req.body.nextTime
+  }),
   comment_options: (req) => {
     return {
       host: 'pocketapi.48.cn',
@@ -173,11 +159,9 @@ const api = {
       }
     }
   },
-  userInfo_postData: (req) => {
-    return JSON.stringify({
-      "userId": req.body.userId
-    })
-  },
+  userInfo_postData: (req) => JSON.stringify({
+    "userId": req.body.userId
+  }),
   userInfo_options: (req) => {
     return {
       host: 'pocketapi.48.cn',
@@ -190,11 +174,9 @@ const api = {
       }
     }
   },
-  memberInfo_postData: (req) => {
-    return JSON.stringify({
-      "name": req.body.name
-    })
-  },
+  memberInfo_postData: (req) => JSON.stringify({
+    "name": req.body.name
+  }),
   memberInfo_options: () => {
     return {
       host: 'pocketapi.48.cn',
@@ -206,12 +188,10 @@ const api = {
       }
     }
   },
-  roomInfo_postData: (req) => {
-    return JSON.stringify({
-      "sourceId": req.body.userId,
-      "type": 0
-    })
-  },
+  roomInfo_postData: (req) => JSON.stringify({
+    "sourceId": req.body.userId,
+    "type": 0
+  }),
   roomInfo_options: (req) => {
     return {
       host: 'pocketapi.48.cn',
