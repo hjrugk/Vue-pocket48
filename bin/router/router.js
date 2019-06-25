@@ -211,4 +211,11 @@ router.post('/api/getRoomInfo', async (req, res) => {
   res.send(data)
 })
 
+router.get('/api/getAllMemberList', async (req, res) => {
+  const allMember_postData = api.allMember_postData(req)
+  const allMember_options = api.allMember_options(req)
+  const data = await getData(allMember_postData, allMember_options)
+  res.send(data)
+})
+
 module.exports = router;

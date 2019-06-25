@@ -65,6 +65,18 @@ const api = {
       }
     }
   },
+  allMember_postData: () => JSON.stringify({}),
+  allMember_options: () => {
+    return {
+      host: 'pocketapi.48.cn',
+      port: '',
+      path: '/user/api/v1/client/update/group_team_star',
+      method: 'POST',
+      headers: {
+        ...COMMONHEADERS
+      }
+    }
+  },
   login_postData: (request) => JSON.stringify({
     "pwd": request.body.password, 
     "mobile": request.body.account, 
