@@ -87,6 +87,10 @@ export default {
       let tmp = Date.now()
       let stime = JSON.parse(localStorage.getItem('type')).ctime
       if(tmp < parseInt(stime)) return this.$message.error('直播还未开始')
+      if(this.isLive){
+        this.playerOptions.useFlashPrism = true
+        this.playerOptions.useH5Prism = false
+      }
       this.playerOptions.source = this.path[this.path.length - 1].streamPath;
       this.playerOptions.isLive = this.isLive;
       // eslint-disable-next-line

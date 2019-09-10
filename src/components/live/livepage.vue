@@ -97,12 +97,8 @@ export default {
       // 公演与成员直播设置不同的视频高宽
       this.topWidth = this.rect.width;
       this.topHeight = this.rect.height;
-      if(!this.isLive) {
-        this.$refs.vod.playReview();
-        this.showInfoHeader = false
-      }else {
-        this.$message.error("直播修复中")
-      }
+      this.$refs.vod.playReview();
+      this.showInfoHeader = false
     }
   },
   created() {
