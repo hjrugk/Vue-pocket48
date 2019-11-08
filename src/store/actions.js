@@ -56,44 +56,9 @@ export default {
     commit
   }) { // 从官网获取轮播图
     const res = await ajax('getForSwipeAds')
-    let one = res.split('" </div>");')[0]
-    let two = one.split('+')
-    let adsList = []
-    let list = [{
-        url: two[3],
-        img: two[4]
-      },
-      {
-        url: two[8],
-        img: two[9]
-      },
-      {
-        url: two[13],
-        img: two[14]
-      },
-      {
-        url: two[18],
-        img: two[19]
-      },
-      {
-        url: two[23],
-        img: two[24]
-      },
-      {
-        url: two[28],
-        img: two[29]
-      }
-    ]
-    list.map(item => {
-      if (item.url && item.url.includes('http')) {
-        adsList.push({
-          url: 'http' + item.url.split('http')[1].split('target')[0].split('\\')[0],
-          img: item.img.split("\\")[1].replace('"', '')
-        })
-      }
-    })
+    let adsList = res.ad
     commit('saveAdsList', {
-      list: adsList
+      list: [...adsList]
     })
   },
   async getComplete({

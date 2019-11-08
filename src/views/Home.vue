@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <el-carousel trigger="click" height="350px" v-if="adsList[0]">
+    <el-carousel trigger="click" height="400px" v-if="adsList[0]">
       <el-carousel-item v-for="(item,index) in adsList" :key="index">
         <a :href="item.url" target="_blank" class="carousel-link">
-          <div class="img-item" :style="'background-image: url(\''+'http://www.snh48.com/'+item.img+'\')'"></div>
+          <div class="img-item" :style="'background-image: url(\''+'http://www.snh48.com/mobile/'+item.img+'\')'"></div>
           <div class="mask"></div>
         </a>
       </el-carousel-item>

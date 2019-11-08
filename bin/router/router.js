@@ -166,8 +166,8 @@ router.post('/api/getUserInfo', async (req, res) => {
 })
 
 // 获取轮播图
-router.get('/api/getForSwipeAds', (req, res) => {
-  http.get('http://www.snh48.com/js/topFlashImg.js', response => {
+router.get('/api/getForSwipeAds', async (req, res) => {
+  http.get('http://www.snh48.com/mobile/json/ad.json?ver=1573214578894', response => {
     let html = ''
     response.on('data', chunk => {
       html += chunk
