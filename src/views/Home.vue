@@ -1,14 +1,26 @@
 <template>
   <div class="home">
-    <el-carousel trigger="click" height="400px" v-if="adsList[0]">
-      <el-carousel-item v-for="(item,index) in adsList" :key="index">
-        <a :href="item.url" target="_blank" class="carousel-link">
-          <div class="img-item" :style="'background-image: url(\''+'http://www.snh48.com/mobile/'+item.img+'\')'"></div>
-          <div class="mask"></div>
-        </a>
-      </el-carousel-item>
-    </el-carousel>
-    <alt-loading v-else></alt-loading>
+    <div class="ads-container">
+      <div class="ads-list" v-if="adsList[0]">
+        <el-carousel trigger="click" height="400px" type="card" class="show-card">
+          <el-carousel-item v-for="(item,index) in adsList" :key="index">
+            <a :href="item.url" target="_blank" class="carousel-link">
+              <div class="img-item" :style="'background-image: url(\''+'http://www.snh48.com/mobile/'+item.img+'\');background-size: 666px 400px;'"></div>
+              <div class="mask"></div>
+            </a>
+          </el-carousel-item>
+        </el-carousel>
+        <el-carousel trigger="click" height="400px" class="hide-card">
+          <el-carousel-item v-for="(item,index) in adsList" :key="index">
+            <a :href="item.url" target="_blank" class="carousel-link">
+              <div class="img-item" :style="'background-image: url(\''+'http://www.snh48.com/mobile/'+item.img+'\');background-size: 666px 400px;'"></div>
+              <div class="mask"></div>
+            </a>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <alt-loading v-else></alt-loading>
+    </div>
     <div class="home-nav">
       <group-info></group-info>
     </div>
@@ -60,6 +72,14 @@ export default {
 </script>
 <style lang="less" scoped>
 .home{
+  .ads-container{
+    display: flex;
+    justify-content: center;
+    .ads-list{
+      height: 400px;
+      width: 100%;
+    }
+  }
   .el-carousel{
     width: 100%;
     text-align: center;
@@ -113,6 +133,16 @@ export default {
   }
   .home-nav{
     width: 100%;
+  }
+  @media screen and (max-width: 1440px) {
+    .show-card{
+      display: none;
+    }
+  }
+  @media screen and (min-width: 1440px) {
+    .hide-card{
+      display: none;
+    }
   }
 }
 </style>

@@ -312,6 +312,10 @@ export default {
           padding: 0;
           border-radius: 0;
           box-sizing: content-box;
+          background-color: #000;
+          video{
+            height: 480px;
+          }
         }
         &.msg-audio{
           padding: 0;
