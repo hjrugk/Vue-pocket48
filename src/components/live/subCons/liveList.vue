@@ -6,8 +6,8 @@
         查看更多
         <i class="el-icon-arrow-right"></i>
       </p>
-      <div class="live-filter" v-show="showFilterBtn" v-else>
-        <img src="@/assets/images/shaixuan.webp" @click="changeShowFilter" />
+      <div class="live-filter" v-show="showFilterBtn" v-else @click="changeshowfilter">
+        <img src="@/assets/images/shaixuan.webp" />
       </div>
     </div>
     <div class="list-container" v-if="list">
@@ -97,8 +97,8 @@ export default {
         this.$router.push("/home/openlive/0");
       }
     },
-    changeShowFilter(){
-      this.$emit('changeshowfilter')
+    changeshowfilter(){
+      this.$emit('showfilter')
     }
   },
   props: {
@@ -106,10 +106,7 @@ export default {
     rect: Object,
     type: Number,
     livetitle: String,
-    showFilterBtn: {
-      type: Boolean,
-      default: false
-    }
+    showFilterBtn: Boolean
   },
   components: {
     playBtn

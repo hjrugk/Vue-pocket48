@@ -1,11 +1,9 @@
 <template>
   <div class="live-container">
-    <select-filter @changelivelist="changelivelist" @close="changeShowFilter" v-show="shouldShowFilter" />
+    <select-filter @changelivelist="changelivelist" @close="showfilter" v-if="shouldShowFilter" />
     <live-list
       :type="1"
       :list="memberLiveList"
-      @changeshowfilter="changeShowFilter"
-      :showFilterBtn="true"
       :rect="{width:'240px',height:'150px',maxWidth: '360px'}"
       :livetitle="'直播'"
       v-if="memberLiveList[0]"
@@ -14,6 +12,8 @@
     <live-list
       :type="1"
       :list="memberReviewList"
+      @showfilter="showfilter"
+      :showFilterBtn="true"
       :rect="{width:'240px',height:'150px',maxWidth: '360px'}"
       :livetitle="'录播'"
       v-if="memberReviewList[0]"
@@ -73,7 +73,7 @@ export default {
       }
       this.isSuccess = res1.success;
     },
-    changeShowFilter(){
+    showfilter(){
       this.shouldShowFilter = !this.shouldShowFilter
     },
     changelivelist({userId}){

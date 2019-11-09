@@ -217,7 +217,11 @@ export default {
         margin-right: 10px;
       }
       .sub-title {
+        display: inline-block;
         font-size: 18px;
+        max-width: 150px;
+        max-height: 50px;
+        overflow: hidden;
       }
     }
   }
