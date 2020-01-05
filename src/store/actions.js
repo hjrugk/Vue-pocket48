@@ -52,15 +52,15 @@ export default {
       list
     })
   },
-  async getSwipeAds({
-    commit
-  }) { // 从官网获取轮播图
-    const res = await ajax('getForSwipeAds')
-    let adsList = res.ad
-    commit('saveAdsList', {
-      list: [...adsList]
-    })
-  },
+  // async getSwipeAds({
+  //   commit
+  // }) { // 从官网获取轮播图
+  //   const res = await ajax('getForSwipeAds')
+  //   let adsList = res.ad
+  //   commit('saveAdsList', {
+  //     list: [...adsList]
+  //   })
+  // },
   async getComplete({
     commit
   }) {

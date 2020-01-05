@@ -30,7 +30,7 @@ export default {
         { id: "1000", name: "snh48", color: "#8ed2f5" },
         { id: "1100", name: "bej48", color: "#ff2472" },
         { id: "1200", name: "gnz48", color: "#9fbf40" },
-        { id: "1300", name: "shy48", color: "#e200cc" },
+        // { id: "1300", name: "shy48", color: "#e200cc" },
         { id: "1400", name: "ckg48", color: "#946200" },
         { id: "1500", name: "idft", color: "#b4006e" },
         { id: "1600", name: "海外练习生", color: "#8ed2f5" }
@@ -69,7 +69,7 @@ export default {
     width: 85%;
     margin: 0 auto;
     li {
-      width: 12.5%;
+      flex: 1;
     }
     .group-brand {
       flex: 1;

@@ -8,7 +8,7 @@ export default {
   memberReviewList: [],
   openLiveList: [],
   roomList: [],
-  adsList: [],
+  // adsList: [],
   isComplete: false,
   akinaVideos: []
 }

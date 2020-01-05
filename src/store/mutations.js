@@ -30,11 +30,11 @@ export default {
   }) {
     state.roomList = list
   },
-  saveAdsList(state, {
-    list
-  }) {
-    state.adsList = list
-  },
+  // saveAdsList(state, {
+  //   list
+  // }) {
+  //   state.adsList = list
+  // },
   saveComplete(state) {
     state.isComplete = true
   },

@@ -19,7 +19,7 @@
         <template slot="title">发现</template>
         <el-menu-item index="/discovery/music">音乐</el-menu-item>
         <el-menu-item index="/discovery/video">视频</el-menu-item>
-        <el-menu-item index="/discovery/couple">CP</el-menu-item>
+        <!-- <el-menu-item index="/discovery/couple">CP</el-menu-item> -->
       </el-submenu>
       <el-menu-item class="none" index="/login" v-if="!$store.getters.checkLogin">登录</el-menu-item>
       <el-menu-item class="none" index="/login" v-else>我的</el-menu-item>
