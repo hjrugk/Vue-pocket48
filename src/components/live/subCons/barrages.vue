@@ -21,15 +21,18 @@ export default {
 .barrage-container {
   .flex-justify-center();
   width: 100%;
-  height: 100px;
+  height: 200px;
   position: absolute;
-  bottom: 150px;
+  bottom: 100px;
   left: 0;
+  // overflow: hidden;
   .barrage-list {
     padding-left: 10px;
     z-index: 95;
-    height: 180px;
-    overflow: scroll;
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {display:none}
     .barrage-item {
       width: 150px;
       background-color: rgba(255, 255, 255, 0.7);

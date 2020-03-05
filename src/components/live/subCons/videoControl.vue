@@ -129,7 +129,7 @@ export default {
     },
     async loadBarrages() {
       // 载入弹幕列表
-      if (!this.lrcpath) return;
+      // if (!this.lrcpath) return;
       const res = await this.ajax(
         "/getBarrages",
         { url: this.lrcpath },
