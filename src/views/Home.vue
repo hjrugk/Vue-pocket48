@@ -33,7 +33,6 @@
       v-if="openLiveList[0]"></live-list>
       <alt-loading v-else></alt-loading>
     </div>
-    <About />
   </div>
 </template>
 
@@ -41,7 +40,6 @@
 import liveList from '@/components/live/subCons/liveList'
 import altLoading from '@/components/common/altLoading'
 // import akinaList from '../components/subComponents/akinaList'
-import About from './About'
 import groupInfo from '@/components/infomation/groupinfo'
 import {mapState,mapGetters} from 'vuex'
 export default {
@@ -51,7 +49,6 @@ export default {
   },
   components: {
     liveList,
-    About,
     groupInfo,
     altLoading
     // akinaList
@@ -64,6 +61,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .home{
+  margin-bottom: 50px;
   .ads-container{
     display: flex;
     justify-content: center;

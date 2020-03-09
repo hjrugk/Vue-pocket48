@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view></router-view>
+    <router-view class="router-container"></router-view>
+    <About />
   </div>
 </template>
 
 <script>
 import Navbar from './views/Navbar'
+import About from './views/About'
 import worker from './workers/worker'
 export default {
   name: "app",
@@ -40,11 +42,19 @@ export default {
     }
   },
   components: {
-    Navbar
+    Navbar,
+    About
   }
 };
 </script>
 
 <style scoped lang="less">
-
+#app{
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+  .router-container{
+    flex: 1;
+  }
+}
 </style>

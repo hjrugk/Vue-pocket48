@@ -53,6 +53,7 @@ export default {
 @import '../assets/less/global';
 .navbar{
   display: flex;
+  flex: 0;
   justify-content: center;
   width: 100%;
   background: #654ea3;

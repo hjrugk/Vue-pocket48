@@ -19,7 +19,7 @@ export default {};
 <style lang="less" scoped>
 @import '../assets/less/global';
 .about {
-  margin-top: 50px;
+  flex: 0;
   .card-item{
     padding: 30px;
     background-color: #333;
