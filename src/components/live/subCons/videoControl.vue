@@ -87,7 +87,7 @@ export default {
       let tmp = Date.now()
       let stime = JSON.parse(localStorage.getItem('type')).ctime
       if(tmp < parseInt(stime)) return this.$message.error('直播还未开始')
-      this.playerOptions.source = this.path[0].streamPath;
+      this.playerOptions.source = this.path[1] ? this.path[0].streamPath : this.path[0].streamPath;
       if(this.playerOptions.source.includes('rtmp')){
         // return this.$message.error('暂不支持rtmp流直播')
         this.playerOptions.useFlashPrism = true

@@ -72,7 +72,8 @@ export default {
       radioCover: [],
       topWidth: "",
       topHeight: "",
-      showInfoHeader: true
+      showInfoHeader: true,
+      isClicked: false
     };
   },
   methods: {
@@ -94,11 +95,14 @@ export default {
       this.picPath = "/";
     },
     triggerMethod() {
-      // 公演与成员直播设置不同的视频高宽
-      this.topWidth = this.rect.width;
-      this.topHeight = this.rect.height;
-      this.showInfoHeader = false
-      this.$refs.vod.playReview();
+      if(!this.isClicked) {
+        // 公演与成员直播设置不同的视频高宽
+        this.topWidth = this.rect.width;
+        this.topHeight = this.rect.height;
+        this.showInfoHeader = false
+        this.isClicked = true
+        this.$refs.vod.playReview();
+      }
     }
   },
   created() {
