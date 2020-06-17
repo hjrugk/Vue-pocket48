@@ -2,7 +2,6 @@
 
 基于 [Vue](https://vuejs.org/) + [Node](https://nodejs.org) 的 web 版口袋48，请谨慎登录
 
-**目前无法查看口袋房间**
 
 ## 如何使用？
 
