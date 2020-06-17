@@ -1,3 +1,18 @@
+const crypto = require("crypto")
+
+let MD5 = crypto.createHash("md5")
+
+const pa = function() {
+  let t = Date.now()
+  let r = Math.floor(Math.random() * 9999) + 1000
+  let salt = "K4bMWJawAtnyyTNOa70S"
+  let s = t.toString() + r.toString() + salt
+  let m = MD5.update(s).digest('hex')
+  let p = t.toString() + "," + r.toString() + "," + m
+  let pa = Buffer.from(p).toString("base64")
+  return pa
+}
+
 const COMMONHEADERS = {
   'Content-Type': 'application/json',
   'Connection': 'keep-alive',
@@ -5,18 +20,19 @@ const COMMONHEADERS = {
   'Host': 'pocketapi.48.cn',
   'accept': '*/*',
   'Accept-Language': 'zh-Hans-CN;q=1',
-  'User-Agent': 'PocketFans201807/6.0.0 (iPhone; iOS 12.2; Scale/2.00)',
+  'User-Agent': 'PocketFans201807/6.0.13 (iPhone; iOS 10.3.3; Scale/2.00)',
   'Accept-Encoding': 'gzip, deflate',
   'appInfo': JSON.stringify({
-    "vendor": "apple",
-    "deviceId": "0",
-    "appVersion": "6.0.0",
-    "appBuild": "190409",
-    "osVersion": "12.2.0",
     "osType": "ios",
-    "deviceName": "iphone",
-    "os": "ios"
-  })
+    "vendor": "apple",
+    "os": "ios",
+    "appVersion": "6.0.13",
+    "osVersion": "10.3.3",
+    "deviceName": "iPhone 5",
+    "appBuild": "200513",
+    "deviceId": "DDDD-DDDD-DDDD-DDDD-DDDD"
+  }),
+  'pa': pa()
 }
 const api = {
   top: "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8¬ice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=27&_=1519963122923",
