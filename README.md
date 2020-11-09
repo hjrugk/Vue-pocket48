@@ -1,4 +1,6 @@
-# vue-pocket48
+# 停止维护
+
+## vue-pocket48
 
 基于 [Vue](https://vuejs.org/) + [Node](https://nodejs.org) 的 web 版口袋48，请谨慎登录
 
