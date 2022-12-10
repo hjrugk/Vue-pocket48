@@ -27,7 +27,7 @@
     "element-ui": "^2.13.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.11"
   },
